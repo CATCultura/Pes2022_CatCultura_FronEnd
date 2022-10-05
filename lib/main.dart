@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'tryProject2',
+        title: 'catcultura',
         theme: ThemeData(fontFamily: 'OpenSans'),
         initialRoute: "/login",
         debugShowCheckedModeBanner: false,
