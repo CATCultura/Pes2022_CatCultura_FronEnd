@@ -32,87 +32,37 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         //PARTE 1
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
+        Expanded(
+          flex: 2,
+          //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
           child: Row(
             children: [
               //DATA-ESPAI-COMARCA
               Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          color: MyColorsPalette.red,
-                        ),
-                        const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text("${viewModel.dataInici} \n${viewModel.dataFi}"),
-                      ],
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 16)),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: MyColorsPalette.red,
-                        ),
-                        const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text(viewModel.espai),
-                      ],
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 16)),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.earbuds_rounded,
-                          color: MyColorsPalette.red,
-                        ),
-                        const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text(viewModel.ComarcaMunicipi),
-                      ],
-                    ),
-                  ],
-                ),
+                flex: 4,
+                child: EventInfoShort(viewModel: viewModel),
               ),
+              const Padding(padding: EdgeInsets.only(left: 10.0)),
               //IMATGE
               Expanded(
-                child: SizedBox(
-                    //height: 1,
-                    child: Image.network(viewModel.img)),
+                flex: 3,
+                child: Container(
+                    margin: EdgeInsets.only(right: 8.0),
+                    child: Image.network(viewModel.img)
+                ),
               ),
             ],
           ),
         ),
         //PARTE 2
         Expanded(
+          flex: 7,
           child: Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.grey,
-                    style: BorderStyle.solid,
-                    width: 3,
-                  ),
-                ),
-              ),
-              //padding: const EdgeInsets.only(top:25.0),
               margin: const EdgeInsets.only(top: 50),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Container(
-                  //   color: MyColorsPalette.lightRed,
-                  //   child: Center(
-                  //     child: Text(
-                  //       viewModel.NomEvent,
-                  //       style: const TextStyle(color: MyColorsPalette.white,
-                  //           fontSize: 30, fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ),
-                  // ),
-                  // const Padding(padding: EdgeInsets.only(top: 20)),
-                  Expanded(child: const EventContainerPersonalizedTabs()),
+                children: const [
+                  Expanded(child: EventContainerPersonalizedTabs()),
                 ],
               )),
         ),
@@ -120,6 +70,73 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
     );
   }
 }
+
+class EventInfoShort extends StatelessWidget {
+  const EventInfoShort({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
+
+  final EventContainerViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(8.0, 8.0, 1.0, 8.0),
+      margin: EdgeInsets.only(left: 8.0),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 2.0),
+          borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.calendar_month,
+                color: MyColorsPalette.red,
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16)),
+              Text("${viewModel.dataInici} \n${viewModel.dataFi}"),
+            ],
+          ),
+          const Padding(padding: EdgeInsets.only(top: 16)),
+          Row(
+            children: [
+              const Icon(
+                Icons.star,
+                color: MyColorsPalette.red,
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16)),
+              getSizedText(viewModel.espai),
+            ],
+          ),
+          const Padding(padding: EdgeInsets.only(top: 16)),
+          Row(
+            children: [
+              const Icon(
+                Icons.earbuds_rounded,
+                color: MyColorsPalette.red,
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16)),
+              getSizedText(viewModel.ComarcaMunicipi),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+Widget getSizedText(String s){
+  print(s.length);
+  if(s.length <= 54) {
+    return Flexible(child: Text(s));
+  }
+  else{
+    return Flexible(child: Text(s, overflow: TextOverflow.ellipsis,));
+  }
+}
+
 
 class EventContainerPersonalizedTabs extends StatefulWidget {
   const EventContainerPersonalizedTabs({super.key});
@@ -168,7 +185,7 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
           children:[
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: Text(viewModel.description, textAlign: TextAlign.justify,style: TextStyle(fontSize: 20, ),),
+              child: SingleChildScrollView(child: Text(viewModel.description, textAlign: TextAlign.justify,style: TextStyle(fontSize: 20, ),)),
             ),
             Text("${viewModel.dataInici}\n${viewModel.dataFi}"),
             Text("${viewModel.espai}\n${viewModel.ComarcaMunicipi}")
