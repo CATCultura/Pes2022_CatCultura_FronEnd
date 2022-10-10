@@ -7,7 +7,6 @@ import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
 
-//hola
 
 void main() {
   debugPaintSizeEnabled=false;
