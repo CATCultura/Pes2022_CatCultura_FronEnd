@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tryproject2/constants/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:tryproject2/data/response/apiResponse.dart';
+import 'package:tryproject2/viewModels/HomeViewModel.dart';
 
 //import 'package:tryproject2/constants/theme.dart';
 import 'package:tryproject2/viewModels/EventContainerViewModel.dart';
@@ -23,14 +26,55 @@ class StatefulEventContainer extends StatefulWidget {
 }
 
 class _StatefulEventContainerState extends State<StatefulEventContainer> {
-  var viewModel = EventContainerViewModel();
+  HomeViewModel homeViewModel = HomeViewModel();
+
+  @override
+  void initState() {
+    homeViewModel.fetchEventsListApi();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Column(
       //DOS PARTES
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        ChangeNotifierProvider<HomeViewModel>(
+            create: (BuildContext context) => homeViewModel,
+            child: Consumer<HomeViewModel>(builder: (context, value, _) {
+              switch (value.eventsList.status) {
+                case Status.LOADING:
+                  return SizedBox(
+                    height: height,
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
+                case Status.ERROR:
+                  return Text(value.eventsList.toString());
+                case Status.COMPLETED:
+                  return Column(children: [
+                    SizedBox(
+                      height: height * .02,
+                    ),
+                    SizedBox(
+                      height: height * .47,
+                      child: Container() /*ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: value.eventsList.data!.results!.length,
+                          itemBuilder: (context, index) {
+                            return PopularItem(
+                                movies: value.eventsList.data!.results![index]);
+                          })*/,
+                    ),
+                  ]);
+                default:
+                  return const Text("Hata");
+              }
+            })),
+
         //PARTE 1
         Expanded(
           flex: 2,
@@ -40,7 +84,7 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
               //DATA-ESPAI-COMARCA
               Expanded(
                 flex: 4,
-                child: EventInfoShort(viewModel: viewModel),
+                child: Container(),//EventInfoShort(viewModel: homeViewModel),
               ),
               const Padding(padding: EdgeInsets.only(left: 10.0)),
               //IMATGE
@@ -48,24 +92,23 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
                 flex: 3,
                 child: Container(
                     margin: EdgeInsets.only(right: 8.0),
-                    child: Image.network(viewModel.img)
-                ),
+                    child: Image.network("")),
               ),
             ],
           ),
         ),
         //PARTE 2
-        Expanded(
-          flex: 7,
-          child: Container(
-              margin: const EdgeInsets.only(top: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Expanded(child: EventContainerPersonalizedTabs()),
-                ],
-              )),
-        ),
+        // Expanded(
+        //   flex: 7,
+        //   child: Container(
+        //       margin: const EdgeInsets.only(top: 50),
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: const [
+        //           Expanded(child: EventContainerPersonalizedTabs()),
+        //         ],
+        //       )),
+        // ),
       ],
     );
   }
@@ -85,8 +128,8 @@ class EventInfoShort extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(8.0, 8.0, 1.0, 8.0),
       margin: EdgeInsets.only(left: 8.0),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 2.0),
-          borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey, width: 2.0),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
@@ -127,32 +170,38 @@ class EventInfoShort extends StatelessWidget {
     );
   }
 }
-Widget getSizedText(String s){
+
+Widget getSizedText(String s) {
   print(s.length);
-  if(s.length <= 54) {
+  if (s.length <= 54) {
     return Flexible(child: Text(s));
-  }
-  else{
-    return Flexible(child: Text(s, overflow: TextOverflow.ellipsis,));
+  } else {
+    return Flexible(
+        child: Text(
+      s,
+      overflow: TextOverflow.ellipsis,
+    ));
   }
 }
-
 
 class EventContainerPersonalizedTabs extends StatefulWidget {
   const EventContainerPersonalizedTabs({super.key});
 
   @override
-  State<EventContainerPersonalizedTabs> createState() => _EventContainerPersonalizedTabsState();
+  State<EventContainerPersonalizedTabs> createState() =>
+      _EventContainerPersonalizedTabsState();
 }
 
-class _EventContainerPersonalizedTabsState extends State<EventContainerPersonalizedTabs> {
+class _EventContainerPersonalizedTabsState
+    extends State<EventContainerPersonalizedTabs> {
   var viewModel = EventContainerViewModel();
 
   @override
   Widget build(BuildContext context) {
     final Tabs = <Widget>[
       const Tab(
-        icon: Icon(Icons.info_outline, size: 20.0, color: MyColorsPalette.white),
+        icon:
+            Icon(Icons.info_outline, size: 20.0, color: MyColorsPalette.white),
         text: 'Info',
       ),
       const Tab(
@@ -160,8 +209,8 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
               size: 20.0, color: MyColorsPalette.white),
           text: 'Data'),
       const Tab(
-          icon:
-              Icon(Icons.park_outlined, size: 20.0, color: MyColorsPalette.white),
+          icon: Icon(Icons.park_outlined,
+              size: 20.0, color: MyColorsPalette.white),
           text: 'Espai')
     ];
 
@@ -172,20 +221,29 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
           backgroundColor: MyColorsPalette.red,
           title: Center(
             child: Text(
-                viewModel.NomEvent,
-                style: const TextStyle(color: MyColorsPalette.white,
-                    fontSize: 30, fontWeight: FontWeight.bold),
-              ),
+              viewModel.NomEvent,
+              style: const TextStyle(
+                  color: MyColorsPalette.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           bottom: TabBar(
             tabs: Tabs,
           ),
         ),
         body: TabBarView(
-          children:[
+          children: [
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: SingleChildScrollView(child: Text(viewModel.description, textAlign: TextAlign.justify,style: TextStyle(fontSize: 20, ),)),
+              child: SingleChildScrollView(
+                  child: Text(
+                viewModel.description,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              )),
             ),
             Text("${viewModel.dataInici}\n${viewModel.dataFi}"),
             Text("${viewModel.espai}\n${viewModel.ComarcaMunicipi}")
