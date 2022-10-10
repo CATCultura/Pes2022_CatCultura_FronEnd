@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tryproject2/DataClasses/StateData.dart';
+import 'dart:core';
+
+import 'package:tryproject2/models/Results.dart';
+
 /*String get NomEvent => "Event d'Exemple ";
   DateFormat formatter = DateFormat('dd-MM-yyyy   H:mm');
   String get dataInici => formatter.format(DateTime(2022, 10, 3, 10, 00));
@@ -13,26 +16,29 @@ import 'package:tryproject2/DataClasses/StateData.dart';
   get url => "https://URLdeProva.com";
   String get description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quisque sagittis purus sit amet volutpat consequat. Rhoncus aenean vel elit scelerisque mauris. Eget magna fermentum iaculis eu. Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt. Maecenas ultricies mi eget mauris pharetra et ultrices neque. Dolor purus non enim praesent elementum facilisis leo vel. Dis parturient montes nascetur ridiculus mus. Volutpat odio facilisis mauris sit amet. Nunc eget lorem dolor sed viverra ipsum. Morbi tristique senectus et netus et malesuada fames ac turpis. Amet porttitor eget dolor morbi non arcu risus. Dictum sit amet justo donec enim diam vulputate ut pharetra. A iaculis at erat pellentesque adipiscing commodo elit at imperdiet.Risus commodo viverra maecenas accumsan lacus vel. Ac tincidunt vitae semper quis lectus nulla at volutpat. Feugiat in ante metus dictum at tempor commodo ullamcorper. Ac tortor dignissim convallis aenean et tortor at. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Placerat vestibulum lectus mauris ultrices eros in cursus. Neque sodales ut etiam sit amet nisl purus in. Fermentum posuere urna nec tincidunt. Velit scelerisque in dictum non consectetur a erat nam at. Pretium nibh ipsum consequat nisl vel pretium lectus quam. Est ultricies integer quis auctor. Molestie at elementum eu facilisis sed. Amet tellus cras adipiscing enim eu turpis egestas. Eu augue ut lectus arcu. Suspendisse faucibus interdum posuere lorem ipsum dolor sit. Etiam tempor orci eu lobortis elementum. Et netus et malesuada fames ac turpis egestas sed. Volutpat sed cras ornare arcu.";
 */
-class EventData extends StateData {
-  const EventData({
-    required this.todoTiles,
-    required this.showEmptyState,
-    required this.showLoading,
-  });
 
-  const EventData.initial()
-      : todoTiles = const [],
-        showLoading = false,
-        showEmptyState = false;
+class Events {
+  List<Results>? results;
 
-  final List<Object> todoTiles;
-  final bool showLoading;
-  final bool showEmptyState;
+  Events.fromJson(Map<String, dynamic> json) {
+    if (json['results'] != null) {
+      results = <Results>[];
+      json['results'].forEach((v) {
+        results!.add(Results.fromJson(v));
+      });
+    }
+  }
 
-  @override
-  List<Object?> get props => [
-    todoTiles,
-    showLoading,
-    showEmptyState,
-  ];
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =
+    <String, dynamic>{};
+
+    if (results != null) {
+      data['results'] = results!
+          .map((v) => v.toJson())
+          .toList();
+    }
+    return data;
+  }
+
 }

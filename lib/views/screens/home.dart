@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(viewModel.namePage),
+          title: Text("Home"),
           backgroundColor: MyColorsPalette.lightBlue,
         ),
         backgroundColor: MyColors.bgColorScreen,
