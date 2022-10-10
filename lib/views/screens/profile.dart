@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:tryproject2/constants/theme.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
@@ -22,18 +24,78 @@ class _StatefulProfileState extends State<StatefulProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile"),
-        backgroundColor: MyColorsPalette.lightBlue,
-      ),
-      backgroundColor: MyColors.bgColorScreen,
-      // key: _scaffoldKey,
-      drawer: const MyDrawer("Profile",username:"Superjuane", email:"juaneolivan@gmail.com"),
-      body: Container(
-        color: MyColors.warning,
-      ),
-    );
+
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Info"),
+          actions: [IconButton(onPressed: (){}, icon: Icon(Icons.search))],
+        ),
+        body: Center(
+
+          child: FutureBuilder(
+
+            future:
+            DefaultAssetBundle.of(context).loadString("files/details.json"),
+            builder: (context, snapshot) {
+              // Decode the JSON
+              var newData = json.decode(snapshot.data.toString());
+
+              return ListView.builder(
+
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    color: Colors.white,
+                    shadowColor: Colors.blueAccent,
+                    elevation: 49,
+                    margin: EdgeInsets.only(top: 25),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 32, bottom: 32, left: 16, right: 16),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                      Column(
+                      textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                          InkWell(
+                          onTap: () {
+                            /*
+                             * Navigator.push(
+                                //context
+                                //MaterialPageRoute(
+                                //builder: (_) => LoginPage())
+                                );
+                             */
+                    },
+                      child: Text(
+
+                      newData[index]["id"],
+                      //"Note Title",
+                      style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black26,
+                      fontSize: 22),
+                    ),
+                  ),
+                  ],
+                  ),
+                  //SizedBox(width: 20),
+                  ],
+                  ),
+                  ),
+                  );
+                },
+                itemCount: newData == null ? 0 : newData.length,
+              );
+            },
+          ),
+        ));
   }
+}
   Widget getAppBarNotSearching(String title, Function startSearchFunction) {
     return AppBar(
       title: Text(title),
@@ -52,7 +114,7 @@ class _StatefulProfileState extends State<StatefulProfile> {
     });
   }
 */
-
+/*
   Widget getAppBarSearching(Function cancelSearch, Function searching,
       TextEditingController searchController) {
     return AppBar(
@@ -72,7 +134,7 @@ class _StatefulProfileState extends State<StatefulProfile> {
           style: new TextStyle(color: Colors.white),
           cursorColor: Colors.white,
           autofocus: true,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             focusColor: Colors.white,
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white)),
@@ -83,7 +145,9 @@ class _StatefulProfileState extends State<StatefulProfile> {
       ),
     );
   }
-}
+
+ */
+//}
 
 /*
 
