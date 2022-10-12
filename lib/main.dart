@@ -6,8 +6,8 @@ import 'package:tryproject2/views/screens/login.dart';
 import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
+import 'package:tryproject2/views/screens/search-user.dart';
 
-//hola
 
 void main() {
   debugPaintSizeEnabled=false;
@@ -28,8 +28,9 @@ class MyApp extends StatelessWidget {
           "/login": (BuildContext context) => const Login(),
           "/home": (BuildContext context) => Home(),
           "/profile":(BuildContext context) => const Profile(),
-          "/events":(BuildContext context) => Events(),
-          "/map":(BuildContext context) => Map(),
+          "/events":(BuildContext context) => const Events(),
+          "/map":(BuildContext context) => const Map(),
+          "/search-user":(BuildContext context) => const SearchUser(),
         });
   }
 }

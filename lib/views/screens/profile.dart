@@ -14,9 +14,21 @@ class Profile extends StatelessWidget {
       ),
       backgroundColor: MyColors.bgColorScreen,
       // key: _scaffoldKey,
-      drawer: const MyDrawer("Profile",username:"Superjuane", email:"juaneolivan@gmail.com"),
+      drawer: const MyDrawer(
+          "Profile", username: "Superjuane", email: "juaneolivan@gmail.com"),
       body: Container(
-        color: MyColors.warning,
+          color: MyColors.warning,
+          height: 50,
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: ElevatedButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
+                MyColorsPalette.orange)),
+            child: const Text('Buscar usuaris'),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/search-user');
+            },
+          )
       ),
     );
   }
