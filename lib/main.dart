@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tryproject2/views/screens/createUser.dart';
 
 import 'package:tryproject2/views/screens/home.dart';
 import 'package:tryproject2/views/screens/login.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           "/profile":(BuildContext context) => const Profile(),
           "/events":(BuildContext context) => Events(),
           "/map":(BuildContext context) => Map(),
+          "/CreateUser":(BuildContext context) => CreateUser(),
         });
   }
 }
