@@ -5,16 +5,6 @@ import 'package:tryproject2/constants/theme.dart';
 import 'package:tryproject2/views/widgets/eventContainer.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
 
-class hhr extends StatelessWidget {
-  const hhr({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
 
 class Events extends StatelessWidget {
   const Events({super.key});

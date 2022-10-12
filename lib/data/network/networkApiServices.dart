@@ -6,19 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkApiServices extends BaseApiServices {
-  dynamic responseJson;
+  dynamic responseJson, responseJsonMock;
   @override
-  Future getGetApiResponse(String url) async {
-    String mockedURL ="";
+  Future getGetApiResponse(http.Client client) async {
+    //String mockedURL ="http://127.0.0.1:5001/get-all";
+    String mockedURL = 'https://jsonplaceholder.typicode.com/albums/1';
     try {
-      final response = await http.get(Uri.parse(mockedURL));
+      print("aqui");
+      final response = await client.get(Uri.parse(mockedURL));
+      print("aqui2");
       responseJson = returnResponse(response);
-      debugPrint(response.body.toString());
+      debugPrint(response.body.toString() +"\n -----jsonplaceholder-----\n-----mockedJson-----");
+      /*nom,
+    this.dataIni,
+    this.dataFi,
+    this.lloc,
+    this.comarcaMunicipi,
+    this.descripcio*/
+      const jsonMock = '''{"results":[{ "nom": "mockedName1", "dataIni": "01/01/9999", "dataFi":"01/01/9999"}]}''';
+      responseJsonMock = jsonDecode(jsonMock);
+      debugPrint(jsonMock.toString());
+
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-
-    return responseJson;
+    return responseJsonMock;
   }
 
   @override

@@ -36,7 +36,7 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    const height = 50.0; //= MediaQuery.of(context).size.height;
     return Column(
       //DOS PARTES
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,68 +47,72 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
             child: Consumer<HomeViewModel>(builder: (context, value, _) {
               switch (value.eventsList.status) {
                 case Status.LOADING:
-                  return SizedBox(
+                  return const SizedBox(
                     height: height,
-                    child: const Center(child: CircularProgressIndicator()),
+                    child: Center(child: CircularProgressIndicator()),
                   );
                 case Status.ERROR:
                   return Text(value.eventsList.toString());
                 case Status.COMPLETED:
-                  return Column(children: [
-                    SizedBox(
+                  print("COMPLETEd");
+                  return Text(homeViewModel.eventsList.data!.results![0].nom!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].nom!);
+                  //return ListItem(movies: value.upComingList.data!.results![index]);
+                  /*return Column(children: [
+                    const SizedBox(
                       height: height * .02,
                     ),
                     SizedBox(
                       height: height * .47,
-                      child: Container() /*ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: value.eventsList.data!.results!.length,
-                          itemBuilder: (context, index) {
-                            return PopularItem(
-                                movies: value.eventsList.data!.results![index]);
-                          })*/,
-                    ),
-                  ]);
-                default:
-                  return const Text("Hata");
-              }
-            })),
-
-        //PARTE 1
-        Expanded(
-          flex: 2,
-          //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
-          child: Row(
-            children: [
-              //DATA-ESPAI-COMARCA
-              Expanded(
-                flex: 4,
-                child: Container(),//EventInfoShort(viewModel: homeViewModel),
-              ),
-              const Padding(padding: EdgeInsets.only(left: 10.0)),
-              //IMATGE
-              Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
+                            child: Row(
+                              children: [
+                                //DATA-ESPAI-COMARCA
+                                Expanded(
+                                  flex: 4,
+                                  child:
+                                      Container(), //EventInfoShort(viewModel: homeViewModel),
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(left: 10.0)),
+                                //IMATGE
+                                /*Expanded(
                 flex: 3,
                 child: Container(
                     margin: EdgeInsets.only(right: 8.0),
                     child: Image.network("")),
-              ),
-            ],
-          ),
-        ),
+              ),*/
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: Container(
+                                margin: const EdgeInsets.only(top: 50),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Expanded(
+                                        child:
+                                            EventContainerPersonalizedTabs()),
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]);*/
+                default:
+                  return const Text("asdfasdf");
+              }
+            })),
+
+        //PARTE 1
+
         //PARTE 2
-        // Expanded(
-        //   flex: 7,
-        //   child: Container(
-        //       margin: const EdgeInsets.only(top: 50),
-        //       child: Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: const [
-        //           Expanded(child: EventContainerPersonalizedTabs()),
-        //         ],
-        //       )),
-        // ),
       ],
     );
   }

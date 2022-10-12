@@ -21,6 +21,7 @@ class Events {
   List<Results>? results;
 
   Events.fromJson(Map<String, dynamic> json) {
+    debugPrint(json.toString());
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
