@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tryproject2/constants/theme.dart';
 
+import '../widgets/search_locations.dart';
+
 class SearchUser extends StatelessWidget {
   const SearchUser({Key? key}) : super(key: key);
 
@@ -22,7 +24,60 @@ class StatefulSearchUser extends StatefulWidget {
   @override
   State<StatefulSearchUser> createState() => _StatefulSearchUserState();
 }
+class _StatefulSearchUserState extends State<StatefulSearchUser> {
+  String selectedUser = '';
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Cercar Usuaris",
+          style: TextStyle(color: Colors.white, fontSize: 18.0),
+          )
+          //centerTitle: true,
+      ),
+        body: Column(
+          children: [
+            OutlinedButton.icon(
+                icon: const Icon(Icons.search), label: const Text("Search"),
+                style: OutlinedButton.styleFrom(
+                    primary: Colors.deepOrange,
+                    side: const BorderSide(color: Colors.orange),
+                ), onPressed: () async{
+                    final finalResult = await showSearch(
+                        context: context,
+                        delegate: SearchLocations(
+                            allUsers: usersList,
+                            allUsersSuggestion: usersList,
+                        ),
+                    );
+                    setState((){
+                        selectedUser = finalResult!;
+                    });
+
+                  },
+             // onPressed: (){},
+            ),
+
+          ]
+        )
+    );
+
+  }
+}
+
+final List <String> usersList = [
+  'Alejandro',
+  'Manolo',
+  'Pepe',
+  'Joanna',
+  'Adiosbuenosdias',
+
+
+];
+
+/*
 class _StatefulSearchUserState extends State<StatefulSearchUser>{
   @override
   Widget build(BuildContext context) {
@@ -99,7 +154,7 @@ class _StatefulSearchUserState extends State<StatefulSearchUser>{
         ));
   }
 }
-
+*/
 /*
 Widget getAppBarNotSearching(String title, Function startSearchFunction) {
   return AppBar(
