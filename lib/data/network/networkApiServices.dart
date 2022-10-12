@@ -11,6 +11,7 @@ class NetworkApiServices extends BaseApiServices {
   Future getGetApiResponse(http.Client client) async {
     //String mockedURL ="http://127.0.0.1:5001/get-all";
     String mockedURL = 'https://jsonplaceholder.typicode.com/albums/1';
+    String url = "http://10.4.41.41:8081/events";
     try {
       print("aqui");
       final response = await client.get(Uri.parse(mockedURL));

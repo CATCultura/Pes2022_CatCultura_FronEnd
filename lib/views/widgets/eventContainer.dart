@@ -55,7 +55,13 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
                   return Text(value.eventsList.toString());
                 case Status.COMPLETED:
                   print("COMPLETEd");
-                  return Text(homeViewModel.eventsList.data!.results![0].nom!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].nom!);
+                  return Column(
+                    children: [
+                      Text(homeViewModel.eventsList.data!.results![0].nom!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].nom!),
+                      Text(homeViewModel.eventsList.data!.results![0].dataIni!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].dataIni!),
+
+                    ],
+                  );
                   //return ListItem(movies: value.upComingList.data!.results![index]);
                   /*return Column(children: [
                     const SizedBox(
