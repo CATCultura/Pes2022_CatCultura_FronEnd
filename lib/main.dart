@@ -7,6 +7,7 @@ import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
 import 'package:tryproject2/views/screens/search-user.dart';
+import 'package:tryproject2/views/screens/another-user-profile.dart';
 
 
 void main() {
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           "/events":(BuildContext context) => const Events(),
           "/map":(BuildContext context) => const Map(),
           "/search-user":(BuildContext context) => const SearchUser(),
+          "/another-user-profile":(BuildContext context) => const AnotherProfile(),
         });
   }
 }

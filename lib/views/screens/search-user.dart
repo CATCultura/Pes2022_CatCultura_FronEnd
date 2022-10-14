@@ -55,6 +55,8 @@ class _StatefulSearchUserState extends State<StatefulSearchUser> {
                     setState((){
                         selectedUser = finalResult!;
                     });
+                    // ignore: use_build_context_synchronously
+                    Navigator.popAndPushNamed(context, '/another-user-profile');
 
                   },
              // onPressed: (){},
