@@ -7,13 +7,21 @@ class attributes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(attribute);
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
         padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
         child: TextField(
-          decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: attribute,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.orange,
+                width: 3
+              ),
+            ),
           ),
         ),
       ),

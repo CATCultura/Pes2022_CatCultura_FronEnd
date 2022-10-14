@@ -5,7 +5,6 @@ import 'package:tryproject2/views/widgets/myDrawer.dart';
 import 'package:tryproject2/views/widgets/attributes.dart';
 
 
-
 class crearEsdeveniments extends StatefulWidget {
   const crearEsdeveniments({super.key});
 
@@ -15,8 +14,6 @@ class crearEsdeveniments extends StatefulWidget {
 
 class _crearEsdevenimentsState extends State<crearEsdeveniments> {
   String fecha = '';
-  //TextEditingController nameController = TextEditingController();
-  //TextEditingController passwordController = TextEditingController();
   TextEditingController InitialDateController = TextEditingController();
   TextEditingController FinalDateController = TextEditingController();
 
@@ -33,8 +30,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
           child: Column(
             children: [
               attributes("Nom Esdeveniment"),
-              _createInitialDate(context),
-              _createFinalDate(context),
+              createInitialDate(context),
+              createFinalDate(context),
               attributes("Descripció"),
               attributes("Categoria"),
               Container(
@@ -57,7 +54,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
     );
   }
 
-  Widget _createInitialDate(BuildContext context) {
+  Widget createInitialDate(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
@@ -68,17 +65,23 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: "Data Inici",
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors.orange,
+                  width: 3
+              ),
+            ),
           ),
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
-            _selectInitialDate(context);
+            selectInitialDate(context);
           },
         ),
       ),
     );
   }
 
-  Widget _createFinalDate(BuildContext context) {
+  Widget createFinalDate(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
@@ -89,17 +92,23 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: "Data Fi",
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors.orange,
+                  width: 3
+              ),
+            ),
           ),
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
-            _selectFinalDate(context);
+            selectFinalDate(context);
           },
         ),
       ),
     );
   }
 
-  _selectInitialDate(BuildContext context) async{
+  selectInitialDate(BuildContext context) async{
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -115,7 +124,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
     }
   }
 
-  _selectFinalDate(BuildContext context) async{
+  selectFinalDate(BuildContext context) async{
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
