@@ -102,6 +102,18 @@ class MyDrawer extends Drawer {
           ),
           ListTile(
             horizontalTitleGap: 0,
+            leading: const Icon(Icons.create, size: 28),
+            title: const Text('Crear Esdeveniment', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              if (actualPage == "Crear Esdeveniment") {
+                Navigator.pop(context);
+              } else {
+                Navigator.pushReplacementNamed(context, '/crear esdeveniment');
+              }
+            },
+          ),
+          ListTile(
+            horizontalTitleGap: 0,
             title: const Text('Tancar sessió', style: TextStyle(fontSize: 18)),
             onTap: () {
                 Navigator.pushReplacementNamed(context, '/login');
