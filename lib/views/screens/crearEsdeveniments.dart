@@ -26,28 +26,34 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
           backgroundColor: MyColorsPalette.orange,
         ),
         drawer: const MyDrawer("Crear Esdeveniment",username:"Superjuane", email:"juaneolivan@gmail.com"),
-        body: Center(
-          child: Column(
-            children: [
-              attributes("Nom Esdeveniment"),
-              createInitialDate(context),
-              createFinalDate(context),
-              attributes("Descripció"),
-              attributes("Categoria"),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.orange)),
-                  child: const Text('Crear'),
-                  onPressed: () {
-                    //print(nameController.text);
-                    //print(passwordController.text);
-                    Navigator.popAndPushNamed(context, '/home');
-                  },
-                ),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            child: Center(
+              child: Column(
+                children: [
+                  attributes("Nom Esdeveniment"),
+                  createInitialDate(context),
+                  createFinalDate(context),
+                  attributes("Descripció"),
+                  attributes("Ubicació"),
+                  attributes("Categoria"),
+                  Container(
+                    height: 70,
+                    width: 150,
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: ElevatedButton(
+                      style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.orange)),
+                      child: const Text('Crear'),
+                      onPressed: () {
+                        //print(nameController.text);
+                        //print(passwordController.text);
+                        Navigator.popAndPushNamed(context, '/home');
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -58,7 +64,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: TextField(
           enableInteractiveSelection: false,
           controller: InitialDateController,
@@ -85,7 +91,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: TextField(
           enableInteractiveSelection: false,
           controller: FinalDateController,

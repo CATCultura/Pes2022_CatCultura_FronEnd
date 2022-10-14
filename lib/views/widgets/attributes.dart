@@ -11,7 +11,7 @@ class attributes extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: TextField(
           decoration: InputDecoration(
             border: OutlineInputBorder(),
