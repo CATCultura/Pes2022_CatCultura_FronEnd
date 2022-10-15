@@ -10,6 +10,8 @@ class HomeViewModel with ChangeNotifier{
 
   setEventsList(ApiResponse<Events> response){
     eventsList = response;
+    // ignore: unnecessary_null_comparison
+    //debugPrint("in HomeViewModel we have this events: ${response.data! ==  null ? "nothing" : response.data!.results![0].id!.isEmpty ? "is empty" : response.data!.results![0].id!.toString()}");
     notifyListeners();
   }
 

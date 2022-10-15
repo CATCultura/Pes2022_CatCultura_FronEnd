@@ -21,13 +21,37 @@ class Events {
   List<Results>? results;
 
   Events.fromJson(Map<String, dynamic> json) {
-    debugPrint(json.toString());
+    debugPrint("pre loop: " + json.toString());
+    debugPrint("pre loop: (json['results']) " + json['results'].toString());
+    debugPrint("json.length = " + json.length.toString());
+    debugPrint("json['result'].length = " + json['results'].length.toString());
+
+    //results = <Results>[];
     if (json['results'] != null) {
+      debugPrint("JSON.RESULTS IS NULL");
+      results = <Results>[];
+      json['results'].forEach((v) {
+
+        debugPrint("v =" + v.toString());
+        results!.add(Results.fromJson(v));
+      });
+    }
+    /*for(int i = 0; i < json.length; ++i){
+      debugPrint("entro al loop de Events.dart");
+      //if(i < 10)debugPrint("print " + i.toString() + ": " +json[i] + "\n");
+      Results newResults = Results.fromJson(json[i]);
+      debugPrint("newResults: " + newResults.toString());
+      results!.add(newResults);
+    }*/
+    debugPrint("lenght"+(results!.length > 0 ? -1: results!.length).toString());
+    debugPrint(results.toString());
+    /*if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
         results!.add(Results.fromJson(v));
       });
-    }
+    }*/
+
   }
 
   Map<String, dynamic> toJson() {

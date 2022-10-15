@@ -1,8 +1,9 @@
 import 'dart:core';
 
 class Results {
-  String? nom;
-  String? dataIni;
+  String? id = "empty";
+  String? denominacio = "asdads";
+  String? dataInici = "empty";
   String? dataFi;
   String? lloc;
   String? comarcaMunicipi;
@@ -10,8 +11,9 @@ class Results {
 
 
   Results({
-    this.nom,
-    this.dataIni,
+    this.id,
+    this.denominacio,
+    this.dataInici,
     this.dataFi,
     this.lloc,
     this.comarcaMunicipi,
@@ -19,19 +21,21 @@ class Results {
   });
 
   Results.fromJson(Map<String, dynamic> json) {
-    nom = json['nom'];
-    dataIni = json['dataIni'];
+    id = json['id'].toString();
+    dataInici = json['dataInici'];
     dataFi = json['dataFi'];
-    lloc = json['lloc'];
-    comarcaMunicipi = json['comarcaMunicipi'];
-    descripcio = json['descripcio'];
+    denominacio = json['denominacio'];
+    //lloc = json['lloc'];
+    //comarcaMunicipi = json['comarcaMunicipi'];
+    //descripcio = json['descripcio'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> result =
     <String, dynamic>{};
-    result['nom'] = nom;
-    result['dataIni'] = dataIni;
+    result['id'] = id;
+    result['denominacio'] = denominacio;
+    result['dataInici'] = dataInici;
     result['dataFi'] = dataFi;
     result['lloc'] = lloc;
     result['comarcaMunicipi'] = comarcaMunicipi;

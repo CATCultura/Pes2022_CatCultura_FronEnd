@@ -57,13 +57,62 @@ class _StatefulEventContainerState extends State<StatefulEventContainer> {
                   print("COMPLETEd");
                   return Column(
                     children: [
-                      Text(homeViewModel.eventsList.data!.results![0].nom!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].nom!),
-                      Text(homeViewModel.eventsList.data!.results![0].dataIni!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].dataIni!),
-
+                      const SizedBox(
+                        height: height * .02,
+                      ),
+                      SizedBox(
+                        height: height * .37,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
+                              child: Row(
+                                children: [
+                                  //DATA-ESPAI-COMARCA
+                                  Expanded(
+                                    flex: 4,
+                                    child:
+                                        EventInfoShort(viewModel: value),
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 10.0)),
+                                  //IMATGE
+                                  /*Expanded(
+                flex: 3,
+                child: Container(
+                    margin: EdgeInsets.only(right: 8.0),
+                    child: Image.network("")),
+              ),*/
+                                ],
+                              ),
+                            ),
+                            // Expanded(
+                            //   flex: 7,
+                            //   child: Container(
+                            //       margin: const EdgeInsets.only(top: 50),
+                            //       child: Column(
+                            //         crossAxisAlignment:
+                            //             CrossAxisAlignment.start,
+                            //         children: const [
+                            //           Expanded(
+                            //               child:
+                            //                   EventContainerPersonalizedTabs(viewModel: value)),
+                            //         ],
+                            //       )),
+                            // ),
+                          ],
+                        ),
+                      ),
                     ],
                   );
-                  //return ListItem(movies: value.upComingList.data!.results![index]);
-                  /*return Column(children: [
+                /*children: [
+                      Text(value.eventsList.data!.results![0].id!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].id!),
+                      Text(value.eventsList.data!.results![0].dataInici!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].dataInici!),
+                    ],*/
+                //);
+                //return ListItem(movies: value.upComingList.data!.results![index]);
+                /*return Column(children: [
                     const SizedBox(
                       height: height * .02,
                     ),
@@ -130,19 +179,47 @@ class EventInfoShort extends StatelessWidget {
     required this.viewModel,
   }) : super(key: key);
 
-  final EventContainerViewModel viewModel;
+  final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(8.0, 8.0, 1.0, 8.0),
-      margin: EdgeInsets.only(left: 8.0),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.circular(10),
-      ),
+      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 1.0, 8.0),
+      margin: const EdgeInsets.only(left: 8.0),
+      // decoration: BoxDecoration(
+      //   border: Border.all(color: Colors.grey, width: 2.0),
+      //   borderRadius: BorderRadius.circular(10),
+      // ),
       child: Column(
         children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.info,
+                color: MyColorsPalette.red,
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16)),
+              //Text(value.eventsList.data!.results![0].id!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].id!),
+              //Text(value.eventsList.data!.results![0].dataInici!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].dataInici!),
+
+              Text(viewModel.eventsList.data!.results![0].id!.isEmpty ? "hola": viewModel.eventsList.data!.results![0].id!),
+            ],
+          ),
+          const Padding(padding: EdgeInsets.only(top: 16)),
+          Row(
+            children: [
+              const Icon(
+                Icons.circle,
+                color: MyColorsPalette.red,
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16)),
+              //Text(value.eventsList.data!.results![0].id!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].id!),
+              //Text(value.eventsList.data!.results![0].dataInici!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].dataInici!),
+
+              Text(viewModel.eventsList.data!.results![0].denominacio!.isEmpty ? "hola": viewModel.eventsList.data!.results![0].denominacio!),
+            ],
+          ),
+          const Padding(padding: EdgeInsets.only(top: 16)),
           Row(
             children: [
               const Icon(
@@ -150,7 +227,10 @@ class EventInfoShort extends StatelessWidget {
                 color: MyColorsPalette.red,
               ),
               const Padding(padding: EdgeInsets.only(left: 16)),
-              Text("${viewModel.dataInici} \n${viewModel.dataFi}"),
+              //Text(value.eventsList.data!.results![0].id!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].id!),
+              //Text(value.eventsList.data!.results![0].dataInici!.isEmpty ? "hola": homeViewModel.eventsList.data!.results![0].dataInici!),
+
+              Text("${viewModel.eventsList.data!.results![0].dataInici!.isEmpty ? "hola": viewModel.eventsList.data!.results![0].dataInici!} \n${viewModel.eventsList.data!.results![0].dataFi!.isEmpty ? "hola": viewModel.eventsList.data!.results![0].dataFi!}"),
             ],
           ),
           const Padding(padding: EdgeInsets.only(top: 16)),
@@ -161,7 +241,7 @@ class EventInfoShort extends StatelessWidget {
                 color: MyColorsPalette.red,
               ),
               const Padding(padding: EdgeInsets.only(left: 16)),
-              getSizedText(viewModel.espai),
+              getSizedText("viewModel.espai"),
             ],
           ),
           const Padding(padding: EdgeInsets.only(top: 16)),
@@ -172,7 +252,7 @@ class EventInfoShort extends StatelessWidget {
                 color: MyColorsPalette.red,
               ),
               const Padding(padding: EdgeInsets.only(left: 16)),
-              getSizedText(viewModel.ComarcaMunicipi),
+              getSizedText("viewModel.ComarcaMunicipi"),
             ],
           ),
         ],

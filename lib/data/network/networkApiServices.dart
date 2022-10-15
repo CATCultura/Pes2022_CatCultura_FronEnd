@@ -8,30 +8,29 @@ import 'package:http/http.dart' as http;
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson, responseJsonMock;
   @override
-  Future getGetApiResponse(http.Client client) async {
+  Future getGetApiResponse(String url) async {
     //String mockedURL ="http://127.0.0.1:5001/get-all";
     String mockedURL = 'https://jsonplaceholder.typicode.com/albums/1';
-    String url = "http://10.4.41.41:8081/events";
+    String url = "http://10.4.41.41:8081/events/20";
+
     try {
       print("aqui");
-      final response = await client.get(Uri.parse(mockedURL));
+      final response = await http.get(Uri.parse(url));
       print("aqui2");
+      debugPrint(response.body);
       responseJson = returnResponse(response);
-      debugPrint(response.body.toString() +"\n -----jsonplaceholder-----\n-----mockedJson-----");
-      /*nom,
-    this.dataIni,
-    this.dataFi,
-    this.lloc,
-    this.comarcaMunicipi,
-    this.descripcio*/
-      const jsonMock = '''{"results":[{ "nom": "mockedName1", "dataIni": "01/01/9999", "dataFi":"01/01/9999"}]}''';
-      responseJsonMock = jsonDecode(jsonMock);
-      debugPrint(jsonMock.toString());
+      //debugPrint(responseJson.toString());
+      //debugPrint(response.body.length.toString() + response.body.toString()  +"\n -----jsonplaceholder-----\n-----mockedJson-----");
+
+      //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
+      //responseJsonMock = jsonDecode(jsonMock);
+      //debugPrint("networkApiServices harcoded: " + jsonMock.toString());
+      debugPrint("networkApiServices petition: " + responseJson.toString());
 
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-    return responseJsonMock;
+    return responseJson;
   }
 
   @override
@@ -53,7 +52,11 @@ class NetworkApiServices extends BaseApiServices {
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        dynamic responseJson = jsonDecode(response.body);
+        //dynamic responseJson = jsonDecode(response.body);
+      String aux;
+      if(response.body.toString()[0] == '[') aux = "{\"results\":" + response.body.toString() + "}";
+      else aux = "{\"results\":[" + response.body.toString() + "]}";
+        dynamic responseJson =jsonDecode(aux);
         return responseJson;
       case 400:
         throw BadRequestException(response.body.toString());
