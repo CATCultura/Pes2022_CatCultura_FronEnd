@@ -8,6 +8,7 @@ import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
 import 'package:tryproject2/views/screens/editProfile.dart';
+import 'package:tryproject2/views/screens/profileSettings.dart';
 
 //hola
 
@@ -34,6 +35,8 @@ class MyApp extends StatelessWidget {
           "/map":(BuildContext context) => Map(),
           "/createUser":(BuildContext context) => CreateUser(),
           "/editProfile":(BuildContext context) => EditProfile(),
+          "/profileSettings":(BuildContext context) => ProfileSettings(),
+
         });
   }
 }
