@@ -31,12 +31,12 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
             child: Center(
               child: Column(
                 children: [
-                  attributes("Nom Esdeveniment"),
-                  createInitialDate(context),
+                  attributes("Codi"),
+                  //createInitialDate(context),
                   createFinalDate(context),
-                  attributes("Descripció"),
-                  attributes("Ubicació"),
-                  attributes("Categoria"),
+                  attributes("Nom Esdeveniment"),
+                  //attributes("Ubicació"),
+                  //attributes("Categoria"),
                   Container(
                     height: 70,
                     width: 150,
@@ -60,7 +60,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
     );
   }
 
-  Widget createInitialDate(BuildContext context) {
+  /**Widget createInitialDate(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Container(
@@ -85,7 +85,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
         ),
       ),
     );
-  }
+  }**/
 
   Widget createFinalDate(BuildContext context) {
     return Padding(
@@ -114,7 +114,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
     );
   }
 
-  selectInitialDate(BuildContext context) async{
+  /**selectInitialDate(BuildContext context) async{
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -128,7 +128,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
         InitialDateController.text = fecha;
       });
     }
-  }
+  }**/
 
   selectFinalDate(BuildContext context) async{
     DateTime? picked = await showDatePicker(
