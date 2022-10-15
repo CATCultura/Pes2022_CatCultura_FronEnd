@@ -8,6 +8,7 @@ class HomeViewModel with ChangeNotifier{
 
   ApiResponse<Events> eventsList = ApiResponse.loading();
 
+
   setEventsList(ApiResponse<Events> response){
     eventsList = response;
     // ignore: unnecessary_null_comparison
@@ -16,10 +17,14 @@ class HomeViewModel with ChangeNotifier{
   }
 
   Future<void> fetchEventsListApi() async {
-    await _eventsRepo.getEvents().then((value) {
+    if(eventsList.status == Status.COMPLETED){
+
+    } else {
+      await _eventsRepo.getEvents().then((value) {
       setEventsList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setEventsList(ApiResponse.error(error.toString())));
+    }
   }
 
 }
