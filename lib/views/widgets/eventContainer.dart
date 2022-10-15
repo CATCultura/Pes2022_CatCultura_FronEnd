@@ -24,6 +24,7 @@ class StatefulEventContainer extends StatefulWidget {
 
 class _StatefulEventContainerState extends State<StatefulEventContainer> {
   var viewModel = EventContainerViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -130,6 +131,8 @@ class EventContainerPersonalizedTabs extends StatefulWidget {
 
 class _EventContainerPersonalizedTabsState extends State<EventContainerPersonalizedTabs> {
   var viewModel = EventContainerViewModel();
+  bool Favorit = false;
+  bool assistire = false;
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +148,32 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
       const Tab(
           icon:
               Icon(Icons.park_outlined, size: 20.0, color: MyColorsPalette.white),
-          text: 'Espai')
+          text: 'Espai'),
+      Tab(
+        child: IconButton(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          iconSize: 40,
+          icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
+          onPressed: (){
+            setState(() {
+              assistire = !assistire;
+            });
+          },
+        ),
+      ),
+      Tab(
+        child: IconButton(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          iconSize: 40,
+          icon: Icon((Favorit == false) ? Icons.star_border_outlined : Icons.star, color: MyColorsPalette.white),
+          onPressed: (){
+            setState(() {
+              Favorit = !Favorit;
+            });
+          },
+        ),
+      ),
     ];
-
     return DefaultTabController(
       length: Tabs.length,
       child: Scaffold(
