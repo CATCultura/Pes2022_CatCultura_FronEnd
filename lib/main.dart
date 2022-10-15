@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tryproject2/views/screens/crearEsdeveniments.dart';
 
 import 'package:tryproject2/views/screens/home.dart';
 import 'package:tryproject2/views/screens/login.dart';
@@ -28,8 +29,9 @@ class MyApp extends StatelessWidget {
           "/login": (BuildContext context) => const Login(),
           "/home": (BuildContext context) => Home(),
           "/profile":(BuildContext context) => const Profile(),
-          "/events":(BuildContext context) => const Events(),
-          "/map":(BuildContext context) => const Map(),
+          "/events":(BuildContext context) => Events(),
+          "/map":(BuildContext context) => Map(),
+          "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
           "/search-user":(BuildContext context) => const SearchUser(),
         });
   }
