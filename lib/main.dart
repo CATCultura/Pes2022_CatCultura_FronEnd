@@ -7,8 +7,8 @@ import 'package:tryproject2/views/screens/login.dart';
 import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
+import 'package:tryproject2/views/screens/search-user.dart';
 
-//hola
 
 void main() {
   debugPaintSizeEnabled=false;
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
           "/events":(BuildContext context) => Events(),
           "/map":(BuildContext context) => Map(),
           "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
+          "/search-user":(BuildContext context) => const SearchUser(),
         });
   }
 }
