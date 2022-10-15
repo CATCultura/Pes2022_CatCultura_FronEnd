@@ -102,6 +102,32 @@ class MyDrawer extends Drawer {
           ),
           ListTile(
             horizontalTitleGap: 0,
+            leading: const Icon(Icons.star, size: 28),
+            title: const Text('Favorits', style: TextStyle(fontSize:18)),
+            onTap: (){
+              if(actualPage == "Favorits"){
+                Navigator.pop(context);
+          }
+              else{
+                Navigator.pushReplacementNamed(context, '/favorits');
+          }
+          }
+          ),
+          ListTile(
+              horizontalTitleGap: 0,
+              leading: const Icon(Icons.calendar_month, size: 28),
+              title: const Text('Agenda', style: TextStyle(fontSize:18)),
+              onTap: (){
+                if(actualPage == "Agenda"){
+                  Navigator.pop(context);
+                }
+                else{
+                  Navigator.pushReplacementNamed(context, '/agenda');
+                }
+              }
+          ),
+          ListTile(
+            horizontalTitleGap: 0,
             title: const Text('Tancar sessió', style: TextStyle(fontSize: 18)),
             onTap: () {
                 Navigator.pushReplacementNamed(context, '/login');

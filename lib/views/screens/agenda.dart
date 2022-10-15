@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tryproject2/constants/theme.dart';
+import 'package:tryproject2/views/widgets/eventContainerAgenda.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -16,8 +17,11 @@ class Agenda extends StatelessWidget {
       backgroundColor: MyColors.bgColorScreen,
       // key: _scaffoldKey,
       drawer: const MyDrawer("Agenda",username:"Superjuane", email:"juaneolivan@gmail.com"),
-      body: Container(
-        color: MyColors.warning,
+      body: const Center(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 50, 0, 16),
+          child: EventContainerAgenda(),
+        ),
       ),
     );
   }
