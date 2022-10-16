@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tryproject2/views/screens/crearEsdeveniments.dart';
 
 import 'package:tryproject2/views/screens/home.dart';
 import 'package:tryproject2/views/screens/login.dart';
 import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
-
+import 'package:tryproject2/views/screens/search-user.dart';
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
 //import 'package:architecture_demos/utils/routes/routes_name.dart';
 import 'package:tryproject2/viewModels/EventsViewModel.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'utils/routes/routes.dart';
-
-//hola
 
 void main() {
   debugPaintSizeEnabled=false;
@@ -43,6 +41,8 @@ class MyApp extends StatelessWidget {
             "/profile":(BuildContext context) => const Profile(),
             "/events":(BuildContext context) => Events(),
             "/map":(BuildContext context) => Map(),
+            "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
+          "/search-user":(BuildContext context) => const SearchUser(),
           }),
     );
   }
