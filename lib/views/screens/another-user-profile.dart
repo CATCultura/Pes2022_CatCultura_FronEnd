@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:tryproject2/constants/theme.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
 
@@ -24,6 +25,22 @@ class AnotherProfile extends StatelessWidget {
         children: <Widget>[
           buildTop(),
           buildContent(),
+          SizedBox(height: 32),
+          Row (
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget> [
+              const Text (
+                'Afegir amic:  ',
+                style: TextStyle(fontSize: 18, height: 1.4, color: Colors.black54),
+              ),
+              LikeButton(
+                size: 40,
+                likeBuilder: (isLiked){
+
+                }
+              ),
+            ],
+          ),
         ],
       ),
       /*
@@ -46,18 +63,25 @@ class AnotherProfile extends StatelessWidget {
 
   Widget buildContent() => Column(
     children: const [
-      SizedBox(height: 8),
+      SizedBox(height: 18),
       Text(
         'Alejandro',
         style: TextStyle(fontSize: 28, color: Colors.teal),
       ),
-      SizedBox(height: 8),
+      SizedBox(height: 12),
       Text (
         'Usuari de CATCultura',
-        style: TextStyle(fontSize: 20, color: Colors.grey),
-      )
+        style: TextStyle(fontSize: 20, height: 1.4, color: Colors.grey),
+      ),
+     /* Row (
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget> [
 
 
+        ],
+      ),
+
+*/
     ]
 
 
@@ -65,12 +89,16 @@ class AnotherProfile extends StatelessWidget {
   );
 
   Widget buildTop() {
+    final bottom = profileHeight/2;
     final top = coverHeight - profileHeight/2;
     return Stack (
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        buildCoverImage(),
+        Container (
+          margin: EdgeInsets.only(bottom: bottom),
+          child: buildCoverImage(),
+        ),
         Positioned(
           top: top,
           child: buildProfilePicture(),
@@ -93,6 +121,8 @@ class AnotherProfile extends StatelessWidget {
     backgroundColor: Colors.grey.shade800,
     backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
+
+
 
 
 }
