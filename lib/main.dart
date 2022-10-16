@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tryproject2/views/screens/createUser.dart';
+
 import 'package:tryproject2/views/screens/crearEsdeveniments.dart';
 
 import 'package:tryproject2/views/screens/home.dart';
@@ -7,6 +9,9 @@ import 'package:tryproject2/views/screens/login.dart';
 import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
+import 'package:tryproject2/views/screens/editProfile.dart';
+import 'package:tryproject2/views/screens/profileSettings.dart';
+
 import 'package:tryproject2/views/screens/search-user.dart';
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
@@ -43,8 +48,12 @@ class MyApp extends StatelessWidget {
             "/map":(BuildContext context) => Map(),
             "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
           "/search-user":(BuildContext context) => const SearchUser(),
+    "/createUser":(BuildContext context) => CreateUser(),
+    "/editProfile":(BuildContext context) => EditProfile(),
+    "/profileSettings":(BuildContext context) => ProfileSettings(),
           }),
     );
+
   }
 }
 
