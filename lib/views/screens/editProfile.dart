@@ -137,9 +137,9 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                   child: TextField(
                     decoration: InputDecoration (
                       contentPadding: EdgeInsets.only(bottom: 3),
-                      labelText: "Nom",
+                      labelText: "Nom i cognoms",
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintText: "Juan Emilio",
+                      hintText: "Juan Emilio Olivan",
                       hintStyle: TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -152,9 +152,9 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                   child: TextField(
                     decoration: InputDecoration (
                         contentPadding: EdgeInsets.only(bottom: 3),
-                        labelText: "Cognoms",
+                        labelText: "Nom d'usuari",
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hintText: "Olivan",
+                        hintText: "superjuane",
                         hintStyle: TextStyle(
                           fontSize: 16, fontWeight: FontWeight.bold,
                           color: Colors.black,
