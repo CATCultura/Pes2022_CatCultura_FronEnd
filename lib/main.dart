@@ -8,7 +8,13 @@ import 'package:tryproject2/views/screens/profile.dart';
 import 'package:tryproject2/views/screens/events.dart';
 import 'package:tryproject2/views/screens/map.dart';
 import 'package:tryproject2/views/screens/search-user.dart';
-
+import 'dart:io';
+//import 'package:architecture_demos/res/app_theme.dart';
+//import 'package:architecture_demos/utils/routes/routes_name.dart';
+import 'package:tryproject2/viewModels/EventsViewModel.dart';
+import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+//import 'utils/routes/routes.dart';
 
 void main() {
   debugPaintSizeEnabled=false;
@@ -20,20 +26,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'catcultura',
-        theme: ThemeData(fontFamily: 'OpenSans'),
-        initialRoute: "/login",
-        debugShowCheckedModeBanner: false,
-        routes: <String, WidgetBuilder>{
-          "/login": (BuildContext context) => const Login(),
-          "/home": (BuildContext context) => Home(),
-          "/profile":(BuildContext context) => const Profile(),
-          "/events":(BuildContext context) => Events(),
-          "/map":(BuildContext context) => Map(),
-          "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => EventsViewModel()),
+      ],
+      child: MaterialApp(
+          title: 'catcultura',
+          theme: ThemeData(fontFamily: 'OpenSans'),
+          initialRoute: "/login",
+          debugShowCheckedModeBanner: false,
+          routes: <String, WidgetBuilder>{
+            "/login": (BuildContext context) => const Login(),
+            "/home": (BuildContext context) => Home(),
+            "/profile":(BuildContext context) => const Profile(),
+            "/events":(BuildContext context) => Events(),
+            "/map":(BuildContext context) => Map(),
+            "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
           "/search-user":(BuildContext context) => const SearchUser(),
-        });
+          }),
+    );
   }
 }
 
