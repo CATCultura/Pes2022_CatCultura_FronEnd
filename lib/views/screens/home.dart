@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/viewModels/HomeViewModel.dart';
+import 'package:tryproject2/viewModels/EventsViewModel.dart';
 import 'package:tryproject2/views/widgets/cardSmall.dart';
 import 'package:tryproject2/views/widgets/CardSquare.dart';
 import 'package:tryproject2/views/widgets/cardHorizontal.dart';
@@ -18,13 +18,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var viewModel = HomeViewModel();
+  var viewModel = EventsViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(viewModel.namePage),
+          title: Text("Home"),
           backgroundColor: MyColorsPalette.lightBlue,
         ),
         backgroundColor: MyColors.bgColorScreen,

@@ -15,29 +15,45 @@ class Profile extends StatelessWidget {
       ),
       backgroundColor: MyColors.bgColorScreen,
       // key: _scaffoldKey,
-      drawer: const MyDrawer("Profile",username:"Superjuane", email:"juaneolivan@gmail.com"),
+      drawer: const MyDrawer("Profile",
+          username: "Superjuane", email: "juaneolivan@gmail.com"),
       body: Container(
         color: Colors.white,
-        child: Row(
-          children: <Widget> [
+        child: Column(
+          children: <Widget>[
             Container(
               height: 40,
               padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
               child: ElevatedButton(
-                style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.amberAccent)),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.amberAccent)),
                 child: const Text('Configuració'),
                 onPressed: () {
                   Navigator.popAndPushNamed(context, '/editProfile');
                 },
               ),
             ),
-         ],
-       ),
+            Container(
+                color: MyColors.warning,
+                height: 50,
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(MyColorsPalette.orange)),
+                  child: const Text('Buscar usuaris'),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, '/search-user');
+                  },
+                )),
+          ],
+        ),
       ),
     );
   }
 }
-
 
 /*
 child: const CircleAvatar(
