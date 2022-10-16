@@ -96,7 +96,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, '/CreateUser');
+                    Navigator.popAndPushNamed(context, '/createUser');
                   },
                 )
               ],
