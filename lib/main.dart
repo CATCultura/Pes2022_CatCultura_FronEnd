@@ -10,7 +10,7 @@ import 'package:tryproject2/views/screens/map.dart';
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
 //import 'package:architecture_demos/utils/routes/routes_name.dart';
-import 'package:tryproject2/viewModels/HomeViewModel.dart';
+import 'package:tryproject2/viewModels/EventsViewModel.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider(create: (_) => EventsViewModel()),
       ],
       child: MaterialApp(
           title: 'catcultura',

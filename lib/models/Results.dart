@@ -2,32 +2,63 @@ import 'dart:core';
 
 class Results {
   String? id = "empty";
-  String? denominacio = "asdads";
+  String? codi = "";
   String? dataInici = "empty";
   String? dataFi;
-  String? lloc;
-  String? comarcaMunicipi;
+  String? dataFiAprox = "";
+  String? denominacio = "NO_NAME";
   String? descripcio;
+  String? entrades = "";
+  String? horari = "";
+  String? subtitol = "";
+  List<String>? tagsAmbits;
+  List<String>? tagsAmbitsCateg;
+  List<String>? tagsAltresCateg;
+  String? links = "";
+  String? documents = "";
+  String? imatges = "";
+  String? videos = "";
+  String? adreca = "";
+  String? codiPostal = "";
+  String? comarcaIMunicipi = "comarca/municipi: no info";
+  String? email = "";
+  String? latitud = "";
+  String? localitat = "localitat: no info";
+  String? longitud = "";
 
 
   Results({
     this.id,
+    this.codi,
     this.denominacio,
     this.dataInici,
     this.dataFi,
-    this.lloc,
-    this.comarcaMunicipi,
+    this.links,
+    this.documents,
+    this.imatges,
+    this.videos,
+    this.adreca,
+    this.codiPostal,
+    this.comarcaIMunicipi,
+    this.email,
+    this.latitud,
+    this.localitat,
+    this.longitud,
     this.descripcio
   });
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
+    codi = json['codi'].toString();
     dataInici = json['dataInici'];
     dataFi = json['dataFi'];
     denominacio = json['denominacio'];
-    //lloc = json['lloc'];
-    //comarcaMunicipi = json['comarcaMunicipi'];
-    //descripcio = json['descripcio'];
+    dataFiAprox = json['dataFiAprox'];
+    descripcio = json['descripcio'];
+    // descripcio = ;
+    // entrades =
+    //     horari = ""
+    // subtitol =
   }
 
   Map<String, dynamic> toJson() {
@@ -37,8 +68,6 @@ class Results {
     result['denominacio'] = denominacio;
     result['dataInici'] = dataInici;
     result['dataFi'] = dataFi;
-    result['lloc'] = lloc;
-    result['comarcaMunicipi'] = comarcaMunicipi;
     result['descripcio'] = descripcio;
     return result;
   }
