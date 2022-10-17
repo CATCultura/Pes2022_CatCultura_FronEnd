@@ -9,9 +9,7 @@ class Repository {
 
   Future<Events> getEvents() async {
     try {
-      dynamic response = await _apiServices.getGetApiResponse(""); //"xx" v AppUrl.moviesPopularMovie
-      debugPrint("getetEvents");
-      debugPrint("Response in repositoryEvents before Events.fromJson:\n$response");
+      dynamic response = await _apiServices.getGetApiResponse("http://10.4.41.41:8081/event/id=8");
       return response = Events.fromJson(response);
     } catch (e) {
       rethrow;
