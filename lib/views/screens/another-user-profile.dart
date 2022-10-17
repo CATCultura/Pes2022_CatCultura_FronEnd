@@ -19,7 +19,7 @@ class AnotherProfile extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       // key: _scaffoldKey,
       drawer: const MyDrawer(
-          "Profile", username: "SuperJuane", email: "juaneolivan@gmail.com"),
+          "AnotherProfile", username: "SuperJuane", email: "juaneolivan@gmail.com"),
       body: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[

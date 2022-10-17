@@ -32,44 +32,54 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 70,
         title: const Text("My Profile"),
         backgroundColor: MyColorsPalette.lightBlue,
       ),
       backgroundColor: MyColors.bgColorScreen,
       // key: _scaffoldKey,
-      drawer: const MyDrawer(
-          "Profile", username: "Superjuane", email: "juaneolivan@gmail.com"),
-      body: Column(
-        /*
-          color: MyColors.warning,
-          height: 50,
-          width: double.infinity,
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          */
-          children: [
+      drawer: const MyDrawer("Profile",
+          username: "Superjuane", email: "juaneolivan@gmail.com"),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 40,
+              padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.amberAccent)),
+                child: const Text('Configuració'),
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, '/editProfile');
+                },
+              ),
+            ),
             OutlinedButton.icon(
               icon: const Icon(Icons.search), label: const Text("Search users"),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.deepOrange,
                 side: const BorderSide(color: Colors.orange),
-                ), onPressed: () async{
-                final finalResult = await showSearch(
-                  context: context,
-                  delegate: SearchLocations(
-                    allUsers: usersList,
-                    allUsersSuggestion: usersSuggList,
-                  ),
-                );
-                setState((){
-                  selectedUser = finalResult!;
-                });
-                // ignore: use_build_context_synchronously
-                if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
-              },
+              ), onPressed: () async{
+              final finalResult = await showSearch(
+                context: context,
+                delegate: SearchLocations(
+                  allUsers: usersList,
+                  allUsersSuggestion: usersSuggList,
+                ),
+              );
+              setState((){
+                selectedUser = finalResult!;
+              });
+              // ignore: use_build_context_synchronously
+              if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
+            },
               // onPressed: (){},
             ),
-
-          ]
+          ],
+        ),
       ),
     );
   }
@@ -93,3 +103,14 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
 
 }
+
+/*
+child: const CircleAvatar(
+radius: 60.0,
+backgroundColor: MyColorsPalette.white,
+backgroundImage: NetworkImage(
+"https://avatars.githubusercontent.com/u/99893934?s=400&u=cc0636970f96e71b96dfb4696945dc0a95ebb787&v=4")),
+child: const Text(
+"body",
+style: TextStyle(fontSize: 30, color: Colors.white),
+),*/
