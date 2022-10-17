@@ -19,7 +19,7 @@ class AnotherProfile extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       // key: _scaffoldKey,
       drawer: const MyDrawer(
-          "Profile", username: "Alejandro", email: "alejandro@gmail.com"),
+          "Profile", username: "SuperJuane", email: "juaneolivan@gmail.com"),
       body: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -35,8 +35,12 @@ class AnotherProfile extends StatelessWidget {
               ),
               LikeButton(
                 size: 40,
-                likeBuilder: (isLiked){
-
+                likeBuilder: (isTapped){
+                  return Icon(
+                    Icons.bookmark,
+                    size: 40,
+                    color: isTapped ? Colors.deepPurple : Colors.grey,
+                  );
                 }
               ),
             ],
@@ -84,8 +88,6 @@ class AnotherProfile extends StatelessWidget {
 */
     ]
 
-
-
   );
 
   Widget buildTop() {
@@ -107,7 +109,6 @@ class AnotherProfile extends StatelessWidget {
     );
   }
 
-
   Widget buildCoverImage() => Container(
     color: Colors.grey,
     child: Image.network('https://tecnohotelnews.com/wp-content/uploads/2019/05/shutterstock_214016374.jpg'),
@@ -121,8 +122,6 @@ class AnotherProfile extends StatelessWidget {
     backgroundColor: Colors.grey.shade800,
     backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
-
-
 
 
 }

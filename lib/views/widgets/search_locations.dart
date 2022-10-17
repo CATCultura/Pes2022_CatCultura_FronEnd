@@ -22,7 +22,9 @@ class SearchLocations extends SearchDelegate<String>{
 
   @override
   Widget buildLeading(BuildContext context) {   //return a la llista
-    return IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
+    return IconButton(
+      icon: const Icon(Icons.arrow_back), onPressed: (){
+          query = '';
           close(context, query);
         },
     );
