@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tryproject2/views/screens/agenda.dart';
+//import 'package:tryproject2/views/screens/favorits.dart';
 import 'package:tryproject2/views/screens/createUser.dart';
 
 import 'package:tryproject2/views/screens/crearEsdeveniments.dart';
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
     "/createUser":(BuildContext context) => CreateUser(),
     "/editProfile":(BuildContext context) => EditProfile(),
     "/profileSettings":(BuildContext context) => ProfileSettings(),
+            //"/favorits":(BuildContext context) => Favorits(),
+            "/agenda":(BuildContext context) => Agenda(),
           }),
     );
   }
