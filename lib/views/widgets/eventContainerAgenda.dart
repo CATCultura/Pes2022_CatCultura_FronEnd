@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tryproject2/constants/theme.dart';
 
 //import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/viewModels/EventContainerViewModel.dart';
+//import 'package:tryproject2/viewModels/EventContainerViewModel.dart';
 
 class EventContainerAgenda extends StatelessWidget {
   const EventContainerAgenda({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class StatefulEventContainerAgenda extends StatefulWidget {
 }
 
 class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAgenda> {
-  var viewModel = EventContainerViewModel();
+  //var viewModel = EventContainerViewModel();
   bool _esFavorit = false;
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
           children:[
             const Padding(padding: EdgeInsets.only(left: 18)),
             Text(
-                "${viewModel.dataInici} \n",
+                "dimecres 30 de febrer \n",
                 style: TextStyle(fontWeight: FontWeight.bold),),
 
     ]
@@ -67,7 +67,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                           color: MyColorsPalette.red,
                         ),
                         const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text("${viewModel.NomEvent} "),
+                        Text("aniversari juane "),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 16)),
@@ -78,7 +78,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                           color: MyColorsPalette.red,
                         ),
                         const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text(viewModel.espai),
+                        Text("casa juane"),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 16)),
@@ -97,11 +97,11 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                 ),
               ),
               //IMATGE
-              Expanded(
+             /* Expanded(
                 child: SizedBox(
                   //height: 1,
                     child: Image.network(viewModel.img)),
-              ),
+              ),*/
             ],
           ),
         ),

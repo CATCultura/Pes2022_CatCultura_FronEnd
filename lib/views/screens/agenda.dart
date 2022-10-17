@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tryproject2/constants/theme.dart';
 import 'package:tryproject2/views/widgets/eventContainerAgenda.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Agenda extends StatelessWidget {
   const Agenda({super.key});
