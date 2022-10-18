@@ -28,7 +28,19 @@ class EventUnic extends StatelessWidget {
         create: (BuildContext context) => viewModel,
         child: Consumer<EventsViewModel>(builder: (context, value, _) {
           return Scaffold(
-              appBar: AppBar(title: Text("EVENT UNIC"), backgroundColor: MyColorsPalette.red,),
+              appBar: AppBar(
+                title: Text("EVENT UNIC"),
+                backgroundColor: MyColorsPalette.red,
+
+                actions: <Widget> [
+                  new IconButton(
+                      onPressed: () {
+                        Navigator.popAndPushNamed(context, '/opcions-Esdeveniment');
+                      },
+                      icon: Icon(Icons.settings)
+                  ),
+                ],
+              ),
               drawer: MyDrawer(""),
               body: Padding(
                 padding: const EdgeInsets.only(top:10.0),
