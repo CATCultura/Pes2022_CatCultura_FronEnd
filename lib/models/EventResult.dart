@@ -1,6 +1,6 @@
 import 'dart:core';
 
-class Results {
+class EventResult {
   String? id = "empty";
   String? codi = "";
   String? dataInici = "empty";
@@ -27,7 +27,7 @@ class Results {
   String? longitud = "";
 
 
-  Results({
+  EventResult({
     this.id,
     this.codi,
     this.denominacio,
@@ -47,7 +47,7 @@ class Results {
     this.descripcio
   });
 
-  Results.fromJson(Map<String, dynamic> json) {
+  EventResult.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     codi = json['codi'].toString();
     dataInici = json['dataInici'];
