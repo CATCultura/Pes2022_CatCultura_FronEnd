@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tryproject2/views/screens/agenda.dart';
-//import 'package:tryproject2/views/screens/favorits.dart';
-import 'package:tryproject2/views/screens/createUser.dart';
-
-import 'package:tryproject2/views/screens/crearEsdeveniments.dart';
-
-import 'package:tryproject2/views/screens/home.dart';
-import 'package:tryproject2/views/screens/login.dart';
-import 'package:tryproject2/views/screens/profile.dart';
-import 'package:tryproject2/views/screens/events.dart';
-import 'package:tryproject2/views/screens/map.dart';
-import 'package:tryproject2/views/screens/editProfile.dart';
-import 'package:tryproject2/views/screens/profileSettings.dart';
-import 'package:tryproject2/views/screens/another-user-profile.dart';
+import 'package:tryproject2/utils/routes/RouteGenerator.dart';
+import 'package:tryproject2/utils/routes/allScreens.dart';
 
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
@@ -41,22 +29,8 @@ class MyApp extends StatelessWidget {
           title: 'catcultura',
           theme: ThemeData(fontFamily: 'OpenSans'),
           initialRoute: "/login",
-          debugShowCheckedModeBanner: false,
-          routes: <String, WidgetBuilder>{
-            "/login": (BuildContext context) => const Login(),
-            "/home": (BuildContext context) => Home(),
-            "/profile":(BuildContext context) => const Profile(),
-            "/events":(BuildContext context) => Events(),
-            "/map":(BuildContext context) => Map(),
-            "/crear esdeveniment":(BuildContext context) => crearEsdeveniments(),
-          "/another-user-profile":(BuildContext context) => const AnotherProfile(),
-
-    "/createUser":(BuildContext context) => CreateUser(),
-    "/editProfile":(BuildContext context) => EditProfile(),
-    "/profileSettings":(BuildContext context) => ProfileSettings(),
-            //"/favorits":(BuildContext context) => Favorits(),
-            "/agenda":(BuildContext context) => Agenda(),
-          }),
+          onGenerateRoute: RouteGenerator.generateRoute,
+      ),
     );
   }
 }
