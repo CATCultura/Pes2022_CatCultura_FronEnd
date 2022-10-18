@@ -105,12 +105,38 @@ class MyDrawer extends Drawer {
             leading: const Icon(Icons.create, size: 28),
             title: const Text('Crear Esdeveniment', style: TextStyle(fontSize: 18)),
             onTap: () {
-              if (actualPage == "Crear Esdeveniment") {
+              if (actualPage == "CrearEsdeveniment") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/crear esdeveniment');
+                Navigator.pushReplacementNamed(context, '/crear-esdeveniment');
               }
             },
+          ),
+          ListTile(
+            horizontalTitleGap: 0,
+            leading: const Icon(Icons.star, size: 28),
+            title: const Text('Favorits', style: TextStyle(fontSize:18)),
+            onTap: (){
+              if(actualPage == "Favorits"){
+                Navigator.pop(context);
+          }
+              else{
+                Navigator.pushReplacementNamed(context, '/favorits');
+          }
+          }
+          ),
+          ListTile(
+              horizontalTitleGap: 0,
+              leading: const Icon(Icons.calendar_month, size: 28),
+              title: const Text('Agenda', style: TextStyle(fontSize:18)),
+              onTap: (){
+                if(actualPage == "Agenda"){
+                  Navigator.pop(context);
+                }
+                else{
+                  Navigator.pushReplacementNamed(context, '/agenda');
+                }
+              }
           ),
           ListTile(
             horizontalTitleGap: 0,
