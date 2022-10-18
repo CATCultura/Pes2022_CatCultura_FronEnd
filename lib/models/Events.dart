@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
-import 'package:tryproject2/models/Results.dart';
+import 'package:tryproject2/models/EventResult.dart';
 
 /*String get NomEvent => "Event d'Exemple ";
   DateFormat formatter = DateFormat('dd-MM-yyyy   H:mm');
@@ -18,22 +18,18 @@ import 'package:tryproject2/models/Results.dart';
 */
 
 class Events {
-  List<Results>? results;
+  List<EventResult>? results;
+
+  Events();
 
   Events.fromJson(Map<String, dynamic> json) {
-    debugPrint("pre loop: " + json.toString());
-    debugPrint("pre loop: (json['results']) " + json['results'].toString());
-    debugPrint("json.length = " + json.length.toString());
-    debugPrint("json['result'].length = " + json['results'].length.toString());
+
 
     //results = <Results>[];
     if (json['results'] != null) {
-      debugPrint("JSON.RESULTS IS NULL");
-      results = <Results>[];
+      results = <EventResult>[];
       json['results'].forEach((v) {
-
-        debugPrint("v =" + v.toString());
-        results!.add(Results.fromJson(v));
+        results!.add(EventResult.fromJson(v));
       });
     }
     /*for(int i = 0; i < json.length; ++i){

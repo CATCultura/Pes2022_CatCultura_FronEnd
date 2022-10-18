@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -6,12 +8,18 @@ import 'package:tryproject2/constants/theme.dart';
 import 'package:tryproject2/viewModels/EventsViewModel.dart';
 import 'package:tryproject2/views/widgets/eventContainer.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
-
+import 'package:tryproject2/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 
 class Events extends StatelessWidget {
   Events({super.key});
   final EventsViewModel viewModel = EventsViewModel();
+
+  void initState() {
+    debugPrint("here");
+    viewModel.fetchEventsListApi();
+    debugPrint("here2");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,10 @@ class Events extends StatelessWidget {
               actions: [
                 //NO FUNCIONA
                 IconButton(
-                  onPressed: () {viewModel.eventsList.status = Status.LOADING; viewModel.fetchEventsListApi();},
+                  onPressed: () {
+                    viewModel.eventsList.status = Status.LOADING;
+                    viewModel.fetchEventsListApi();
+                  },
                   icon: Icon(Icons.refresh),
                 ),
               ],
@@ -35,12 +46,93 @@ class Events extends StatelessWidget {
             drawer: const MyDrawer("Events",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 50, 0, 16),
-                child: EventContainer(viewModel: viewModel),
-              ),
+              child: eventsListSwitch(viewModel: viewModel),
             ),
           );
         }));
+  }
+}
+
+class eventsListSwitch extends StatefulWidget {
+  final EventsViewModel viewModel;
+
+  const eventsListSwitch({super.key, required this.viewModel});
+  @override
+  State<eventsListSwitch> createState() => eventsListSwitchState();
+}
+
+class eventsListSwitchState extends State<eventsListSwitch> {
+  late EventsViewModel viewModel = widget.viewModel;
+
+  void initState() {
+    debugPrint("hereSTATE");
+    viewModel.fetchEventsListApi();
+    viewModel.eventSelected.status = Status.LOADING;
+    debugPrint("hereSTATE2");
+  }
+
+  Widget _buildEventShort(int idx) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              "/eventUnic",
+                arguments: EventUnicArgs(viewModel, viewModel.eventsList.data!.results![idx].id!)
+            );
+          },
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black, width: 1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          title: Column(children: [
+            Text(viewModel.eventsList.data!.results![idx].denominacio!,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            const Padding(
+              padding: EdgeInsets.only(top: 5),
+            ),
+            Row(
+              children: [
+                const Icon(Icons.calendar_month),
+                Text(
+                    "${viewModel.eventsList.data!.results![idx].dataInici!}\n${viewModel.eventsList.data!.results![idx].dataFi!}"),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 5),
+            ),
+            Row(
+              children: [
+                const Icon(Icons.place),
+                Text(viewModel.eventsList.data!.results![idx].localitat!),
+              ],
+            ),
+          ])),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.eventsList.status) {
+      case Status.LOADING:
+        print("when eventsList is loading");
+        return const SizedBox(
+          child: Center(child: CircularProgressIndicator()),
+        );
+      case Status.ERROR:
+        return Text(viewModel.eventsList.toString());
+      case Status.COMPLETED:
+        //viewModel.eventSelected.status = Status.LOADING;
+        int numEvents = viewModel.eventsList.data!.results!.length;
+        return ListView.builder(
+            itemCount: numEvents,
+            itemBuilder: (BuildContext context, int i) {
+              return _buildEventShort(i);
+            });
+      default:
+        return const Text("asdfasdf");
+    }
   }
 }

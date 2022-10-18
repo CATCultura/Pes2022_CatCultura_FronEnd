@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tryproject2/utils/routes/allScreens.dart';
+import 'package:tryproject2/viewModels/EventsViewModel.dart';
 import 'package:tryproject2/views/widgets/myDrawer.dart';
+import 'package:tryproject2/utils/auxArgsObjects/argsRouting.dart';
+
 
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -30,6 +33,9 @@ class RouteGenerator{
       //   return MaterialPageRoute(builder:(_)=>Favorits());
       case '/agenda':
         return MaterialPageRoute(builder:(_)=>Agenda());
+      case '/eventUnic':
+        final argsEventUnic = settings.arguments as EventUnicArgs;
+        return MaterialPageRoute(builder:(_)=>EventUnic(viewModel: argsEventUnic.viewModel, eventId: argsEventUnic.eventId));
       default:
         return _errorRoute();
     }
