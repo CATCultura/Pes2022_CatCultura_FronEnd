@@ -89,7 +89,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                           style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.lightRed)),
                           child: const Text('Detalls event'),
                           onPressed: () {
-                            Navigator.popAndPushNamed(context, '/events'); // encara no es pot veure un event en concret
+                            Navigator.pushNamed(context, '/events'); // encara no es pot veure un event en concret
                           },
                         )
                     ),
