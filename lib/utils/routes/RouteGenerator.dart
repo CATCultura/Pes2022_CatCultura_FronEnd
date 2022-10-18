@@ -5,6 +5,7 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
 
+
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
@@ -36,6 +37,10 @@ class RouteGenerator{
       case '/eventUnic':
         final argsEventUnic = settings.arguments as EventUnicArgs;
         return MaterialPageRoute(builder:(_)=>EventUnic(viewModel: argsEventUnic.viewModel, eventId: argsEventUnic.eventId));
+      case '/modificar-Esdeveniment':
+        return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
+      case '/opcions-Esdeveniment':
+        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment());
       default:
         return _errorRoute();
     }

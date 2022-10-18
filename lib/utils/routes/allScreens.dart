@@ -11,4 +11,6 @@ export 'package:CatCultura/views/screens/login.dart';
 export 'package:CatCultura/views/screens/map.dart';
 export 'package:CatCultura/views/screens/profile.dart';
 export 'package:CatCultura/views/screens/profileSettings.dart';
+export 'package:CatCultura/views/screens/modificarEsdeveniment.dart';
+export 'package:CatCultura/views/screens/opcionsEsdeveniment.dart';
 
