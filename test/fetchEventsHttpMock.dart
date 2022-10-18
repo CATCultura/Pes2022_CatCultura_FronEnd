@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 //import 'package:mocking/main.dart';
-import 'package:tryproject2/data/network/networkApiServices.dart';
+import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tryproject2/models/Events.dart';
+import 'package:CatCultura/models/Events.dart';
 
 
 

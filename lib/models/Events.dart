@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
-import 'package:tryproject2/models/EventResult.dart';
+import 'package:CatCultura/models/EventResult.dart';
 
 /*String get NomEvent => "Event d'Exemple ";
   DateFormat formatter = DateFormat('dd-MM-yyyy   H:mm');

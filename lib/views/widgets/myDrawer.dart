@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'package:tryproject2/constants/theme.dart';
+import 'package:CatCultura/constants/theme.dart';
 
 class MyDrawer extends Drawer {
   const MyDrawer(this.actualPage,

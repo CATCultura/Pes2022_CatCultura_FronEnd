@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tryproject2/constants/theme.dart';
+import 'package:CatCultura/constants/theme.dart';
 
 class CardSquare extends StatelessWidget {
   const CardSquare(

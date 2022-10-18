@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 import '../widgets/search_locations.dart';
 

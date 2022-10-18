@@ -1,4 +1,4 @@
-import 'package:tryproject2/viewModels/EventsViewModel.dart';
+import 'package:CatCultura/viewModels/EventsViewModel.dart';
 
 class EventUnicArgs {
   final EventsViewModel viewModel;
