@@ -105,10 +105,10 @@ class MyDrawer extends Drawer {
             leading: const Icon(Icons.create, size: 28),
             title: const Text('Crear Esdeveniment', style: TextStyle(fontSize: 18)),
             onTap: () {
-              if (actualPage == "Crear Esdeveniment") {
+              if (actualPage == "CrearEsdeveniment") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/crear esdeveniment');
+                Navigator.pushReplacementNamed(context, '/crear-esdeveniment');
               }
             },
           ),
