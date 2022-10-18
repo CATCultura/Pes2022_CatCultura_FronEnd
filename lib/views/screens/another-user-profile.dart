@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
-import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 class AnotherProfile extends StatelessWidget {
   const AnotherProfile({super.key});

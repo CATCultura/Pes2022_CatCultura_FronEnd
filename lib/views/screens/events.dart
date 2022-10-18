@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/viewModels/EventsViewModel.dart';
-import 'package:tryproject2/views/widgets/eventContainer.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
-import 'package:tryproject2/utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:CatCultura/viewModels/EventsViewModel.dart';
+import 'package:CatCultura/views/widgets/eventContainer.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 
 class Events extends StatelessWidget {

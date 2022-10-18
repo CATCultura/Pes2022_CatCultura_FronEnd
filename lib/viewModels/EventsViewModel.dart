@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tryproject2/data/response/apiResponse.dart';
-import 'package:tryproject2/models/Events.dart';
-import 'package:tryproject2/repository/repository.dart';
+import 'package:CatCultura/data/response/apiResponse.dart';
+import 'package:CatCultura/models/Events.dart';
+import 'package:CatCultura/repository/repository.dart';
 
 class EventsViewModel with ChangeNotifier{
   final _eventsRepo = Repository();

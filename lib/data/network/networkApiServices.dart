@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:tryproject2/data/appExceptions.dart';
-import 'package:tryproject2/data/network/baseApiServices.dart';
+import 'package:CatCultura/data/appExceptions.dart';
+import 'package:CatCultura/data/network/baseApiServices.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

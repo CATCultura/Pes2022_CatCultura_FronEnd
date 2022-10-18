@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Map extends StatelessWidget {

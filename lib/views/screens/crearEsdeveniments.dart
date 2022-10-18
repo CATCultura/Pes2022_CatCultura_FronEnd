@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
-import 'package:tryproject2/views/widgets/attributes.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
+import 'package:CatCultura/views/widgets/attributes.dart';
 
 
 class crearEsdeveniments extends StatefulWidget {

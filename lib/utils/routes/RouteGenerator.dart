@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tryproject2/utils/routes/allScreens.dart';
-import 'package:tryproject2/viewModels/EventsViewModel.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
-import 'package:tryproject2/utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/utils/routes/allScreens.dart';
+import 'package:CatCultura/viewModels/EventsViewModel.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
 
 class RouteGenerator{

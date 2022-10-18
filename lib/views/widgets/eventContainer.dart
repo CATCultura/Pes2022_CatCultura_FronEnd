@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tryproject2/constants/theme.dart';
+import 'package:CatCultura/constants/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:tryproject2/data/response/apiResponse.dart';
-import 'package:tryproject2/viewModels/EventsViewModel.dart';
-import 'package:tryproject2/utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/data/response/apiResponse.dart';
+import 'package:CatCultura/viewModels/EventsViewModel.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
 //import 'package:tryproject2/constants/theme.dart';
 
