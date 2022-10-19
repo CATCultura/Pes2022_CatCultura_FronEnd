@@ -79,7 +79,7 @@ class eventsListSwitchState extends State<eventsListSwitch> {
             Navigator.pushNamed(
               context,
               "/eventUnic",
-                arguments: EventUnicArgs(viewModel, viewModel.eventsList.data!.results![idx].id!)
+                arguments: EventUnicArgs(viewModel, viewModel.eventsList.data![idx].id!)
             );
           },
           shape: RoundedRectangleBorder(
@@ -87,7 +87,7 @@ class eventsListSwitchState extends State<eventsListSwitch> {
             borderRadius: BorderRadius.circular(5),
           ),
           title: Column(children: [
-            Text(viewModel.eventsList.data!.results![idx].denominacio!,
+            Text(viewModel.eventsList.data![idx].denominacio!,
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             const Padding(
@@ -97,7 +97,7 @@ class eventsListSwitchState extends State<eventsListSwitch> {
               children: [
                 const Icon(Icons.calendar_month),
                 Text(
-                    "${viewModel.eventsList.data!.results![idx].dataInici!}\n${viewModel.eventsList.data!.results![idx].dataFi!}"),
+                    "${viewModel.eventsList.data![idx].dataInici!}\n${viewModel.eventsList.data![idx].dataFi!}"),
               ],
             ),
             const Padding(
@@ -106,7 +106,7 @@ class eventsListSwitchState extends State<eventsListSwitch> {
             Row(
               children: [
                 const Icon(Icons.place),
-                Text(viewModel.eventsList.data!.results![idx].localitat!),
+                Text(viewModel.eventsList.data![idx].localitat!),
               ],
             ),
           ])),
@@ -125,7 +125,7 @@ class eventsListSwitchState extends State<eventsListSwitch> {
         return Text(viewModel.eventsList.toString());
       case Status.COMPLETED:
         //viewModel.eventSelected.status = Status.LOADING;
-        int numEvents = viewModel.eventsList.data!.results!.length;
+        int numEvents = viewModel.eventsList.data!.length;
         return ListView.builder(
             itemCount: numEvents,
             itemBuilder: (BuildContext context, int i) {
