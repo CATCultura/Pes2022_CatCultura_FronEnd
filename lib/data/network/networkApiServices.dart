@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:CatCultura/data/appExceptions.dart';
 import 'package:CatCultura/data/network/baseApiServices.dart';
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -47,11 +48,11 @@ class NetworkApiServices extends BaseApiServices {
     switch (response.statusCode) {
       case 200:
         //dynamic responseJson = jsonDecode(response.body);
-      String aux;
-      if(response.body.toString()[0] == '[') aux = "{\"results\":" + response.body.toString() + "}";
-      else aux = "{\"results\":[" + response.body.toString() + "]}";
-        dynamic responseJson =jsonDecode(aux);
-        return responseJson;
+
+        final codeUnits = response.body.codeUnits;
+        String text = const Utf8Decoder().convert(codeUnits);
+        dynamic res = jsonDecode(text);
+        return res;
       case 400:
         throw BadRequestException(response.body.toString());
       case 404:

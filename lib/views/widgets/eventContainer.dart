@@ -133,7 +133,7 @@ class EventInfoShort extends StatelessWidget {
                             color: MyColorsPalette.red,
                           ),
                           const Padding(padding: EdgeInsets.only(left: 16)),
-                          getSizedText("${viewModel.eventSelected.data!.results![0].dataInici} \n${viewModel.eventSelected.data!.results![0].dataFi}"),
+                          getSizedText("${viewModel.eventSelected.data!.dataInici} \n${viewModel.eventSelected.data!.dataFi}"),
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(top: 16)),
@@ -144,7 +144,7 @@ class EventInfoShort extends StatelessWidget {
                             color: MyColorsPalette.red,
                           ),
                           const Padding(padding: EdgeInsets.only(left: 16)),
-                          getSizedText(viewModel.eventSelected.data!.results![0].denominacio!),
+                          getSizedText(viewModel.eventSelected.data!.denominacio!),
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(top: 16)),
@@ -155,7 +155,7 @@ class EventInfoShort extends StatelessWidget {
                             color: MyColorsPalette.red,
                           ),
                           const Padding(padding: EdgeInsets.only(left: 16)),
-                          getSizedText(viewModel.eventSelected.data!.results![0].comarcaIMunicipi!),
+                          getSizedText(viewModel.eventSelected.data!.comarcaIMunicipi!),
                         ],
                       ),
                     ],
@@ -168,7 +168,7 @@ class EventInfoShort extends StatelessWidget {
                 flex: 3,
                 child: SizedBox(
                   //height: 1,
-                    child: Image.network(viewModel.eventSelected.data!.results![0].imatges!)),
+                    child: Image.network(viewModel.eventSelected.data!.imatges!)),
               ),
             ],
           ),
@@ -254,7 +254,7 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  viewModel!.eventSelected.data!.results![0].denominacio!,
+                  viewModel!.eventSelected.data!.denominacio!,
                     overflow: TextOverflow.clip,
                   style: const TextStyle(color: MyColorsPalette.white,
                        fontWeight: FontWeight.bold, ),
@@ -270,15 +270,15 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
           children:[
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: SingleChildScrollView(child:Text(viewModel!.eventSelected.data!.results![0].descripcio!, textAlign: TextAlign.justify,style: TextStyle(fontSize: 20, ),),),
+              child: SingleChildScrollView(child:Text(viewModel!.eventSelected.data!.descripcio!, textAlign: TextAlign.justify,style: TextStyle(fontSize: 20, ),),),
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: Text("${viewModel!.eventSelected.data!.results![0].dataInici}\n${viewModel!.eventSelected.data!.results![0].dataFi}"),
+              child: Text("${viewModel!.eventSelected.data!.dataInici}\n${viewModel!.eventSelected.data!.dataFi}"),
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: Text("${viewModel!.eventSelected.data!.results![0].localitat!}\n${viewModel!.eventSelected.data!.results![0].comarcaIMunicipi!}"),
+              child: Text("${viewModel!.eventSelected.data!.localitat!}\n${viewModel!.eventSelected.data!.comarcaIMunicipi!}"),
             )
           ],
         ),
