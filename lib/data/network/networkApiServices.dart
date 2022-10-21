@@ -48,19 +48,10 @@ class NetworkApiServices extends BaseApiServices {
     switch (response.statusCode) {
       case 200:
         //dynamic responseJson = jsonDecode(response.body);
-      String aux;
-      final codeUnits = response.body.codeUnits;
-      String text = const Utf8Decoder().convert(codeUnits);
-      dynamic res;
-      if (text[0] == "[") {
-        List e = jsonDecode(text);
-        res = e.map((e) => EventResult.fromJson(e)).toList() as List<EventResult>;
-      }
-      else {
-        res = EventResult.fromJson(jsonDecode(text)) as EventResult;
-      }
 
-
+        final codeUnits = response.body.codeUnits;
+        String text = const Utf8Decoder().convert(codeUnits);
+        dynamic res = jsonDecode(text);
         return res;
       case 400:
         throw BadRequestException(response.body.toString());

@@ -33,7 +33,7 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                 style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.blue)),
                 child: const Text('Modificar Esdeveniment'),
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, '/modificar-Esdeveniment');
+                  Navigator.pushNamed(context, '/modificar-Esdeveniment');
                 },
               ),
             ),
@@ -68,7 +68,7 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                                 foregroundColor: Colors.red,
                               ),
                               onPressed: () {
-                                Navigator.popAndPushNamed(context, '/opcions-Esdeveniment');
+                                Navigator.pop(context);
                               }
                           ),
                         ]
@@ -108,7 +108,7 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                                 foregroundColor: Colors.red,
                               ),
                               onPressed: () {
-                                Navigator.popAndPushNamed(context, '/opcions-Esdeveniment');
+                                Navigator.pop(context);
                               }
                           ),
                         ]
