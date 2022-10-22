@@ -74,7 +74,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 selectedUser = finalResult!;
               });
               // ignore: use_build_context_synchronously
-              if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
+              if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
             },
               // onPressed: (){},
             ),
@@ -83,7 +83,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
       ),
     );
   }
-  final List <String> usersList = [
+  final List <String> usersList = [ //viewModel.usersList
     'Alejandro',
     'Manolo',
     'Pepe',
