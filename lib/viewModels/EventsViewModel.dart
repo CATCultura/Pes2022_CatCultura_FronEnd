@@ -2,13 +2,12 @@ import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/Events.dart';
-import 'package:CatCultura/repository/repository.dart';
+import 'package:CatCultura/repository/EventsRepository.dart';
 
 class EventsViewModel with ChangeNotifier{
-  final _eventsRepo = Repository();
+  final _eventsRepo = EventsRepository();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
-  ApiResponse<EventResult> eventSelected = ApiResponse.loading();
 
   int count = 0;
 
@@ -19,10 +18,7 @@ class EventsViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  setEventSelected(ApiResponse<EventResult> response){
-    eventSelected = response;
-    notifyListeners();
-  }
+
 
   Future<void> fetchEventsListApi() async {
       await _eventsRepo.getEvents().then((value) {
@@ -33,14 +29,9 @@ class EventsViewModel with ChangeNotifier{
       debugPrint(count.toString());
   }
 
-  Future<void> selectEventById(String id) async{
-    await _eventsRepo.getEventById(id).then((value){
-    setEventSelected(ApiResponse.completed(value));
-  }).onError((error, stackTrace) =>
-        setEventsList(ApiResponse.error(error.toString())));
-  }
-  @override
-  void dispose() {
-  }
+
+  // @override
+  // void dispose() {
+  // }
 
 }

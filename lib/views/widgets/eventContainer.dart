@@ -5,6 +5,9 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
+import '../../models/EventResult.dart';
+import '../../viewModels/EventUnicViewModel.dart';
+
 //import 'package:tryproject2/constants/theme.dart';
 
 //WIDGET EventContainet
@@ -12,18 +15,18 @@ class EventContainer extends StatefulWidget {
 
   //Aqui les variables
   String eventId;
-    //Declarem el viewModel que li arriba desde la pàgina que el crida
-  final EventsViewModel viewModel;
+    //Declarem el viewModel
+  final EventUnicViewModel viewModel = EventUnicViewModel();
 
   //La key (demanem required this.viewModel)
-  EventContainer({super.key, required this.eventId, required this.viewModel});
+  EventContainer({super.key, required this.eventId});
 
   @override
   State<EventContainer> createState() => _EventContainerState();
 }
 
 class _EventContainerState extends State<EventContainer> {
-  late EventsViewModel viewModel = widget.viewModel;
+  late EventUnicViewModel viewModel = widget.viewModel;
   late String eventId = widget.eventId;
 
   @override
@@ -57,7 +60,7 @@ class _EventContainerState extends State<EventContainer> {
                                   Expanded(
                                     //flex: 4,
                                     child:
-                                        EventInfoShort(viewModel: viewModel),
+                                        EventInfoShort(event: viewModel.eventSelected.data!),
                                   ),
                                   //const Padding(padding: EdgeInsets.only(left: 10.0)),
                                 ],
@@ -81,7 +84,7 @@ class _EventContainerState extends State<EventContainer> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(child: EventContainerPersonalizedTabs(viewModel: viewModel)),
+                                      Expanded(child: EventContainerPersonalizedTabs(event: viewModel.eventSelected.data!)),
                                     ],
                                   )),
                             ),
@@ -90,18 +93,17 @@ class _EventContainerState extends State<EventContainer> {
 
                 default:
                   return const Text("asdfasdf");
-              }
-
+       }
   }
 }
 
 class EventInfoShort extends StatelessWidget {
   const EventInfoShort({
     Key? key,
-    required this.viewModel,
+    required this.event,
   }) : super(key: key);
 
-  final EventsViewModel viewModel;
+  final EventResult event;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +135,7 @@ class EventInfoShort extends StatelessWidget {
                             color: MyColorsPalette.red,
                           ),
                           const Padding(padding: EdgeInsets.only(left: 16)),
-                          getSizedText("${viewModel.eventSelected.data!.dataInici} \n${viewModel.eventSelected.data!.dataFi}"),
+                          getSizedText("${event.dataInici} \n${event.dataFi}"),
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(top: 16)),
@@ -144,7 +146,7 @@ class EventInfoShort extends StatelessWidget {
                             color: MyColorsPalette.red,
                           ),
                           const Padding(padding: EdgeInsets.only(left: 16)),
-                          getSizedText(viewModel.eventSelected.data!.denominacio!),
+                          getSizedText(event.denominacio!),
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(top: 16)),
@@ -155,7 +157,7 @@ class EventInfoShort extends StatelessWidget {
                             color: MyColorsPalette.red,
                           ),
                           const Padding(padding: EdgeInsets.only(left: 16)),
-                          getSizedText(viewModel.eventSelected.data!.comarcaIMunicipi!),
+                          getSizedText(event.comarcaIMunicipi!),
                         ],
                       ),
                     ],
@@ -168,7 +170,7 @@ class EventInfoShort extends StatelessWidget {
                 flex: 3,
                 child: SizedBox(
                   //height: 1,
-                    child: Image.network(viewModel.eventSelected.data!.imatges!)),
+                    child: Image.network(event.imatges!)),
               ),
             ],
           ),
@@ -193,8 +195,8 @@ Widget getSizedText(String s) {
 }
 
 class EventContainerPersonalizedTabs extends StatefulWidget {
-  final EventsViewModel? viewModel;
-  const EventContainerPersonalizedTabs({super.key, this.viewModel});
+  final EventResult? event;
+  const EventContainerPersonalizedTabs({super.key, this.event});
 
   @override
   State<EventContainerPersonalizedTabs> createState() =>
@@ -202,7 +204,7 @@ class EventContainerPersonalizedTabs extends StatefulWidget {
 }
 
 class _EventContainerPersonalizedTabsState extends State<EventContainerPersonalizedTabs> {
-    late EventsViewModel? viewModel =  widget.viewModel;
+    late EventResult? event =  widget.event;
     bool Favorit = false;
     bool assistire = false;
 
@@ -254,7 +256,7 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  viewModel!.eventSelected.data!.denominacio!,
+                  event!.denominacio!,
                     overflow: TextOverflow.clip,
                   style: const TextStyle(color: MyColorsPalette.white,
                        fontWeight: FontWeight.bold, ),
@@ -270,15 +272,15 @@ class _EventContainerPersonalizedTabsState extends State<EventContainerPersonali
           children:[
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: SingleChildScrollView(child:Text(viewModel!.eventSelected.data!.descripcio!, textAlign: TextAlign.justify,style: TextStyle(fontSize: 20, ),),),
+              child: SingleChildScrollView(child:Text(event!.descripcio!, textAlign: TextAlign.justify,style: const TextStyle(fontSize: 20, ),),),
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: Text("${viewModel!.eventSelected.data!.dataInici}\n${viewModel!.eventSelected.data!.dataFi}"),
+              child: Text("${event!.dataInici}\n${event!.dataFi}"),
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: Text("${viewModel!.eventSelected.data!.localitat!}\n${viewModel!.eventSelected.data!.comarcaIMunicipi!}"),
+              child: Text("${event!.localitat!}\n${event!.comarcaIMunicipi!}"),
             )
           ],
         ),

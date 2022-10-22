@@ -5,17 +5,23 @@ import "package:http/http.dart" as http;
 import 'package:CatCultura/data/network/networkApiServices.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
-class Repository {
+class EventsRepository {
   final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
+
+  EventsRepository._privateConstructor();
+
+  static final EventsRepository _instance = EventsRepository._privateConstructor();
+
+  factory EventsRepository() {
+    return _instance;
+  }
+
   List<EventResult> _cachedEvents = [];
 
   Future<List<EventResult>> getEvents() async {
-    debugPrint("entro a repo.getEvents()");
     try {
-      debugPrint("before response = api.get");
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events");
-      debugPrint("after response = api.get");
 
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       _cachedEvents = res;
@@ -28,13 +34,29 @@ class Repository {
   }
 
   Future<EventResult> getEventById(String id) async {
-    try {
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id");
-      return EventResult.fromJson(response);
-    } catch (e) {
-      rethrow;
+    EventResult? cached = eventInCache(id);
+    if(cached.id!= null) {
+      debugPrint(cached.denominacio);
+      return cached;
+    }
+    else{
+      try {
+        dynamic response = await _apiServices.getGetApiResponse(
+            "${baseUrl}events/$id");
+        return EventResult.fromJson(response);
+      } catch (e) {
+        rethrow;
+      }
     }
   }
 
+  EventResult eventInCache(String id){
+    debugPrint("cached event");
+    EventResult result = EventResult();
+    for (var e in _cachedEvents) {
+      if(e.id == id) result = e;
+    }
+    return result;
+  }
 
 }

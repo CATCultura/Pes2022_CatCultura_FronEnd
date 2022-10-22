@@ -16,9 +16,7 @@ class Events extends StatelessWidget {
   final EventsViewModel viewModel = EventsViewModel();
 
   void initState() {
-    debugPrint("here");
     viewModel.fetchEventsListApi();
-    debugPrint("here2");
   }
 
   @override
@@ -65,10 +63,7 @@ class eventsListSwitchState extends State<eventsListSwitch> {
   late EventsViewModel viewModel = widget.viewModel;
 
   void initState() {
-    debugPrint("hereSTATE");
     viewModel.fetchEventsListApi();
-    viewModel.eventSelected.status = Status.LOADING;
-    debugPrint("hereSTATE2");
   }
 
   Widget _buildEventShort(int idx) {
@@ -76,10 +71,11 @@ class eventsListSwitchState extends State<eventsListSwitch> {
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
           onTap: () {
+            debugPrint("clicked event: ${viewModel.eventsList.data![idx].denominacio}");
             Navigator.pushNamed(
               context,
               "/eventUnic",
-                arguments: EventUnicArgs(viewModel, viewModel.eventsList.data![idx].id!)
+                arguments: EventUnicArgs(viewModel.eventsList.data![idx].id!)
             );
           },
           shape: RoundedRectangleBorder(
