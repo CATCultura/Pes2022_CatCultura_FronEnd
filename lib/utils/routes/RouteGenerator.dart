@@ -36,7 +36,7 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Agenda());
       case '/eventUnic':
         final argsEventUnic = settings.arguments as EventUnicArgs;
-        return MaterialPageRoute(builder:(_)=>EventUnic(viewModel: argsEventUnic.viewModel, eventId: argsEventUnic.eventId));
+        return MaterialPageRoute(builder:(_)=>EventUnic(eventId: argsEventUnic.eventId));
       case '/modificar-Esdeveniment':
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':

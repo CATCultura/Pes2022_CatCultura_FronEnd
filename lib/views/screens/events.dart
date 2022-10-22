@@ -1,28 +1,23 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
-import 'package:CatCultura/views/widgets/eventContainer.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
+import '../../models/EventResult.dart';
+import '../widgets/events/eventInfoTile.dart';
 
 class Events extends StatelessWidget {
   Events({super.key});
   final EventsViewModel viewModel = EventsViewModel();
 
-  void initState() {
-    debugPrint("here");
-    viewModel.fetchEventsListApi();
-    debugPrint("here2");
-  }
-
   @override
   Widget build(BuildContext context) {
+    viewModel.fetchEventsListApi();
     return ChangeNotifierProvider<EventsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventsViewModel>(builder: (context, value, _) {
@@ -31,10 +26,8 @@ class Events extends StatelessWidget {
               title: const Text("Events"),
               backgroundColor: MyColorsPalette.red,
               actions: [
-                //NO FUNCIONA
                 IconButton(
                   onPressed: () {
-                    viewModel.eventsList.status = Status.LOADING;
                     viewModel.fetchEventsListApi();
                   },
                   icon: Icon(Icons.refresh),
@@ -46,7 +39,11 @@ class Events extends StatelessWidget {
             drawer: const MyDrawer("Events",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Center(
-              child: eventsListSwitch(viewModel: viewModel),
+              child: viewModel.eventsList.status == Status.LOADING? const SizedBox(
+            child: Center(child: CircularProgressIndicator()),
+          ):
+                      viewModel.eventsList.status == Status.ERROR? Text(viewModel.eventsList.toString()):
+                      viewModel.eventsList.status == Status.COMPLETED? eventsListSwitch(events: viewModel.eventsList.data!) : const Text("asdfasdf"),
             ),
           );
         }));
@@ -54,85 +51,27 @@ class Events extends StatelessWidget {
 }
 
 class eventsListSwitch extends StatefulWidget {
-  final EventsViewModel viewModel;
+  final List<EventResult> events;
 
-  const eventsListSwitch({super.key, required this.viewModel});
+  const eventsListSwitch({super.key, required this.events});
   @override
   State<eventsListSwitch> createState() => eventsListSwitchState();
 }
 
 class eventsListSwitchState extends State<eventsListSwitch> {
-  late EventsViewModel viewModel = widget.viewModel;
-
-  void initState() {
-    debugPrint("hereSTATE");
-    viewModel.fetchEventsListApi();
-    viewModel.eventSelected.status = Status.LOADING;
-    debugPrint("hereSTATE2");
-  }
+  late List<EventResult> events = widget.events;
 
   Widget _buildEventShort(int idx) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              "/eventUnic",
-                arguments: EventUnicArgs(viewModel, viewModel.eventsList.data![idx].id!)
-            );
-          },
-          shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.black, width: 1),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          title: Column(children: [
-            Text(viewModel.eventsList.data![idx].denominacio!,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            const Padding(
-              padding: EdgeInsets.only(top: 5),
-            ),
-            Row(
-              children: [
-                const Icon(Icons.calendar_month),
-                Text(
-                    "${viewModel.eventsList.data![idx].dataInici!}\n${viewModel.eventsList.data![idx].dataFi!}"),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 5),
-            ),
-            Row(
-              children: [
-                const Icon(Icons.place),
-                Text(viewModel.eventsList.data![idx].localitat!),
-              ],
-            ),
-          ])),
-    );
+    return EventInfoTile(event: events[idx]);
   }
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.eventsList.status) {
-      case Status.LOADING:
-        print("when eventsList is loading");
-        return const SizedBox(
-          child: Center(child: CircularProgressIndicator()),
-        );
-      case Status.ERROR:
-        return Text(viewModel.eventsList.toString());
-      case Status.COMPLETED:
-        //viewModel.eventSelected.status = Status.LOADING;
-        int numEvents = viewModel.eventsList.data!.length;
         return ListView.builder(
-            itemCount: numEvents,
+            itemCount: events.length,
             itemBuilder: (BuildContext context, int i) {
               return _buildEventShort(i);
             });
-      default:
-        return const Text("asdfasdf");
+
     }
-  }
 }

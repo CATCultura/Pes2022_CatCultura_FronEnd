@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
-import 'package:CatCultura/views/widgets/cardSmall.dart';
-import 'package:CatCultura/views/widgets/CardSquare.dart';
-import 'package:CatCultura/views/widgets/cardHorizontal.dart';
+import 'package:CatCultura/views/widgets/cards/cardSmall.dart';
+import 'package:CatCultura/views/widgets/cards/CardSquare.dart';
+import 'package:CatCultura/views/widgets/cards/cardHorizontal.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 // import 'package:tryproject2/lib/widgets/navbar.dart';
