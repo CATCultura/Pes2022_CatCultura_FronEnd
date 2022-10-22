@@ -11,91 +11,91 @@ import '../../viewModels/EventUnicViewModel.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
 //WIDGET EventContainet
-class EventContainer extends StatefulWidget {
-
-  //Aqui les variables
-  String eventId;
-    //Declarem el viewModel
-  final EventUnicViewModel viewModel = EventUnicViewModel();
-
-  //La key (demanem required this.viewModel)
-  EventContainer({super.key, required this.eventId});
-
-  @override
-  State<EventContainer> createState() => _EventContainerState();
-}
-
-class _EventContainerState extends State<EventContainer> {
-  late EventUnicViewModel viewModel = widget.viewModel;
-  late String eventId = widget.eventId;
-
-  @override
-  void initState() {
-    viewModel.eventSelected.status = Status.LOADING;
-    viewModel.selectEventById(eventId);
-    print("iniStateEventContianer");
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-       switch (viewModel.eventSelected.status) {
-                case Status.LOADING:
-                  return SizedBox(
-                    height: height,
-                    child: const Center(child: CircularProgressIndicator()),
-                  );
-                case Status.ERROR:
-                  return Text(viewModel.eventSelected.toString());
-                case Status.COMPLETED:
-                  return  Column(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
-                              child: Row(
-                                children: [
-                                  //DATA-ESPAI-COMARCA
-                                  Expanded(
-                                    //flex: 4,
-                                    child:
-                                        EventInfoShort(event: viewModel.eventSelected.data!),
-                                  ),
-                                  //const Padding(padding: EdgeInsets.only(left: 10.0)),
-                                ],
-                              ),
-                            ),
-                            //const Padding(padding: EdgeInsets.only(top: 100.0)),
-                            Expanded(
-                              flex: 3,
-                              child:Container(
-                                  decoration: const BoxDecoration(
-                                    // border: Border(
-                                    //   top: BorderSide(
-                                    //     color: Colors.grey,
-                                    //     style: BorderStyle.solid,
-                                    //     width: 3,
-                                    //   ),
-                                    // ),
-                                  ),
-                                  //padding: const EdgeInsets.only(top:25.0),
-                                  //margin: const EdgeInsets.only(top: 50),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(child: EventContainerPersonalizedTabs(event: viewModel.eventSelected.data!)),
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        );
-
-                default:
-                  return const Text("asdfasdf");
-       }
-  }
-}
+// class EventContainer extends StatefulWidget {
+//
+//   //Aqui les variables
+//   String eventId;
+//     //Declarem el viewModel
+//   final EventUnicViewModel viewModel = EventUnicViewModel();
+//
+//   //La key (demanem required this.viewModel)
+//   EventContainer({super.key, required this.eventId});
+//
+//   @override
+//   State<EventContainer> createState() => _EventContainerState();
+// }
+//
+// class _EventContainerState extends State<EventContainer> {
+//   late EventUnicViewModel viewModel = widget.viewModel;
+//   late String eventId = widget.eventId;
+//
+//   @override
+//   void initState() {
+//     viewModel.eventSelected.status = Status.LOADING;
+//     viewModel.selectEventById(eventId);
+//     print("iniStateEventContianer");
+//     super.initState();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     double height = MediaQuery.of(context).size.height;
+//        switch (viewModel.eventSelected.status) {
+//                 case Status.LOADING:
+//                   return SizedBox(
+//                     height: height,
+//                     child: const Center(child: CircularProgressIndicator()),
+//                   );
+//                 case Status.ERROR:
+//                   return Text(viewModel.eventSelected.toString());
+//                 case Status.COMPLETED:
+//                   return  Column(
+//                           children: [
+//                             Expanded(
+//                               flex: 2,
+//                               //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
+//                               child: Row(
+//                                 children: [
+//                                   //DATA-ESPAI-COMARCA
+//                                   Expanded(
+//                                     //flex: 4,
+//                                     child:
+//                                         EventInfoShort(event: viewModel.eventSelected.data!),
+//                                   ),
+//                                   //const Padding(padding: EdgeInsets.only(left: 10.0)),
+//                                 ],
+//                               ),
+//                             ),
+//                             //const Padding(padding: EdgeInsets.only(top: 100.0)),
+//                             Expanded(
+//                               flex: 3,
+//                               child:Container(
+//                                   decoration: const BoxDecoration(
+//                                     // border: Border(
+//                                     //   top: BorderSide(
+//                                     //     color: Colors.grey,
+//                                     //     style: BorderStyle.solid,
+//                                     //     width: 3,
+//                                     //   ),
+//                                     // ),
+//                                   ),
+//                                   //padding: const EdgeInsets.only(top:25.0),
+//                                   //margin: const EdgeInsets.only(top: 50),
+//                                   child: Column(
+//                                     crossAxisAlignment: CrossAxisAlignment.start,
+//                                     children: [
+//                                       Expanded(child: EventContainerPersonalizedTabs(event: viewModel.eventSelected.data!)),
+//                                     ],
+//                                   )),
+//                             ),
+//                           ],
+//                         );
+//
+//                 default:
+//                   return const Text("asdfasdf");
+//        }
+//   }
+// }
 
 class EventInfoShort extends StatelessWidget {
   const EventInfoShort({
