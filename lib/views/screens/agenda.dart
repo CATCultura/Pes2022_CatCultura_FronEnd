@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:CatCultura/constants/theme.dart';
-import 'package:CatCultura/views/widgets/eventContainerAgenda.dart';
+import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 class Agenda extends StatelessWidget {

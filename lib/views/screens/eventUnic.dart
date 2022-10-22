@@ -4,10 +4,11 @@ import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
-import 'package:CatCultura/views/widgets/eventContainer.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 import '../../data/response/apiResponse.dart';
+import '../widgets/events/eventInfoShort.dart';
+import '../widgets/events/eventInfoTabs.dart';
 
 class EventUnic extends StatelessWidget {
   EventUnic({super.key, required this.eventId});
@@ -16,7 +17,7 @@ class EventUnic extends StatelessWidget {
 
   @override
   void initState() {
-    debugPrint("initializing state of EventUnic");
+    // debugPrint("initializing state of EventUnic");
     // viewModel.selectEventById(eventId);
   }
 
@@ -84,7 +85,7 @@ class EventUnic extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(child: EventContainerPersonalizedTabs(event: viewModel.eventSelected.data!)),
+                                      Expanded(child: EventInfoTabs(event: viewModel.eventSelected.data!)),
                                     ],
                                   )),
                             ),
@@ -97,57 +98,3 @@ class EventUnic extends StatelessWidget {
         }));
   }
 }
-/*switch (viewModel.eventSelected.status) {
-                case Status.LOADING:
-                  return SizedBox(
-                    height: height,
-                    child: const Center(child: CircularProgressIndicator()),
-                  );
-                case Status.ERROR:
-                  return Text(viewModel.eventSelected.toString());
-                case Status.COMPLETED:
-                  return  Column(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              //padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
-                              child: Row(
-                                children: [
-                                  //DATA-ESPAI-COMARCA
-                                  Expanded(
-                                    //flex: 4,
-                                    child:
-                                        EventInfoShort(event: viewModel.eventSelected.data!),
-                                  ),
-                                  //const Padding(padding: EdgeInsets.only(left: 10.0)),
-                                ],
-                              ),
-                            ),
-                            //const Padding(padding: EdgeInsets.only(top: 100.0)),
-                            Expanded(
-                              flex: 3,
-                              child:Container(
-                                  decoration: const BoxDecoration(
-                                    // border: Border(
-                                    //   top: BorderSide(
-                                    //     color: Colors.grey,
-                                    //     style: BorderStyle.solid,
-                                    //     width: 3,
-                                    //   ),
-                                    // ),
-                                  ),
-                                  //padding: const EdgeInsets.only(top:25.0),
-                                  //margin: const EdgeInsets.only(top: 50),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(child: EventContainerPersonalizedTabs(event: viewModel.eventSelected.data!)),
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        );
-
-                default:
-                  return const Text("asdfasdf");
-       }*/
