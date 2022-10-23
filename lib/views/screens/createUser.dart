@@ -57,14 +57,16 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                 'Fes-te un compte i comença a gaudir de la cultura del teu voltant',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.teal,
+                  fontSize: 20,
+                  color: Colors.deepOrangeAccent,
+                  letterSpacing: 2.2,
+                  fontWeight: FontWeight.bold
                 ),
               ),
             ),
 
             Container(
-              padding: const EdgeInsets.fromLTRB(50, 0, 50, 10),
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
               child: const TextField(
                 decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
@@ -77,7 +79,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: const TextField(
                 decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
@@ -90,7 +92,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: const TextField(
                 decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
@@ -103,7 +105,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: TextField(
                 obscureText: !showPassword,
                 controller: passwordController,
@@ -124,10 +126,10 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               ),
             ),
             Container(
-                height: 70,
-                padding: const EdgeInsets.fromLTRB(50, 30, 50, 0),
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                 child: ElevatedButton(
-                  style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.teal)),
+                  style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
                   child: const Text('Crea compte'),
                   onPressed: () {
                     Navigator.popAndPushNamed(context, '/login');
@@ -141,8 +143,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               child: const Text(
                 'Ja tinc compte',
                 style: TextStyle(
-                fontSize: 15,
-                color: Colors.teal,
+                color: Colors.deepOrangeAccent,
                 ),
               ),
             ),
