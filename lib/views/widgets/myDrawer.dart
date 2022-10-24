@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'package:tryproject2/constants/theme.dart';
+import 'package:CatCultura/constants/theme.dart';
 
 class MyDrawer extends Drawer {
   const MyDrawer(this.actualPage,
@@ -97,6 +97,18 @@ class MyDrawer extends Drawer {
                 Navigator.pop(context);
               } else {
                 Navigator.pushReplacementNamed(context, '/map');
+              }
+            },
+          ),
+          ListTile(
+            horizontalTitleGap: 0,
+            leading: const Icon(Icons.create, size: 28),
+            title: const Text('Crear Esdeveniment', style: TextStyle(fontSize: 18)),
+            onTap: () {
+              if (actualPage == "CrearEsdeveniment") {
+                Navigator.pop(context);
+              } else {
+                Navigator.pushReplacementNamed(context, '/crear-esdeveniment');
               }
             },
           ),

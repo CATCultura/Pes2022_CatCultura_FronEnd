@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tryproject2/views/screens/agenda.dart';
-import 'package:tryproject2/views/screens/favorits.dart';
+import 'package:CatCultura/utils/routes/RouteGenerator.dart';
+import 'package:CatCultura/utils/routes/allScreens.dart';
 
-import 'package:tryproject2/views/screens/home.dart';
-import 'package:tryproject2/views/screens/login.dart';
-import 'package:tryproject2/views/screens/profile.dart';
-import 'package:tryproject2/views/screens/events.dart';
-import 'package:tryproject2/views/screens/map.dart';
-
-//hola
+import 'dart:io';
+//import 'package:architecture_demos/res/app_theme.dart';
+//import 'package:architecture_demos/utils/routes/routes_name.dart';
+import 'package:CatCultura/viewModels/EventsViewModel.dart';
+import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+//import 'utils/routes/routes.dart';
 
 void main() {
   debugPaintSizeEnabled=false;
@@ -21,20 +21,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'catcultura',
-        theme: ThemeData(fontFamily: 'OpenSans'),
-        initialRoute: "/login",
-        debugShowCheckedModeBanner: false,
-        routes: <String, WidgetBuilder>{
-          "/login": (BuildContext context) => const Login(),
-          "/home": (BuildContext context) => Home(),
-          "/profile":(BuildContext context) => const Profile(),
-          "/events":(BuildContext context) => Events(),
-          "/map":(BuildContext context) => Map(),
-          "/favorits":(BuildContext context) => Favorits(),
-          "/agenda":(BuildContext context) => Agenda(),
-        });
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => EventsViewModel()),
+      ],
+      child: MaterialApp(
+          title: 'catcultura',
+          theme: ThemeData(fontFamily: 'OpenSans'),
+          initialRoute: "/login",
+          onGenerateRoute: RouteGenerator.generateRoute,
+      ),
+    );
   }
 }
 

@@ -1,8 +1,10 @@
-import 'dart:io';
+//import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:tryproject2/constants/theme.dart';
+
+import '../../constants/theme.dart';
+//import 'package:flutter/services.dart';
+//import 'package:tryproject2/constants/theme.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -94,7 +96,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    //signup screen
+                    Navigator.popAndPushNamed(context, '/createUser');
                   },
                 )
               ],

@@ -1,30 +1,19 @@
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/material.dart';
-import 'package:tryproject2/constants/theme.dart';
 
+import 'package:CatCultura/models/EventResult.dart';
+import 'package:flutter/material.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:CatCultura/viewModels/EventsViewModel.dart';
 //import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/viewModels/EventContainerViewModel.dart';
+import '../../../utils/auxArgsObjects/argsRouting.dart';
 
 class EventContainerAgenda extends StatelessWidget {
-  const EventContainerAgenda({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: StatefulEventContainerAgenda(),
-    );
-  }
-}
+  final EventResult event;
 
-class StatefulEventContainerAgenda extends StatefulWidget {
-  const StatefulEventContainerAgenda({super.key});
+  const EventContainerAgenda({super.key, required this.event});
 
-  @override
-  State<StatefulEventContainerAgenda> createState() => _StatefulEventContainerAgendaState();
-}
-
-class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAgenda> {
-  var viewModel = EventContainerViewModel();
-  bool _esFavorit = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,26 +21,14 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        //PARTE 1
-        /*Container(
-            height: 16,
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: ElevatedButton(
-              style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.lightRed)),
-              child: const Text('Filtrar'),
-              onPressed: () {
-                //no fa res de moment
-                },
-            )
-        ),*/
         Row(
-          children:[
-            const Padding(padding: EdgeInsets.only(left: 18)),
-            Text(
-                "${viewModel.dataInici} \n",
+            children:[
+              const Padding(padding: EdgeInsets.only(left: 18)),
+              Text(
+                "${event.dataInici!}\n${event.dataFi!}",
                 style: TextStyle(fontWeight: FontWeight.bold),),
 
-    ]
+            ]
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
@@ -67,7 +44,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                           color: MyColorsPalette.red,
                         ),
                         const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text("${viewModel.NomEvent} "),
+                        Text(event.denominacio!),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 16)),
@@ -78,7 +55,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                           color: MyColorsPalette.red,
                         ),
                         const Padding(padding: EdgeInsets.only(left: 16)),
-                        Text(viewModel.espai),
+                        Text(event.localitat!),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 16)),
@@ -89,19 +66,18 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
                           style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.lightRed)),
                           child: const Text('Detalls event'),
                           onPressed: () {
-                            Navigator.popAndPushNamed(context, '/events'); // encara no es pot veure un event en concret
+                            Navigator.pushNamed(
+                                context,
+                                "/eventUnic",
+                                //arguments: EventUnicArgs(event.id!)
+                            );
                           },
                         )
                     ),
                   ],
                 ),
               ),
-              //IMATGE
-              Expanded(
-                child: SizedBox(
-                  //height: 1,
-                    child: Image.network(viewModel.img)),
-              ),
+
             ],
           ),
         ),
@@ -122,7 +98,7 @@ class _StatefulEventContainerAgendaState extends State<StatefulEventContainerAge
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 ],
+                ],
               )),
         ),
       ],
