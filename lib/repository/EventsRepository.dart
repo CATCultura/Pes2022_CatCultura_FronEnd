@@ -1,7 +1,5 @@
-import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
-import "package:http/http.dart" as http;
 import 'package:CatCultura/data/network/networkApiServices.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 

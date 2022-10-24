@@ -57,7 +57,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 },
               ),
             ),
-            OutlinedButton.icon(
+          OutlinedButton.icon(
               icon: const Icon(Icons.search), label: const Text("Search users"),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.deepOrange,
