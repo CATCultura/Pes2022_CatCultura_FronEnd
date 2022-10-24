@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
-
 import '../widgets/search_locations.dart';
+import '../../data/response/apiResponse.dart';
+import '../../models/UserResult.dart';
+import 'package:CatCultura/viewModels/UsersViewModel.dart';
+import 'package:CatCultura/viewModels/AnotherUserViewModel.dart';
+
+
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -26,10 +32,12 @@ class StatefulProfile extends StatefulWidget {
 class _StatefulProfileState extends State<StatefulProfile>  {
 
   String selectedUser = '';
+  final UsersViewModel viewModel = UsersViewModel();
+  late List <String> usersList = [];
 
-  @override
+
   Widget build(BuildContext context) {
-
+    viewModel.fetchUsersListApi();
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -50,19 +58,33 @@ class _StatefulProfileState extends State<StatefulProfile>  {
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Colors.amberAccent)),
+                    MaterialStateProperty.all(Colors.amberAccent)),
                 child: const Text('Configuració'),
                 onPressed: () {
                   Navigator.popAndPushNamed(context, '/editProfile');
                 },
               ),
             ),
-            OutlinedButton.icon(
+            viewModel.usersList.status == Status.ERROR? const SizedBox(
+              child: Center(child: CircularProgressIndicator()),
+            ):
+            viewModel.usersList.status == Status.LOADING? Text(viewModel.usersList.toString()):
+            viewModel.usersList.status == Status.COMPLETED? OutlinedButton.icon(
+
               icon: const Icon(Icons.search), label: const Text("Search users"),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.deepOrange,
                 side: const BorderSide(color: Colors.orange),
               ), onPressed: () async{
+              print("holaa");
+              print ( viewModel.usersList.data!.length);
+
+              /*for (var i = 0; i < 3; i++) {
+                 usersList[i] = viewModel.usersList.data![i].nameAndSurname!;
+              }*/
+              print("hola 1");
+              for (var i = 0; i < 2; ++i) print (usersList.elementAt(0));
+              print ("hola 2");
               final finalResult = await showSearch(
                 context: context,
                 delegate: SearchLocations(
@@ -74,24 +96,44 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 selectedUser = finalResult!;
               });
               // ignore: use_build_context_synchronously
+              if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
               if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
             },
               // onPressed: (){},
-            ),
+            ): Text("res"),
           ],
         ),
       ),
     );
   }
-  final List <String> usersList = [ //viewModel.usersList
-    'Alejandro',
-    'Manolo',
-    'Pepe',
-    'Joanna',
-    'Adiosbuenosdias',
+/*
+  class usersListSwitch extends StatefulWidget {
+    final List<UserResult> users;
 
+    const usersListSwitch({super.key, required this.users});
+    @override
+    State<usersListSwitch> createState() => usersListSwitchState();
+  }
 
-  ];
+  class usersListSwitchState extends State<usersListSwitch> {
+    late List<UserResult> users = widget.users;
+
+    Widget _buildUserShort(int idx) {
+      return UserInfoTile(user: users[idx]);
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (BuildContext context, int i) {
+          return _buildUserShort(i);
+        });
+
+    }
+  }
+*/
+
 
   final List <String> usersSuggList = [
     'Alejandro',

@@ -23,7 +23,7 @@ class UserResult {
   });
 
   UserResult.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toint();
+    id = json['id'];
     username = json['id'].toString();
     nameAndSurname = json['id'].toString();
     email = json['id'].toString();
