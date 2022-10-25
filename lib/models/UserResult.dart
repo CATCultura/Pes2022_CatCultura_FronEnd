@@ -2,7 +2,7 @@ import 'dart:core';
 
 class UserResult {
   int ? id	= 0;
-  String ? username = "empty";
+  String ? username = "manolitoklk";
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
   /*

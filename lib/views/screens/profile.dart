@@ -38,6 +38,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
   Widget build(BuildContext context) {
     viewModel.fetchUsersListApi();
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -65,40 +66,54 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 },
               ),
             ),
+
             viewModel.usersList.status == Status.ERROR? const SizedBox(
               child: Center(child: CircularProgressIndicator()),
             ):
             viewModel.usersList.status == Status.LOADING? Text(viewModel.usersList.toString()):
-            viewModel.usersList.status == Status.COMPLETED? OutlinedButton.icon(
+            viewModel.usersList.status == Status.COMPLETED? Container(
+              height: 40,
+              padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all(Colors.amberAccent)),
+                  child: const Text ('Buscar Usuaris'),
+                  onPressed: ()async{
 
-              icon: const Icon(Icons.search), label: const Text("Search users"),
+                      print("holaa");
+                      print ( viewModel.usersList.data!.length);
+
+                      /*for (var i = 0; i < 3; i++) {
+                 usersList[i] = viewModel.usersList.data![i].username!;
+              }*/
+                      usersList[0] = viewModel.usersList.data![0].username!;
+
+                      print("hola 1");
+                      //for (var i = 0; i < 2; ++i) print (usersList.elementAt(0));
+                      print ("hola 2");
+                      final finalResult = await showSearch(
+                        context: context,
+                        delegate: SearchLocations(
+                          allUsers: usersList,
+                          allUsersSuggestion: usersSuggList,
+                        ),
+                      );
+                      setState((){
+                        selectedUser = finalResult!;
+                      });
+                      // ignore: use_build_context_synchronously
+                      if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
+                      if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
+                    },
+
+                ),
+              /*icon: const Icon(Icons.search), label: const Text("Search users"),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.deepOrange,
                 side: const BorderSide(color: Colors.orange),
-              ), onPressed: () async{
-              print("holaa");
-              print ( viewModel.usersList.data!.length);
+              ),*/
 
-              /*for (var i = 0; i < 3; i++) {
-                 usersList[i] = viewModel.usersList.data![i].nameAndSurname!;
-              }*/
-              print("hola 1");
-              for (var i = 0; i < 2; ++i) print (usersList.elementAt(0));
-              print ("hola 2");
-              final finalResult = await showSearch(
-                context: context,
-                delegate: SearchLocations(
-                  allUsers: usersList,
-                  allUsersSuggestion: usersSuggList,
-                ),
-              );
-              setState((){
-                selectedUser = finalResult!;
-              });
-              // ignore: use_build_context_synchronously
-              if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
-              if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
-            },
               // onPressed: (){},
             ): Text("res"),
           ],

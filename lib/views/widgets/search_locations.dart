@@ -39,7 +39,7 @@ class SearchLocations extends SearchDelegate<String>{
     ).toList();
     return ListView.builder(
       itemCount: usersList.length,
-      itemBuilder: (contexy, index) => ListTile(
+      itemBuilder: (context, index) => ListTile(
           title: Text(usersList[index]),
         onTap: (){
           query = usersList[index];
