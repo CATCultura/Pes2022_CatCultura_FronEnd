@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../widgets/search_locations.dart';
@@ -34,91 +35,93 @@ class _StatefulProfileState extends State<StatefulProfile>  {
   String selectedUser = '';
   final UsersViewModel viewModel = UsersViewModel();
   late List <String> usersList = [];
+  late List <String> usersSuggList = [];
 
 
   Widget build(BuildContext context) {
     viewModel.fetchUsersListApi();
-
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        title: const Text("My Profile"),
-        backgroundColor: MyColorsPalette.lightBlue,
-      ),
-      backgroundColor: MyColors.bgColorScreen,
-      // key: _scaffoldKey,
-      drawer: const MyDrawer("Profile",
-          username: "Superjuane", email: "juaneolivan@gmail.com"),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 40,
-              padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Colors.amberAccent)),
-                child: const Text('Configuració'),
-                onPressed: () {
-                  Navigator.popAndPushNamed(context, '/editProfile');
-                },
-              ),
-            ),
-
-            viewModel.usersList.status == Status.ERROR? const SizedBox(
-              child: Center(child: CircularProgressIndicator()),
-            ):
-            viewModel.usersList.status == Status.LOADING? Text(viewModel.usersList.toString()):
-            viewModel.usersList.status == Status.COMPLETED? Container(
-              height: 40,
-              padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all(Colors.amberAccent)),
-                  child: const Text ('Buscar Usuaris'),
-                  onPressed: ()async{
-
-                      print("holaa");
-                      print ( viewModel.usersList.data!.length);
-
-                      /*for (var i = 0; i < 3; i++) {
-                 usersList[i] = viewModel.usersList.data![i].username!;
-              }*/
-                      usersList[0] = viewModel.usersList.data![0].username!;
-
-                      print("hola 1");
-                      //for (var i = 0; i < 2; ++i) print (usersList.elementAt(0));
-                      print ("hola 2");
-                      final finalResult = await showSearch(
-                        context: context,
-                        delegate: SearchLocations(
-                          allUsers: usersList,
-                          allUsersSuggestion: usersSuggList,
-                        ),
-                      );
-                      setState((){
-                        selectedUser = finalResult!;
-                      });
-                      // ignore: use_build_context_synchronously
-                      if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
-                      if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
+    return ChangeNotifierProvider<UsersViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<UsersViewModel>(builder: (context, value, _) {
+         return Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 70,
+            title: const Text("My Profile"),
+            backgroundColor: MyColorsPalette.lightBlue,
+          ),
+          backgroundColor: MyColors.bgColorScreen,
+          // key: _scaffoldKey,
+          drawer: const MyDrawer("Profile",
+              username: "Superjuane", email: "juaneolivan@gmail.com"),
+          body: Container(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 40,
+                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Colors.amberAccent)),
+                    child: const Text('Configuració'),
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, '/editProfile');
                     },
-
+                  ),
                 ),
-              /*icon: const Icon(Icons.search), label: const Text("Search users"),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.deepOrange,
-                side: const BorderSide(color: Colors.orange),
-              ),*/
 
-              // onPressed: (){},
-            ): Text("res"),
-          ],
-        ),
-      ),
+
+                viewModel.usersList.status == Status.LOADING? const SizedBox(
+                  child: Center(child: CircularProgressIndicator()),
+                ):
+                viewModel.usersList.status == Status.ERROR? Text(viewModel.usersList.toString()):
+                viewModel.usersList.status == Status.COMPLETED? Container(
+                  height: 40,
+                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.amberAccent)),
+                      child: const Text ('Buscar Usuaris'),
+                      onPressed: ()async{
+
+                          for (var i = 0; i < 20; i++) {
+                            usersList.add(viewModel.usersList.data![i].username!);
+                            usersSuggList.add(viewModel.usersList.data![i].username!);
+                          }
+                          //usersList[0] = viewModel.usersList.data![0].username!;
+
+                          final finalResult = await showSearch(
+                            context: context,
+                            delegate: SearchLocations(
+                              allUsers: usersList,
+                              allUsersSuggestion: usersSuggList,
+                            ),
+                          );
+                          setState((){
+                            selectedUser = finalResult!;
+                          });
+                          // ignore: use_build_context_synchronously
+                          if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
+                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
+                        },
+
+                    ),
+                  /*icon: const Icon(Icons.search), label: const Text("Search users"),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.deepOrange,
+                    side: const BorderSide(color: Colors.orange),
+                  ),*/
+
+                  // onPressed: (){},
+                ): Text("res"),
+              ],
+            ),
+          ),
+        );
+          }
+        )
     );
   }
 /*
@@ -148,7 +151,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
     }
   }
 */
-
+/*
 
   final List <String> usersSuggList = [
     'Alejandro',
@@ -157,7 +160,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
     'Joanna',
     'Adiosbuenosdias',
   ];
-
+*/
 
 }
 

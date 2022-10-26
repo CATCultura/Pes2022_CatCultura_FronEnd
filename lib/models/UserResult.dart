@@ -24,9 +24,9 @@ class UserResult {
 
   UserResult.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    username = json['id'].toString();
-    nameAndSurname = json['id'].toString();
-    email = json['id'].toString();
+    username = json['username'].toString();
+    nameAndSurname = json['nameAndSurname'].toString();
+    email = json['email'].toString();
   }
 /*
   Map<String, dynamic> toJson() {
