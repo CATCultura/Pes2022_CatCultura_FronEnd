@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:like_button/like_button.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 class AnotherProfile extends StatelessWidget {
-  const AnotherProfile({super.key});
+  AnotherProfile({super.key, required this.selectedUser});
+  String selectedUser;
   final double coverHeight = 280;
   final double profileHeight = 144;
+
+  @override
+  void initState() {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +32,16 @@ class AnotherProfile extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           buildTop(),
+          SizedBox(height: 18),
+          Row (
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget> [
+              Text(
+                selectedUser,
+                style: TextStyle(fontSize: 28, color: Colors.teal),
+              ),
+            ]
+          ),
           buildContent(),
           SizedBox(height: 32),
           Row (
@@ -66,12 +84,8 @@ class AnotherProfile extends StatelessWidget {
   }
 
   Widget buildContent() => Column(
-    children: const [
-      SizedBox(height: 18),
-      Text(
-        'Alejandro',
-        style: TextStyle(fontSize: 28, color: Colors.teal),
-      ),
+      children: const [
+
       SizedBox(height: 12),
       Text (
         'Usuari de CATCultura',

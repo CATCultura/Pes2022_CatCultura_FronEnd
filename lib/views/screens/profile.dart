@@ -100,11 +100,15 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             ),
                           );
                           setState((){
-                            selectedUser = finalResult!;
+                            var pos = 0;
+                            for (var i = 0; i < usersList.length; i++){
+                              if (usersList[i] == finalResult!) pos = i;
+                            }
+                            selectedUser = viewModel.usersList.data![pos].nameAndSurname!;
                           });
                           // ignore: use_build_context_synchronously
-                          if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
-                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile');
+                          //if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
+                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: selectedUser);
                         },
 
                     ),
