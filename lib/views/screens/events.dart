@@ -46,7 +46,9 @@ class Events extends StatelessWidget {
                       viewModel.eventsList.status == Status.COMPLETED? eventsListSwitch(events: viewModel.eventsList.data!) : const Text("asdfasdf"),
             ),
           );
-        }));
+        }
+        )
+    );
   }
 }
 

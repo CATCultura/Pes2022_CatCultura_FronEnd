@@ -24,6 +24,7 @@ class EventsRepository {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events");
 
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      debugPrint("print del repositori"+res[0].toString());
       _cachedEvents = res;
 
       return res;
