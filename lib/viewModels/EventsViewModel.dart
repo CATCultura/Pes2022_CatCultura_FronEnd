@@ -16,11 +16,16 @@ class EventsViewModel with ChangeNotifier{
  }
 
   setEventsList(ApiResponse<List<EventResult>> response){
-    print("before eventlist = response (with exit)");
+    debugPrint("before eventlist = response (with exit)");
+    notifyListeners();
     eventsList = response;
-    for (int e = 0; e < 4; ++e) {
-      suggestions.add(eventsList.data![e].id!);
-    }
+    debugPrint("------------list of eventList-------------");
+    for(EventResult e in eventsList.data!) debugPrint(e.denominacio!);
+    // suggestions = [];
+    // int suggestLength = 1;// = eventsList.data!.length%10;
+    // for (int e = 0; e < suggestLength; ++e) {
+    //   suggestions.add(eventsList.data![e].id!);
+    // }
     notifyListeners();
   }
 
@@ -33,6 +38,16 @@ class EventsViewModel with ChangeNotifier{
         setEventsList(ApiResponse.error(error.toString())));
       count++;
       debugPrint("EvViewModel. times accesed fetchEvents: $count");
+  }
+
+  Future<void> redrawWithFilter(String filter) async{
+    await _eventsRepo.getEventsWithFilter(filter).then((value) {
+      debugPrint("---------------LIST WITH FILTER---------------------");
+      for(EventResult e in value) debugPrint("  -${e.denominacio!}");
+      setEventsList(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setEventsList(ApiResponse.error(error.toString())));
+    debugPrint("EvViewModel, accesed from filter redraw");
   }
 
 

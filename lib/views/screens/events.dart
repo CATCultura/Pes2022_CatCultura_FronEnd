@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
@@ -18,7 +19,8 @@ class Events extends StatelessWidget {
   var searchResult;
 
   void iniState() {
-    viewModel.fetchEventsListApi();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {viewModel.fetchEventsListApi();});
+    //viewModel.fetchEventsListApi();
     //viewModel.save10Suggestions();
   }
 
@@ -33,15 +35,23 @@ class Events extends StatelessWidget {
               title: ElevatedButton(
                 child: Text("BUTON"),
                 onPressed: () async {
-                  final finalResult = await showSearch(
+                  final searchQueryResult = await showSearch(
                     context: context,
                     delegate: SearchEvents(
                       suggestedEvents: viewModel.suggestions,
                     ),
                   );
                   // ignore: use_build_context_synchronously
-                  if (finalResult != '') debugPrint(finalResult);
-                  //Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(finalResult!));
+                  if (viewModel.suggestions.contains(searchQueryResult)) {
+                    debugPrint(searchQueryResult);
+                    Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(searchQueryResult!));
+                  }
+                  else if (searchQueryResult != null && searchQueryResult != ''){
+                    debugPrint(searchQueryResult);
+                    viewModel.refresh();
+                    viewModel.redrawWithFilter(searchQueryResult);
+                    //Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(finalResult!));
+                  }
                 },
               ),
               backgroundColor: MyColorsPalette.red,
@@ -67,7 +77,11 @@ class Events extends StatelessWidget {
                   : viewModel.eventsList.status == Status.ERROR
                       ? Text(viewModel.eventsList.toString())
                       : viewModel.eventsList.status == Status.COMPLETED
-                          ? EventsListSwitch(events: viewModel.eventsList.data!)
+                          ? ListView.builder(
+                  itemCount: viewModel.eventsList.data!.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    return EventInfoTile(event:  viewModel.eventsList.data![i]);
+                  })//EventsListSwitch(events: viewModel.eventsList.data!)
                           : const Text("asdfasdf"),
             ),
           );
