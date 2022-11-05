@@ -132,7 +132,9 @@ class Events extends StatelessWidget {
                   : const Text("asdfasdf"),
             ),
           );
-        }));
+        }
+        )
+    );
   }
 }
 
