@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:CatCultura/utils/routes/RouteGenerator.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
@@ -21,6 +22,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => EventsViewModel()),
