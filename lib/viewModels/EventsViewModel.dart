@@ -17,7 +17,7 @@ class EventsViewModel with ChangeNotifier{
 
   setEventsList(ApiResponse<List<EventResult>> response){
     debugPrint("before eventlist = response (with exit)");
-    notifyListeners();
+    //notifyListeners();
     eventsList = response;
     debugPrint("------------list of eventList-------------");
     for(EventResult e in eventsList.data!) debugPrint(e.denominacio!);

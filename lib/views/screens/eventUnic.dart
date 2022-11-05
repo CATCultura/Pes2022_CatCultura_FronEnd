@@ -23,7 +23,7 @@ class EventUnic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("building EventUnic");
+    debugPrint("building EventUnic with ID: $eventId");
     viewModel.selectEventById(eventId);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
