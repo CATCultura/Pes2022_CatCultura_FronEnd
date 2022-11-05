@@ -12,14 +12,15 @@ import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 import '../widgets/events/eventInfoTile.dart';
 
-
 class Events extends StatelessWidget {
   Events({super.key});
   final EventsViewModel viewModel = EventsViewModel();
   var searchResult;
 
   void iniState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {viewModel.fetchEventsListApi();});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.fetchEventsListApi();
+    });
     //viewModel.fetchEventsListApi();
     //viewModel.save10Suggestions();
   }
@@ -32,27 +33,73 @@ class Events extends StatelessWidget {
         child: Consumer<EventsViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title: ElevatedButton(
-                child: Text("BUTON"),
-                onPressed: () async {
-                  final searchQueryResult = await showSearch(
-                    context: context,
-                    delegate: SearchEvents(
-                      suggestedEvents: viewModel.suggestions,
+              title: GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.red.shade900,
+                      width: 1.0,
                     ),
-                  );
-                  // ignore: use_build_context_synchronously
-                  if (viewModel.suggestions.contains(searchQueryResult)) {
-                    debugPrint(searchQueryResult);
-                    Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(searchQueryResult!));
+                    borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.search),
+                        Padding(padding: EdgeInsets.only(left:8.0),),
+                        Expanded(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                                bottomLeft: Radius.circular(5),
+                                bottomRight: Radius.circular(5),
+                              ),
+                            ),
+                            height: AppBar().preferredSize.height/2,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:8.0, top: 5, bottom: 5, right: 5),
+                                child: const Text("Search by name...", style: TextStyle(color: Color.fromRGBO(105,105,105, 0.6),fontStyle: FontStyle.italic),),
+                              ),
+                            ),
+                          ),
+                        )
+                        // Container(
+                        //   width: double.infinity,
+                        //   color: Colors.blue,
+                        // ),
+                        // Container(
+                        //   decoration: BoxDecoration(color: Colors.blue,),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+                  onTap: () async {
+                    final searchQueryResult = await showSearch(
+                      context: context,
+                      delegate: SearchEvents(
+                        suggestedEvents: viewModel.suggestions,
+                      ),
+                    );
+                    // ignore: use_build_context_synchronously
+                    if (viewModel.suggestions.contains(searchQueryResult)) {
+                      debugPrint(searchQueryResult);
+                      Navigator.pushNamed(context, '/eventUnic',
+                          arguments: EventUnicArgs(searchQueryResult!));
+                    } else if (searchQueryResult != null &&
+                        searchQueryResult != '') {
+                      debugPrint(searchQueryResult);
+                      viewModel.refresh();
+                      viewModel.redrawWithFilter(searchQueryResult);
+                      //Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(finalResult!));
+                    }
                   }
-                  else if (searchQueryResult != null && searchQueryResult != ''){
-                    debugPrint(searchQueryResult);
-                    viewModel.refresh();
-                    viewModel.redrawWithFilter(searchQueryResult);
-                    //Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(finalResult!));
-                  }
-                },
               ),
               backgroundColor: MyColorsPalette.red,
               actions: [
@@ -74,15 +121,15 @@ class Events extends StatelessWidget {
                   ? const SizedBox(
                       child: Center(child: CircularProgressIndicator()),
                     )
-                  : viewModel.eventsList.status == Status.ERROR
-                      ? Text(viewModel.eventsList.toString())
-                      : viewModel.eventsList.status == Status.COMPLETED
-                          ? ListView.builder(
-                  itemCount: viewModel.eventsList.data!.length,
-                  itemBuilder: (BuildContext context, int i) {
-                    return EventInfoTile(event:  viewModel.eventsList.data![i]);
-                  })//EventsListSwitch(events: viewModel.eventsList.data!)
-                          : const Text("asdfasdf"),
+                  : viewModel.eventsList.status == Status.ERROR ? Text(viewModel.eventsList.toString())
+                  : viewModel.eventsList.status == Status.COMPLETED ? ListView.builder(
+                              itemCount: viewModel.eventsList.data!.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                return EventInfoTile(
+                                    event: viewModel.eventsList.data![i]);
+                              })
+                          //EventsListSwitch(events: viewModel.eventsList.data!)
+                  : const Text("asdfasdf"),
             ),
           );
         }));
