@@ -66,7 +66,7 @@ class EventResult {
     dataFiAprox = json['dataFiAprox'];
     descripcio = json['descripcio'];
     if(json['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(json['comarcaIMunicipi']);
-    else comarcaIMunicipi = json['comarcaIMunicipi'];
+    else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
     latitud = json['latitud'];
     longitud = json['longitud'];
   }

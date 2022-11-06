@@ -8,33 +8,32 @@ import '../models/Place.dart';
 
 class MapViewModel with ChangeNotifier{
   final _eventsRepo = EventsRepository();
-  ApiResponse<List<Place>> items = ApiResponse.completed([
-    for (int i = 0; i < 10; i++)
-      Place(
-        // name: 'Place $i',
-        // latLng: LatLng(48.848200 + i * 0.001, 2.319124 + i * 0.001),
-        event: EventResult(latitud: 48.848200 + i * 0.001 , longitud: 2.319124 + i * 0.001),
-        color: Colors.green,
+  ApiResponse<List<Place>> eventsList = ApiResponse.loading();//= ApiResponse.completed([
+  //   for (int i = 0; i < 10; i++)
+  //     Place(
+  //       // name: 'Place $i',
+  //       // latLng: LatLng(48.848200 + i * 0.001, 2.319124 + i * 0.001),
+  //       event: EventResult(latitud: 48.848200 + i * 0.001 , longitud: 2.319124 + i * 0.001),
+  //       color: Colors.green,
+  //
+  //     ),
+  //   for (int i = 0; i < 10; i++)
+  //     Place(
+  //       // name: 'Restaurant $i',
+  //       // latLng: LatLng(48.858265 - i * 0.001, 2.350107 + i * 0.001),
+  //       event: EventResult(latitud: 48.858265 - i * 0.001 , longitud: 2.350107 + i * 0.001),
+  //       color: Colors.green,
+  //
+  //     ),
+  //   for (int i = 0; i < 10; i++)
+  //     Place(
+  //       // name: 'Bar $i',
+  //       // latLng: LatLng(48.858265 + i * 0.01, 2.350107 - i * 0.01),
+  //       event: EventResult(latitud: 48.858265 + i * 0.01 , longitud: 2.350107 - i * 0.01),
+  //         color: Colors.green,
+  //     ),
+  // ]);
 
-      ),
-    for (int i = 0; i < 10; i++)
-      Place(
-        // name: 'Restaurant $i',
-        // latLng: LatLng(48.858265 - i * 0.001, 2.350107 + i * 0.001),
-        event: EventResult(latitud: 48.858265 - i * 0.001 , longitud: 2.350107 + i * 0.001),
-        color: Colors.green,
-
-      ),
-    for (int i = 0; i < 10; i++)
-      Place(
-        // name: 'Bar $i',
-        // latLng: LatLng(48.858265 + i * 0.01, 2.350107 - i * 0.01),
-        event: EventResult(latitud: 48.858265 + i * 0.01 , longitud: 2.350107 - i * 0.01),
-          color: Colors.green,
-      ),
-  ]);
-
-  ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
 
   void refresh(){
     eventsList.status = Status.LOADING;
@@ -46,10 +45,10 @@ class MapViewModel with ChangeNotifier{
     //notifyListeners();
     List<Place> aux = [];
     response.data!.forEach((e) {aux.add(Place(event: e, color: Colors.blue)); });
-    items = ApiResponse.completed(aux);
+    eventsList = ApiResponse.completed(aux);
     //eventsList = response;
     debugPrint("------------list of eventList-------------");
-    for(EventResult e in eventsList.data!) debugPrint(e.denominacio!);
+    for(Place p in eventsList.data!) debugPrint(p.event.denominacio!);
     // suggestions = [];
     // int suggestLength = 1;// = eventsList.data!.length%10;
     // for (int e = 0; e < suggestLength; ++e) {
