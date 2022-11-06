@@ -27,9 +27,9 @@ class EventResult {
   String? codiPostal = "";
   String? comarcaIMunicipi = "comarca/municipi: no info";
   String? email = "";
-  String? latitud = "";
+  double? latitud = 0.0;
   String? localitat = "localitat: no info";
-  String? longitud = "";
+  double? longitud = 0.0;
 
 
   EventResult({
@@ -66,8 +66,9 @@ class EventResult {
     dataFiAprox = json['dataFiAprox'];
     descripcio = json['descripcio'];
     if(json['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(json['comarcaIMunicipi']);
-    else comarcaIMunicipi = json['comarcaIMunicipi'];
-    debugPrint("comarcaIMunicipi és: $comarcaIMunicipi");
+    else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
+    latitud = json['latitud'];
+    longitud = json['longitud'];
   }
 
   Map<String, dynamic> toJson() {
