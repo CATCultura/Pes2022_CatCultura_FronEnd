@@ -55,6 +55,21 @@ class EventsRepository {
     // }
   }
 
+  Future<List<EventResult>> getEventsWithParameters(int? page, int? size, String? sort) async {
+    //events?page=0&size=2&sort=string
+    page ??= 0;
+    size ??= 20;
+    //sort ??= "string";
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=$page&size=$size"); //no va --> &sort=$sort
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
   Future<EventResult> getEventById(String id) async {
     EventResult? cached = eventInCache(id);
