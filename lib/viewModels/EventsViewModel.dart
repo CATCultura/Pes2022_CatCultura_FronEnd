@@ -2,14 +2,14 @@ import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/Events.dart';
-import 'package:CatCultura/repository/repository.dart';
+import 'package:CatCultura/repository/EventsRepository.dart';
 
 class EventsViewModel with ChangeNotifier{
-  final _eventsRepo = Repository();
+  final _eventsRepo = EventsRepository();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
-  ApiResponse<List<EventResult>> assistanceList = ApiResponse.loading();
+  ApiResponse<List<EventResult>> attendanceList = ApiResponse.loading();
   ApiResponse<List<EventResult>> favouritesList = ApiResponse.loading();
 
   int count = 0;
@@ -21,10 +21,7 @@ class EventsViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  setEventSelected(ApiResponse<EventResult> response){
-    eventSelected = response;
-    notifyListeners();
-  }
+
 
   Future<void> fetchEventsListApi() async {
       await _eventsRepo.getEvents().then((value) {
@@ -36,26 +33,23 @@ class EventsViewModel with ChangeNotifier{
   }
 
 
-  Future<void> selectEventById(String id) async{
-    await _eventsRepo.getEventById(id).then((value){
-    setEventSelected(ApiResponse.completed(value));
-  }).onError((error, stackTrace) =>
-        setEventsList(ApiResponse.error(error.toString())));
-  }
+  // @override
+  // void dispose() {
+  // }
   @override
   void dispose() {
   }
 
-  setAssistanceList(ApiResponse<List<EventResult>> response){
-    assistanceList = response;
+  setAttendanceList(ApiResponse<List<EventResult>> response){
+    attendanceList = response;
     notifyListeners();
   }
 
-  Future<void> fetchAssistanceById(String id) async{
-    await _eventsRepo.getAssistanceByUserId(id).then((value) {
-      setAssistanceList(ApiResponse.completed(value));
+  Future<void> fetchAttendanceById(String id) async{
+    await _eventsRepo.getAttendanceByUserId(id).then((value) {
+      setAttendanceList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
-        setAssistanceList(ApiResponse.error(error.toString())));
+        setAttendanceList(ApiResponse.error(error.toString())));
   }
 
   setFavouritesList(ApiResponse<List<EventResult>> response){
@@ -70,5 +64,9 @@ class EventsViewModel with ChangeNotifier{
         setFavouritesList(ApiResponse.error(error.toString())));
   }
 
+  Future<void> putFavouriteById(String userId, eventId) async{
+    await _eventsRepo.addFavouriteByUserId(userId, eventId).onError((error, stackTrace) =>
+    "error");
+  }
 
 }

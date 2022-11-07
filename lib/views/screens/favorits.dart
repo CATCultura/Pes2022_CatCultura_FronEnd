@@ -6,11 +6,12 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
+import '../widgets/events/eventInfoTile.dart';
 
 class Favorits extends StatelessWidget {
   Favorits({super.key});
   final EventsViewModel viewModel = EventsViewModel();
-  String loggedUserId = '';
+  String loggedUserId = '5850';
 
   @override
   Widget build(BuildContext context) {
@@ -70,56 +71,5 @@ class favoritsListSwitchState extends State<favoritsListSwitch> {
           return _buildEventShort(i);
         });
 
-  }
-}
-
-class EventInfoTile extends StatelessWidget {
-
-  final EventResult event;
-
-  const EventInfoTile({super.key, required this.event});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-          onTap: () {
-            debugPrint("clicked event: ${event.denominacio}");
-            Navigator.pushNamed(
-                context,
-                "/eventUnic",
-               // arguments: EventUnicArgs(event.id!)
-            );
-          },
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(color: Colors.black, width: 1),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          title: Column(children: [
-            Text(event.denominacio!,
-                style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            const Padding(
-              padding: EdgeInsets.only(top: 5),
-            ),
-            Row(
-              children: [
-                const Icon(Icons.calendar_month),
-                Text(
-                    "${event.dataInici!}\n${event.dataFi!}"),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 5),
-            ),
-            Row(
-              children: [
-                const Icon(Icons.place),
-                Text(event.localitat!),
-              ],
-            ),
-          ])),
-    );
   }
 }

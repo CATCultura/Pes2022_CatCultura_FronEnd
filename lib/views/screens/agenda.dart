@@ -10,16 +10,16 @@ import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 
-import 'package:CatCultura/views/widgets/eventContainerAgenda.dart';
+import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 
 class Agenda extends StatelessWidget {
   Agenda({super.key});
   final EventsViewModel viewModel = EventsViewModel();
-  String loggedUserId = '5750';
+  String loggedUserId = '5850';
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchAssistanceById(loggedUserId);
+    viewModel.fetchAttendanceById(loggedUserId);
     return ChangeNotifierProvider<EventsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventsViewModel>(builder: (context, value, _) {
@@ -30,7 +30,7 @@ class Agenda extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    viewModel.fetchEventsListApi();
+                    viewModel.fetchAttendanceById(loggedUserId);
                   },
                   icon: Icon(Icons.refresh),
                 ),
@@ -41,11 +41,11 @@ class Agenda extends StatelessWidget {
             drawer: const MyDrawer("Agenda",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Center(
-              child: viewModel.assistanceList.status == Status.LOADING? const SizedBox(
+              child: viewModel.attendanceList.status == Status.LOADING? const SizedBox(
                 child: Center(child: CircularProgressIndicator()),
               ):
-              viewModel.assistanceList.status == Status.ERROR? Text(viewModel.assistanceList.toString()):
-              viewModel.assistanceList.status == Status.COMPLETED? agendaListSwitch(assistance: viewModel.assistanceList.data!) : const Text("asdfasdf"),
+              viewModel.attendanceList.status == Status.ERROR? Text(viewModel.attendanceList.toString()):
+              viewModel.attendanceList.status == Status.COMPLETED? agendaListSwitch(assistance: viewModel.attendanceList.data!) : const Text("asdfasdf"),
             ),
           );
         }));
