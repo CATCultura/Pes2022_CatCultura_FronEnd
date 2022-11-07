@@ -64,9 +64,4 @@ class EventsViewModel with ChangeNotifier{
         setFavouritesList(ApiResponse.error(error.toString())));
   }
 
-  Future<void> putFavouriteById(String userId, eventId) async{
-    await _eventsRepo.addFavouriteByUserId(userId, eventId).onError((error, stackTrace) =>
-    "error");
-  }
-
 }

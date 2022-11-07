@@ -80,10 +80,11 @@ class EventsRepository {
     }
   }
 
-  Future<String> addFavouriteByUserId(String userID, String eventID) async {
+  Future<String> addFavouriteByUserId(String id, List<String?>? eventID) async {
     try{
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}user/$userID/favourites", eventID);
-      return "Succesfully added";
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/favourites", eventID);
+      String res = response;
+      return res;
     }
     catch(e){
       rethrow;
