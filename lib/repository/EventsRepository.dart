@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,7 +82,7 @@ class EventsRepository {
     }
   }
 
-  Future<String> addFavouriteByUserId(String id, List<String?>? eventID) async {
+  Future<String> addFavouriteByUserId(String id, int eventID) async {
     try{
       dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/favourites", eventID);
       String res = response;

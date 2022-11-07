@@ -58,9 +58,7 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((Favorit == false) ? Icons.star_border_outlined : Icons.star, color: MyColorsPalette.white),
             onPressed: (){
-              List<String?>? eventIds;
-              eventIds?.add(event!.id);
-              viewModel.putFavouriteById(loggedUserId, eventIds);
+              viewModel.putFavouriteById(loggedUserId, event!.id!);
               print(viewModel.addFavouriteResult.status);
               print(viewModel.addFavouriteResult);
               print("estic aqui");

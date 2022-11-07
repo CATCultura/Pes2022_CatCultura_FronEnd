@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
@@ -29,11 +31,17 @@ class EventUnicViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> putFavouriteById(String userId, List<String?>? eventId) async{
-    await _eventsRepo.addFavouriteByUserId(userId, eventId).then((value) {
-       setFavouriteRresult(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-    setFavouriteRresult(ApiResponse.error(error.toString())));
+  Future<void> putFavouriteById(String userId, String? eventId) async{
+    List<int?> eventIds = List.empty();
+    if(eventId != null) {
+      int? id = int.parse(eventId);
+      eventIds.add(id);
+      await _eventsRepo.addFavouriteByUserId(userId, id).then((value) {
+        setFavouriteRresult(ApiResponse.completed(value));
+      }).onError((error, stackTrace) =>
+          setFavouriteRresult(ApiResponse.error(error.toString())));
+    }
+
   }
   // @override
   // void dispose() {
