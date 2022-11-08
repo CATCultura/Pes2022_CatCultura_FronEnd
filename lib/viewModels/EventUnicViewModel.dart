@@ -32,11 +32,11 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   Future<void> putFavouriteById(String userId, String? eventId) async{
-    List<int?> eventIds = List.empty();
+    List<int?> eventIds = [];
     if(eventId != null) {
       int? id = int.parse(eventId);
       eventIds.add(id);
-      await _eventsRepo.addFavouriteByUserId(userId, id).then((value) {
+      await _eventsRepo.addFavouriteByUserId(userId, eventIds).then((value) {
         setFavouriteRresult(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setFavouriteRresult(ApiResponse.error(error.toString())));
