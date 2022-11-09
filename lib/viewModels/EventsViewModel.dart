@@ -40,16 +40,4 @@ class EventsViewModel with ChangeNotifier{
   void dispose() {
   }
 
-  setAttendanceList(ApiResponse<List<EventResult>> response){
-    attendanceList = response;
-    notifyListeners();
-  }
-
-  Future<void> fetchAttendanceById(String id) async{
-    await _eventsRepo.getAttendanceByUserId(id).then((value) {
-      setAttendanceList(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-        setAttendanceList(ApiResponse.error(error.toString())));
-  }
-
 }

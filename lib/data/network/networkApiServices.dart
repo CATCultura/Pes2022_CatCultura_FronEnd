@@ -64,6 +64,24 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  @override
+  Future getDeleteApiResponse(String url, dynamic data) async{
+    dynamic responseJson;
+
+    try {
+      http.Response response = await http.delete(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(const Duration(seconds: 60));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    return responseJson;
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

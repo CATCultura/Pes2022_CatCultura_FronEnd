@@ -1,12 +1,11 @@
-import 'dart:typed_data';
 
+import 'package:CatCultura/views/widgets/events/eventInfoTile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
-import 'package:CatCultura/viewModels/EventsViewModel.dart';
+import 'package:CatCultura/viewModels/AgendaViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
-import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 
@@ -14,15 +13,15 @@ import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 
 class Agenda extends StatelessWidget {
   Agenda({super.key});
-  final EventsViewModel viewModel = EventsViewModel();
+  final AgendaViewModel viewModel = AgendaViewModel();
   String loggedUserId = '5850';
 
   @override
   Widget build(BuildContext context) {
     viewModel.fetchAttendanceById(loggedUserId);
-    return ChangeNotifierProvider<EventsViewModel>(
+    return ChangeNotifierProvider<AgendaViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<EventsViewModel>(builder: (context, value, _) {
+        child: Consumer<AgendaViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
               title: const Text("Agenda"),
@@ -64,7 +63,7 @@ class agendaListSwitchState extends State<agendaListSwitch> {
   late List<EventResult> events = widget.assistance;
 
   Widget _buildEventShort(int idx) {
-    return EventContainerAgenda(event: events[idx]);
+    return EventInfoTile(event: events[idx]);
   }
 
   @override
