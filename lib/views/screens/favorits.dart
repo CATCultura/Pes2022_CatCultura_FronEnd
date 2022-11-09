@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
-import 'package:CatCultura/viewModels/EventsViewModel.dart';
+import 'package:CatCultura/viewModels/FavoritsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
@@ -10,15 +10,15 @@ import '../widgets/events/eventInfoTile.dart';
 
 class Favorits extends StatelessWidget {
   Favorits({super.key});
-  final EventsViewModel viewModel = EventsViewModel();
+  final FavoritsViewModel viewModel = FavoritsViewModel();
   String loggedUserId = '5850';
 
   @override
   Widget build(BuildContext context) {
     viewModel.fetchFavouritesById(loggedUserId);
-    return ChangeNotifierProvider<EventsViewModel>(
+    return ChangeNotifierProvider<FavoritsViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<EventsViewModel>(builder: (context, value, _) {
+        child: Consumer<FavoritsViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
               title: const Text("Favorits"),

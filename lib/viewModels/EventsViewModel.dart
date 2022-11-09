@@ -52,16 +52,4 @@ class EventsViewModel with ChangeNotifier{
         setAttendanceList(ApiResponse.error(error.toString())));
   }
 
-  setFavouritesList(ApiResponse<List<EventResult>> response){
-    favouritesList = response;
-    notifyListeners();
-  }
-
-  Future<void> fetchFavouritesById(String id) async{
-    await _eventsRepo.getFavouritesByUserId(id).then((value) {
-      setFavouritesList(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-        setFavouritesList(ApiResponse.error(error.toString())));
-  }
-
 }
