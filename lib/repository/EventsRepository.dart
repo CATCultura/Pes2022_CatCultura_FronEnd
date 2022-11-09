@@ -1,9 +1,6 @@
-import 'dart:ffi';
 
-import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
-import "package:http/http.dart" as http;
 import 'package:CatCultura/data/network/networkApiServices.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
@@ -82,9 +79,9 @@ class EventsRepository {
     }
   }
 
-  Future<String> addFavouriteByUserId(String id, List<int?> eventID) async {
+  Future<String> addFavouriteByUserId(String id, int eventId) async {
     try{
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/favourites", eventID);
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/favourites/$eventId", "" );
       String res = response;
       return res;
     }
@@ -92,6 +89,19 @@ class EventsRepository {
       rethrow;
     }
   }
+
+  Future<String> addAttendanceByUserId(String id, int eventId) async {
+    try{
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+
+  }
+
 
 
 

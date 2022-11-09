@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +9,7 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
 
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
+  ApiResponse<String> addAttendanceResult = ApiResponse.loading();
 
 
   setEventSelected(ApiResponse<EventResult> response){
@@ -26,22 +26,32 @@ class EventUnicViewModel with ChangeNotifier {
         setEventSelected(ApiResponse.error(error.toString())));
   }
 
-  setFavouriteRresult(ApiResponse<String> response){
+  setFavouriteResult(ApiResponse<String> response){
     addFavouriteResult = response;
     notifyListeners();
   }
 
+  setAttendanceResult(ApiResponse<String> response) {
+    addAttendanceResult = response;
+    notifyListeners();
+  }
+
   Future<void> putFavouriteById(String userId, String? eventId) async{
-    List<int?> eventIds = [];
     if(eventId != null) {
-      int? id = int.parse(eventId);
-      eventIds.add(id);
-      await _eventsRepo.addFavouriteByUserId(userId, eventIds).then((value) {
-        setFavouriteRresult(ApiResponse.completed(value));
+      await _eventsRepo.addFavouriteByUserId(userId, int.parse(eventId)).then((value) {
+        setFavouriteResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
-          setFavouriteRresult(ApiResponse.error(error.toString())));
+          setFavouriteResult(ApiResponse.error(error.toString())));
     }
 
+  }
+
+  Future<void> putAttendanceById(String userId, String? eventId) async{
+    if(eventId != null){
+      await _eventsRepo.addAttendanceByUserId(userId, int.parse(eventId)).then((value){
+        setAttendanceResult(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
+    }
   }
   // @override
   // void dispose() {
