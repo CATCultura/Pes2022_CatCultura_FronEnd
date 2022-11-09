@@ -33,6 +33,24 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
 
     try {
+      http.Response response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(const Duration(seconds: 60));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    return responseJson;
+  }
+
+  @override
+  Future getPutApiResponse(String url, dynamic data) async {
+    dynamic responseJson;
+
+    try {
       http.Response response = await http.put(
         Uri.parse(url),
         body: jsonEncode(data),

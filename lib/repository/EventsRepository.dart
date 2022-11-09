@@ -81,7 +81,7 @@ class EventsRepository {
 
   Future<String> addFavouriteByUserId(String id, int eventId) async {
     try{
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/favourites/$eventId", "" );
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/favourites/$eventId", "" );
       String res = response;
       return res;
     }
@@ -92,7 +92,7 @@ class EventsRepository {
 
   Future<String> addAttendanceByUserId(String id, int eventId) async {
     try{
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
       String res = response;
       return res;
     }
