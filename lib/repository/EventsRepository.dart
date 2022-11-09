@@ -90,6 +90,17 @@ class EventsRepository {
     }
   }
 
+  Future<String> deleteFavouriteByUserId(String id, int eventId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/favourites/$eventId", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
   Future<String> addAttendanceByUserId(String id, int eventId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
@@ -100,6 +111,17 @@ class EventsRepository {
       rethrow;
     }
 
+  }
+
+  Future<String> deleteAttendanceByUserId(String id, int eventId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/assistance/$eventId", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
   }
 
 

@@ -46,9 +46,25 @@ class EventUnicViewModel with ChangeNotifier {
 
   }
 
+  Future<void> deleteFavouriteById(String userId, String? eventId) async{
+    if(eventId != null){
+      await _eventsRepo.deleteFavouriteByUserId(userId, int.parse(eventId)).then((value){
+        setFavouriteResult(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setFavouriteResult(ApiResponse.error(error.toString())));
+    }
+  }
+
   Future<void> putAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.addAttendanceByUserId(userId, int.parse(eventId)).then((value){
+        setAttendanceResult(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
+    }
+  }
+
+  Future<void> deleteAttendanceById(String userId, String? eventId) async{
+    if(eventId != null){
+      await _eventsRepo.deleteAttendanceByUserId(userId, int.parse(eventId)).then((value){
         setAttendanceResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }
