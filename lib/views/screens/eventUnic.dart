@@ -32,7 +32,6 @@ class EventUnic extends StatelessWidget {
               appBar: AppBar(
                 title: Text("EVENT UNIC"),
                 backgroundColor: MyColorsPalette.red,
-
                 actions: <Widget> [
                   IconButton(
                       onPressed: () {

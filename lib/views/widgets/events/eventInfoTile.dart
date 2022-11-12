@@ -6,8 +6,9 @@ import '../../../utils/auxArgsObjects/argsRouting.dart';
 class EventInfoTile extends StatelessWidget {
 
   final EventResult event;
+  final int index;
 
-  const EventInfoTile({super.key, required this.event});
+  const EventInfoTile({super.key, required this.event, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class EventInfoTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           title: Column(children: [
-            Text(event.denominacio!,
+            Text(index.toString()+" - " + event.denominacio!,
                 style:
                 const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             const Padding(
