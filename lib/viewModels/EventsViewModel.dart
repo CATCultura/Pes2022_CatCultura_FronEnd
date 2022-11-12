@@ -1,5 +1,6 @@
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:math';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 
@@ -10,6 +11,7 @@ class EventsViewModel with ChangeNotifier{
   List<String> suggestions = [];
   int count = 0;
   Set<int> loadedPages = {};
+  bool chargingNextPage = false;
 
  void refresh(){
    eventsList.status = Status.LOADING;
@@ -17,40 +19,44 @@ class EventsViewModel with ChangeNotifier{
  }
 
   setEventsList(ApiResponse<List<EventResult>> response){
-    //debugPrint("before eventlist = response (with exit)");
-    //notifyListeners();
     eventsList = response;
-    //debugPrint("------------list of eventList-------------");
-    //for(EventResult e in eventsList.data!) debugPrint(e.denominacio!);
-    // suggestions = [];
-    // int suggestLength = 1;// = eventsList.data!.length%10;
-    // for (int e = 0; e < suggestLength; ++e) {
-    //   suggestions.add(eventsList.data![e].id!);
-    // }
+    loadedPages.add(0);
     notifyListeners();
   }
+
 
   void addToEventsList(ApiResponse<List<EventResult>> apiResponse) {
     if(apiResponse.status == Status.COMPLETED && eventsList.status == Status.COMPLETED){
+      chargingNextPage = false;
       List<EventResult> aux = eventsList.data!;
       aux.addAll(apiResponse.data!);
       eventsList = ApiResponse.completed(aux);
-      int a = 0;
-    }
-    else {
-
+      //loadedPages.add(lastPage()+1);
     }
     notifyListeners();
   }
 
+
   Future<void> fetchEvents() async {
-      await _eventsRepo.getEvents().then((value) {
-      setEventsList(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-        setEventsList(ApiResponse.error(error.toString())));
-      loadedPages.add(0);
-      count++;
-      debugPrint("EvViewModel. times accesed fetchEvents: $count");
+   if(loadedPages.isEmpty) {
+     loadedPages.add(0);
+     await _eventsRepo.getEvents().then((value) {
+       setEventsList(ApiResponse.completed(value));
+     }).onError((error, stackTrace) =>
+         setEventsList(ApiResponse.error(error.toString())));
+     count++;
+     debugPrint("EvViewModel. times accesed fetchEvents: $count");
+   }
+   else{
+     debugPrint("--all list : ${loadedPages}");
+     debugPrint("--charging next page: ${lastPage()}");
+     chargingNextPage = true;
+      notifyListeners();
+       await _eventsRepo.getEventsWithParameters(lastPage(),null, null).then((value) {
+         addToEventsList(ApiResponse.completed(value));
+       }).onError((error, stackTrace) =>
+           setEventsList(ApiResponse.error(error.toString())));
+   }
   }
 
   Future<void> redrawWithFilter(String filter) async{
@@ -63,16 +69,27 @@ class EventsViewModel with ChangeNotifier{
     debugPrint("EvViewModel, accesed from filter redraw");
   }
 
-  Future<void> fetchEventsNextPage() async {
-    await _eventsRepo.getEventsWithParameters(loadedPages.last+1,null, null).then((value) {
-      addToEventsList(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-        setEventsList(ApiResponse.error(error.toString())));
-    loadedPages.add(loadedPages.last+1);
-    count++;
-    debugPrint("EvViewModel. times accesed fetchEvents: $count");
+  // Future<void> fetchEventsNextPage() async {
+  //   debugPrint("--charging next page: ${lastPage()+1}");
+  //  chargingNextPage = true;
+  //  notifyListeners();
+  //   await _eventsRepo.getEventsWithParameters(lastPage()+1,null, null).then((value) {
+  //     addToEventsList(ApiResponse.completed(value));
+  //   }).onError((error, stackTrace) =>
+  //       setEventsList(ApiResponse.error(error.toString())));
+  //
+  // }
+
+  int lastPage(){
+   int result = 0;
+   final List<int> list = loadedPages.toList();
+   if(list.isNotEmpty) result = list.reduce(max);
+   return result;
   }
 
+  void addNewPage() {
+    loadedPages.add(lastPage()+1);
+  }
 
   // @override
   // void dispose() {

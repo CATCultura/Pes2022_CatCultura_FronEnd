@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class EventResult {
   List<String>? tagsAltresCateg;
   String? links = "";
   String? documents = "";
-  String? imatges = "";
+  List<String>? imatges = [];
   String? videos = "";
   String? adreca = "";
   String? codiPostal = "";
@@ -44,7 +45,7 @@ class EventResult {
     this.dataFiAproxHora,
     this.links,
     this.documents,
-    this.imatges,
+    this.imatges = const [""],
     this.videos,
     this.adreca,
     this.codiPostal,
@@ -56,19 +57,26 @@ class EventResult {
     this.descripcio
   });
 
-  EventResult.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    codi = json['codi'].toString();
-    dataInici = dataAdapt(json['dataInici']);
-    dataIniciHora = horaAdapt(json['dataInici']);
-    dataFi = dataAdapt(json['dataFi']);
-    denominacio = json['denominacio'];
-    dataFiAprox = json['dataFiAprox'];
-    descripcio = json['descripcio'];
-    if(json['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(json['comarcaIMunicipi']);
+  EventResult.fromJson(Map<String, dynamic> jsonResponse) {
+    id = jsonResponse['id'].toString();
+    codi = jsonResponse['codi'].toString();
+    dataInici = dataAdapt(jsonResponse['dataInici']);
+    dataIniciHora = horaAdapt(jsonResponse['dataInici']);
+    dataFi = dataAdapt(jsonResponse['dataFi']);
+    denominacio = jsonResponse['denominacio'];
+    dataFiAprox = jsonResponse['dataFiAprox'];
+    descripcio = jsonResponse['descripcio'];
+    if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
     else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
-    latitud = json['latitud'];
-    longitud = json['longitud'];
+    latitud = jsonResponse['latitud'];
+    longitud = jsonResponse['longitud'];
+    imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
+    //imatges = List<String>.from(json.decode(jsonResponse['imatges']));
+    // Iterable l = json.decode(json['imatges']);
+    // imatges = List<String?>.from(l.map((model)=> String.fromJson(model)));
+    // imatges = List.from(json['imatges'].map(e) => e.toString().toList);
+    // List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+
   }
 
   Map<String, dynamic> toJson() {

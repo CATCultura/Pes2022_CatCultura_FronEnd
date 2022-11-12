@@ -40,18 +40,19 @@ class EventsState extends State<Events>{
           message = "reach the end";
         });
         setState(() {
-          viewModel.fetchEventsNextPage();
+          viewModel.addNewPage();
         });
         setState((){});
       }
   }
 
   void iniState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //debugPrint("inistate!!!!!!!!!!!!!!");
+   // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       viewModel.fetchEvents();
       _scrollController = ScrollController();
       _scrollController.addListener(_scrollListener);
-    });
+    //});
     //viewModel.fetchEventsListApi();
     //viewModel.save10Suggestions();
   }
@@ -159,13 +160,26 @@ class EventsState extends State<Events>{
                       child: Center(child: CircularProgressIndicator()),
                     )
                   : viewModel.eventsList.status == Status.ERROR ? Text(viewModel.eventsList.toString())
-                  : viewModel.eventsList.status == Status.COMPLETED ? ListView.builder(
-                              controller: _scrollController,
-                              itemCount: viewModel.eventsList.data!.length,
-                              itemBuilder: (BuildContext context, int i) {
-                                return EventInfoTile(
-                                    event: viewModel.eventsList.data![i]);
-                              })
+                  : viewModel.eventsList.status == Status.COMPLETED ? Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                                      controller: _scrollController,
+                                      itemCount: viewModel.eventsList.data!.length,
+                                      itemBuilder: (BuildContext context, int i) {
+                                        return EventInfoTile(
+                                            event: viewModel.eventsList.data![i],
+                                          index: i,);
+
+                                      }),
+
+                      ),
+                      viewModel.chargingNextPage ? const SizedBox(
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                          : const Text(""),
+                    ],
+                  )
                           //EventsListSwitch(events: viewModel.eventsList.data!)
                   : const Text("asdfasdf"),
             ),
@@ -232,27 +246,27 @@ class SearchEvents extends SearchDelegate<String> {
   }
 }
 
-class EventsListSwitch extends StatefulWidget {
-  final List<EventResult> events;
-
-  const EventsListSwitch({super.key, required this.events});
-  @override
-  State<EventsListSwitch> createState() => EventsListSwitchState();
-}
-
-class EventsListSwitchState extends State<EventsListSwitch> {
-  late List<EventResult> events = widget.events;
-
-  Widget _buildEventShort(int idx) {
-    return EventInfoTile(event: events[idx]);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: events.length,
-        itemBuilder: (BuildContext context, int i) {
-          return _buildEventShort(i);
-        });
-  }
-}
+// class EventsListSwitch extends StatefulWidget {
+//   final List<EventResult> events;
+//
+//   const EventsListSwitch({super.key, required this.events});
+//   @override
+//   State<EventsListSwitch> createState() => EventsListSwitchState();
+// }
+//
+// class EventsListSwitchState extends State<EventsListSwitch> {
+//   late List<EventResult> events = widget.events;
+//
+//   Widget _buildEventShort(int idx) {
+//     return EventInfoTile(event: events[idx]);
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//         itemCount: events.length,
+//         itemBuilder: (BuildContext context, int i) {
+//           return _buildEventShort(i);
+//         });
+//   }
+// }
