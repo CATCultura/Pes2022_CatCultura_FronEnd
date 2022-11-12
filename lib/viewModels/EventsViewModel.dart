@@ -13,8 +13,14 @@ class EventsViewModel with ChangeNotifier{
   Set<int> loadedPages = {};
   bool chargingNextPage = false;
 
+  void setLoading(){
+    eventsList.status = Status.LOADING;
+    notifyListeners();
+  }
+
  void refresh(){
    eventsList.status = Status.LOADING;
+   loadedPages = {};
    notifyListeners();
  }
 
