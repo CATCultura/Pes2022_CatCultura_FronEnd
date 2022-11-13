@@ -1,7 +1,7 @@
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
-import 'package:CatCultura/models/Events.dart';
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 
 class FavoritsViewModel with ChangeNotifier {

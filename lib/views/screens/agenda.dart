@@ -63,7 +63,7 @@ class agendaListSwitchState extends State<agendaListSwitch> {
   late List<EventResult> events = widget.assistance;
 
   Widget _buildEventShort(int idx) {
-    return EventInfoTile(event: events[idx]);
+    return EventContainerAgenda(event: events[idx],);
   }
 
   @override

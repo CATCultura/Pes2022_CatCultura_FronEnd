@@ -1,3 +1,4 @@
+import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
@@ -60,7 +61,7 @@ class favoritsListSwitchState extends State<favoritsListSwitch> {
   late List<EventResult> events = widget.events;
 
   Widget _buildEventShort(int idx) {
-    return EventInfoTile(event: events[idx]);
+    return EventContainerAgenda(event: events[idx]);
   }
 
   @override
