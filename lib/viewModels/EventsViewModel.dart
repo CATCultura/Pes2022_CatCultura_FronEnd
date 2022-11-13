@@ -69,8 +69,6 @@ class EventsViewModel with ChangeNotifier{
    else{
      debugPrint("--all list : ${loadedPages}");
      debugPrint("--charging next page: ${lastPage()}");
-     chargingNextPage = true;
-      notifyListeners();
        await _eventsRepo.getEventsWithParameters(lastPage(),null, null).then((value) {
          addToEventsList(ApiResponse.completed(value));
        }).onError((error, stackTrace) =>
@@ -108,6 +106,9 @@ class EventsViewModel with ChangeNotifier{
 
   void addNewPage() {
     loadedPages.add(lastPage()+1);
+    chargingNextPage = true;
+    notifyListeners();
+    fetchEvents();
   }
 
   // @override
