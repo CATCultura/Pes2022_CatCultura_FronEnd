@@ -5,3 +5,10 @@ class EventUnicArgs {
 
   EventUnicArgs(this.eventId);
 }
+
+
+class AnotherProfileArgs{
+  final String selectedUser;
+
+  AnotherProfileArgs(this.selectedUser);
+}

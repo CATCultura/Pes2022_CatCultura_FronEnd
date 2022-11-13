@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:CatCultura/utils/routes/RouteGenerator.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
@@ -11,7 +12,10 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 //import 'utils/routes/routes.dart';
 
+
+
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   debugPaintSizeEnabled=false;
   runApp(const MyApp());
 }
@@ -21,6 +25,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => EventsViewModel()),
@@ -35,3 +43,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
