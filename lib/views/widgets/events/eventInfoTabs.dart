@@ -48,7 +48,8 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
             onPressed: (){
-              viewModel.putAttendanceById(loggedUserId, event!.id!);
+              if(assistire == true) viewModel.deleteAttendanceById(loggedUserId, event!.id);
+              else viewModel.putAttendanceById(loggedUserId, event!.id!);
               setState(() {
                 assistire = !assistire;
               });
@@ -59,7 +60,8 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((Favorit == false) ? Icons.star_border_outlined : Icons.star, color: MyColorsPalette.white),
             onPressed: (){
-              viewModel.putFavouriteById(loggedUserId, event!.id!);
+              if(Favorit == true) viewModel.deleteFavouriteById(loggedUserId, event!.id);
+              else viewModel.putFavouriteById(loggedUserId, event!.id!);
               print(viewModel.addFavouriteResult.status);
               print(viewModel.addFavouriteResult);
               print("estic aqui");

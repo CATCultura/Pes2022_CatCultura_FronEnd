@@ -9,8 +9,6 @@ class EventsViewModel with ChangeNotifier{
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
-  ApiResponse<List<EventResult>> attendanceList = ApiResponse.loading();
-  ApiResponse<List<EventResult>> favouritesList = ApiResponse.loading();
 
   int count = 0;
 
