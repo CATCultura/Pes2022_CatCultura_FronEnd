@@ -1,7 +1,12 @@
+import 'dart:async';
 import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
@@ -10,6 +15,7 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
+import '../../models/Place.dart';
 import '../widgets/events/eventInfoTile.dart';
 
 /*class MainPage extends StatefulWidget{
@@ -31,6 +37,11 @@ class EventsState extends State<Events> {
   bool findedSomething = false;
   String message = "Search by name...";
   var searchResult;
+  late ClusterManager _manager;
+  Completer<GoogleMapController> _controller = Completer();
+  Set<Marker> markers = Set();
+  final CameraPosition _iniCameraPosition =
+  const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
 
   _scrollListener() {
     // if(_scrollController.offset >= _scrollController.position.maxScrollExtent){
@@ -49,20 +60,32 @@ class EventsState extends State<Events> {
     }
   }
 
+  ClusterManager _initClusterManager() {
+    List<Place> a = [];
+    return ClusterManager<Place>(a, _updateMarkers,
+        markerBuilder: _markerBuilder, stopClusteringZoom: 17.0);
+  }
+
+  void _updateMarkers(Set<Marker> markers) {
+    debugPrint('Updated ${markers.length} markers');
+    //_manager.setItems(viewModel.eventsList.data!);
+    setState(() {
+      this.markers = markers;
+    });
+  }
+  @override
   void iniState() {
-    //debugPrint("inistate!!!!!!!!!!!!!!");
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
     viewModel.fetchEvents();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-    //});
-    //viewModel.fetchEventsListApi();
-    //viewModel.save10Suggestions();
+    _manager = _initClusterManager();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    iniState();
+    //iniState();
     return ChangeNotifierProvider<EventsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventsViewModel>(builder: (context, value, _) {
@@ -168,7 +191,151 @@ class EventsState extends State<Events> {
             // key: _scaffoldKey,
             drawer: const MyDrawer("Events",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
-            body: Center(
+             /**/
+            body: DefaultTabController(
+                length: 4, // length of tabs
+                initialIndex: 0,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+                  Container(
+                    child: TabBar(
+                      labelColor: Colors.red.shade800,
+                      unselectedLabelColor: Colors.black,
+                      tabs: [
+                        Tab(icon: Icon(Icons.list)),
+                        Tab(icon: Icon(Icons.map)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                      child: TabBarView(children: <Widget>[
+                        Center(
+                          child: viewModel.eventsList.status == Status.LOADING
+                              ? const SizedBox(
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                              : viewModel.eventsList.status == Status.ERROR
+                              ? Text(viewModel.eventsList.toString())
+                              : viewModel.eventsList.status == Status.COMPLETED
+                              ? Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                    controller: _scrollController,
+                                    itemCount:
+                                    viewModel.eventsList.data!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int i) {
+                                      return EventInfoTile(
+                                        event: viewModel.eventsList.data![i],
+                                        index: i,
+                                      );
+                                    }),
+                              ),
+                              viewModel.chargingNextPage
+                                  ? const SizedBox(
+                                child: Center(
+                                    child: CircularProgressIndicator()),
+                              )
+                                  : const SizedBox.shrink(),
+                            ],
+                          )
+                              : const Text("asdfasdf"),
+                        ),
+                        // Center(child:viewModel.eventsListMap.status == Status.COMPLETED ? GoogleMap(
+                        //     mapType: MapType.normal,
+                        //     initialCameraPosition: _iniCameraPosition,
+                        //     markers: markers,
+                        //     onMapCreated: (GoogleMapController controller) {
+                        //       _manager.setItems(viewModel.eventsListMap.data!);
+                        //       _controller.complete(controller);
+                        //       _manager.setMapId(controller.mapId);
+                        //     },
+                        //     onCameraMove: _manager.onCameraMove,
+                        //     onCameraIdle: _manager.updateMap) : const SizedBox(
+                        //   child: Center(child: CircularProgressIndicator()),
+                        // ),
+                        // ),
+                      ]
+                      )
+                  )
+                ])
+            ),
+          );
+        }));
+  }
+
+  Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
+          (cluster) async {
+        if(!cluster.isMultiple) {
+          return Marker(
+            markerId: MarkerId(cluster.getId()),
+            position: cluster.location,
+            infoWindow: InfoWindow(title: cluster.items.first.event.denominacio, snippet: cluster.items.first.event.descripcio, onTap: () {Navigator.pushNamed(
+                context,
+                "/eventUnic",
+                arguments: EventUnicArgs(cluster.items.first.event.id!)
+            );}),
+            icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
+                text: cluster.isMultiple ? cluster.count.toString() : null, color: cluster.items.last.color),
+          );
+        }
+        return Marker(
+          markerId: MarkerId(cluster.getId()),
+          position: cluster.location,
+
+          onTap: () {
+            print('---- $cluster');
+            cluster.items.forEach((p) => print(p));
+            // if(!cluster.isMultiple) Navigator.pushNamed(
+            //     context,
+            //     "/eventUnic",
+            //     arguments: EventUnicArgs(cluster.items.first.event.id!)
+            // );
+          },
+          icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
+              text: cluster.isMultiple ? cluster.count.toString() : null, color: cluster.items.last.color),
+        );
+      };
+
+  Future<BitmapDescriptor> _getMarkerBitmap(int size, {String? text, Color? color}) async {
+    if (kIsWeb) size = (size / 2).floor();
+
+    final PictureRecorder pictureRecorder = PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+    Paint paint1 = Paint()..color = Colors.red;
+    if(color != null ) paint1 = Paint()..color = color;
+    final Paint paint2 = Paint()..color = Colors.white;
+
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
+
+    if (text != null) {
+      TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
+      painter.text = TextSpan(
+        text: text,
+        style: TextStyle(
+            fontSize: size / 3,
+            color: Colors.white,
+            fontWeight: FontWeight.normal),
+      );
+      painter.layout();
+      painter.paint(
+        canvas,
+        Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
+      );
+    }
+
+    final img = await pictureRecorder.endRecording().toImage(size, size);
+    final data = await img.toByteData(format: ImageByteFormat.png) as ByteData;
+
+    return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
+  }
+}
+
+
+/*
+Center(
               child: viewModel.eventsList.status == Status.LOADING
                   ? const SizedBox(
                       child: Center(child: CircularProgressIndicator()),
@@ -200,12 +367,8 @@ class EventsState extends State<Events> {
                               ],
                             )
                           : const Text("asdfasdf"),
-            ),
-          );
-        }));
-  }
-}
-
+            )
+            */
 class SearchEvents extends SearchDelegate<String> {
   final List<String> suggestedEvents;
 
