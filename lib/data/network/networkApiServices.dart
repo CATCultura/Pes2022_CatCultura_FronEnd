@@ -11,7 +11,7 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future getGetApiResponse(String url) async {
     //String mockedURL ="http://127.0.0.1:5001/get-all";
-   //String mockedURL = 'https://jsonplaceholder.typicode.com/albums/1';
+    //String mockedURL = 'https://jsonplaceholder.typicode.com/albums/1';
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
@@ -33,9 +33,47 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
 
     try {
-      http.Response response = await http
-          .post(Uri.parse(url), body: data)
-          .timeout(const Duration(seconds: 10));
+      http.Response response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(const Duration(seconds: 60));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    return responseJson;
+  }
+
+  @override
+  Future getPutApiResponse(String url, dynamic data) async {
+    dynamic responseJson;
+
+    try {
+      http.Response response = await http.put(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(const Duration(seconds: 60));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    return responseJson;
+  }
+
+  @override
+  Future getDeleteApiResponse(String url, dynamic data) async{
+    dynamic responseJson;
+
+    try {
+      http.Response response = await http.delete(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -53,6 +91,8 @@ class NetworkApiServices extends BaseApiServices {
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
+      case 201:
+        return response.body;
       case 400:
         throw BadRequestException(response.body.toString());
       case 404:

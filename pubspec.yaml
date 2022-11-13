@@ -50,9 +50,7 @@ dependencies:
   build_runner: ^2.2.1
   dio: ^4.0.6
   flutter_launcher_icons: ^0.10.0
-  flutter_localizations:
-    sdk: flutter
-
+  google_maps_cluster_manager: ^3.0.0+1
 
 flutter_icons:
   android: true
@@ -81,7 +79,6 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  generate:  true
   # To add assets to your application, add an assets section, like this:
   assets:
     - resources/img/logo.png
