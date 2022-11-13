@@ -96,5 +96,74 @@ class EventsRepository {
     }
     return result;
   }
+  Future<List<EventResult>> getAttendanceByUserId(String id) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}user/$id/attendance");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      //_cachedEvents = res;
+      return res;
+    } catch(e){
+      rethrow;
+    }
+  }
+
+  Future<List<EventResult>> getFavouritesByUserId(String id) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/favourites");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      //_cachedEvents = res;
+      return res;
+    } catch(e){
+      rethrow;
+    }
+  }
+
+  Future<String> addFavouriteByUserId(String id, int eventId) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/favourites/$eventId", "" );
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<String> deleteFavouriteByUserId(String id, int eventId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/favourites/$eventId", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<String> addAttendanceByUserId(String id, int eventId) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+
+  }
+
+  Future<String> deleteAttendanceByUserId(String id, int eventId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/assistance/$eventId", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+
+
 
 }
