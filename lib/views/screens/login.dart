@@ -1,6 +1,7 @@
 //import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/UserResult.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
@@ -10,8 +11,7 @@ import '../../constants/theme.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
 class Login extends StatelessWidget {
-  Login({Key? key}) : super(key: key);
-  final UsersViewModel viewModel = UsersViewModel();
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +29,25 @@ class StatefulLogin extends StatefulWidget {
 }
 
 class _StatefulLoginState extends State<StatefulLogin> {
+  final UsersViewModel viewModel = UsersViewModel();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool showPassword = false;
 
   @override
   Widget build(BuildContext context) {
+    viewModel.fetchUsersListApi();
+    return ChangeNotifierProvider<UsersViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<UsersViewModel>(builder: (context, value, _) {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0,0,0,0),
         child: GestureDetector(
           onTap: () {
           FocusScope.of(context).unfocus();
           },
-          child: ListView(
+          child:
+          viewModel.waiting? ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               SizedBox(
@@ -63,6 +69,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   ),
                 ),
               ),
+              viewModel.errorN == 1? const Text("No funciona"): Text(""),
+
               Container(
                 padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 child: TextField(
@@ -109,8 +117,9 @@ class _StatefulLoginState extends State<StatefulLogin> {
                     onPressed: () {
                       print(nameController.text);
                       print(passwordController.text);
+                      viewModel.iniciarSessio(nameController.text, passwordController.text);
                       //Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
-                      Navigator.popAndPushNamed(context, '/home');
+                      //Navigator.popAndPushNamed(context, '/home');
                       //Navigator.pushReplacementNamed(context, '/home');
                     },
                   )
@@ -145,7 +154,22 @@ class _StatefulLoginState extends State<StatefulLogin> {
               ),
             ],
           )
+              : viewModel.mainUser.status == Status.LOADING? const SizedBox(
+            child: Center(child: CircularProgressIndicator()),
+          )
+              : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
+              : viewModel.mainUser.status == Status.COMPLETED? A(): Text("d")
         )
     );
+        }));
+  }
+}
+
+class A extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    Navigator.popAndPushNamed(context, '/home');
+        return Container();
   }
 }

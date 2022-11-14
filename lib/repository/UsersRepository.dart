@@ -59,4 +59,24 @@ class UsersRepository {
     return result;
   }
 
+  Future<UserResult> iniSessio(String n, String p) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/name=$n");
+      UserResult res = UserResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<UserResult> creaCompte(String n, String u, String e, String p) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse(url, data);
+      UserResult res = UserResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
