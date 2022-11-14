@@ -5,6 +5,7 @@ class UserResult {
   String ? username = "empty";
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
+  String ? password = "empty";
   /*
   password	string
   creationDate	string
@@ -19,7 +20,8 @@ class UserResult {
     this.id,
     this.username,
     this.nameAndSurname,
-    this.email
+    this.email,
+    this.password
   });
 
   UserResult.fromJson(Map<String, dynamic> json) {
@@ -27,10 +29,17 @@ class UserResult {
     username = json['id'].toString();
     nameAndSurname = json['id'].toString();
     email = json['id'].toString();
+    password = json['id'].toString();
   }
-/*
+
+
   Map<String, dynamic> toJson() {
-    return
+    Map<String, dynamic> result = {
+      "nameAndSurname": this.nameAndSurname,
+      "username": this.username,
+      "email": this.email,
+      "password": this.password
+    };
+    return result;
   }
- */
 }

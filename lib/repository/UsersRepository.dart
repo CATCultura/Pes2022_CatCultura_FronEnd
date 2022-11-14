@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,11 +72,10 @@ class UsersRepository {
     }
   }
 
-  Future<UserResult> creaCompte(String n, String u, String e, String p) async {
+  Future<UserResult> postCreaCompte(UserResult data) async {
     try {
-      dynamic response = await _apiServices.getPostApiResponse(url, data);
-      UserResult res = UserResult.fromJson(response);
-      return res;
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", jsonEncode(data.toJson()));
+      return response;
     } catch (e) {
       rethrow;
     }

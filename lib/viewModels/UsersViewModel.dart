@@ -44,7 +44,12 @@ class UsersViewModel with ChangeNotifier{
 
   Future<void> crearcompte(String n, String u, String e, String p) async {
     //if(n != "") {
-    await _usersRepo.creaCompte(n, u, e, p).then((value) {
+    UserResult user = UserResult();
+    user.nameAndSurname = n;
+    user.username = u;
+    user.email = e;
+    user.password = p;
+    await _usersRepo.postCreaCompte(user).then((value) {
       setUsersSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setUsersSelected(ApiResponse.error(error.toString())));
