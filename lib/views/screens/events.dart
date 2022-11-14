@@ -88,10 +88,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
           break;
         case 1:
           debugPrint("mapa!!!!!!!!!!!");
-          /*setState(() {
-            _manager.setItems(viewModel.eventsListMap.data!);
-            //_manager.updateMap;
-          });*/
+          // _manager = _initClusterManager();
+          // (GoogleMapController controller) {
+          //   _manager.setItems(viewModel.eventsListMap.data!);
+          //   //_controller.complete(controller);
+          //   _manager.setMapId(controller.mapId);
+          // };
           break;
       }
     }
@@ -282,10 +284,14 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                       markers: markers,
                                       onMapCreated:
                                           (GoogleMapController controller) {
-                                        _manager.setItems(
-                                            viewModel.eventsListMap.data!);
-                                        _controller.complete(controller);
-                                        _manager.setMapId(controller.mapId);
+                                        if (!_controller.isCompleted) {
+                                          _manager.setItems(viewModel.eventsListMap.data!);
+                                          _controller.complete(controller);
+                                          _manager.setMapId(controller.mapId);
+                                        } else {
+                                          _manager.setItems(viewModel.eventsListMap.data!);
+                                          _manager.setMapId(controller.mapId);
+                                        }
                                       },
                                       onCameraMove: _manager.onCameraMove,
                                       onCameraIdle: _manager.updateMap)
