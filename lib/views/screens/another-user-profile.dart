@@ -6,8 +6,9 @@ import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 class AnotherProfile extends StatelessWidget {
-  AnotherProfile({super.key, required this.selectedUser});
+  AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
   String selectedUser;
+  int selectedId;
   final double coverHeight = 280;
   final double profileHeight = 144;
 
@@ -18,7 +19,7 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+  bool afegit = false;
     return Scaffold(
       appBar: AppBar(
         title: const Text("User Profile"),
@@ -60,6 +61,7 @@ class AnotherProfile extends StatelessWidget {
                     color: isTapped ? Colors.deepPurple : Colors.grey,
                   );
                 }
+
               ),
             ],
           ),

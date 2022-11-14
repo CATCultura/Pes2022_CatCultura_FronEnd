@@ -24,8 +24,8 @@ class RouteGenerator{
       case '/crear-esdeveniment':
         return MaterialPageRoute(builder:(_)=>crearEsdeveniments());
       case '/another-user-profile':
-        final argsAnotherProfile = settings.arguments as String;
-        return MaterialPageRoute(builder:(_)=>AnotherProfile(selectedUser: argsAnotherProfile));
+        final argsAnotherProfile = settings.arguments as AnotherProfileArgs;
+        return MaterialPageRoute(builder:(_)=>AnotherProfile(selectedUser: argsAnotherProfile.selectedUser, selectedId: argsAnotherProfile.selectedId));
       case '/createUser':
         return MaterialPageRoute(builder:(_)=>CreateUser());
       case '/editProfile':
