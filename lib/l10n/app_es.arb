@@ -3,5 +3,17 @@
 
     "uniqueEventTitle": "Evento único",
 
-    "userNameInputBoxLabel": "Nombre de usuario"
+    "userNameInputBoxLabel": "Nombre de usuario",
+
+    "passwordInputBoxLabel": "Contraseña",
+
+    "forgotPassword": "¿Has olvidado la contraseña?",
+
+    "loginButton": "Iniciar sesión",
+
+    "signUpPrompt": "¿Todavía no tienes una cuenta?",
+
+    "signUpButton": "Registrarse",
+
+    "guestMode": "Entrar como invitado"
 }

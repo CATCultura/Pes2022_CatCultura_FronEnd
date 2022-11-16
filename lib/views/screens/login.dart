@@ -62,9 +62,9 @@ class _StatefulLoginState extends State<StatefulLogin> {
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Contrassenya',
+                  labelText: AppLocalizations.of(context)?.passwordInputBoxLabel,
                 ),
               ),
             ),
@@ -72,14 +72,14 @@ class _StatefulLoginState extends State<StatefulLogin> {
               onPressed: () {
                 //forgot password screen
               },
-              child: const Text('Has oblidat la contrassenya?',),
+              child: Text(AppLocalizations.of(context)!.forgotPassword,),
             ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   style:ButtonStyle(backgroundColor: MaterialStateProperty.all(MyColorsPalette.orange)),
-                  child: const Text('Iniciar sessió'),
+                  child: Text(AppLocalizations.of(context)!.loginButton),
                   onPressed: () {
                     print(nameController.text);
                     print(passwordController.text);
@@ -92,10 +92,10 @@ class _StatefulLoginState extends State<StatefulLogin> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Encara no tens un compte?'),
+                Text(AppLocalizations.of(context)!.signUpPrompt),
                 TextButton(
-                  child: const Text(
-                    'Crear compte',
+                  child: Text(
+                    AppLocalizations.of(context)!.signUpButton,
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
@@ -105,8 +105,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
               ],
             ),
             TextButton(
-              child: const Text(
-                'Entrar com invitat',
+              child: Text(
+                AppLocalizations.of(context)!.guestMode,
                 style: TextStyle(fontSize: 20),
               ),
               onPressed: () {
