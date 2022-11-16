@@ -2,5 +2,15 @@
     "helloWorld": "Hello World!",
     "@helloWorld": {
       "description": "The conventional newborn programmer greeting"
-    }
+    },
+
+    "uniqueEventTitle": "Unique event",
+    "@uniqueEventTitle": {
+          "description": "Title for unique event screen"
+        },
+
+    "userNameInputBoxLabel": "Username",
+    "@userNameInputBoxLabel": {
+              "description": "Text for input box"
+            }
 }

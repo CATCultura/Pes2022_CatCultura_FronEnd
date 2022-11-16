@@ -1,8 +1,11 @@
 //import 'dart:io';
 
+import 'package:CatCultura/main.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/theme.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
@@ -48,9 +51,9 @@ class _StatefulLoginState extends State<StatefulLogin> {
               padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
               child: TextField(
                 controller: nameController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: "Nom d'usuari",
+                  labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
                 ),
               ),
             ),
