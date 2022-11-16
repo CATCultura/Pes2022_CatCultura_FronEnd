@@ -19,8 +19,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Profile());
       case '/events':
         return MaterialPageRoute(builder:(_)=>Events());
-      case '/map':
-        return MaterialPageRoute(builder:(_)=>Map());
+      case '/rutaCultural':
+        return MaterialPageRoute(builder:(_)=>RutaCultural());
       case '/crear-esdeveniment':
         return MaterialPageRoute(builder:(_)=>crearEsdeveniments());
       case '/another-user-profile':

@@ -4,7 +4,8 @@ import 'dart:ui';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/Place.dart';
-import 'package:CatCultura/viewModels/MapViewModel.dart';
+import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
+import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,38 +14,25 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsReturnParametersRutaCultural.dart';
 import '../widgets/myDrawer.dart';
 
-// class Map extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Cluster Manager Demo',
-//       home: MapSample(),
-//     );
-//   }
-// }
-
-// Clustering maps
-
-class Map extends StatefulWidget {
+class RutaCultural extends StatefulWidget {
   @override
-  State<Map> createState() => MapSampleState();
+  State<RutaCultural> createState() => RutaCulturalState();
 }
 
-class MapSampleState extends State<Map> {
+class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> markers = Set();
+  Set<Marker> markers = {};
   final CameraPosition _iniCameraPosition =
       const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
-  final MapViewModel viewModel = MapViewModel();
+  final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
 
   @override
   void initState() {
     _manager = _initClusterManager();
-    viewModel.fetchEventsListApi();
     super.initState();
   }
 
@@ -54,49 +42,127 @@ class MapSampleState extends State<Map> {
         markerBuilder: _markerBuilder, stopClusteringZoom: 17.0);
   }
 
-  void _updateMarkers(Set<Marker> markers) {
-    debugPrint('Updated ${markers.length} markers');
-    //_manager.setItems(viewModel.eventsList.data!);
-    setState(() {
-      this.markers = markers;
-    });
+  void _updateMarkers(Set<Marker> markers) async {
+      this.markers = await setMarkers();
+      setState(() {});
   }
+
+  Future<Set<Marker>> setMarkers() async {
+    return {
+      Marker(
+          markerId: MarkerId("marker_1"),
+          position: LatLng(41.3874, 2.1686),
+          infoWindow: InfoWindow(title: 'Marker 1'),
+          rotation: 90,
+          icon: await _getMarkerBitmap(75,
+              text: "markerID",
+              color: Colors.green)
+      ),
+      const Marker(
+        markerId: MarkerId("marker_2"),
+        position: LatLng(41.3874, 2.1686),
+      ),
+    };
+  }
+  //
+  //
+  // addMarkers() async {
+  //   markers.add(
+  //         Marker(
+  //             markerId: MarkerId("marker_1"),
+  //             position: LatLng(41.3874, 2.1686),
+  //             infoWindow: InfoWindow(title: 'Marker 1'),
+  //             rotation: 90,
+  //             icon: await _getMarkerBitmap(75,
+  //             text: "markerID",
+  //             color: Colors.green)
+  //     ),
+  //   );
+  //
+  //  markers.add(
+  //     const Marker(
+  //       markerId: MarkerId("marker_2"),
+  //       position: LatLng(41.3874, 2.1686),
+  //     ),
+  //  );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MapViewModel>(
+    return ChangeNotifierProvider<RutaCulturalViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<MapViewModel>(builder: (context, value, _) {
+        child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Google Maps Demo'),
             ),
-            drawer: const MyDrawer("Map",
+            drawer: const MyDrawer("rutaCultural",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
-            body: viewModel.eventsList.status == Status.COMPLETED
-                ? GoogleMap(
-                    mapType: MapType.normal,
+            body: viewModel.eventsListMap.status == Status.LOADING && viewModel.rutaGenerada? SizedBox(
+              child: Center(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  Padding(padding: EdgeInsets.only(top: 20)),
+                  Text("Estem generant la teva ruta...", style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),)
+                ],
+              )),
+            )
+            : viewModel.eventsListMap.status == Status.COMPLETED ?  GoogleMap(
+                myLocationEnabled: false,
+                mapType: MapType.normal,
+                initialCameraPosition: _iniCameraPosition,
+                markers: markers,
+                onMapCreated:
+                    (GoogleMapController controller) {
+                  debugPrint("MAP PUNTOS ON CREATED -----------------------------------------------------------");
+                  // if (!_controller.isCompleted) {
+                  //   debugPrint("newMap created");
+                  //   _manager.setItems(viewModel.eventsListMap.data!);
+                  if (!_controller.isCompleted) _controller.complete(controller);
+                  //   _manager.setMapId(controller.mapId);
+                  // } else {
+                    debugPrint("newMap created 2");
+                    _manager.setItems(viewModel.eventsListMap.data!);
+                    _manager.setMapId(controller.mapId);
+                  //}
+                },
+                onCameraMove: _manager.onCameraMove,
+                onCameraIdle: _manager.updateMap)
+
+            : GoogleMap(
+                    zoomControlsEnabled: false,
+              myLocationEnabled: false,
+              mapType: MapType.normal,
                     initialCameraPosition: _iniCameraPosition,
                     markers: markers,
                     onMapCreated: (GoogleMapController controller) {
-                      _manager.setItems(viewModel.eventsList.data!);
+                      debugPrint("CREANDO MAPA!!!!!!!!!!!!");
                       _controller.complete(controller);
-                      _manager.setMapId(controller.mapId);
+                      //_manager.setMapId(controller.mapId);
                     },
-                    onCameraMove: _manager.onCameraMove,
-                    onCameraIdle: _manager.updateMap)
-                : const SizedBox(
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-            floatingActionButton: FloatingActionButton(
+                    //onCameraMove: _manager.onCameraMove,
+                    //onCameraIdle: _manager.updateMap),
+            ),
+            floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
-                viewModel.refresh();
-                viewModel.fetchEventsListApi();
+                _navigateAndDisplaySelection(context);
               },
-              child: const Icon(Icons.update),
+              label: Text('Generar Ruta Cultural'),
             ),
           );
         }));
+  }
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute<RutaCulturalArgs>(builder: (context) => const SelectionScreen()),
+    );
+    if (!mounted) return;
+    setState(() {
+      viewModel.rutaGenerada = true;
+    });
+    viewModel.generateRutaCultural(result);
   }
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
