@@ -1,0 +1,19 @@
+{
+    "helloWorld": "Hola, Món!",
+
+    "uniqueEventTitle": "Esdeveniment únic",
+
+    "userNameInputBoxLabel": "Nom d'usuari",
+
+    "passwordInputBoxLabel": "Contrasenya",
+
+    "forgotPassword": "No recordes la contrasenya?",
+
+    "loginButton": "Inicia la sessió",
+
+    "signUpPrompt": "Encara no tens cap compte?",
+
+    "signUpButton": "Registra't",
+
+    "guestMode": "Entra com a convidat"
+}
