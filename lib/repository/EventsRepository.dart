@@ -176,8 +176,17 @@ class EventsRepository {
     //   rethrow;
     // }
     //41.3874, 2.1686
-    await Future.delayed(const Duration(seconds: 2));
-    return [EventResult(id: "1", denominacio: "e1",longitud:41.3872, latitud: 2.1684),EventResult(id: "2", denominacio: "e2",longitud:41.3870, latitud: 2.1682),EventResult(id: "2", denominacio: "e2",longitud:41.3868, latitud: 2.1680)];
+
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=0&size=3"); //no va --> &sort=$sort
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+    // await Future.delayed(const Duration(seconds: 2));
+    // return [EventResult(id: "1", denominacio: "e1",longitud:41.3872, latitud: 2.1684),EventResult(id: "2", denominacio: "e2",longitud:41.3870, latitud: 2.1682),EventResult(id: "3", denominacio: "e3",longitud:41.3868, latitud: 2.1680)];
   }
 
 

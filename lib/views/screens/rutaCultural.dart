@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:CatCultura/data/response/apiResponse.dart';
-import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/Place.dart';
 import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
 import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/auxArgsObjects/argsRouting.dart';
@@ -25,10 +25,15 @@ class RutaCultural extends StatefulWidget {
 class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> markers = {};
+  Set<Marker> markers = {const Marker(
+        markerId: MarkerId("marker_2"),
+        position: LatLng(41.3860, 2.1675),
+
+      ),};
   final CameraPosition _iniCameraPosition =
       const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
+  final List<Polyline> polyline = [];
 
   @override
   void initState() {
@@ -42,50 +47,40 @@ class RutaCulturalState extends State<RutaCultural> {
         markerBuilder: _markerBuilder, stopClusteringZoom: 17.0);
   }
 
-  void _updateMarkers(Set<Marker> markers) async {
-      this.markers = await setMarkers();
-      setState(() {});
+  void _updateMarkers(Set<Marker> markers) {
+    debugPrint("markers to set: "+markers.toString());
+    setState(() {
+      this.markers = markers; //await setMarkers(markers);
+    });
   }
 
-  Future<Set<Marker>> setMarkers() async {
-    return {
-      Marker(
-          markerId: MarkerId("marker_1"),
-          position: LatLng(41.3874, 2.1686),
-          infoWindow: InfoWindow(title: 'Marker 1'),
-          rotation: 90,
-          icon: await _getMarkerBitmap(75,
-              text: "markerID",
-              color: Colors.green)
-      ),
-      const Marker(
-        markerId: MarkerId("marker_2"),
-        position: LatLng(41.3874, 2.1686),
-      ),
-    };
-  }
-  //
-  //
-  // addMarkers() async {
-  //   markers.add(
-  //         Marker(
-  //             markerId: MarkerId("marker_1"),
-  //             position: LatLng(41.3874, 2.1686),
-  //             infoWindow: InfoWindow(title: 'Marker 1'),
-  //             rotation: 90,
-  //             icon: await _getMarkerBitmap(75,
-  //             text: "markerID",
+  // Future<Set<Marker>> setMarkers(Set<Marker> markers) async {
+  //   return {
+  //     Marker(
+  //         markerId: MarkerId("marker_1"),
+  //         position: LatLng(41.3874, 2.1686),
+  //         infoWindow: InfoWindow(title: 'Marker 1'),
+  //         icon: await _getMarkerBitmap(75,
+  //             text: "1",
   //             color: Colors.green)
   //     ),
-  //   );
-  //
-  //  markers.add(
-  //     const Marker(
-  //       markerId: MarkerId("marker_2"),
-  //       position: LatLng(41.3874, 2.1686),
+  //     Marker(
+  //       markerId: const MarkerId("marker_2"),
+  //       position: const LatLng(41.3860, 2.1675),
+  //         icon: await _getMarkerBitmap(75,
+  //             text: "2",
+  //             color: Colors.yellow)
   //     ),
-  //  );
+  //     Marker(
+  //         markerId: const MarkerId("marker_3"),
+  //         position: const LatLng(41.3850, 2.1650),
+  //         icon: await _getMarkerBitmap(75,
+  //             text: "3",
+  //             color: Colors.purple)
+  //     ),
+  //   };
   // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -113,19 +108,13 @@ class RutaCulturalState extends State<RutaCultural> {
                 mapType: MapType.normal,
                 initialCameraPosition: _iniCameraPosition,
                 markers: markers,
-                onMapCreated:
-                    (GoogleMapController controller) {
-                  debugPrint("MAP PUNTOS ON CREATED -----------------------------------------------------------");
-                  // if (!_controller.isCompleted) {
-                  //   debugPrint("newMap created");
-                  //   _manager.setItems(viewModel.eventsListMap.data!);
+                onMapCreated: (GoogleMapController controller) {
+                  debugPrint("================================== CREANDO MAPA puntos ===========================================");
+                  for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                   if (!_controller.isCompleted) _controller.complete(controller);
-                  //   _manager.setMapId(controller.mapId);
-                  // } else {
-                    debugPrint("newMap created 2");
-                    _manager.setItems(viewModel.eventsListMap.data!);
-                    _manager.setMapId(controller.mapId);
-                  //}
+                  _manager.setMapId(controller.mapId);
+                  _manager.setItems(viewModel.eventsListMap.data!);
+
                 },
                 onCameraMove: _manager.onCameraMove,
                 onCameraIdle: _manager.updateMap)
@@ -137,7 +126,7 @@ class RutaCulturalState extends State<RutaCultural> {
                     initialCameraPosition: _iniCameraPosition,
                     markers: markers,
                     onMapCreated: (GoogleMapController controller) {
-                      debugPrint("CREANDO MAPA!!!!!!!!!!!!");
+                      debugPrint("================================== CREANDO MAPA BASE ===========================================");
                       _controller.complete(controller);
                       //_manager.setMapId(controller.mapId);
                     },
@@ -167,19 +156,21 @@ class RutaCulturalState extends State<RutaCultural> {
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
       (cluster) async {
+    debugPrint("ENTRO EN MARKER BUILDER");
         if (!cluster.isMultiple) {
+          debugPrint("cluster is simple");
           return Marker(
             markerId: MarkerId(cluster.getId()),
             position: cluster.location,
             infoWindow: InfoWindow(
-                title: cluster.items.first.event.denominacio,
-                snippet: cluster.items.first.event.descripcio,
+                title: cluster.items.first.event.denominacio!,
+                snippet: cluster.items.first.event.descripcio!,
                 onTap: () {
                   Navigator.pushNamed(context, "/eventUnic",
                       arguments: EventUnicArgs(cluster.items.first.event.id!));
                 }),
             icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
-                text: cluster.isMultiple ? cluster.count.toString() : null,
+                text: '!',
                 color: cluster.items.last.color),
           );
         }

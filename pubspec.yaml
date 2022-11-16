@@ -52,6 +52,7 @@ dependencies:
   flutter_launcher_icons: ^0.10.0
   google_maps_cluster_manager: ^3.0.0+1
   fluttertoast: ^8.1.1
+  flutter_polyline_points: ^1.0.0
 
 flutter_icons:
   android: true

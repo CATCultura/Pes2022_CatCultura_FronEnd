@@ -58,7 +58,7 @@ class SelectionScreenState extends State<SelectionScreen> {
                                   bottom: size.width * .1,
                                 ),
                                 child: Text(
-                                  'Indica el radi',
+                                  'OPCIONS',
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w600,
@@ -67,73 +67,25 @@ class SelectionScreenState extends State<SelectionScreen> {
                                 ),
                               ),
                               component(
-                                Icons.account_circle_outlined,
-                                'User name...',
+                                Icons.question_mark,
+                                'OPTION 1',
                                 false,
                                 false,
                                 size
                               ),
                               component(
-                                Icons.email_outlined,
-                                'Email...',
-                                false,
-                                true,
-                                size
-                              ),
-                              component(
-                                Icons.lock_outline,
-                                'Password...',
+                                Icons.question_mark,
+                                'OPTION 2',
                                 true,
                                 false,
                                 size
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Forgotten password!',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          HapticFeedback.lightImpact();
-                                          Fluttertoast.showToast(
-                                            msg:
-                                            'Forgotten password! button pressed',
-                                          );
-                                        },
-                                    ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Create a new Account',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          HapticFeedback.lightImpact();
-                                          Fluttertoast.showToast(
-                                            msg:
-                                            'Create a new Account button pressed',
-                                          );
-                                        },
-                                    ),
-                                  ),
-                                ],
-                              ),
+
                               SizedBox(height: size.width * .3),
                               InkWell(
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  // HapticFeedback.lightImpact();
-                                  // Fluttertoast.showToast(
-                                  //   msg: 'Sign-In button pressed',
-                                  // );
                                   Navigator.pop(context, RutaCulturalArgs(1.0, 2.0, 3.0));
                                 },
                                 child: Container(
@@ -148,7 +100,7 @@ class SelectionScreenState extends State<SelectionScreen> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
-                                    'Sing-In',
+                                    'GENERAR RUTA',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
