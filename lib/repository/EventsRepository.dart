@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
@@ -163,6 +165,14 @@ class EventsRepository {
     }
   }
 
+  Future<EventResult> postCreaEvent(EventResult data) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
 
 

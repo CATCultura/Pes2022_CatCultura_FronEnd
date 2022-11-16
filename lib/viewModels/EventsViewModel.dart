@@ -8,10 +8,12 @@ class EventsViewModel with ChangeNotifier{
   final _eventsRepo = EventsRepository();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
+  ApiResponse<EventResult> event = ApiResponse.loading();
   List<String> suggestions = [];
   int count = 0;
   Set<int> loadedPages = {};
   bool chargingNextPage = false;
+  bool waiting = true;
 
   void setLoading(){
     eventsList.status = Status.LOADING;
@@ -30,6 +32,10 @@ class EventsViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  void setEventsSelected(ApiResponse<EventResult> response){
+    event = response;
+    notifyListeners();
+  }
 
   void addToEventsList(ApiResponse<List<EventResult>> apiResponse) {
     if(apiResponse.status == Status.COMPLETED && eventsList.status == Status.COMPLETED){
@@ -101,4 +107,19 @@ class EventsViewModel with ChangeNotifier{
   // void dispose() {
   // }
 
+  Future<void> crearEvent(String c, String d, String di, String df) async {
+    //if(n != "") {
+    EventResult esdev = EventResult();
+    esdev.codi = c;
+    esdev.denominacio = d;
+    esdev.dataInici = di;
+    esdev.dataFi = df;
+    await _eventsRepo.postCreaEvent(esdev).then((value) {
+      setEventsSelected(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+      setEventsSelected(ApiResponse.error(error.toString())));
+    //} else errorN = 1;
+    waiting = false;
+    notifyListeners();
+  }
 }
