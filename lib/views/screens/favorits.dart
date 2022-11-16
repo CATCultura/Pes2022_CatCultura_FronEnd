@@ -61,7 +61,7 @@ class favoritsListSwitchState extends State<favoritsListSwitch> {
   late List<EventResult> events = widget.events;
 
   Widget _buildEventShort(int idx) {
-    return EventContainerAgenda(event: events[idx]);
+    return EventInfoTile(event: events[idx], index: idx);
   }
 
   @override

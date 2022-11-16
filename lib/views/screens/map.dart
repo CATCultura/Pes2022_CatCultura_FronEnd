@@ -41,7 +41,6 @@ class MapSampleState extends State<Map> {
       const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
   final MapViewModel viewModel = MapViewModel();
 
-
   @override
   void initState() {
     _manager = _initClusterManager();
@@ -74,19 +73,21 @@ class MapSampleState extends State<Map> {
             ),
             drawer: const MyDrawer("Map",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
-            body: viewModel.eventsList.status == Status.COMPLETED ? GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: _iniCameraPosition,
-                markers: markers,
-                onMapCreated: (GoogleMapController controller) {
-                  _manager.setItems(viewModel.eventsList.data!);
-                  _controller.complete(controller);
-                  _manager.setMapId(controller.mapId);
-                },
-                onCameraMove: _manager.onCameraMove,
-                onCameraIdle: _manager.updateMap) : const SizedBox(
-              child: Center(child: CircularProgressIndicator()),
-            ),
+            body: viewModel.eventsList.status == Status.COMPLETED
+                ? GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: _iniCameraPosition,
+                    markers: markers,
+                    onMapCreated: (GoogleMapController controller) {
+                      _manager.setItems(viewModel.eventsList.data!);
+                      _controller.complete(controller);
+                      _manager.setMapId(controller.mapId);
+                    },
+                    onCameraMove: _manager.onCameraMove,
+                    onCameraIdle: _manager.updateMap)
+                : const SizedBox(
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 viewModel.refresh();
@@ -100,23 +101,25 @@ class MapSampleState extends State<Map> {
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
       (cluster) async {
-        if(!cluster.isMultiple) {
+        if (!cluster.isMultiple) {
           return Marker(
-              markerId: MarkerId(cluster.getId()),
-              position: cluster.location,
-            infoWindow: InfoWindow(title: cluster.items.first.event.denominacio, snippet: cluster.items.first.event.descripcio, onTap: () {Navigator.pushNamed(
-                context,
-                "/eventUnic",
-                arguments: EventUnicArgs(cluster.items.first.event.id!)
-            );}),
+            markerId: MarkerId(cluster.getId()),
+            position: cluster.location,
+            infoWindow: InfoWindow(
+                title: cluster.items.first.event.denominacio,
+                snippet: cluster.items.first.event.descripcio,
+                onTap: () {
+                  Navigator.pushNamed(context, "/eventUnic",
+                      arguments: EventUnicArgs(cluster.items.first.event.id!));
+                }),
             icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
-                text: cluster.isMultiple ? cluster.count.toString() : null, color: cluster.items.last.color),
+                text: cluster.isMultiple ? cluster.count.toString() : null,
+                color: cluster.items.last.color),
           );
         }
         return Marker(
           markerId: MarkerId(cluster.getId()),
           position: cluster.location,
-
           onTap: () {
             print('---- $cluster');
             cluster.items.forEach((p) => print(p));
@@ -127,17 +130,19 @@ class MapSampleState extends State<Map> {
             // );
           },
           icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
-              text: cluster.isMultiple ? cluster.count.toString() : null, color: cluster.items.last.color),
+              text: cluster.isMultiple ? cluster.count.toString() : null,
+              color: cluster.items.last.color),
         );
       };
 
-  Future<BitmapDescriptor> _getMarkerBitmap(int size, {String? text, Color? color}) async {
+  Future<BitmapDescriptor> _getMarkerBitmap(int size,
+      {String? text, Color? color}) async {
     if (kIsWeb) size = (size / 2).floor();
 
     final PictureRecorder pictureRecorder = PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     Paint paint1 = Paint()..color = Colors.red;
-    if(color != null ) paint1 = Paint()..color = color;
+    if (color != null) paint1 = Paint()..color = color;
     final Paint paint2 = Paint()..color = Colors.white;
 
     canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
@@ -166,4 +171,3 @@ class MapSampleState extends State<Map> {
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
 }
-
