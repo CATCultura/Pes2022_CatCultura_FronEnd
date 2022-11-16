@@ -2,10 +2,9 @@ import 'dart:core';
 
 class UserResult {
   int ? id	= 0;
-  String ? username = "empty";
+  String ? username = "manolitoklk";
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
-  String ? password = "empty";
   /*
   password	string
   creationDate	string
@@ -26,10 +25,9 @@ class UserResult {
 
   UserResult.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    username = json['id'].toString();
-    nameAndSurname = json['id'].toString();
-    email = json['id'].toString();
-    password = json['id'].toString();
+    username = json['username'].toString();
+    nameAndSurname = json['nameAndSurname'].toString();
+    email = json['email'].toString();
   }
 
 
@@ -42,4 +40,5 @@ class UserResult {
     };
     return result;
   }
+ */
 }

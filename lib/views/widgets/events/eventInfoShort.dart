@@ -15,6 +15,7 @@ class EventInfoShort extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("https://agenda.cultura.gencat.cat"+event.imatges![0]);
     return Column(
       //DOS PARTES
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +79,7 @@ class EventInfoShort extends StatelessWidget {
                 flex: 3,
                 child: SizedBox(
                   //height: 1,
-                    child: Image.network(event.imatges!)),
+                    child: Image.network("https://agenda.cultura.gencat.cat"+event.imatges![0])),
               ),
             ],
           ),
