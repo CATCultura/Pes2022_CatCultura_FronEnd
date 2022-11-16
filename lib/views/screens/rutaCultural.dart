@@ -33,7 +33,9 @@ class RutaCulturalState extends State<RutaCultural> {
   final CameraPosition _iniCameraPosition =
       const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
-  final List<Polyline> polyline = [];
+  List<Polyline> polylines = [];
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
 
   @override
   void initState() {
@@ -51,6 +53,7 @@ class RutaCulturalState extends State<RutaCultural> {
     debugPrint("markers to set: "+markers.toString());
     setState(() {
       this.markers = markers; //await setMarkers(markers);
+      paintPolylines();
     });
   }
 
@@ -108,6 +111,7 @@ class RutaCulturalState extends State<RutaCultural> {
                 mapType: MapType.normal,
                 initialCameraPosition: _iniCameraPosition,
                 markers: markers,
+                polylines: Set<Polyline>.of(polylines),
                 onMapCreated: (GoogleMapController controller) {
                   debugPrint("================================== CREANDO MAPA puntos ===========================================");
                   for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
@@ -227,4 +231,32 @@ class RutaCulturalState extends State<RutaCultural> {
 
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
+
+  void paintPolylines() {
+
+  }
+  // _addPolyLine() {
+  //   PolylineId id = PolylineId("poly");
+  //   Polyline polyline = Polyline(
+  //       polylineId: id, color: Colors.red, points: polylineCoordinates);
+  //   polylines[id] = polyline;
+  //   setState(() {});
+  // }
+  //
+  // _getPolyline() async {
+  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //       googleAPiKey,
+  //       PointLatLng(_originLatitude, _originLongitude),
+  //       PointLatLng(_destLatitude, _destLongitude),
+  //       travelMode: TravelMode.driving,
+  //       wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
+  //   if (result.points.isNotEmpty) {
+  //     result.points.forEach((PointLatLng point) {
+  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  //     });
+  //   }
+  //   _addPolyLine();
+  // }
 }
+
+
