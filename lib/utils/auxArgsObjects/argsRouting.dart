@@ -9,6 +9,6 @@ class EventUnicArgs {
 
 class AnotherProfileArgs{
   final String selectedUser;
-  final int selectedId;
+  final String selectedId;
   AnotherProfileArgs(this.selectedUser, this.selectedId);
 }

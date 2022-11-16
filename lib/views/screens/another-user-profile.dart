@@ -13,7 +13,7 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 class AnotherProfile extends StatelessWidget {
   AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
   String selectedUser;
-  int selectedId;
+  String selectedId;
   final double coverHeight = 280;
   final double profileHeight = 144;
 
@@ -69,13 +69,13 @@ class AnotherProfile extends StatelessWidget {
                     iconSize: 40,
                     icon: Icon(
                         (afegit == false) ? Icons.favorite_outline : Icons.favorite,
-                        color: MyColorsPalette.white),
+                        color: MyColorsPalette.lightRed),
                     onPressed: () {
                       if (afegit == true) {
-                        viewModel.deleteFriendById('5850', selectedId.toString());
+                        viewModel.deleteFriendById('5850', selectedId);
                       }
                       else {
-                        viewModel.putFriendById('5850', selectedId.toString());
+                        viewModel.putFriendById('5850', selectedId);
                       }
                       afegit = !afegit;
                     },

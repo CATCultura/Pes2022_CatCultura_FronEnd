@@ -31,7 +31,7 @@ class StatefulProfile extends StatefulWidget {
 class _StatefulProfileState extends State<StatefulProfile>  {
 
   String selectedUser = '';
-  late int selectedId;
+  String selectedId = '';
   final UsersViewModel viewModel = UsersViewModel();
   late List <String> usersList = [];
   late List <String> usersSuggList = [];
@@ -104,7 +104,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               if (usersList[i] == finalResult!) pos = i;
                             }
                             selectedUser = viewModel.usersList.data![pos].nameAndSurname!;
-                            selectedId = int.parse(viewModel.usersList.data![pos].id!);
+                            selectedId = viewModel.usersList.data![pos].id!;
                           });
                           // ignore: use_build_context_synchronously
                           if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
