@@ -1,7 +1,7 @@
 import 'dart:core';
 
 class UserResult {
-  int ? id	= 0;
+  String ? id	= "empty";
   String ? username = "manolitoklk";
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
@@ -23,7 +23,7 @@ class UserResult {
   });
 
   UserResult.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     username = json['username'].toString();
     nameAndSurname = json['nameAndSurname'].toString();
     email = json['email'].toString();
