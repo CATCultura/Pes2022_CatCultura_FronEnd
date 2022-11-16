@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/search_locations.dart';
 import '../../data/response/apiResponse.dart';
-import '../../models/UserResult.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
-import 'package:CatCultura/viewModels/AnotherUserViewModel.dart';
 
 
 
@@ -107,7 +104,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               if (usersList[i] == finalResult!) pos = i;
                             }
                             selectedUser = viewModel.usersList.data![pos].nameAndSurname!;
-                            selectedId = viewModel.usersList.data![pos].id!;
+                            selectedId = int.parse(viewModel.usersList.data![pos].id!);
                           });
                           // ignore: use_build_context_synchronously
                           if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
@@ -126,8 +123,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
             ),
           ),
         );
-          }
-        )
+      })
     );
   }
 /*

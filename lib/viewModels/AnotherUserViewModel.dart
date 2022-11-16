@@ -33,9 +33,9 @@ class AnotherUserViewModel with ChangeNotifier{
         setUsersSelected(ApiResponse.error(error.toString())));
   }
 
-  Future<void> putFavouriteById(String userId, String? eventId) async{
-    if(eventId != null) {
-      await _usersRepo.addFavouriteByUserId(userId, int.parse(eventId)).then((value) {
+  Future<void> putFriendById(String userId, String? otherUserId) async{
+    if(otherUserId != null) {
+      await _usersRepo.addFavouriteByUserId(userId, int.parse(otherUserId)).then((value) {
         setFriendResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setFriendResult(ApiResponse.error(error.toString())));
@@ -43,9 +43,9 @@ class AnotherUserViewModel with ChangeNotifier{
 
   }
 
-  Future<void> deleteFavouriteById(String userId, String? eventId) async{
-    if(eventId != null){
-      await _usersRepo.deleteFavouriteByUserId(userId, int.parse(eventId)).then((value){
+  Future<void> deleteFriendById(String userId, String? otherUserId) async{
+    if(otherUserId != null){
+      await _usersRepo.deleteFavouriteByUserId(userId, int.parse(otherUserId)).then((value){
         setFriendResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setFriendResult(ApiResponse.error(error.toString())));
     }

@@ -62,7 +62,7 @@ class UsersRepository {
 
   Future<String> addFavouriteByUserId(String id, int otherUserId) async {
     try{
-      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/favourites/$otherUserId", "" );
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/friends/$otherUserId", "" );
       String res = response;
       return res;
     }
@@ -73,7 +73,7 @@ class UsersRepository {
 
   Future<String> deleteFavouriteByUserId(String id, int otherUserId) async{
     try{
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/favourites/$otherUserId", "");
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/friends/$otherUserId", "");
       String res = response;
       return res;
     }

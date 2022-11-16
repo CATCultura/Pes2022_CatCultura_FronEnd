@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:CatCultura/viewModels/AnotherUserViewModel.dart';
+import '../../data/response/apiResponse.dart';
+import '../../models/UserResult.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
+
 import 'package:like_button/like_button.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
@@ -12,6 +17,8 @@ class AnotherProfile extends StatelessWidget {
   final double coverHeight = 280;
   final double profileHeight = 144;
 
+  final AnotherUserViewModel viewModel = AnotherUserViewModel();
+
   @override
   void initState() {
 
@@ -19,69 +26,83 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
   bool afegit = false;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("User Profile"),
-        backgroundColor: MyColorsPalette.lightBlue,
-      ),
-      backgroundColor: Colors.grey[200],
-      // key: _scaffoldKey,
-      drawer: const MyDrawer(
-          "AnotherProfile", username: "SuperJuane", email: "juaneolivan@gmail.com"),
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          buildTop(),
-          SizedBox(height: 18),
-          Row (
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-              Text(
-                selectedUser,
-                style: TextStyle(fontSize: 28, color: Colors.teal),
-              ),
-            ]
+  return ChangeNotifierProvider<AnotherUserViewModel>(
+      create: (BuildContext context) => viewModel,
+      child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("User Profile"),
+            backgroundColor: MyColorsPalette.lightBlue,
           ),
-          buildContent(),
-          SizedBox(height: 32),
-          Row (
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-              const Text (
-                'Afegir amic:  ',
-                style: TextStyle(fontSize: 18, height: 1.4, color: Colors.black54),
+          backgroundColor: Colors.grey[200],
+          // key: _scaffoldKey,
+          drawer: const MyDrawer(
+              "AnotherProfile", username: "SuperJuane",
+              email: "juaneolivan@gmail.com"),
+          body: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              buildTop(),
+              SizedBox(height: 18),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      selectedUser,
+                      style: TextStyle(fontSize: 28, color: Colors.teal),
+                    ),
+                  ]
               ),
-              LikeButton(
-                size: 40,
-                likeBuilder: (isTapped){
-                  return Icon(
-                    Icons.bookmark,
-                    size: 40,
-                    color: isTapped ? Colors.deepPurple : Colors.grey,
-                  );
-                }
+              buildContent(),
+              SizedBox(height: 32),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text (
+                    'Afegir amic:  ',
+                    style: TextStyle(
+                        fontSize: 18, height: 1.4, color: Colors.black54),
+                  ),
+                  IconButton(
+                    iconSize: 40,
+                    icon: Icon(
+                        (afegit == false) ? Icons.favorite_outline : Icons.favorite,
+                        color: MyColorsPalette.white),
+                    onPressed: () {
+                      if (afegit == true) {
+                        viewModel.deleteFriendById('5850', selectedId.toString());
+                      }
+                      else {
+                        viewModel.putFriendById('5850', selectedId.toString());
+                      }
+                      afegit = !afegit;
+                    },
 
-              ),
-            ],
-          ),
-        ],
-      ),
-      /*
-      body: Container(
-          color: MyColors.warning,
-          height: 50,
-          width: double.infinity,
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                MyColorsPalette.orange)),
-            child: const Text('Add to friends'),
-            onPressed: () {
 
-            },
-          )
-       */
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          /*
+              body: Container(
+                  color: MyColors.warning,
+                  height: 50,
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: ElevatedButton(
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
+                        MyColorsPalette.orange)),
+                    child: const Text('Add to friends'),
+                    onPressed: () {
+
+                    },
+                  )
+               */
+            );
+      })
     );
   }
 
