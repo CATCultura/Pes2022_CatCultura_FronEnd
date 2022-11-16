@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class EventInfoTabs extends StatefulWidget {
   final EventResult? event;
-  const EventInfoTabs({super.key, this.event});
-
+  Function? callback = (){};
+   EventInfoTabs({super.key, this.event, this.callback});
 
   @override
   State<EventInfoTabs> createState() =>
@@ -23,12 +23,10 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
   String loggedUserId = "5850";
   bool assistire = false;
 
-  final EventUnicViewModel viewModel = EventUnicViewModel();
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<EventUnicViewModel>(
-        create: (BuildContext context) => viewModel,
+    return Placeholder(
+        //create: (BuildContext context) => widget.viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
           final Tabs = <Widget>[
             const Tab(
@@ -48,8 +46,8 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
             onPressed: (){
-              if(assistire == true) viewModel.deleteAttendanceById(loggedUserId, event!.id);
-              else viewModel.putAttendanceById(loggedUserId, event!.id!);
+              if(assistire == true) widget.callback!("deleteAttendance");
+              else widget.callback!("addAttendance");
               setState(() {
                 assistire = !assistire;
               });
@@ -60,11 +58,8 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((Favorit == false) ? Icons.star_border_outlined : Icons.star, color: MyColorsPalette.white),
             onPressed: (){
-              if(Favorit == true) viewModel.deleteFavouriteById(loggedUserId, event!.id);
-              else viewModel.putFavouriteById(loggedUserId, event!.id!);
-              print(viewModel.addFavouriteResult.status);
-              print(viewModel.addFavouriteResult);
-              print("estic aqui");
+              if(Favorit == true) widget.callback!("deleteFavourite");
+              else widget.callback!("addFavourite");
               setState(() {
                 Favorit = !Favorit;
               });
