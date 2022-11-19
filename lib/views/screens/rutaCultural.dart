@@ -27,14 +27,9 @@ class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
 
-  final CameraPosition _iniCameraPosition =
-      const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
+
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
-  Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
-  List<LatLng> polylineCoordinates = [];
-  PolylineId? selectedPolyline;
-  late PolylinePoints polylinePoints;
-  String googleAPiKey = "AIzaSyAC-HdDDHsSjsvdpvVBoqhDHaGI0khcdyo";
+
   Position? _currentPosition;
 
   @override
@@ -46,7 +41,7 @@ class RutaCulturalState extends State<RutaCultural> {
   ClusterManager _initClusterManager() {
     List<Place> a = [];
     return ClusterManager<Place>(a, _updateMarkers,
-        markerBuilder: _markerBuilder, stopClusteringZoom: 17.0);
+        markerBuilder: _markerBuilder, stopClusteringZoom: 1.0);
   }
 
   void _updateMarkers(Set<Marker> markers) {
@@ -79,12 +74,12 @@ class RutaCulturalState extends State<RutaCultural> {
                 ],
               )),
             )
-            : viewModel.eventsListMap.status == Status.COMPLETED ?  GoogleMap(
+            : viewModel.eventsListMap.status == Status.COMPLETED && viewModel.polylines.status == Status.COMPLETED?  GoogleMap(
                 myLocationEnabled: false,
                 mapType: MapType.normal,
-                initialCameraPosition: _iniCameraPosition,
+                initialCameraPosition: viewModel.iniCameraPosition,
                 markers: viewModel.markers,
-                polylines: Set<Polyline>.of(polylines.values),
+                polylines: Set<Polyline>.of(viewModel.polylines.data!.values),
                 onMapCreated: (GoogleMapController controller) {
                   for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                   if (!_controller.isCompleted) _controller.complete(controller);
@@ -99,7 +94,7 @@ class RutaCulturalState extends State<RutaCultural> {
                     zoomControlsEnabled: false,
               myLocationEnabled: false,
               mapType: MapType.normal,
-                    initialCameraPosition: _iniCameraPosition,
+                    initialCameraPosition: viewModel.iniCameraPosition,
                     markers: viewModel.markers,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
@@ -131,7 +126,7 @@ class RutaCulturalState extends State<RutaCultural> {
       viewModel.rutaGenerada = true;
     });
     await viewModel.generateRutaCultural(result);
-    // paintRoute();
+    //viewModel.paintRoute();
     // setState(() {
     //
     // });
@@ -213,58 +208,6 @@ class RutaCulturalState extends State<RutaCultural> {
 
   // Create the polylines for showing the route between two places
 
-  _createPolylines(
-      double startLatitude,
-      double startLongitude,
-      double destinationLatitude,
-      double destinationLongitude,
-      Color c,
-      int nId,
-      ) async {
-    // Initializing PolylinePoints
-    polylinePoints = PolylinePoints();
-
-    // Generating the list of coordinates to be used for
-    // drawing the polylines
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleAPiKey, // Google Maps API Key
-      PointLatLng(startLatitude, startLongitude),
-      PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.transit,
-    );
-
-    // Adding the coordinates to the list
-    if (result.points.isNotEmpty) {
-      polylineCoordinates = [];
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-    }
-    String polyIDx = "polyID+$nId";
-    // Defining an ID
-    PolylineId id = PolylineId(polyIDx);
-
-    // Initializing Polyline
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: c,
-      points: polylineCoordinates,
-      width: 3,
-    );
-
-    // Adding the polyline to the map
-    polylines[id] = polyline;
-  }
-
-  void paintRoute() {
-    List<Color> c = [Colors.blue, Colors.red];
-    for(int i = 0; i < viewModel.eventsListMap.data!.length - 1; ++i) {
-      _createPolylines(viewModel.eventsListMap.data![i].location.latitude,
-          viewModel.eventsListMap.data![i].location.longitude,
-          viewModel.eventsListMap.data![i+1].location.latitude,
-          viewModel.eventsListMap.data![i+1].location.longitude,c[i],i);
-    }
-  }
 }
 
 

@@ -15,6 +15,7 @@ class ParametersRutaCultural extends StatefulWidget {
 
 
 class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
+  double _currentSliderValue = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,14 +67,23 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                   ),
                                 ),
                               ),
-                              component(
+                              componentText(
                                 Icons.question_mark,
                                 'OPTION 1',
                                 false,
                                 false,
                                 size
                               ),
-                              component(
+                              const Padding(padding: EdgeInsets.only(top: 8.0),),
+                              componentSlider(
+                                Icons.question_mark,
+                                'a',
+                                false,
+                                false,
+                                size
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 8.0),),
+                              componentText(
                                 Icons.question_mark,
                                 'OPTION 2',
                                 true,
@@ -81,7 +91,7 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                 size
                               ),
 
-                              SizedBox(height: size.width * .3),
+                              SizedBox(height: size.width * .1),
                               InkWell(
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
@@ -128,7 +138,8 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
     ),
     );
   }
-  Widget component(
+
+  Widget componentText(
       IconData icon, String hintText, bool isPassword, bool isEmail, Size size) {
     return Container(
       height: size.width / 8,
@@ -158,6 +169,64 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
             color: Colors.white.withOpacity(.5),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget componentSlider(IconData icon, String hintText, bool isPassword, bool isEmail, Size size){
+    final List<double> values = [1.0, 2.0, 3.0, 4.0, 5.0, 10.0, 15.0];
+    int selectedIndex = 0;
+
+    return Container(
+      height: size.width / 3,
+      width: size.width / 1.25,
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(right: size.width / 30),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex:2,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 18.0, left: 15.0),
+              child: Text("SELECCIONA UN RADIO: ( ${_currentSliderValue} km.)",style: TextStyle(
+                fontSize: 14,
+                color: Colors.white.withOpacity(.5),
+              ),),
+            ),
+          ),
+          Expanded(
+              flex: 5,
+              child: Slider(
+                value: _currentSliderValue,
+                max: 300,
+                divisions: 5,
+                label: _currentSliderValue == 300? "+∞" : _currentSliderValue.toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    _currentSliderValue = value;
+                  });
+                },
+              )
+            // Slider(
+              //   value: 4,//2,//_currentSliderValue,
+              //   min: 0,
+              //   max: 513,
+              //   divisions: 8,
+              //   label: [0,4,8,16,24,32,128,512][_currentSliderValue.round()].toString(),
+              //   onChanged: (double value) {
+              //     setState(() {
+              //       _currentSliderValue = value;
+              //     });
+              //   },
+              // ),
+                //label: _currentSliderValue == 15? "+∞" : _currentSliderValue.toString(),
+          ),
+        ],
       ),
     );
   }
