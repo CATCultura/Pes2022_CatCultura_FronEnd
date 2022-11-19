@@ -174,7 +174,7 @@ class EventsRepository {
     }
   }
 
-  Future<String> deleteEventId(int eventId) async{
+  Future<String> deleteEventId(String? eventId) async{
     try{
       dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}events/$eventId", "");
       String res = response;

@@ -1,10 +1,12 @@
+import 'package:CatCultura/utils/routes/allScreens.dart';
+import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
-import '../../viewModels/EventsViewModel.dart';
+import '../widgets/events/eventInfoShort.dart';
 
 
 class opcionsEsdeveniment extends StatefulWidget {
@@ -12,17 +14,18 @@ class opcionsEsdeveniment extends StatefulWidget {
 
   @override
   State<opcionsEsdeveniment> createState() => _opcionsState();
+
 }
 
 class _opcionsState extends State<opcionsEsdeveniment> {
-  final EventsViewModel viewModel = EventsViewModel();
+  final EventUnicViewModel viewModel = EventUnicViewModel();
+  String? eventId;
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchEvents();
-    return ChangeNotifierProvider<EventsViewModel>(
+    return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<EventsViewModel>(builder: (context, value, _) {
+        child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(0,0,0,0),
             child: GestureDetector(
@@ -77,6 +80,7 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                                                 foregroundColor: Colors.blue,
                                               ),
                                               onPressed: () {
+                                                viewModel.deleteEventById(eventId);
                                                 Navigator.popAndPushNamed(
                                                     context, '/home');
                                               }
@@ -145,21 +149,13 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                     ),
                   ),
                 )
-                    : viewModel.event.status == Status.LOADING? const SizedBox(
+                    : viewModel.eventSelected.status == Status.LOADING? const SizedBox(
                         child: Center(child: CircularProgressIndicator()),
           )
-                    : viewModel.event.status == Status.ERROR? Text(viewModel.event.toString())
-                    : viewModel.event.status == Status.COMPLETED? OpcioRealitzada(): Text ("Tot correcte")
+                    : viewModel.eventSelected.status == Status.ERROR? Text(viewModel.eventSelected.toString())
+                    : viewModel.eventSelected.status == Status.COMPLETED? EventInfoShort(event: viewModel.eventSelected.data!): Text ("Tot correcte")
               ),
           );
     }));
-  }
-}
-
-class OpcioRealitzada extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/home');
-    return Container();
   }
 }

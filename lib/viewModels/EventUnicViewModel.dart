@@ -11,6 +11,8 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<String> addAttendanceResult = ApiResponse.loading();
 
+  bool waiting = true;
+
 
   setEventSelected(ApiResponse<EventResult> response){
     debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}");
@@ -75,9 +77,10 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> deleteEventById(String? eventId) async {
     if (eventId != null) {
-      await _eventsRepo.deleteEventId(int.parse(eventId)).then((value) {
+      await _eventsRepo.deleteEventId(eventId).then((value) {
         setEventSelected(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setEventSelected(ApiResponse.error(error.toString())));
     }
+    waiting = false;
   }
 }
