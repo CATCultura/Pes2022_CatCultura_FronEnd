@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SelectionScreen extends StatefulWidget {
-  const SelectionScreen({super.key});
+class ParametersRutaCultural extends StatefulWidget {
+  const ParametersRutaCultural({super.key});
 
   @override
-  SelectionScreenState createState() => SelectionScreenState();
+  ParametersRutaCulturalState createState() => ParametersRutaCulturalState();
 }
 
 
-class SelectionScreenState extends State<SelectionScreen> {
+class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -99,7 +99,7 @@ class SelectionScreenState extends State<SelectionScreen> {
                                     color: Colors.black.withOpacity(.1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     'GENERAR RUTA',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -115,7 +115,7 @@ class SelectionScreenState extends State<SelectionScreen> {
                       ),
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(),
                   ),
                 ],

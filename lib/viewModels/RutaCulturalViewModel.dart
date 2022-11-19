@@ -4,14 +4,19 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsReturnParametersRutaCultural.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/Place.dart';
 
 class RutaCulturalViewModel with ChangeNotifier {
-  bool rutaGenerada = false;
-  final _eventsRepo = EventsRepository();
 
+  //VARIABLES
+  final _eventsRepo = EventsRepository();
+  Set<Marker> markers = {};
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();
+
+  //STATES
+  bool rutaGenerada = false;
 
   void mantaintEventsListToMap() {
     List<Place> aux = [];
@@ -26,6 +31,8 @@ class RutaCulturalViewModel with ChangeNotifier {
   }
 
   Future<void> generateRutaCultural(RutaCulturalArgs? args) async {
+    eventsListMap.status = Status.LOADING;
+    notifyListeners();
     await _eventsRepo.getRutaCultural(args!.longitud,args.latitud,args.radio).then((value) {
       setEventsList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>

@@ -8,6 +8,7 @@ import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -25,17 +26,16 @@ class RutaCultural extends StatefulWidget {
 class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> markers = {const Marker(
-        markerId: MarkerId("marker_2"),
-        position: LatLng(41.3860, 2.1675),
 
-      ),};
   final CameraPosition _iniCameraPosition =
-      const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
+      const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
-  List<Polyline> polylines = [];
+  Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
   List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
+  PolylineId? selectedPolyline;
+  late PolylinePoints polylinePoints;
+  String googleAPiKey = "AIzaSyAC-HdDDHsSjsvdpvVBoqhDHaGI0khcdyo";
+  Position? _currentPosition;
 
   @override
   void initState() {
@@ -52,41 +52,14 @@ class RutaCulturalState extends State<RutaCultural> {
   void _updateMarkers(Set<Marker> markers) {
     debugPrint("markers to set: "+markers.toString());
     setState(() {
-      this.markers = markers; //await setMarkers(markers);
-      paintPolylines();
+      viewModel.markers = markers; //await setMarkers(markers);
     });
   }
-
-  // Future<Set<Marker>> setMarkers(Set<Marker> markers) async {
-  //   return {
-  //     Marker(
-  //         markerId: MarkerId("marker_1"),
-  //         position: LatLng(41.3874, 2.1686),
-  //         infoWindow: InfoWindow(title: 'Marker 1'),
-  //         icon: await _getMarkerBitmap(75,
-  //             text: "1",
-  //             color: Colors.green)
-  //     ),
-  //     Marker(
-  //       markerId: const MarkerId("marker_2"),
-  //       position: const LatLng(41.3860, 2.1675),
-  //         icon: await _getMarkerBitmap(75,
-  //             text: "2",
-  //             color: Colors.yellow)
-  //     ),
-  //     Marker(
-  //         markerId: const MarkerId("marker_3"),
-  //         position: const LatLng(41.3850, 2.1650),
-  //         icon: await _getMarkerBitmap(75,
-  //             text: "3",
-  //             color: Colors.purple)
-  //     ),
-  //   };
-  // }
 
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider<RutaCulturalViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
@@ -110,10 +83,9 @@ class RutaCulturalState extends State<RutaCultural> {
                 myLocationEnabled: false,
                 mapType: MapType.normal,
                 initialCameraPosition: _iniCameraPosition,
-                markers: markers,
-                polylines: Set<Polyline>.of(polylines),
+                markers: viewModel.markers,
+                polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: (GoogleMapController controller) {
-                  debugPrint("================================== CREANDO MAPA puntos ===========================================");
                   for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                   if (!_controller.isCompleted) _controller.complete(controller);
                   _manager.setMapId(controller.mapId);
@@ -128,9 +100,8 @@ class RutaCulturalState extends State<RutaCultural> {
               myLocationEnabled: false,
               mapType: MapType.normal,
                     initialCameraPosition: _iniCameraPosition,
-                    markers: markers,
+                    markers: viewModel.markers,
                     onMapCreated: (GoogleMapController controller) {
-                      debugPrint("================================== CREANDO MAPA BASE ===========================================");
                       _controller.complete(controller);
                       //_manager.setMapId(controller.mapId);
                     },
@@ -147,15 +118,23 @@ class RutaCulturalState extends State<RutaCultural> {
         }));
   }
   Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    setState(() {
+      viewModel.rutaGenerada = false;
+
+    });
     final result = await Navigator.push(
       context,
-      MaterialPageRoute<RutaCulturalArgs>(builder: (context) => const SelectionScreen()),
+      MaterialPageRoute<RutaCulturalArgs>(builder: (context) => const ParametersRutaCultural()),
     );
     if (!mounted) return;
     setState(() {
       viewModel.rutaGenerada = true;
     });
-    viewModel.generateRutaCultural(result);
+    await viewModel.generateRutaCultural(result);
+    // paintRoute();
+    // setState(() {
+    //
+    // });
   }
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
@@ -232,31 +211,60 @@ class RutaCulturalState extends State<RutaCultural> {
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
 
-  void paintPolylines() {
+  // Create the polylines for showing the route between two places
 
+  _createPolylines(
+      double startLatitude,
+      double startLongitude,
+      double destinationLatitude,
+      double destinationLongitude,
+      Color c,
+      int nId,
+      ) async {
+    // Initializing PolylinePoints
+    polylinePoints = PolylinePoints();
+
+    // Generating the list of coordinates to be used for
+    // drawing the polylines
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleAPiKey, // Google Maps API Key
+      PointLatLng(startLatitude, startLongitude),
+      PointLatLng(destinationLatitude, destinationLongitude),
+      travelMode: TravelMode.transit,
+    );
+
+    // Adding the coordinates to the list
+    if (result.points.isNotEmpty) {
+      polylineCoordinates = [];
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    String polyIDx = "polyID+$nId";
+    // Defining an ID
+    PolylineId id = PolylineId(polyIDx);
+
+    // Initializing Polyline
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: c,
+      points: polylineCoordinates,
+      width: 3,
+    );
+
+    // Adding the polyline to the map
+    polylines[id] = polyline;
   }
-  // _addPolyLine() {
-  //   PolylineId id = PolylineId("poly");
-  //   Polyline polyline = Polyline(
-  //       polylineId: id, color: Colors.red, points: polylineCoordinates);
-  //   polylines[id] = polyline;
-  //   setState(() {});
-  // }
-  //
-  // _getPolyline() async {
-  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-  //       googleAPiKey,
-  //       PointLatLng(_originLatitude, _originLongitude),
-  //       PointLatLng(_destLatitude, _destLongitude),
-  //       travelMode: TravelMode.driving,
-  //       wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
-  //   if (result.points.isNotEmpty) {
-  //     result.points.forEach((PointLatLng point) {
-  //       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-  //     });
-  //   }
-  //   _addPolyLine();
-  // }
+
+  void paintRoute() {
+    List<Color> c = [Colors.blue, Colors.red];
+    for(int i = 0; i < viewModel.eventsListMap.data!.length - 1; ++i) {
+      _createPolylines(viewModel.eventsListMap.data![i].location.latitude,
+          viewModel.eventsListMap.data![i].location.longitude,
+          viewModel.eventsListMap.data![i+1].location.latitude,
+          viewModel.eventsListMap.data![i+1].location.longitude,c[i],i);
+    }
+  }
 }
 
 

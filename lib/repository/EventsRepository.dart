@@ -1,5 +1,7 @@
 //import 'dart:html';
 
+import 'dart:math';
+
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
@@ -178,7 +180,8 @@ class EventsRepository {
     //41.3874, 2.1686
 
     try {
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=0&size=3"); //no va --> &sort=$sort
+      final random = new Random();
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
 
