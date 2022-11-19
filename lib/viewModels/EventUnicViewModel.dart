@@ -72,4 +72,12 @@ class EventUnicViewModel with ChangeNotifier {
   // @override
   // void dispose() {
   // }
+
+  Future<void> deleteEventById(String? eventId) async {
+    if (eventId != null) {
+      await _eventsRepo.deleteEventId(int.parse(eventId)).then((value) {
+        setEventSelected(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setEventSelected(ApiResponse.error(error.toString())));
+    }
+  }
 }

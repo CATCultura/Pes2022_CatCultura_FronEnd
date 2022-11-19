@@ -32,7 +32,7 @@ class EventsViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  void setEventsSelected(ApiResponse<EventResult> response){
+  void setEvents(ApiResponse<EventResult> response){
     event = response;
     notifyListeners();
   }
@@ -108,17 +108,16 @@ class EventsViewModel with ChangeNotifier{
   // }
 
   Future<void> crearEvent(String c, String d, String di, String df) async {
-    //if(n != "") {
     EventResult esdev = EventResult();
     esdev.codi = c;
     esdev.denominacio = d;
     esdev.dataInici = di;
     esdev.dataFi = df;
+
     await _eventsRepo.postCreaEvent(esdev).then((value) {
-      setEventsSelected(ApiResponse.completed(value));
+      setEvents(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
-      setEventsSelected(ApiResponse.error(error.toString())));
-    //} else errorN = 1;
+      setEvents(ApiResponse.error(error.toString())));
     waiting = false;
     notifyListeners();
   }
