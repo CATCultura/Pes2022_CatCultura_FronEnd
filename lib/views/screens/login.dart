@@ -66,9 +66,9 @@ class _StatefulLoginState extends State<StatefulLogin> {
                 padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                 child: TextField(
                   controller: nameController,
-                  decoration: const InputDecoration (
+                  decoration: InputDecoration (
                       contentPadding: EdgeInsets.only(bottom: 3),
-                      labelText: "Nom d'usuari"
+                      labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
                   ),
                 ),
               ),
@@ -91,7 +91,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                       ),
                     ),
                     contentPadding: const EdgeInsets.only(bottom: 3),
-                    labelText: "Contrasenya",
+                    labelText: AppLocalizations.of(context)?.passwordInputBoxLabel,
                   ),
                 ),
               ),
@@ -101,7 +101,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   onPressed: () {
                     //forgot password screen
                   },
-                  child: const Text('Has oblidat la contrassenya?',
+                  child: Text(AppLocalizations.of(context)!.forgotPassword,
                       style: TextStyle (
                       color:Colors.deepOrangeAccent
                   )),
@@ -112,7 +112,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   child: ElevatedButton(
                     style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
-                    child: const Text('Iniciar sessió',
+                    child: Text(AppLocalizations.of(context)!.loginButton,
                       style: TextStyle (
                           color:Colors.white
                       ),
@@ -130,11 +130,10 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text(                AppLocalizations.of(context)!.guestMode,
-                  ),
+                  Text(AppLocalizations.of(context)!.guestMode),
                   TextButton(
-                    child: const Text(
-                      'Crear compte',
+                    child: Text(
+                      AppLocalizations.of(context)!.signUpButton,
                       style: TextStyle (
                           color:Colors.deepOrangeAccent
                       ),
@@ -146,8 +145,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
                 ],
               ),
               TextButton(
-                child: const Text(
-                  'Entrar com convidat',
+                child: Text(
+                  AppLocalizations.of(context)!.guestMode,
                   style: TextStyle (
                       color:Colors.deepOrangeAccent
                   ),
