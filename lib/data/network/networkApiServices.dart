@@ -35,8 +35,9 @@ class NetworkApiServices extends BaseApiServices {
     try {
       http.Response response = await http.post(
         Uri.parse(url),
-        body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(data.toJson()),
+        headers: {'Content-Type': 'application/json', 'Accept': '*/*',
+          'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString()},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -91,8 +92,6 @@ class NetworkApiServices extends BaseApiServices {
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
-      case 201:
-        return response.body;
       case 400:
         throw BadRequestException(response.body.toString());
       case 404:
