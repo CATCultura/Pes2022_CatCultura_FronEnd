@@ -1,5 +1,6 @@
 //import 'dart:io';
 
+import 'package:CatCultura/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
@@ -7,6 +8,8 @@ import '../../models/UserResult.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
 
 import '../../constants/theme.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
@@ -127,7 +130,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text('Encara no tens un compte?'),
+                  const Text(                AppLocalizations.of(context)!.guestMode,
+                  ),
                   TextButton(
                     child: const Text(
                       'Crear compte',
