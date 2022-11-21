@@ -98,7 +98,6 @@ class EventUnic extends StatelessWidget {
                                     children: [
                                       Expanded(child: EventInfoTabs(event: viewModel.eventSelected.data!,
                                       callback: (value) => treatCallback(value))),
-
                                     ],
 
                                   )),
@@ -109,6 +108,7 @@ class EventUnic extends StatelessWidget {
 
                 //EventContainer(eventId: eventId),
               )
+
           );
         }));
   }

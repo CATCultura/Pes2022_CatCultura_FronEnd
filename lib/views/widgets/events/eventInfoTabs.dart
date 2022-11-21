@@ -27,7 +27,7 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
   Widget build(BuildContext context) {
     return Placeholder(
         //create: (BuildContext context) => widget.viewModel,
-        child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
+        child: Consumer(builder: (context, value, _) {
           final Tabs = <Widget>[
             const Tab(
             icon: Icon(Icons.info_outline, size: 20.0, color: MyColorsPalette.white),
