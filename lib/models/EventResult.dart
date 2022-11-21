@@ -83,10 +83,11 @@ class EventResult {
     final Map<String, dynamic> result =
     <String, dynamic>{};
     result['id'] = id;
+    result['codi'] = codi;
     result['denominacio'] = denominacio;
     result['dataInici'] = dataInici;
     result['dataFi'] = dataFi;
-    result['descripcio'] = descripcio;
+    //result['descripcio'] = descripcio;
     return result;
   }
 }

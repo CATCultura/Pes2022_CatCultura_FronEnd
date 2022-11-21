@@ -184,5 +184,17 @@ class EventsRepository {
     }
   }
 
+  Future<String> addEventById(String? eventId, EventResult data) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+
+  }
+
 
 }

@@ -19,7 +19,7 @@ class opcionsEsdeveniment extends StatefulWidget {
 
 class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
-  String? eventId;
+  late String eventId;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                                                 foregroundColor: Colors.blue,
                                               ),
                                               onPressed: () {
-                                                viewModel.deleteEventById(eventId);
+                                                //viewModel.deleteEventById(eventId);
                                                 Navigator.popAndPushNamed(
                                                     context, '/home');
                                               }

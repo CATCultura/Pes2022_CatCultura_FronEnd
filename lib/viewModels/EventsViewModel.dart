@@ -108,17 +108,16 @@ class EventsViewModel with ChangeNotifier{
   // }
 
   Future<void> crearEvent(String c, String d, String di, String df) async {
-      EventResult esdev = EventResult();
-      esdev.codi = c;
-      esdev.denominacio = d;
-      esdev.dataInici = di;
-      esdev.dataFi = df;
-
-      await _eventsRepo.postCreaEvent(esdev).then((value) {
-        setEvents(ApiResponse.completed(value));
-      }); //.onError((error, stackTrace) =>
-          //setEvents(ApiResponse.error(error.toString())));
-      waiting = false;
-      notifyListeners();
-  }
+    EventResult event = EventResult();
+    event.codi = c;
+    event.denominacio = d;
+    event.dataInici = di;
+    event.dataFi = df;
+    await _eventsRepo.postCreaEvent(event).then((value) {
+      setEvents(ApiResponse.completed(value));
+    }); /** .onError((error, stackTrace) =>
+        setEvents(ApiResponse.error(error.toString()))); **/
+    waiting = false;
+    notifyListeners();
+    }
 }
