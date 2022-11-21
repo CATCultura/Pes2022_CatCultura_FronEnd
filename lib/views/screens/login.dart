@@ -130,7 +130,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(AppLocalizations.of(context)!.guestMode),
+                  Text(AppLocalizations.of(context)!.signUpPrompt),
                   TextButton(
                     child: Text(
                       AppLocalizations.of(context)!.signUpButton,
@@ -152,7 +152,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   ),
                 ),
                 onPressed: () {
-                  //signup screen
+                  Navigator.popAndPushNamed(context, '/userTags');
                 },
               ),
             ],

@@ -43,6 +43,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
         return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment());
+      case '/userTags':
+        return MaterialPageRoute(builder:(_)=>UserTags());
       default:
         return _errorRoute();
     }
