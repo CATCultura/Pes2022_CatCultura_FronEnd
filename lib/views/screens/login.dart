@@ -118,12 +118,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                       ),
                     ),
                     onPressed: () {
-                      print(nameController.text);
-                      print(passwordController.text);
-                      viewModel.iniciarSessio(nameController.text, passwordController.text);
-                      //Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
-                      //Navigator.popAndPushNamed(context, '/home');
-                      //Navigator.pushReplacementNamed(context, '/home');
+                      viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text.replaceAll(' ', ''));
                     },
                   )
               ),
@@ -152,7 +147,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, '/userTags');
+                  Navigator.popAndPushNamed(context, '/home');
                 },
               ),
             ],
