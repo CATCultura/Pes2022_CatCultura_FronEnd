@@ -33,12 +33,10 @@ class UsersViewModel with ChangeNotifier{
   }
 
   Future<void> iniciarSessio(String n, String p) async {
-    //if(n != "") {
       await _usersRepo.iniSessio(n, p).then((value) {
         setUsersSelected(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setUsersSelected(ApiResponse.error(error.toString())));
-    //} else errorN = 1;
       waiting = false;
     notifyListeners();
   }
