@@ -145,7 +145,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                   style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
                   child: const Text('Crea compte'),
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, '/login');
+                    Navigator.popAndPushNamed(context, '/userTags');
                     viewModel.crearcompte(nameController.text, userController.text, emailController.text, passwordController.text);
                   },
                 ),
