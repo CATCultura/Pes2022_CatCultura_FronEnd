@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,5 +61,47 @@ class UsersRepository {
     }
     return result;
   }
+
+  Future<UserResult> iniSessio(String n, String p) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/name=$n");
+      UserResult res = UserResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<UserResult> postCreaCompte(UserResult data) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<String> addFavouriteByUserId(String id, int otherUserId) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/friends/$otherUserId", "" );
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<String> deleteFavouriteByUserId(String id, int otherUserId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/friends/$otherUserId", "" );
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
 
 }

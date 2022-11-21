@@ -19,13 +19,13 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Profile());
       case '/events':
         return MaterialPageRoute(builder:(_)=>Events());
-      case '/map':
-        return MaterialPageRoute(builder:(_)=>Map());
+      case '/rutaCultural':
+        return MaterialPageRoute(builder:(_)=>RutaCultural());
       case '/crear-esdeveniment':
         return MaterialPageRoute(builder:(_)=>crearEsdeveniments());
       case '/another-user-profile':
-        final argsAnotherProfile = settings.arguments as String;
-        return MaterialPageRoute(builder:(_)=>AnotherProfile(selectedUser: argsAnotherProfile));
+        final argsAnotherProfile = settings.arguments as AnotherProfileArgs;
+        return MaterialPageRoute(builder:(_)=>AnotherProfile(selectedUser: argsAnotherProfile.selectedUser, selectedId: argsAnotherProfile.selectedId));
       case '/createUser':
         return MaterialPageRoute(builder:(_)=>CreateUser());
       case '/editProfile':
@@ -43,6 +43,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
         return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment());
+      case '/userTags':
+        return MaterialPageRoute(builder:(_)=>UserTags());
       default:
         return _errorRoute();
     }

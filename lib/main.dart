@@ -4,6 +4,8 @@ import 'package:CatCultura/utils/routes/RouteGenerator.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:flutter/services.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:io';
 //import 'package:architecture_demos/res/app_theme.dart';
 //import 'package:architecture_demos/utils/routes/routes_name.dart';
@@ -35,6 +37,17 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
           title: 'catcultura',
+          localizationsDelegates: [
+            AppLocalizations.delegate, // Add this line
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('ca', ''),
+            Locale('en', ''), // English, no country code
+            Locale('es', ''), // Spanish, no country code
+          ],
           theme: ThemeData(fontFamily: 'OpenSans'),
           initialRoute: "/login",
           onGenerateRoute: RouteGenerator.generateRoute,

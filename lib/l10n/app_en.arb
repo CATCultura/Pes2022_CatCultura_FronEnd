@@ -1,0 +1,45 @@
+{
+    "helloWorld": "Hello World!",
+    "@helloWorld": {
+      "description": "The conventional newborn programmer greeting"
+    },
+
+    "uniqueEventTitle": "Unique event",
+    "@uniqueEventTitle": {
+          "description": "Title for unique event screen"
+        },
+
+    "userNameInputBoxLabel": "Username",
+    "@userNameInputBoxLabel": {
+          "description": "Text for input box"
+        },
+
+    "passwordInputBoxLabel": "Password",
+    "@passwordInputBoxLabel": {
+          "description": "Text for input box"
+        },
+    "forgotPassword": "Did you forget your password?",
+    "@forgotPassword": {
+          "description": "Hint text for resetting password."
+        },
+
+    "loginButton": "Sign in",
+    "@loginButton": {
+          "description": "Text of button for signing in."
+        },
+
+    "signUpPrompt": "You still don't have an account?",
+    "@signUpPrompt": {
+          "description": "Text prompting the user to sign up."
+        },
+
+    "signUpButton": "Sign up",
+    "@signUpButton": {
+          "description": "Text of button for signing up."
+        },
+    "guestMode": "Enter as a guest",
+    "@guestMode": {
+          "description": "Text of button to enter guest mode."
+        }
+
+}

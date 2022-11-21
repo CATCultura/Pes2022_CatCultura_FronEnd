@@ -91,12 +91,12 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.map, size: 28),
-            title: const Text('Map', style: TextStyle(fontSize: 18)),
+            title: const Text('Ruta Cultural', style: TextStyle(fontSize: 18)),
             onTap: () {
-              if (actualPage == "Map") {
+              if (actualPage == "rutaCultural") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/map');
+                Navigator.pushReplacementNamed(context, '/rutaCultural');
               }
             },
           ),
