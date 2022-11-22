@@ -16,93 +16,123 @@ class AnotherProfile extends StatelessWidget {
   String selectedId;
   final double coverHeight = 280;
   final double profileHeight = 144;
+  late List <String> usersList = [];
 
   final AnotherUserViewModel viewModel = AnotherUserViewModel();
 
   @override
   void initState() {
-
+    viewModel.setUserSelected(selectedId);
+    viewModel.notifyListeners();
   }
 
   @override
   Widget build(BuildContext context) {
+    viewModel.requestedUsersById('13658');
+    viewModel.setUserSelected(selectedId);
+    viewModel.notifyListeners();
+    return ChangeNotifierProvider<AnotherUserViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("User Profile"),
+              backgroundColor: MyColorsPalette.lightBlue,
+            ),
+            backgroundColor: Colors.grey[200],
+            // key: _scaffoldKey,
+            drawer: const MyDrawer(
+                "AnotherProfile", username: "SuperJuane",
+                email: "juaneolivan@gmail.com"),
+            body: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                buildTop(),
+                SizedBox(height: 18),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        selectedUser,
+                        style: TextStyle(fontSize: 28, color: Colors.teal),
+                      ),
+                    ]
+                ),
+                buildContent(),
+                SizedBox(height: 32),
 
-  bool afegit = false;
-  return ChangeNotifierProvider<AnotherUserViewModel>(
-      create: (BuildContext context) => viewModel,
-      child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("User Profile"),
-            backgroundColor: MyColorsPalette.lightBlue,
-          ),
-          backgroundColor: Colors.grey[200],
-          // key: _scaffoldKey,
-          drawer: const MyDrawer(
-              "AnotherProfile", username: "SuperJuane",
-              email: "juaneolivan@gmail.com"),
-          body: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              buildTop(),
-              SizedBox(height: 18),
-              Row(
+                  viewModel.usersRequested.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+                  viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
+                  viewModel.usersRequested.status == Status.COMPLETED?
+                 Row(
+                  //viewModel.usersRequested.data!;
+
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      selectedUser,
-                      style: TextStyle(fontSize: 28, color: Colors.teal),
+                    const Text (
+                      'Afegir amic:  ',
+                      style: TextStyle(
+                          fontSize: 18, height: 1.4, color: Colors.black54),
                     ),
-                  ]
+                    true? IconButton(
+                      iconSize: 40,
+                      icon: Icon(
+                          (viewModel.afegit == false) ? Icons.favorite_outline : Icons.favorite,
+                          color: MyColorsPalette.lightRed),
+                      onPressed: () {
+                        if (viewModel.afegit == true) {
+                          viewModel.deleteFriendById('13658', selectedId);
+                        }
+                        else {
+                          viewModel.putFriendById('13658', selectedId);
+                        }
+                        //cridar una funcio al VM i que seteji el boolean i fagi NotifyListeners
+                        viewModel.afegit = !viewModel.afegit;
+                        viewModel.notifyListeners();
+                      },
+
+
+                      ) : Text("a"),
+                    ],
+                  ) : const Text(""),
+
+
+                /*Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Ja has enviat una sol·licitud a aquest usuari',
+                          style: TextStyle(fontSize: 28, color: Colors.teal),
+                        ),
+
+                        FloatingActionButton(
+                          child: const Icon(Icons.add),
+                          onPressed: () async {
+                            viewModel.deleteFriendById('13658', selectedId);
+                          },
+                        ),
+                      ],
+                  ): const Text(""),*/
+
+                ],
               ),
-              buildContent(),
-              SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text (
-                    'Afegir amic:  ',
-                    style: TextStyle(
-                        fontSize: 18, height: 1.4, color: Colors.black54),
-                  ),
-                  IconButton(
-                    iconSize: 40,
-                    icon: Icon(
-                        (afegit == false) ? Icons.favorite_outline : Icons.favorite,
-                        color: MyColorsPalette.lightRed),
-                    onPressed: () {
-                      if (afegit == true) {
-                        viewModel.deleteFriendById('5850', selectedId);
-                      }
-                      else {
-                        viewModel.putFriendById('5850', selectedId);
-                      }
-                      afegit = !afegit;
-                    },
+            /*
+                body: Container(
+                    color: MyColors.warning,
+                    height: 50,
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
+                          MyColorsPalette.orange)),
+                      child: const Text('Add to friends'),
+                      onPressed: () {
 
-
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          /*
-              body: Container(
-                  color: MyColors.warning,
-                  height: 50,
-                  width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: ElevatedButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                        MyColorsPalette.orange)),
-                    child: const Text('Add to friends'),
-                    onPressed: () {
-
-                    },
-                  )
-               */
-            );
-      })
+                      },
+                    )
+                 */
+              );
+        })
     );
   }
 
@@ -159,6 +189,12 @@ class AnotherProfile extends StatelessWidget {
     backgroundColor: Colors.grey.shade800,
     backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
+
+  getUsers() {
+
+
+
+  }
 
 
 }

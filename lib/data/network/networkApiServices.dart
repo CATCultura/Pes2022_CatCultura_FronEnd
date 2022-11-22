@@ -15,12 +15,19 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
-      final response = await http.get(Uri.parse(url));
-      responseJson = returnResponse(response);
-      //debugPrint(responseJson.toString());
 
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json',
+        'Authorization': 'hola',},
+        ).timeout(const Duration(seconds: 60));
+        responseJson = returnResponse(response);
+
+
+      //debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
       //responseJsonMock = jsonDecode(jsonMock);
+
 
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -28,15 +35,20 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+
+
+
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
 
     try {
+
       http.Response response = await http.post(
         Uri.parse(url),
         body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+          'Authorization': 'hola',},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -54,7 +66,8 @@ class NetworkApiServices extends BaseApiServices {
       http.Response response = await http.put(
         Uri.parse(url),
         body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+          'Authorization': 'hola',},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -72,7 +85,8 @@ class NetworkApiServices extends BaseApiServices {
       http.Response response = await http.delete(
         Uri.parse(url),
         body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+          'Authorization': 'hola',},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
