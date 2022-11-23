@@ -6,6 +6,8 @@ import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/Session.dart';
+
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson, responseJsonMock;
   @override
@@ -15,6 +17,11 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
+
+      final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
+      final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
+      responseJson = returnResponse(response);
+      //debugPrint(responseJson.toString());
 
       final response = await http.get(
         Uri.parse(url),
