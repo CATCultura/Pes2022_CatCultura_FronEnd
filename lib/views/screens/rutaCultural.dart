@@ -2,118 +2,153 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:CatCultura/data/response/apiResponse.dart';
-import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/Place.dart';
-import 'package:CatCultura/viewModels/MapViewModel.dart';
+import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
+import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsReturnParametersRutaCultural.dart';
 import '../widgets/myDrawer.dart';
 
-// class Map extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Cluster Manager Demo',
-//       home: MapSample(),
-//     );
-//   }
-// }
-
-// Clustering maps
-
-class Map extends StatefulWidget {
+class RutaCultural extends StatefulWidget {
   @override
-  State<Map> createState() => MapSampleState();
+  State<RutaCultural> createState() => RutaCulturalState();
 }
 
-class MapSampleState extends State<Map> {
+class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> markers = Set();
-  final CameraPosition _iniCameraPosition =
-      const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
-  final MapViewModel viewModel = MapViewModel();
+
+
+  final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
+
+  Position? _currentPosition;
 
   @override
   void initState() {
     _manager = _initClusterManager();
-    viewModel.fetchEventsListApi();
     super.initState();
   }
 
   ClusterManager _initClusterManager() {
     List<Place> a = [];
     return ClusterManager<Place>(a, _updateMarkers,
-        markerBuilder: _markerBuilder, stopClusteringZoom: 17.0);
+        markerBuilder: _markerBuilder, stopClusteringZoom: 1.0);
   }
 
   void _updateMarkers(Set<Marker> markers) {
-    debugPrint('Updated ${markers.length} markers');
-    //_manager.setItems(viewModel.eventsList.data!);
+    debugPrint("markers to set: "+markers.toString());
     setState(() {
-      this.markers = markers;
+      viewModel.markers = markers; //await setMarkers(markers);
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MapViewModel>(
+
+    return ChangeNotifierProvider<RutaCulturalViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<MapViewModel>(builder: (context, value, _) {
+        child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Google Maps Demo'),
             ),
-            drawer: const MyDrawer("Map",
+            drawer: const MyDrawer("rutaCultural",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
-            body: viewModel.eventsList.status == Status.COMPLETED
-                ? GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: _iniCameraPosition,
-                    markers: markers,
+            body: viewModel.eventsListMap.status == Status.LOADING && viewModel.rutaGenerada? SizedBox(
+              child: Center(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  Padding(padding: EdgeInsets.only(top: 20)),
+                  Text("Estem generant la teva ruta...", style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),)
+                ],
+              )),
+            )
+            : viewModel.eventsListMap.status == Status.COMPLETED && viewModel.polylines.status == Status.COMPLETED?  GoogleMap(
+                myLocationEnabled: false,
+                mapType: MapType.normal,
+                initialCameraPosition: viewModel.iniCameraPosition,
+                markers: viewModel.markers,
+                polylines: Set<Polyline>.of(viewModel.polylines.data!.values),
+                onMapCreated: (GoogleMapController controller) {
+                  for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
+                  if (!_controller.isCompleted) _controller.complete(controller);
+                  _manager.setMapId(controller.mapId);
+                  _manager.setItems(viewModel.eventsListMap.data!);
+
+                },
+                onCameraMove: _manager.onCameraMove,
+                onCameraIdle: _manager.updateMap)
+
+            : GoogleMap(
+                    zoomControlsEnabled: false,
+              myLocationEnabled: false,
+              mapType: MapType.normal,
+                    initialCameraPosition: viewModel.iniCameraPosition,
+                    markers: viewModel.markers,
                     onMapCreated: (GoogleMapController controller) {
-                      _manager.setItems(viewModel.eventsList.data!);
                       _controller.complete(controller);
-                      _manager.setMapId(controller.mapId);
+                      //_manager.setMapId(controller.mapId);
                     },
-                    onCameraMove: _manager.onCameraMove,
-                    onCameraIdle: _manager.updateMap)
-                : const SizedBox(
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-            floatingActionButton: FloatingActionButton(
+                    //onCameraMove: _manager.onCameraMove,
+                    //onCameraIdle: _manager.updateMap),
+            ),
+            floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
-                viewModel.refresh();
-                viewModel.fetchEventsListApi();
+                _navigateAndDisplaySelection(context);
               },
-              child: const Icon(Icons.update),
+              label: Text('Generar Ruta Cultural'),
             ),
           );
         }));
   }
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    setState(() {
+      viewModel.rutaGenerada = false;
+
+    });
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute<RutaCulturalArgs>(builder: (context) => const ParametersRutaCultural()),
+    );
+    if (!mounted) return;
+    setState(() {
+      viewModel.rutaGenerada = true;
+    });
+    await viewModel.generateRutaCultural(result);
+    //viewModel.paintRoute();
+    // setState(() {
+    //
+    // });
+  }
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
       (cluster) async {
+    debugPrint("ENTRO EN MARKER BUILDER");
         if (!cluster.isMultiple) {
+          debugPrint("cluster is simple");
           return Marker(
             markerId: MarkerId(cluster.getId()),
             position: cluster.location,
             infoWindow: InfoWindow(
-                title: cluster.items.first.event.denominacio,
-                snippet: cluster.items.first.event.descripcio,
+                title: cluster.items.first.event.denominacio!,
+                snippet: cluster.items.first.event.descripcio!,
                 onTap: () {
                   Navigator.pushNamed(context, "/eventUnic",
                       arguments: EventUnicArgs(cluster.items.first.event.id!));
                 }),
             icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
-                text: cluster.isMultiple ? cluster.count.toString() : null,
+                text: '!',
                 color: cluster.items.last.color),
           );
         }
@@ -170,4 +205,9 @@ class MapSampleState extends State<Map> {
 
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
+
+  // Create the polylines for showing the route between two places
+
 }
+
+

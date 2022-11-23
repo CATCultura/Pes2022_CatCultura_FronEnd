@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +62,25 @@ class UsersRepository {
     return result;
   }
 
+  Future<UserResult> iniSessio(String n, String p) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}auth");
+      UserResult res = UserResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<UserResult> postCreaCompte(UserResult data) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
   Future<List<UserResult>> getRequestedsById(String id) async {
    // List<UserResult?> cached = userInCache(id);
    // if(cached.id!= null) {
