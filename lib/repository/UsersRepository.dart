@@ -81,6 +81,27 @@ class UsersRepository {
       rethrow;
     }
   }
+  Future<List<UserResult>> getRequestedsById(String id) async {
+   // List<UserResult?> cached = userInCache(id);
+   // if(cached.id!= null) {
+     // debugPrint(cached.id.toString()!);
+      //return cached;
+    //}
+    //else{
+      try {
+        dynamic response = await _apiServices.getGetApiResponse(
+            "${baseUrl}users/$id/friends?status=requested");
+        List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
+
+        return res;//UserResult.fromJson(response);
+      } catch (e) {
+        rethrow;
+      }
+
+  }
+
+
+
   Future<String> addFavouriteByUserId(String id, int otherUserId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/friends/$otherUserId", "" );
