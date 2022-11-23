@@ -8,7 +8,7 @@ class EventsViewModel with ChangeNotifier{
   final _eventsRepo = EventsRepository();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
-  ApiResponse<EventResult> event = ApiResponse.loading();
+  ApiResponse<EventResult> events = ApiResponse.loading();
   List<String> suggestions = [];
   int count = 0;
   Set<int> loadedPages = {};
@@ -33,7 +33,7 @@ class EventsViewModel with ChangeNotifier{
   }
 
   void setEvents(ApiResponse<EventResult> response){
-    event = response;
+    events = response;
     notifyListeners();
   }
 
@@ -107,15 +107,10 @@ class EventsViewModel with ChangeNotifier{
   // void dispose() {
   // }
 
-  Future<void> crearEvent(String c, String d, String di, String df) async {
-    EventResult event = EventResult();
-    event.codi = c;
-    event.denominacio = d;
-    event.dataInici = di;
-    event.dataFi = df;
-    await _eventsRepo.postCreaEvent(event).then((value) {
+  Future<void> crearEvent(EventResult e) async {
+    await _eventsRepo.postCreaEvent(e).then((value) {
       setEvents(ApiResponse.completed(value));
-    }); /** .onError((error, stackTrace) =>
+    }); /**.onError((error, stackTrace) =>
         setEvents(ApiResponse.error(error.toString()))); **/
     waiting = false;
     notifyListeners();

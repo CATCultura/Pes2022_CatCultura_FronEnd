@@ -7,18 +7,18 @@ class EventResult {
   String? id = "empty";
   String? codi = "";
   String? dataInici = "empty";
-  String? dataIniciHora = "empty";
+  //String? dataIniciHora = "empty";
   String? dataFi;
-  String? dataFiHora = "empty";
+  //String? dataFiHora = "empty";
   String? dataFiAprox = "";
-  String? dataFiAproxHora = "empty";
+  //String? dataFiAproxHora = "empty";
   String? denominacio = "NO_NAME";
   String? descripcio;
   String? entrades = "";
   String? horari = "";
   String? subtitol = "";
   List<String>? tagsAmbits;
-  List<String>? tagsAmbitsCateg;
+  List<String>? tagsCateg;
   List<String>? tagsAltresCateg;
   String? links = "";
   String? documents = "";
@@ -28,9 +28,15 @@ class EventResult {
   String? codiPostal = "";
   String? comarcaIMunicipi = "comarca/municipi: no info";
   String? email = "";
+  String? espai = "";
   double? latitud = 0.0;
   String? localitat = "localitat: no info";
   double? longitud = 0.0;
+  String? telf = "";
+  String? URL = "";
+  String? ubicacio = "";
+  String? imgApp = "";
+  //bool cancelado = false;
 
 
   EventResult({
@@ -38,11 +44,11 @@ class EventResult {
     this.codi,
     this.denominacio,
     this.dataInici,
-    this.dataIniciHora,
+    //this.dataIniciHora,
     this.dataFi,
-    this.dataFiHora,
+    //this.dataFiHora,
     this.dataFiAprox,
-    this.dataFiAproxHora,
+    //this.dataFiAproxHora,
     this.links,
     this.documents,
     this.imatges = const [""],
@@ -54,14 +60,26 @@ class EventResult {
     this.latitud,
     this.localitat,
     this.longitud,
-    this.descripcio
+    this.descripcio,
+    this.entrades,
+    this.horari,
+    this.subtitol,
+    this.tagsAmbits,
+    this.tagsCateg,
+    this.tagsAltresCateg,
+    this.espai,
+    this.telf,
+    this.URL,
+    this.ubicacio,
+    this.imgApp,
+    //this.cancelado
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
     id = jsonResponse['id'].toString();
     codi = jsonResponse['codi'].toString();
     dataInici = dataAdapt(jsonResponse['dataInici']);
-    dataIniciHora = horaAdapt(jsonResponse['dataInici']);
+    //dataIniciHora = horaAdapt(jsonResponse['dataInici']);
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
@@ -79,18 +97,26 @@ class EventResult {
 
   }
 
-  Map<String, dynamic> toJson() {
+  List<Map<String, dynamic>> toJson() {
+    final List<Map<String, dynamic>> result = [
+      {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
+      'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai}
+    ];
+    return result;
+  }
+
+  /** Map<String, dynamic> toJson() {
     final Map<String, dynamic> result =
     <String, dynamic>{};
     result['id'] = id;
-    result['codi'] = codi;
     result['denominacio'] = denominacio;
     result['dataInici'] = dataInici;
     result['dataFi'] = dataFi;
-    //result['descripcio'] = descripcio;
+    result['descripcio'] = descripcio;
     return result;
-  }
+  } **/
 }
+
 
 String? comarcaIMunicipiAdapt(String s) {
   String res = "";

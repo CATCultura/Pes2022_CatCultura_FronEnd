@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:CatCultura/constants/theme.dart';
@@ -24,6 +27,9 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
   TextEditingController InitialDateController = TextEditingController();
   TextEditingController FinalDateController = TextEditingController();
   TextEditingController DenominacioController = TextEditingController();
+  TextEditingController UbicacioController = TextEditingController();
+  TextEditingController AdrecaController = TextEditingController();
+  TextEditingController EspaiController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +139,58 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                           ),
 
                           //attributes("Ubicació"),
-                          //attributes("Categoria"),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextField(
+                              controller: UbicacioController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Ubicació',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextField(
+                              controller: AdrecaController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Adreça',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextField(
+                              controller: EspaiController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Espai',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+
                           Container(
                             height: 70,
                             width: 150,
@@ -145,7 +202,15 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               child: const Text('Crear'),
                               onPressed: () {
                                 Navigator.popAndPushNamed(context, '/home');
-                                viewModel.crearEvent(CodiController.text, DenominacioController.text, InitialDateController.text, FinalDateController.text);
+                                EventResult? e = EventResult();
+                                e.codi = CodiController.text;
+                                e.denominacio = DenominacioController.text;
+                                e.dataInici = InitialDateController.text;
+                                e.dataFi = FinalDateController.text;
+                                e.ubicacio = UbicacioController.text;
+                                e.adreca = AdrecaController.text;
+                                e.espai = EspaiController.text;
+                                viewModel.crearEvent(e);
                               },
                             ),
                           ),
@@ -155,11 +220,11 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                   ),
                 ),
               )
-                  : viewModel.event.status == Status.LOADING? const SizedBox(
+                  : viewModel.events.status == Status.LOADING? const SizedBox(
                       child: Center(child: CircularProgressIndicator()),
               )
-                  : viewModel.event.status == Status.ERROR? Text(viewModel.event.toString())
-                  : viewModel.event.status == Status.COMPLETED? EventCreat(): Text ("Esdeveniment creat")
+                  : viewModel.events.status == Status.ERROR? Text(viewModel.events.toString())
+                  : viewModel.events.status == Status.COMPLETED? EventCreat(): Text ("Esdeveniment creat")
             ),
           );
         }));
