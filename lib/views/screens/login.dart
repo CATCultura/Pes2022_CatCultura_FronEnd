@@ -77,6 +77,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Container(
                 padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: !showPassword,
                   decoration: InputDecoration (
                     suffixIcon: IconButton(
@@ -118,7 +119,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                       ),
                     ),
                     onPressed: () {
-                      viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text.replaceAll(' ', ''));
+                      viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
                     },
                   )
               ),

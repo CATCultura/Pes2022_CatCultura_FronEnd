@@ -3,6 +3,8 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:CatCultura/repository/UsersRepository.dart';
 
+import '../utils/Session.dart';
+
 class UsersViewModel with ChangeNotifier{
   final _usersRepo = UsersRepository();
 
@@ -32,8 +34,11 @@ class UsersViewModel with ChangeNotifier{
         setUsersList(ApiResponse.error(error.toString())));
   }
 
-  Future<void> iniciarSessio(String n, String p) async {
-      await _usersRepo.iniSessio(n, p).then((value) {
+  Future<void> iniciarSessio(String name, String pass) async {
+    final sessio = Session();
+    sessio.set("auth", "username=$name,password=$pass");
+    final a = 2;
+      await _usersRepo.iniSessio().then((value) {
         setUsersSelected(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setUsersSelected(ApiResponse.error(error.toString())));
