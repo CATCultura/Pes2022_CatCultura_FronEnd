@@ -55,6 +55,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           body: Container(
             color: Colors.white,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   height: 40,
@@ -69,8 +70,21 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     },
                   ),
                 ),
-
-
+                const SizedBox(height: 16),
+                Container(
+                  height: 40,
+                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Colors.amberAccent)),
+                    child: const Text('Veure peticions amistat'),
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, '/friendRequests');
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
                 viewModel.usersList.status == Status.LOADING? const SizedBox(
                   child: Center(child: CircularProgressIndicator()),
                 ):

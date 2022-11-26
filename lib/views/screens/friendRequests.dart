@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:CatCultura/views/widgets/myDrawer.dart';
+import 'package:CatCultura/viewModels/RequestsUserViewModel.dart';
+import '../../data/response/apiResponse.dart';
+
+
+class FriendRequests extends StatelessWidget {
+
+  final RequestsUserViewModel viewModel = RequestsUserViewModel();
+
+  @override
+  void initState() {
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    List names = ["Juanito Perez", "Agustí Gàllego", "SuperJuane"];
+    viewModel.receivedUsersById('13659');
+    viewModel.notifyListeners();
+
+    return ChangeNotifierProvider<RequestsUserViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<RequestsUserViewModel>(builder: (context, value, _) {
+          return Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 70,
+              title: const Text("Peticions d'amistat"),
+              backgroundColor: MyColorsPalette.lightBlue,
+            ),
+            backgroundColor: MyColors.bgColorScreen,
+            // key: _scaffoldKey,
+            drawer: const MyDrawer("Profile",
+                username: "Superjuane", email: "juaneolivan@gmail.com"),
+            body: Container(
+              //color: Colors.green[100],
+              child: ListView.builder(
+                itemCount: 3,
+                shrinkWrap:true,
+                itemBuilder:(BuildContext context, int index) => Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  child: Card(
+                    elevation: 5.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget> [
+                              Container(
+                                width: 55.0,
+                                height: 55.0,
+                                child: const CircleAvatar(
+                                  backgroundColor: Colors.green,
+                                  foregroundColor: Colors.green,
+                                  backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+                                ),
+                              ),
+                              SizedBox(width: 6.0,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(names[index], style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
+                                  SizedBox(height:5.0),
+                                  Text('CATCultura', style: TextStyle(color: Colors.grey)),
+
+                                ],
+                              ),
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: 1.0, vertical: 10.0),
+                            child: IconButton(
+                              iconSize: 40,
+                              icon: Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.green,
+                              ),
+                              onPressed: () {
+                               // viewModel.putFriendById('13659', selectedId);
+                              },
+                            ),
+                          ),
+                         // SizedBox(width: 1.0,),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+                            child: IconButton(
+                              iconSize: 40,
+                              icon: Icon(
+                                  Icons.no_accounts,
+                                  color: Colors.red,
+                              ),
+                              onPressed: () {
+                                //viewModel.deleteFriendById('13659', selectedId);
+                              },
+                            ),
+                          ),
+
+                        ],
+
+                      ),
+                    ),
+                  ),
+                ),
+
+              ),
+            ),
+          );
+        })
+    );
+  }
+
+
+
+
+}
