@@ -54,7 +54,10 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
             onPressed: (){
               if(assistire == true) widget.callback!("deleteAttendance");
-              else NotificationService().showNotifications(1, 3, "title", "body");//widget.callback!("addAttendance");
+              else {widget.callback!("addAttendance");
+              NotificationService().showNotifications(5, 5, "title", "body");//widget.callback!("addAttendance");
+
+              }
               setState(() {
                 assistire = !assistire;
               });
@@ -66,7 +69,8 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             icon: Icon((Favorit == false) ? Icons.star_border_outlined : Icons.star, color: MyColorsPalette.white),
             onPressed: (){
               if(Favorit == true) widget.callback!("deleteFavourite");
-              else widget.callback!("addFavourite");
+              else{ widget.callback!("addFavourite");
+              }
               setState(() {
                 Favorit = !Favorit;
               });

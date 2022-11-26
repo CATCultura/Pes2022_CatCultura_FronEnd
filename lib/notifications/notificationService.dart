@@ -22,9 +22,10 @@ class NotificationService {
       requestSoundPermission: false,
     );
 
-    final AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@drawable/ic_launcher');
+    final AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    final InitializationSettings initializationSettings = InitializationSettings(iOS: iosInitializationSettings, android: androidInitializationSettings);
+    final InitializationSettings initializationSettings = InitializationSettings(iOS: iosInitializationSettings,
+        android: androidInitializationSettings);
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
@@ -35,7 +36,7 @@ class NotificationService {
         const NotificationDetails(
           android: AndroidNotificationDetails('main_channel',
               'Main Channel', channelDescription: 'Main Channel Notificaions', importance: Importance.max,
-              priority: Priority.max, icon: '@drawable/ic_launcher'),
+              priority: Priority.max, icon: '@mipmap/ic_launcher'),
           iOS: IOSNotificationDetails(sound: 'default.wav', presentAlert: true, presentBadge: true, presentSound: true)
         ),
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
