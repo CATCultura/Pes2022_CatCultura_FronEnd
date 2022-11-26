@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
-
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import '../../../constants/theme.dart';
 import '../../../models/EventResult.dart';
-
 import 'package:provider/provider.dart';
+
+import 'package:CatCultura/notifications/notificationService.dart';
+import 'package:timezone/timezone.dart';
+import 'package:timezone/data/latest.dart';
 
 class EventInfoTabs extends StatefulWidget {
   final EventResult? event;
@@ -22,6 +23,12 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
   bool Favorit = false;
   String loggedUserId = "5850";
   bool assistire = false;
+
+  @override
+  void initState(){
+    super.initState();
+    initializeTimeZones();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +54,7 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
             onPressed: (){
               if(assistire == true) widget.callback!("deleteAttendance");
-              else widget.callback!("addAttendance");
+              else NotificationService().showNotifications(1, 3, "title", "body");//widget.callback!("addAttendance");
               setState(() {
                 assistire = !assistire;
               });
