@@ -9,6 +9,7 @@ import '../../data/response/apiResponse.dart';
 class FriendRequests extends StatelessWidget {
 
   final RequestsUserViewModel viewModel = RequestsUserViewModel();
+  late List <String> usersList = [];
 
   @override
   void initState() {
@@ -20,8 +21,12 @@ class FriendRequests extends StatelessWidget {
 
     List names = ["Juanito Perez", "Agustí Gàllego", "SuperJuane"];
     viewModel.receivedUsersById('13659');
+    //if (viewModel.usersReceived.status == Status.COMPLETED) {
+   /*   for (var i = 0; i < 1; i++) {
+        usersList.add(viewModel.usersReceived.data![i].username);
+      }*/
+    //}
     viewModel.notifyListeners();
-
     return ChangeNotifierProvider<RequestsUserViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<RequestsUserViewModel>(builder: (context, value, _) {
@@ -36,9 +41,10 @@ class FriendRequests extends StatelessWidget {
             drawer: const MyDrawer("Profile",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Container(
-              //color: Colors.green[100],
-              child: ListView.builder(
-                itemCount: 3,
+              child: viewModel.usersReceived.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+              viewModel.usersReceived.status == Status.ERROR? Text(viewModel.usersReceived.toString()):
+              viewModel.usersReceived.status == Status.COMPLETED? ListView.builder(
+                itemCount: viewModel.usersReceived.data!.length,
                 shrinkWrap:true,
                 itemBuilder:(BuildContext context, int index) => Container(
                   width: MediaQuery.of(context).size.width,
@@ -72,7 +78,7 @@ class FriendRequests extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(names[index], style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
+                                  Text(viewModel.usersReceived.data![index].username!, style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
                                   SizedBox(height:5.0),
                                   Text('CATCultura', style: TextStyle(color: Colors.grey)),
 
@@ -90,7 +96,7 @@ class FriendRequests extends StatelessWidget {
                                 color: Colors.green,
                               ),
                               onPressed: () {
-                               // viewModel.putFriendById('13659', selectedId);
+                               viewModel.putFriendById('13659', viewModel.usersReceived.data![index].id!);
                               },
                             ),
                           ),
@@ -105,7 +111,7 @@ class FriendRequests extends StatelessWidget {
                                   color: Colors.red,
                               ),
                               onPressed: () {
-                                //viewModel.deleteFriendById('13659', selectedId);
+                                viewModel.deleteFriendById('13659', viewModel.usersReceived.data![index].id!);
                               },
                             ),
                           ),
@@ -117,7 +123,7 @@ class FriendRequests extends StatelessWidget {
                   ),
                 ),
 
-              ),
+              ):Text("res"),
             ),
           );
         })
