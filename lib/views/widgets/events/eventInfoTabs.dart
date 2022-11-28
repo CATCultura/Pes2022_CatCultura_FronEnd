@@ -53,10 +53,13 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
             onPressed: (){
-              if(assistire == true) widget.callback!("deleteAttendance");
-              else {widget.callback!("addAttendance");
-              NotificationService().showNotifications(5, 5, "title", "body");//widget.callback!("addAttendance");
-
+              if(assistire == true) {
+                widget.callback!("deleteAttendance");
+                NotificationService().deleteOneNotification(event!.id);
+              }
+              else {
+                  widget.callback!("addAttendance");
+                  NotificationService().showNotifications( event!.id, 8, "title", "body"); //widget.callback!("addAttendance");
               }
               setState(() {
                 assistire = !assistire;

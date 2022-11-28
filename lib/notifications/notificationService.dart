@@ -7,6 +7,8 @@ import 'package:timezone/data/latest.dart';
 class NotificationService {
   static final NotificationService _notificationService = NotificationService._internal();
 
+  List<String?> scheduledNotifications = <String>[];
+
   factory NotificationService(){
      return _notificationService;
   }
@@ -30,16 +32,31 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotifications(int idNoti, int segons, String title, String body,) async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(idNoti, title, body,
-        TZDateTime.now(local).add(Duration(seconds: segons)),
-        const NotificationDetails(
-          android: AndroidNotificationDetails('main_channel',
-              'Main Channel', channelDescription: 'Main Channel Notificaions', importance: Importance.max,
-              priority: Priority.max, icon: '@mipmap/ic_launcher'),
-          iOS: IOSNotificationDetails(sound: 'default.wav', presentAlert: true, presentBadge: true, presentSound: true)
-        ),
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-        androidAllowWhileIdle: true);
+  Future<void> showNotifications(String? notiId, int segons, String title, String body,) async {
+    if(notiId != null) {
+      scheduledNotifications.add(notiId);
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          int.parse(notiId), title, body,
+          TZDateTime.now(local).add(Duration(seconds: segons)),
+          const NotificationDetails(
+              android: AndroidNotificationDetails('main_channel',
+                  'Main Channel',
+                  channelDescription: 'Main Channel Notificaions',
+                  importance: Importance.max,
+                  priority: Priority.max,
+                  icon: '@mipmap/ic_launcher'),
+              iOS: IOSNotificationDetails(sound: 'default.wav',
+                  presentAlert: true,
+                  presentBadge: true,
+                  presentSound: true)
+          ),
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+              .absoluteTime,
+          androidAllowWhileIdle: true);
+    }
+  }
+
+  Future<void> deleteOneNotification(String? notiId) async{
+    if(notiId != null && scheduledNotifications.contains(notiId)) await flutterLocalNotificationsPlugin.cancel(int.parse(notiId));
   }
 }
