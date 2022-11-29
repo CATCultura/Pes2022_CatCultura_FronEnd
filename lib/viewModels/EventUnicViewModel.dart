@@ -7,14 +7,22 @@ import 'package:CatCultura/repository/EventsRepository.dart';
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
+  ApiResponse<EventResult> event = ApiResponse.loading();
 
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<String> addAttendanceResult = ApiResponse.loading();
+
+  bool waiting = true;
 
 
   setEventSelected(ApiResponse<EventResult> response){
     debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}");
     eventSelected = response;
+    notifyListeners();
+  }
+
+  setEventResult(ApiResponse<EventResult> response) {
+    event = response;
     notifyListeners();
   }
 
@@ -72,4 +80,24 @@ class EventUnicViewModel with ChangeNotifier {
   // @override
   // void dispose() {
   // }
+
+  Future<void> deleteEventById(String? eventId) async{
+    if(eventId != null){
+      print(eventId);
+      await _eventsRepo.deleteEventId(eventId).then((value){
+        //setEventSelected(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setEventSelected(ApiResponse.error(error.toString())));
+    }
+    waiting = false;
+  }
+
+  /** Future<void> putEventById(String? id, String? d) async {
+    EventResult? e = EventResult();
+    e.denominacio = d;
+    await _eventsRepo.addEventById(id, e); /** .then((value) {
+      setEventSelected(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setEventSelected(ApiResponse.error(error.toString()))); **/
+    waiting = false;
+  } **/
 }

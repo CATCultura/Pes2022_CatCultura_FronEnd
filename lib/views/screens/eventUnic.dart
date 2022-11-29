@@ -7,6 +7,7 @@ import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
 import '../../data/response/apiResponse.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/events/eventInfoShort.dart';
 import '../widgets/events/eventInfoTabs.dart';
 
@@ -35,7 +36,8 @@ class EventUnic extends StatelessWidget {
                 actions: <Widget> [
                   IconButton(
                       onPressed: () {
-                        Navigator.popAndPushNamed(context, '/opcions-Esdeveniment');
+                        print(eventId);
+                        Navigator.popAndPushNamed(context, '/opcions-Esdeveniment', arguments: EventUnicArgs(eventId));
                       },
                       icon: Icon(Icons.settings)
                   ),

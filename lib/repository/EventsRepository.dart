@@ -1,6 +1,7 @@
-//import 'dart:html';
-
+import 'dart:convert';
+import 'dart:html';
 import 'dart:math';
+
 
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -166,6 +167,36 @@ class EventsRepository {
       rethrow;
     }
   }
+
+  Future<EventResult> postCreaEvent(EventResult data) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> deleteEventId(String? eventId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}events/$eventId", "");
+      String res = response;
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /** Future<String> addEventById(String? eventId, EventResult data) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  } **/
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, double radio) async {
