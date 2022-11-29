@@ -3,12 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'dart:math';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
+import 'package:flutter/material.dart';
+
+import '../models/Place.dart';
 
 class EventsViewModel with ChangeNotifier{
   final _eventsRepo = EventsRepository();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<EventResult> events = ApiResponse.loading();
+  ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();//= ApiResponse.completed([
+
+  void mantaintEventsListToMap(){
+    List<Place> aux = [];
+    eventsList.data!.forEach((e) {aux.add(Place(event: e, color: Colors.blue)); });
+    eventsListMap = ApiResponse.completed(aux);
+  }
+
   List<String> suggestions = [];
   int count = 0;
   Set<int> loadedPages = {};
@@ -28,6 +39,7 @@ class EventsViewModel with ChangeNotifier{
 
   setEventsList(ApiResponse<List<EventResult>> response){
     eventsList = response;
+    mantaintEventsListToMap();
     loadedPages.add(0);
     notifyListeners();
   }
@@ -43,6 +55,7 @@ class EventsViewModel with ChangeNotifier{
       List<EventResult> aux = eventsList.data!;
       aux.addAll(apiResponse.data!);
       eventsList = ApiResponse.completed(aux);
+      mantaintEventsListToMap();
       //loadedPages.add(lastPage()+1);
     }
     notifyListeners();
@@ -62,8 +75,6 @@ class EventsViewModel with ChangeNotifier{
    else{
      debugPrint("--all list : ${loadedPages}");
      debugPrint("--charging next page: ${lastPage()}");
-     chargingNextPage = true;
-      notifyListeners();
        await _eventsRepo.getEventsWithParameters(lastPage(),null, null).then((value) {
          addToEventsList(ApiResponse.completed(value));
        }).onError((error, stackTrace) =>
@@ -101,6 +112,9 @@ class EventsViewModel with ChangeNotifier{
 
   void addNewPage() {
     loadedPages.add(lastPage()+1);
+    chargingNextPage = true;
+    notifyListeners();
+    fetchEvents();
   }
 
   // @override

@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:html';
+import 'dart:math';
+
 
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -193,8 +196,33 @@ class EventsRepository {
     catch(e){
       rethrow;
     }
-
   } **/
+
+
+  Future<List<EventResult>> getRutaCultural(double longitud, double latitud, double radio) async {
+    // try{
+    //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}xxxxxxx");
+    //   List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+    //   //_cachedEvents = res;
+    //   return res;
+    // } catch(e){
+    //   rethrow;
+    // }
+    //41.3874, 2.1686
+
+    try {
+      final random = new Random();
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+    // await Future.delayed(const Duration(seconds: 2));
+    // return [EventResult(id: "1", denominacio: "e1",longitud:41.3872, latitud: 2.1684),EventResult(id: "2", denominacio: "e2",longitud:41.3870, latitud: 2.1682),EventResult(id: "3", denominacio: "e3",longitud:41.3868, latitud: 2.1680)];
+  }
+
 
 
 }

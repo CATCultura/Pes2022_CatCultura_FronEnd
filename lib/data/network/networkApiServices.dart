@@ -6,6 +6,8 @@ import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/Session.dart';
+
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson, responseJsonMock;
   @override
@@ -15,12 +17,24 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
-      final response = await http.get(Uri.parse(url));
-      responseJson = returnResponse(response);
+
+      final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
+      //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
+      //responseJson = returnResponse(response);
       //debugPrint(responseJson.toString());
 
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json',
+        'Authorization': pass,},
+        ).timeout(const Duration(seconds: 60));
+        responseJson = returnResponse(response);
+
+
+      //debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
       //responseJsonMock = jsonDecode(jsonMock);
+
 
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -28,16 +42,21 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+
+
+
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
 
     try {
+
       http.Response response = await http.post(
         Uri.parse(url),
         body: jsonEncode(data.toJson()),
         headers: {'Content-Type': 'application/json', 'Accept': '*/*',
-          'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(), 'Authorization':"Test"},
+          'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
+          'Authorization': 'hola'},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -55,7 +74,8 @@ class NetworkApiServices extends BaseApiServices {
       http.Response response = await http.put(
         Uri.parse(url),
         body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+          'Authorization': 'hola',},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -93,8 +113,6 @@ class NetworkApiServices extends BaseApiServices {
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
-      case 201:
-        return response.body;
       case 400:
         throw BadRequestException(response.body.toString());
       case 404:

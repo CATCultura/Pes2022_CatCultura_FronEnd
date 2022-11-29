@@ -2,13 +2,12 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 
 class EventUnicArgs {
   final String eventId;
-
   EventUnicArgs(this.eventId);
 }
 
 
 class AnotherProfileArgs{
   final String selectedUser;
-
-  AnotherProfileArgs(this.selectedUser);
+  final String selectedId;
+  AnotherProfileArgs(this.selectedUser, this.selectedId);
 }

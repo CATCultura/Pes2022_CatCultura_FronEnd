@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/search_locations.dart';
 import '../../data/response/apiResponse.dart';
-import '../../models/UserResult.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
-import 'package:CatCultura/viewModels/AnotherUserViewModel.dart';
 
 
 
@@ -33,6 +31,7 @@ class StatefulProfile extends StatefulWidget {
 class _StatefulProfileState extends State<StatefulProfile>  {
 
   String selectedUser = '';
+  String selectedId = '';
   final UsersViewModel viewModel = UsersViewModel();
   late List <String> usersList = [];
   late List <String> usersSuggList = [];
@@ -56,6 +55,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           body: Container(
             color: Colors.white,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   height: 40,
@@ -70,8 +70,21 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     },
                   ),
                 ),
-
-
+                const SizedBox(height: 16),
+                Container(
+                  height: 40,
+                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Colors.amberAccent)),
+                    child: const Text('Veure peticions amistat'),
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, '/friendRequests');
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
                 viewModel.usersList.status == Status.LOADING? const SizedBox(
                   child: Center(child: CircularProgressIndicator()),
                 ):
@@ -105,10 +118,10 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               if (usersList[i] == finalResult!) pos = i;
                             }
                             selectedUser = viewModel.usersList.data![pos].nameAndSurname!;
+                            selectedId = viewModel.usersList.data![pos].id!;
                           });
                           // ignore: use_build_context_synchronously
-                          //if (selectedUser != '') Navigator.popAndPushNamed(context, '/another-user-profile');
-                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: selectedUser);
+                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
                         },
 
                     ),
@@ -124,8 +137,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
             ),
           ),
         );
-          }
-        )
+      })
     );
   }
 /*
