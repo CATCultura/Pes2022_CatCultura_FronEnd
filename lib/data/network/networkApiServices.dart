@@ -73,7 +73,8 @@ class NetworkApiServices extends BaseApiServices {
       http.Response response = await http.delete(
         Uri.parse(url),
         body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+          'Authorization': 'hola',},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {

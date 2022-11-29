@@ -9,20 +9,23 @@ import '../../data/response/apiResponse.dart';
 import '../widgets/events/eventInfoShort.dart';
 
 
-class opcionsEsdeveniment extends StatefulWidget {
-  const opcionsEsdeveniment({super.key});
+class opcionsEsdeveniment extends StatelessWidget {
+  opcionsEsdeveniment({super.key, required this.eventId});
+  String eventId;
 
-  @override
-  State<opcionsEsdeveniment> createState() => _opcionsState();
+  /*+@override
+  State<opcionsEsdeveniment> createState() => _opcionsState(); **/
 
-}
+//}
 
-class _opcionsState extends State<opcionsEsdeveniment> {
+//class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
-  late String eventId;
+  //late String eventId;
 
   @override
   Widget build(BuildContext context) {
+    print("estas a l'apartat opcions");
+    print(eventId);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
@@ -80,7 +83,7 @@ class _opcionsState extends State<opcionsEsdeveniment> {
                                                 foregroundColor: Colors.blue,
                                               ),
                                               onPressed: () {
-                                                //viewModel.deleteEventById(eventId);
+                                                viewModel.deleteEventById(eventId);
                                                 Navigator.popAndPushNamed(
                                                     context, '/home');
                                               }

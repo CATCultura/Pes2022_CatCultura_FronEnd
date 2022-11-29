@@ -99,7 +99,7 @@ class _modificarState extends State<modificarEsdeveniment> {
                             onPressed: () {
                               Navigator.popAndPushNamed(context, '/home');
                               print(event!.id);
-                              viewModel.putEventById("11041", DenominacioController.text);
+                              //viewModel.putEventById("11041", DenominacioController.text);
                             },
                           ),
                         ),

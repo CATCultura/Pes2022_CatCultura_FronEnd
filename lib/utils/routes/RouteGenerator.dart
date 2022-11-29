@@ -42,7 +42,8 @@ class RouteGenerator{
       case '/modificar-Esdeveniment':
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
-        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment());
+        final argsEventUnic = settings.arguments as EventUnicArgs;
+        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(eventId: argsEventUnic.eventId));
       default:
         return _errorRoute();
     }
