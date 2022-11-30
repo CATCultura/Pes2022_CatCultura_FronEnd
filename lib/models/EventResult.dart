@@ -89,11 +89,7 @@ class EventResult {
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
     imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
-    //imatges = List<String>.from(json.decode(jsonResponse['imatges']));
-    // Iterable l = json.decode(json['imatges']);
-    // imatges = List<String?>.from(l.map((model)=> String.fromJson(model)));
-    // imatges = List.from(json['imatges'].map(e) => e.toString().toList);
-    // List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+    imgApp = jsonResponse['imgApp'];
 
   }
 

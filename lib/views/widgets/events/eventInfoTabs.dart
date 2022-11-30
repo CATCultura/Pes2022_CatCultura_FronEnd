@@ -78,18 +78,19 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(100.0),
                 child: AppBar(
-                  backgroundColor: MyColorsPalette.red,
-                  title: Center(
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      child: Text(
-                        event!.denominacio!,
-                        overflow: TextOverflow.clip,
-                        style: const TextStyle(color: MyColorsPalette.white,
-                          fontWeight: FontWeight.bold, ),
-                      ),
-                    ),
-                  ),
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Color(0xFF3F3F44),
+                  // title: Center(
+                  //   child: FittedBox(
+                  //     fit: BoxFit.contain,
+                  //     child: Text(
+                  //       event!.denominacio!,
+                  //       overflow: TextOverflow.clip,
+                  //       style: const TextStyle(color: MyColorsPalette.white,
+                  //         fontWeight: FontWeight.bold, ),
+                  //     ),
+                  //   ),
+                  // ),
                   bottom: TabBar(
                     tabs: Tabs,
                   ),
