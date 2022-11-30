@@ -12,14 +12,27 @@ import '../widgets/events/eventInfoShort.dart';
 import '../widgets/events/eventInfoTabs.dart';
 
 class EventUnic extends StatelessWidget {
-  EventUnic({super.key, required this.eventId});
+  EventUnic({super.key, required this.eventId, this.favorit, this.attendance});
   EventUnicViewModel viewModel = EventUnicViewModel();// = EventsViewModel();
   String eventId;
+  late bool? favorit;
+  String funcio = "";
+  String loggedUserId = "13658";
+  late bool? attendance;
+
 
   @override
   void initState() {
     // debugPrint("initializing state of EventUnic");
     // viewModel.selectEventById(eventId);
+  }
+
+  void treatCallback(String value){
+    if(value== "addAttendance") {viewModel.putAttendanceById(loggedUserId, eventId);}
+    else if(value == "deleteAttendance") viewModel.deleteAttendanceById(loggedUserId, eventId);
+    else if(value == "addFavourite"){ viewModel.putFavouriteById(loggedUserId, eventId);
+    }
+    else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
   }
 
   @override
@@ -86,15 +99,19 @@ class EventUnic extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(child: EventInfoTabs(event: viewModel.eventSelected.data!)),
+                                      Expanded(child: EventInfoTabs(event: viewModel.eventSelected.data!,
+                                      callback: (value) => treatCallback(value))),
                                     ],
+
                                   )),
                             ),
                           ],
-                        ):const Text("asdfasdf"),
+
+                        ): Text(funcio),
 
                 //EventContainer(eventId: eventId),
               )
+
           );
         }));
   }

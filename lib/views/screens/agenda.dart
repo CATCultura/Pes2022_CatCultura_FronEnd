@@ -14,7 +14,7 @@ import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 class Agenda extends StatelessWidget {
   Agenda({super.key});
   final AgendaViewModel viewModel = AgendaViewModel();
-  String loggedUserId = '5850';
+  String loggedUserId = '13658';
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/material.dart';
-
 import '../../../utils/auxArgsObjects/argsRouting.dart';
 
 class EventInfoTile extends StatelessWidget {
@@ -20,8 +19,12 @@ class EventInfoTile extends StatelessWidget {
         child: ListTile(
             onTap: () {
               debugPrint("clicked event: ${event.denominacio}");
-              Navigator.pushNamed(context, "/eventUnic",
-                  arguments: EventUnicArgs(event.id!));
+             Navigator.pushNamed(context, "/eventUnic",
+                  arguments: EventUnicArgs(event.id!)).then((_){
+                    /*setState((){
+
+                    });*/
+              });
             },
             leading: CircleAvatar(
               backgroundColor: Colors.red.shade700,

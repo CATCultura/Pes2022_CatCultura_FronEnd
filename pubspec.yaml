@@ -42,6 +42,8 @@ dependencies:
   animations: ^2.0.5
   transparent_image: ^2.0.0
   google_maps_flutter: ^2.2.0
+  flutter_local_notifications: ^9.7.0
+  notification_permissions: ^0.6.1
   intl: ^0.17.0
   geolocator: ^9.0.2
   location: ^4.4.0
