@@ -12,7 +12,7 @@ import '../widgets/events/eventInfoTile.dart';
 class Favorits extends StatelessWidget {
   Favorits({super.key});
   final FavoritsViewModel viewModel = FavoritsViewModel();
-  String loggedUserId = '5850';
+  String loggedUserId = '13658';
 
   @override
   Widget build(BuildContext context) {

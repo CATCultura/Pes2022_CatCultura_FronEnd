@@ -1,16 +1,17 @@
-
 import 'package:flutter/material.dart';
-
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import '../../../constants/theme.dart';
 import '../../../models/EventResult.dart';
-
 import 'package:provider/provider.dart';
+
+import 'package:CatCultura/notifications/notificationService.dart';
+import 'package:timezone/timezone.dart';
+import 'package:timezone/data/latest.dart';
 
 class EventInfoTabs extends StatefulWidget {
   final EventResult? event;
-  const EventInfoTabs({super.key, this.event});
-
+  Function? callback = (){};
+   EventInfoTabs({super.key, this.event, this.callback});
 
   @override
   State<EventInfoTabs> createState() =>
@@ -23,13 +24,17 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
   String loggedUserId = "5850";
   bool assistire = false;
 
-  final EventUnicViewModel viewModel = EventUnicViewModel();
+  @override
+  void initState(){
+    super.initState();
+    initializeTimeZones();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<EventUnicViewModel>(
-        create: (BuildContext context) => viewModel,
-        child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
+    return Placeholder(
+        //create: (BuildContext context) => widget.viewModel,
+        child: Consumer(builder: (context, value, _) {
           final Tabs = <Widget>[
             const Tab(
             icon: Icon(Icons.info_outline, size: 20.0, color: MyColorsPalette.white),
@@ -48,8 +53,14 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((assistire == false) ? Icons.flag_outlined : Icons.flag, color: MyColorsPalette.white),
             onPressed: (){
-              if(assistire == true) viewModel.deleteAttendanceById(loggedUserId, event!.id);
-              else viewModel.putAttendanceById(loggedUserId, event!.id!);
+              if(assistire == true) {
+                widget.callback!("deleteAttendance");
+                NotificationService().deleteOneNotification(event!.id);
+              }
+              else {
+                  widget.callback!("addAttendance");
+                  NotificationService().showNotifications( event!.id, 8, "title", "body"); //widget.callback!("addAttendance");
+              }
               setState(() {
                 assistire = !assistire;
               });
@@ -60,11 +71,9 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
             iconSize: 40,
             icon: Icon((Favorit == false) ? Icons.star_border_outlined : Icons.star, color: MyColorsPalette.white),
             onPressed: (){
-              if(Favorit == true) viewModel.deleteFavouriteById(loggedUserId, event!.id);
-              else viewModel.putFavouriteById(loggedUserId, event!.id!);
-              print(viewModel.addFavouriteResult.status);
-              print(viewModel.addFavouriteResult);
-              print("estic aqui");
+              if(Favorit == true) widget.callback!("deleteFavourite");
+              else{ widget.callback!("addFavourite");
+              }
               setState(() {
                 Favorit = !Favorit;
               });
