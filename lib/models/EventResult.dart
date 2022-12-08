@@ -28,13 +28,13 @@ class EventResult {
   String? codiPostal = "";
   String? comarcaIMunicipi = "comarca/municipi: no info";
   String? email = "";
-  String? espai = "";
+  String? espai = "espai: no info";
   double? latitud = 0.0;
   String? localitat = "localitat: no info";
   double? longitud = 0.0;
   String? telf = "";
   String? URL = "";
-  String? ubicacio = "";
+  String? ubicacio = "ubicacio: no info";
   String? imgApp = "";
   //bool cancelado = false;
 
@@ -83,13 +83,16 @@ class EventResult {
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    descripcio = jsonResponse['descripcio'];
-    if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
-    else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
+    descripcio = formatText(jsonResponse['descripcio']);
+    // if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
+    // else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
+    comarcaIMunicipi = jsonResponse['ubicacio'];
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
     imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
     imgApp = jsonResponse['imgApp'];
+    espai = jsonResponse['espai'];
+    //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";
 
   }
 
@@ -111,6 +114,15 @@ class EventResult {
     result['descripcio'] = descripcio;
     return result;
   } **/
+}
+
+String formatText(String s) {
+  String aux = s.replaceAll ("&nbsp;", "\n");
+  aux = aux.replaceAll ("nbsp;", "");
+  aux = aux.replaceAll ("&amp;", "\n");
+  aux = aux.replaceAll ("amp;", "\n");
+
+  return aux;
 }
 
 

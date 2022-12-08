@@ -1,5 +1,6 @@
 
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
@@ -12,11 +13,13 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<String> addAttendanceResult = ApiResponse.loading();
 
+  ApiResponse<List<ReviewResult>> reviews = ApiResponse.loading();
+
   bool waiting = true;
 
 
   setEventSelected(ApiResponse<EventResult> response){
-    debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}");
+    debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
     eventSelected = response;
     notifyListeners();
   }
@@ -26,12 +29,20 @@ class EventUnicViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  setReviews(ApiResponse<List<ReviewResult>> response) {
+    reviews = response;
+    notifyListeners();
+  }
+
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
     await _eventsRepo.getEventById(id).then((value){
       setEventSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString())));
+    await _eventsRepo.getEventReviewsById(id).then((value){
+      setReviews(ApiResponse.completed(value));
+    })  ;
   }
 
   setFavouriteResult(ApiResponse<String> response){
@@ -90,6 +101,7 @@ class EventUnicViewModel with ChangeNotifier {
     }
     waiting = false;
   }
+
 
   /** Future<void> putEventById(String? id, String? d) async {
     EventResult? e = EventResult();
