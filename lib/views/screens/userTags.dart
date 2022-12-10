@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
+import '../../data/response/apiResponse.dart';
+import '../../models/UserResult.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -27,10 +29,15 @@ class StatefulUserTags extends StatefulWidget {
 
 class _StatefulUserTagsState extends State<StatefulUserTags> {
   bool? musica = false;
+  final UsersViewModel viewModel = UsersViewModel();
   //true for checked checkbox, flase for unchecked one
 
   @override
   Widget build(BuildContext context) {
+    viewModel.fetchUsersListApi();
+    return ChangeNotifierProvider<UsersViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<UsersViewModel>(builder: (context, value, _) {
     return  Scaffold(
         body: Container(
             padding: EdgeInsets.only(top:20, left:20, right:20),
@@ -151,5 +158,6 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
               ],)
         )
     );
+        }));
   }
 }

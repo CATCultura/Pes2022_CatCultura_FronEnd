@@ -37,12 +37,11 @@ class UsersViewModel with ChangeNotifier{
   Future<void> iniciarSessio(String name, String pass) async {
     final sessio = Session();
     sessio.set("auth", "username=$name,password=$pass");
-    final a = 2;
-      await _usersRepo.iniSessio().then((value) {
-        setUsersSelected(ApiResponse.completed(value));
-      }).onError((error, stackTrace) =>
-          setUsersSelected(ApiResponse.error(error.toString())));
-      waiting = false;
+    await _usersRepo.iniSessio().then((value) {
+      setUsersSelected(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setUsersSelected(ApiResponse.error(error.toString())));
+    waiting = false;
     notifyListeners();
   }
 

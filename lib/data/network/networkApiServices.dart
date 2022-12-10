@@ -19,14 +19,14 @@ class NetworkApiServices extends BaseApiServices {
     try {
 
       final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
-      final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
-      responseJson = returnResponse(response);
+      //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
+      //responseJson = returnResponse(response);
       //debugPrint(responseJson.toString());
 
       final response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json',
-        'Authorization': 'hola',},
+        'Authorization': pass,},
         ).timeout(const Duration(seconds: 60));
         responseJson = returnResponse(response);
 

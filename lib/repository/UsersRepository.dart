@@ -97,10 +97,7 @@ class UsersRepository {
       } catch (e) {
         rethrow;
       }
-
   }
-
-
 
   Future<String> addFavouriteByUserId(String id, int otherUserId) async {
     try{
