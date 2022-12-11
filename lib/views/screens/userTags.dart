@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
-import '../../data/response/apiResponse.dart';
-import '../../models/UserResult.dart';
-import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/response/apiResponse.dart';
-
+import '../../viewModels/TagsViewModel.dart';
 
 class UserTags extends StatelessWidget {
   const UserTags({Key? key}) : super(key: key);
@@ -29,15 +25,13 @@ class StatefulUserTags extends StatefulWidget {
 
 class _StatefulUserTagsState extends State<StatefulUserTags> {
   bool? musica = false;
-  final UsersViewModel viewModel = UsersViewModel();
   //true for checked checkbox, flase for unchecked one
+  final TagsViewModel viewModel = TagsViewModel();
+  late List <String> tagsList = [];
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchUsersListApi();
-    return ChangeNotifierProvider<UsersViewModel>(
-        create: (BuildContext context) => viewModel,
-        child: Consumer<UsersViewModel>(builder: (context, value, _) {
+    viewModel.fetchTagsListApi();
     return  Scaffold(
         body: Container(
             padding: EdgeInsets.only(top:20, left:20, right:20),
@@ -70,94 +64,35 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                     ),
                   ),
                 ),
-                CheckboxListTile( //checkbox positioned at right
-                  value: musica,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      musica = value;
-                    });
-                  },
-                  title: Text("Música"),
-                ),
-                CheckboxListTile( //checkbox positioned at right
-                  value: musica,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      musica = value;
-                    });
-                  },
-                  title: Text("Concerts"),
-                ),
-                CheckboxListTile( //checkbox positioned at right
-                  value: musica,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      musica = value;
-                    });
-                  },
-                  title: Text("Aire lliure"),
-                ),
-                CheckboxListTile( //checkbox positioned at right
-                  value: musica,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      musica = value;
-                    });
-                  },
-                  title: Text("Esports"),
-                ),
-                Row (
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            musica = false;
-                          },
-                          child: const Text("ESBORRA",
-                            style: TextStyle (
-                                fontSize: 12,
-                                letterSpacing: 2.2,
-                                color:Colors.black
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal:15),
-                        child: ElevatedButton(
-                          style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
-                          child: const Text('DESA',
-                            style: TextStyle (
-                                fontSize: 12,
-                                letterSpacing: 2.2,
-                                color:Colors.white
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.popAndPushNamed(context, '/home');
-                          },
-                        ),
-                      ),
-                    ]
-                ),
-                TextButton(
-                  child: Center(
-                    child: Text(
-                      "Fes-ho més tard",
-                      style:  TextStyle (
-                          color:Colors.deepOrangeAccent
-                      ),
+                viewModel.tagsList.status == Status.LOADING? const SizedBox(
+                  child: Center(child: CircularProgressIndicator()),
+                ):
+                viewModel.tagsList.status == Status.ERROR? Text(viewModel.tagsList.toString()):
+                viewModel.tagsList.status == Status.COMPLETED? Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder (
+                          itemCount: viewModel
+                              .tagsList
+                              .data!
+                              .length,
+                          itemBuilder:
+                              (BuildContext context,
+                              int i) {
+                            return EventInfoTile(
+                              event: viewModel
+                                  .tagsList
+                                  .data![i],
+                              index: i,
+                            );
+                          }),
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.popAndPushNamed(context, '/home');
-                  },
-                ),
-              ],)
-        )
+                  ],
+                )
+                    : const Text("asdfasdf"),
+              ],
+            ),
+        ),
     );
-        }));
   }
 }

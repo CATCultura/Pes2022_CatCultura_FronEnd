@@ -54,7 +54,10 @@ class EventResult {
     this.latitud,
     this.localitat,
     this.longitud,
-    this.descripcio
+    this.descripcio,
+    this.tagsAltresCateg,
+    this.tagsAmbits,
+    this.tagsAmbitsCateg
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
@@ -71,6 +74,10 @@ class EventResult {
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
     imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
+    tagsAmbits = (jsonResponse['tagsAmbits'] as List).map((item) => item as String).toList();
+    tagsAmbitsCateg = (jsonResponse['tagsAmbitsCateg'] as List).map((item) => item as String).toList();
+    tagsAltresCateg = (jsonResponse['tagsAltresCateg'] as List).map((item) => item as String).toList();
+
     //imatges = List<String>.from(json.decode(jsonResponse['imatges']));
     // Iterable l = json.decode(json['imatges']);
     // imatges = List<String?>.from(l.map((model)=> String.fromJson(model)));
