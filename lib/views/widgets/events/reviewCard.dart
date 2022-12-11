@@ -1,4 +1,5 @@
 import 'package:CatCultura/models/ReviewResult.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:CatCultura/constants/theme.dart';
@@ -8,8 +9,8 @@ class ReviewCard extends StatelessWidget {
 
   final ReviewResult review;
 
-  static void defaultFunc() {
-    print("the function works!");
+  void defaultFunc() {
+    print("the function works for review: ${review.title!}");
   }
 
   @override
@@ -18,7 +19,9 @@ class ReviewCard extends StatelessWidget {
         height: 150,
         width: MediaQuery.of(context).size.width,
         child: GestureDetector(
-          onTap: defaultFunc,
+          onTap: (){
+            Navigator.pushNamed(context, "/reviewUnica",arguments: ReviewUnicaArgs(review));
+          },
           child: Card(
             color: Color(0xFFf6f6f6),
             elevation: 0.8,
@@ -34,8 +37,8 @@ class ReviewCard extends StatelessWidget {
                     Flexible(
                       flex: 2,
                       child: Text(
-                        "User Name",
-                        style: TextStyle(
+                        review.user!,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                           color: MyColors.header,
@@ -49,19 +52,19 @@ class ReviewCard extends StatelessWidget {
                         child: SizedBox(
                           child: Row(
                             children: [
-                              Icon(/*review.score!*/ 3 > 0
+                              Icon(review.score! > 0
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(/*review.score!*/ 3 > 1
+                              Icon(review.score! > 1
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(/*review.score!*/ 3 > 2
+                              Icon(review.score! > 2
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(/*review.score!*/ 3 > 3
+                              Icon(review.score!> 3
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(/*review.score!*/ 3 > 4
+                              Icon(review.score! > 4
                                   ? Icons.star
                                   : Icons.star_outline),
                             ],
@@ -76,15 +79,14 @@ class ReviewCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Flexible(
-                            child: Text("Title Review",
+                            child: Text(review.title!,
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                           ),
                           // Padding(padding: EdgeInsets.only(top: 5)),
                           Flexible(
                               child: Text(
-                                // "holsssssssssssssssssssssssssssssssssssssssssssssssssssa",
-                                "Lorep ipsum xxxxxxxxxdddddddddddffffffffffffffffffffffffttttttttttttttttttttttttttttttttttttttttttddddddddddddddddddddddddddddddxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxssssssssssssssssssssssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxssssssssssssssssssssssss",
+                                review.text!,
                                 style: TextStyle(fontSize: 14),
                                 overflow: TextOverflow.fade,
                               ),

@@ -1,8 +1,14 @@
+import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 
 class EventUnicArgs {
   final String eventId;
   EventUnicArgs(this.eventId);
+}
+
+class ReviewUnicaArgs {
+  final ReviewResult review;
+  ReviewUnicaArgs(this.review);
 }
 
 

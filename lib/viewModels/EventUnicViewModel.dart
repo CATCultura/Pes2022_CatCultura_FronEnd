@@ -17,6 +17,7 @@ class EventUnicViewModel with ChangeNotifier {
 
   bool waiting = true;
 
+  bool favorit = false, agenda = false;
 
   setEventSelected(ApiResponse<EventResult> response){
     debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
@@ -30,6 +31,9 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   setReviews(ApiResponse<List<ReviewResult>> response) {
+    for (var e in response.data!) {
+      debugPrint(e.title);
+    }
     reviews = response;
     notifyListeners();
   }
@@ -47,11 +51,13 @@ class EventUnicViewModel with ChangeNotifier {
 
   setFavouriteResult(ApiResponse<String> response){
     addFavouriteResult = response;
+    favorit = !favorit;
     notifyListeners();
   }
 
   setAttendanceResult(ApiResponse<String> response) {
     addAttendanceResult = response;
+    agenda = !agenda;
     notifyListeners();
   }
 
