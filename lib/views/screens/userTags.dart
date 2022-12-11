@@ -32,65 +32,67 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
   @override
   Widget build(BuildContext context) {
     viewModel.fetchTagsListApi();
-    return  Scaffold(
-        body: Container(
-            padding: EdgeInsets.only(top:20, left:20, right:20),
-            alignment: Alignment.topLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                    child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Image.asset(
-                          width: 70,
-                          height: 70,
-                          'resources/img/logo2.png',
-                        )
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(50),
-                  child: const Text(
-                    'Selecciona les teves categories favorites',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.deepOrangeAccent,
-                        letterSpacing: 2.2,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
-                viewModel.tagsList.status == Status.LOADING? const SizedBox(
-                  child: Center(child: CircularProgressIndicator()),
-                ):
-                viewModel.tagsList.status == Status.ERROR? Text(viewModel.tagsList.toString()):
-                viewModel.tagsList.status == Status.COMPLETED? Column(
+    return ChangeNotifierProvider<TagsViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<TagsViewModel>(builder: (context, value, _) {
+        return  Scaffold(
+            body: Container(
+                padding: EdgeInsets.only(top:20, left:20, right:20),
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: ListView.builder (
-                          itemCount: viewModel
-                              .tagsList
-                              .data!
-                              .length,
-                          itemBuilder:
-                              (BuildContext context,
-                              int i) {
-                            return ListTile(
-                                leading: const Icon(Icons.list),
-                                title: Text("List item $i")
-                            );
-                          }),
+                    Center(
+                      child: SizedBox(
+                        child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Image.asset(
+                              width: 70,
+                              height: 70,
+                              'resources/img/logo2.png',
+                            )
+                        ),
+                      ),
                     ),
+                    Container(
+                      margin: const EdgeInsets.all(50),
+                      child: const Text(
+                        'Selecciona les teves categories favorites',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.deepOrangeAccent,
+                            letterSpacing: 2.2,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    viewModel.tagsList.status == Status.LOADING? const SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    ):
+                    viewModel.tagsList.status == Status.ERROR? Text(viewModel.tagsList.toString()):
+                    viewModel.tagsList.status == Status.COMPLETED? Row(
+                      children: <Widget> [
+                        Expanded(
+                          child: SizedBox(
+                            height: 500.0,
+                            child: ListView.builder (
+                                itemCount: viewModel.tagsList.data!.length,
+                                itemBuilder: (BuildContext context, int i) {
+                                  return Text(
+                                      viewModel.tagsList.data![i]
+                                  );
+                                }),
+                          )
+                        ),
+                      ],
+                    )
+                        : const Text("asdfasdf"),
                   ],
-                )
-                    : const Text("asdfasdf"),
-              ],
+                ),
             ),
-        ),
+        );
+    })
     );
+    }
   }
-}
