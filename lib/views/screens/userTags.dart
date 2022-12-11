@@ -79,11 +79,9 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                           itemBuilder:
                               (BuildContext context,
                               int i) {
-                            return EventInfoTile(
-                              event: viewModel
-                                  .tagsList
-                                  .data![i],
-                              index: i,
+                            return ListTile(
+                                leading: const Icon(Icons.list),
+                                title: Text("List item $i")
                             );
                           }),
                     ),
