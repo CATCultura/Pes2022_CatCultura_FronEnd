@@ -17,9 +17,7 @@ class EventUnic extends StatelessWidget {
   String eventId;
   late bool? favorit;
   String funcio = "";
-  String loggedUserId = "13658";
   late bool? attendance;
-
 
   @override
   void initState() {
@@ -28,15 +26,16 @@ class EventUnic extends StatelessWidget {
   }
 
   void treatCallback(String value){
-    if(value== "addAttendance") {viewModel.putAttendanceById(loggedUserId, eventId);}
-    else if(value == "deleteAttendance") viewModel.deleteAttendanceById(loggedUserId, eventId);
-    else if(value == "addFavourite"){ viewModel.putFavouriteById(loggedUserId, eventId);
+    if(value== "addAttendance") {viewModel.putAttendanceById(viewModel.usernameSessio(), eventId);}
+    else if(value == "deleteAttendance") viewModel.deleteAttendanceById(viewModel.usernameSessio(), eventId);
+    else if(value == "addFavourite"){ viewModel.putFavouriteById(viewModel.usernameSessio(), eventId);
     }
-    else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
+    else if(value == "deleteFavourite") viewModel.deleteFavouriteById(viewModel.usernameSessio(), eventId);
   }
 
   @override
   Widget build(BuildContext context) {
+
     debugPrint("building EventUnic with ID: $eventId");
     viewModel.selectEventById(eventId);
     return ChangeNotifierProvider<EventUnicViewModel>(
