@@ -53,6 +53,7 @@ class UsersRepository {
     }
   }
 
+
   UserResult userInCache(String id){
     debugPrint("cached user");
     UserResult result = UserResult();
@@ -98,6 +99,23 @@ class UsersRepository {
         rethrow;
       }
   }
+
+
+  Future<List<UserResult>> getReceivedById(String id) async {
+
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/$id/friends?status=received");
+      List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
+
+      return res;//UserResult.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+
+  }
+
+
 
   Future<String> addFavouriteByUserId(String id, int otherUserId) async {
     try{

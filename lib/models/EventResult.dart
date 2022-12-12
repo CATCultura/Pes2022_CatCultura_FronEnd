@@ -7,18 +7,18 @@ class EventResult {
   String? id = "empty";
   String? codi = "";
   String? dataInici = "empty";
-  String? dataIniciHora = "empty";
+  //String? dataIniciHora = "empty";
   String? dataFi;
-  String? dataFiHora = "empty";
+  //String? dataFiHora = "empty";
   String? dataFiAprox = "";
-  String? dataFiAproxHora = "empty";
+  //String? dataFiAproxHora = "empty";
   String? denominacio = "NO_NAME";
   String? descripcio;
   String? entrades = "";
   String? horari = "";
   String? subtitol = "";
   List<String>? tagsAmbits;
-  List<String>? tagsAmbitsCateg;
+  List<String>? tagsCateg;
   List<String>? tagsAltresCateg;
   String? links = "";
   String? documents = "";
@@ -28,9 +28,15 @@ class EventResult {
   String? codiPostal = "";
   String? comarcaIMunicipi = "comarca/municipi: no info";
   String? email = "";
+  String? espai = "espai: no info";
   double? latitud = 0.0;
   String? localitat = "localitat: no info";
   double? longitud = 0.0;
+  String? telf = "";
+  String? URL = "";
+  String? ubicacio = "ubicacio: no info";
+  String? imgApp = "";
+  //bool cancelado = false;
 
 
   EventResult({
@@ -38,11 +44,11 @@ class EventResult {
     this.codi,
     this.denominacio,
     this.dataInici,
-    this.dataIniciHora,
+    //this.dataIniciHora,
     this.dataFi,
-    this.dataFiHora,
+    //this.dataFiHora,
     this.dataFiAprox,
-    this.dataFiAproxHora,
+    //this.dataFiAproxHora,
     this.links,
     this.documents,
     this.imatges = const [""],
@@ -55,22 +61,33 @@ class EventResult {
     this.localitat,
     this.longitud,
     this.descripcio,
-    this.tagsAltresCateg,
+
+    this.entrades,
+    this.horari,
+    this.subtitol,
     this.tagsAmbits,
-    this.tagsAmbitsCateg
+    this.tagsCateg,
+    this.tagsAltresCateg,
+    this.espai,
+    this.telf,
+    this.URL,
+    this.ubicacio,
+    this.imgApp,
+    //this.cancelado
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
     id = jsonResponse['id'].toString();
     codi = jsonResponse['codi'].toString();
     dataInici = dataAdapt(jsonResponse['dataInici']);
-    dataIniciHora = horaAdapt(jsonResponse['dataInici']);
+    //dataIniciHora = horaAdapt(jsonResponse['dataInici']);
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    descripcio = jsonResponse['descripcio'];
-    if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
-    else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
+    descripcio = formatText(jsonResponse['descripcio']);
+    // if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
+    // else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
+    comarcaIMunicipi = jsonResponse['ubicacio'];
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
     imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
@@ -83,10 +100,21 @@ class EventResult {
     // imatges = List<String?>.from(l.map((model)=> String.fromJson(model)));
     // imatges = List.from(json['imatges'].map(e) => e.toString().toList);
     // List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+    imgApp = jsonResponse['imgApp'];
+    espai = jsonResponse['espai'];
+    //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";
 
   }
 
-  Map<String, dynamic> toJson() {
+  List<Map<String, dynamic>> toJson() {
+    final List<Map<String, dynamic>> result = [
+      {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
+      'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai}
+    ];
+    return result;
+  }
+
+  /** Map<String, dynamic> toJson() {
     final Map<String, dynamic> result =
     <String, dynamic>{};
     result['id'] = id;
@@ -95,8 +123,18 @@ class EventResult {
     result['dataFi'] = dataFi;
     result['descripcio'] = descripcio;
     return result;
-  }
+  } **/
 }
+
+String formatText(String s) {
+  String aux = s.replaceAll ("&nbsp;", "\n");
+  aux = aux.replaceAll ("nbsp;", "");
+  aux = aux.replaceAll ("&amp;", "\n");
+  aux = aux.replaceAll ("amp;", "\n");
+
+  return aux;
+}
+
 
 String? comarcaIMunicipiAdapt(String s) {
   String res = "";

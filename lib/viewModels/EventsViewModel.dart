@@ -11,6 +11,7 @@ class EventsViewModel with ChangeNotifier{
   final _eventsRepo = EventsRepository();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
+  ApiResponse<EventResult> events = ApiResponse.loading();
   ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();//= ApiResponse.completed([
 
   void mantaintEventsListToMap(){
@@ -23,6 +24,7 @@ class EventsViewModel with ChangeNotifier{
   int count = 0;
   Set<int> loadedPages = {};
   bool chargingNextPage = false;
+  bool waiting = true;
 
   void setLoading(){
     eventsList.status = Status.LOADING;
@@ -37,11 +39,15 @@ class EventsViewModel with ChangeNotifier{
 
   setEventsList(ApiResponse<List<EventResult>> response){
     eventsList = response;
-    mantaintEventsListToMap();
+    if(response.status == Status.COMPLETED)mantaintEventsListToMap();
     loadedPages.add(0);
     notifyListeners();
   }
 
+  void setEvents(ApiResponse<EventResult> response){
+    events = response;
+    notifyListeners();
+  }
 
   void addToEventsList(ApiResponse<List<EventResult>> apiResponse) {
     if(apiResponse.status == Status.COMPLETED && eventsList.status == Status.COMPLETED){
@@ -115,4 +121,12 @@ class EventsViewModel with ChangeNotifier{
   // void dispose() {
   // }
 
+  Future<void> crearEvent(EventResult e) async {
+    await _eventsRepo.postCreaEvent(e).then((value) {
+      setEvents(ApiResponse.completed(value));
+    }); /**.onError((error, stackTrace) =>
+        setEvents(ApiResponse.error(error.toString()))); **/
+    waiting = false;
+    notifyListeners();
+    }
 }

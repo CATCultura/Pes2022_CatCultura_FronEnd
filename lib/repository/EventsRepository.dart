@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
 //import 'dart:html';
-
 import 'dart:math';
 
+
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
+import 'package:CatCultura/models/ReviewResult.dart';
+
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class EventsRepository {
@@ -37,15 +42,24 @@ class EventsRepository {
   }
 
   Future<List<EventResult>> getEventsWithFilter(String filter) async {
-    List<EventResult> res = [];
-    for(EventResult e in _cachedEvents){
-      debugPrint(e.denominacio != null? e.denominacio : "NO:NAME");
-      if(e.denominacio!.contains(filter)) {
-        res.add(e);
-        debugPrint("added event: ${e.denominacio!}");
-      }
+    // List<EventResult> res = [];
+    // for(EventResult e in _cachedEvents){
+    //   debugPrint(e.denominacio != null? e.denominacio : "NO:NAME");
+    //   // if(e.denominacio!.contains(filter)) {
+    //   //   res.add(e);
+    //   //   debugPrint("added event: ${e.denominacio!}");
+    //   // }
+    // }
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?q=$filter");
+
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+
+      return res;
+
+    } catch (e) {
+      rethrow;
     }
-    return res;
     // try {
     //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events");
     //
@@ -167,6 +181,36 @@ class EventsRepository {
     }
   }
 
+  Future<EventResult> postCreaEvent(EventResult data) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> deleteEventId(String? eventId) async{
+    try{
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}events/$eventId", "");
+      String res = response;
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /** Future<String> addEventById(String? eventId, EventResult data) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  } **/
+
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, double radio) async {
     // try{
@@ -205,4 +249,30 @@ class EventsRepository {
       rethrow;
     }
   }
+  Future<List<ReviewResult>>getEventReviewsById(String id) async {
+    await Future.delayed(Duration(seconds: 2));
+    try {
+      // dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
+      // List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      debugPrint("lista de reviews");
+      List<ReviewResult> res = [
+        ReviewResult(title: "Title of review 1", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+        score: 5, date: "4-4-4"),
+        ReviewResult(title: "Title of review 2", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+            score: 1, date: "4-4-4"),
+        ReviewResult(title: "Title of review 3", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+            score: 3, date: "4-4-4"),
+        ReviewResult(title: "Title of review 4", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+            score: 2, date: "4-4-4"),
+        ReviewResult(title: "Title of review 5", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+            score: 4, date: "4-4-4"),
+      ];
+
+      return res;
+
+    } catch (r) {
+      rethrow;
+    }
+  }
+
 }

@@ -14,3 +14,7 @@ export 'package:CatCultura/views/screens/profileSettings.dart';
 export 'package:CatCultura/views/screens/modificarEsdeveniment.dart';
 export 'package:CatCultura/views/screens/opcionsEsdeveniment.dart';
 export 'package:CatCultura/views/screens/userTags.dart';
+export 'package:CatCultura/views/screens/friendRequests.dart';
+export 'package:CatCultura/views/screens/reviewUnica.dart';
+export 'package:CatCultura/views/screens/crearReview.dart';
+

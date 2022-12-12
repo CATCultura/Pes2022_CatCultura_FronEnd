@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
@@ -6,7 +7,7 @@ import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/search_locations.dart';
 import '../../data/response/apiResponse.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
-
+//import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 
 class Profile extends StatelessWidget {
@@ -35,9 +36,13 @@ class _StatefulProfileState extends State<StatefulProfile>  {
   final UsersViewModel viewModel = UsersViewModel();
   late List <String> usersList = [];
   late List <String> usersSuggList = [];
-
+  final double coverHeight = 280;
+  final double profileHeight = 144;
 
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     viewModel.fetchUsersListApi();
     return ChangeNotifierProvider<UsersViewModel>(
         create: (BuildContext context) => viewModel,
@@ -55,7 +60,109 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           body: Container(
             color: Colors.white,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                const SizedBox(height: 40),
+                buildTop(),
+
+                Column(
+                  children: [
+                    Text(
+                      'SuperJuane',
+                      style: TextStyle(
+                        color: Color.fromRGBO(230, 192, 2, 1),
+                        fontFamily: 'Nunito',
+                        fontSize: 30,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  'Puntuació',
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontFamily: 'Nunito',
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  '10',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(
+                                        140, 123, 35,1),
+                                    fontFamily: 'Nunito',
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                                vertical: 8,
+                              ),
+                              child: Container(
+                                height: 50,
+                                width: 3,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(100),
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  'Trofeus',
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontFamily: 'Nunito',
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  '1',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(
+                                        140, 123, 35,1),
+                                    fontFamily: 'Nunito',
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                  ]
+                ),
+
+                const SizedBox(height: 40),
+                Column(
+                  children: [
+                    Container(
+                      height: 40,
+                      padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(Colors.amberAccent)),
+                        child: const Text('Configuració'),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(context, '/editProfile');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
                 Container(
                   height: 40,
                   padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
@@ -63,14 +170,13 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
-                    child: const Text('Configuració'),
+                    child: const Text('Veure peticions amistat'),
                     onPressed: () {
-                      Navigator.popAndPushNamed(context, '/editProfile');
+                      Navigator.popAndPushNamed(context, '/friendRequests');
                     },
                   ),
                 ),
-
-
+                const SizedBox(height: 16),
                 viewModel.usersList.status == Status.LOADING? const SizedBox(
                   child: Center(child: CircularProgressIndicator()),
                 ):
@@ -126,43 +232,30 @@ class _StatefulProfileState extends State<StatefulProfile>  {
       })
     );
   }
-/*
-  class usersListSwitch extends StatefulWidget {
-    final List<UserResult> users;
 
-    const usersListSwitch({super.key, required this.users});
-    @override
-    State<usersListSwitch> createState() => usersListSwitchState();
+
+  Widget buildTop() {
+    final bottom = profileHeight/4;
+    return Stack (
+      clipBehavior: Clip.none,
+      alignment: Alignment.center,
+      children: [
+        Container (
+          margin: EdgeInsets.only(bottom: bottom),
+          child: buildProfilePicture(),
+        ),
+
+      ],
+    );
   }
 
-  class usersListSwitchState extends State<usersListSwitch> {
-    late List<UserResult> users = widget.users;
 
-    Widget _buildUserShort(int idx) {
-      return UserInfoTile(user: users[idx]);
-    }
+  Widget buildProfilePicture() => CircleAvatar(
+    radius: profileHeight/2,
+    backgroundColor: Colors.grey.shade800,
+    backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+  );
 
-    @override
-    Widget build(BuildContext context) {
-      return ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (BuildContext context, int i) {
-          return _buildUserShort(i);
-        });
-
-    }
-  }
-*/
-/*
-
-  final List <String> usersSuggList = [
-    'Alejandro',
-    'Manolo',
-    'Pepe',
-    'Joanna',
-    'Adiosbuenosdias',
-  ];
-*/
 
 }
 
