@@ -10,6 +10,8 @@ import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import '../../constants/theme.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../viewModels/LoginViewModel.dart';
 //import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
@@ -32,17 +34,16 @@ class StatefulLogin extends StatefulWidget {
 }
 
 class _StatefulLoginState extends State<StatefulLogin> {
-  final UsersViewModel viewModel = UsersViewModel();
+  final LoginViewModel viewModel = LoginViewModel();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool showPassword = false;
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchUsersListApi();
-    return ChangeNotifierProvider<UsersViewModel>(
+    return ChangeNotifierProvider<LoginViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<UsersViewModel>(builder: (context, value, _) {
+        child: Consumer<LoginViewModel>(builder: (context, value, _) {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0,0,0,0),
         child: GestureDetector(
