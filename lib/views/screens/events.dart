@@ -192,6 +192,8 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                             message = "Search by name...";
                             findedSomething = false;
                           });
+                          viewModel.refresh();
+                          viewModel.fetchEvents();
                         },
                         icon: const Icon(Icons.close),
                       )

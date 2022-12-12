@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 Widget getSizedText(String s) {
   print(s.length);
-  TextStyle t;
+  TextStyle? t;
   if (s.length <= 54) {
-    return Flexible(child: Text(s));
+    return Flexible(child: Text(s, style: t));
   } else {
     return Flexible(
         child: Text(

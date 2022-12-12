@@ -39,7 +39,7 @@ class EventsViewModel with ChangeNotifier{
 
   setEventsList(ApiResponse<List<EventResult>> response){
     eventsList = response;
-    mantaintEventsListToMap();
+    if(response.status == Status.COMPLETED)mantaintEventsListToMap();
     loadedPages.add(0);
     notifyListeners();
   }
