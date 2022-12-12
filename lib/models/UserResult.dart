@@ -6,6 +6,7 @@ class UserResult {
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
   String ? password = "empty";
+  String ? points = "empty";
   /*
   password	string
   creationDate	string
@@ -21,7 +22,8 @@ class UserResult {
     this.username,
     this.nameAndSurname,
     this.email,
-    this.password
+    this.password,
+    this.points
   });
 
   UserResult.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class UserResult {
     username = json['username'].toString();
     nameAndSurname = json['nameAndSurname'].toString();
     email = json['email'].toString();
+    points = json['points'].toString();
   }
 
 
@@ -37,7 +40,8 @@ class UserResult {
       "nameAndSurname": this.nameAndSurname,
       "username": this.username,
       "email": this.email,
-      "password": this.password
+      "password": this.password,
+      "points": this.points
     };
     return result;
   }
