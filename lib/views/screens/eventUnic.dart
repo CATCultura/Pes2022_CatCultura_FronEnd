@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/services.dart';
@@ -446,7 +447,11 @@ class Body extends StatelessWidget {
                     'Reviews',
                     style: TextStyle(fontSize: 23),
                   ),
-                  IconButton(icon: Icon(Icons.edit), onPressed: () {print("Button works");},)
+                  IconButton(icon: Icon(Icons.edit), onPressed: () {
+                    // print("Button works");
+                    Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                    },
+                  )
                 ],
               ),
             ),

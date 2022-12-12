@@ -11,6 +11,10 @@ class ReviewUnicaArgs {
   ReviewUnicaArgs(this.review);
 }
 
+class CrearReviewArgs {
+  final String eventId;
+  CrearReviewArgs(this.eventId);
+}
 
 class AnotherProfileArgs{
   final String selectedUser;

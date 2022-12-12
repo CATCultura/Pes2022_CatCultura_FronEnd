@@ -42,6 +42,9 @@ class RouteGenerator{
       case '/reviewUnica':
         final argsReviewUnica = settings.arguments as ReviewUnicaArgs;
         return MaterialPageRoute(builder:(_)=>ReviewUnica(review: argsReviewUnica.review));
+      case '/crearReview':
+        final argsCrearReview = settings.arguments as CrearReviewArgs;
+        return MaterialPageRoute(builder:(_)=>CrearReview(eventId: argsCrearReview.eventId));
       case '/modificar-Esdeveniment':
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
