@@ -1,11 +1,12 @@
-
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
+import '../utils/Session.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
+  final sessio = Session();
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
   ApiResponse<EventResult> event = ApiResponse.loading();
 
@@ -89,6 +90,16 @@ class EventUnicViewModel with ChangeNotifier {
       }).onError((error, stackTrace) => setEventSelected(ApiResponse.error(error.toString())));
     }
     waiting = false;
+  }
+
+  String usernameSessio() {
+    if(sessio.get("username") == null) return "13658";
+    return sessio.get("username");
+  }
+
+  String passwordSessio() {
+    if(sessio.get("password") == null) return "13658";
+    return sessio.get("password");
   }
 
   /** Future<void> putEventById(String? id, String? d) async {
