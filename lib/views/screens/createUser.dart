@@ -7,6 +7,7 @@ import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/response/apiResponse.dart';
+import '../../viewModels/LoginViewModel.dart';
 
 class CreateUser extends StatelessWidget {
   const CreateUser({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class StatefulCreateUser extends StatefulWidget {
 }
 
 class _StatefulCreateUserState extends State<StatefulCreateUser> {
-  final UsersViewModel viewModel = UsersViewModel();
+  final LoginViewModel viewModel = LoginViewModel();
   TextEditingController nameController = TextEditingController();
   TextEditingController userController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -37,10 +38,9 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchUsersListApi();
-    return ChangeNotifierProvider<UsersViewModel>(
+    return ChangeNotifierProvider<LoginViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<UsersViewModel>(builder: (context, value, _) {
+        child: Consumer<LoginViewModel>(builder: (context, value, _) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0,50,0,0),
       child: GestureDetector(

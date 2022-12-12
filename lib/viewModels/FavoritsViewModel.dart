@@ -11,12 +11,12 @@ class FavoritsViewModel with ChangeNotifier {
   ApiResponse<List<EventResult>> favouritesList = ApiResponse.loading();
 
   String usernameSessio() {
-    if(sessio.get("username") == null) return "13658";
+    if(sessio.get("username") == null) return "2";
     return sessio.get("username");
   }
 
   String passwordSessio() {
-    if(sessio.get("password") == null) return "13658";
+    if(sessio.get("password") == null) return "2";
     return sessio.get("password");
   }
 

@@ -356,7 +356,7 @@ class Body extends StatelessWidget {
   final String place;
   final String descripcio;
   final EventUnicViewModel viewModel;
-  final String loggedUserId = "13658";
+  final String loggedUserId = "2";
 
   @override
   Widget build(BuildContext context) {

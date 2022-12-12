@@ -10,6 +10,10 @@ import '../../utils/Session.dart';
 
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson, responseJsonMock;
+  late Codec<String, String> stringToBase64 = utf8.fuse(base64);
+  late String encoded = stringToBase64.encode("admin:admin");
+  late String hardcodedAuth = "Basic $encoded";
+
   @override
   Future getGetApiResponse(String url) async {
     //String mockedURL ="http://127.0.0.1:5001/get-all";
@@ -18,7 +22,7 @@ class NetworkApiServices extends BaseApiServices {
 
     try {
 
-      final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
+      // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
       //debugPrint(responseJson.toString());
@@ -26,7 +30,7 @@ class NetworkApiServices extends BaseApiServices {
       final response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json',
-        'Authorization': pass,},
+        'Authorization': hardcodedAuth,},
         ).timeout(const Duration(seconds: 60));
         responseJson = returnResponse(response);
 
@@ -56,7 +60,7 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(data.toJson()),
         headers: {'Content-Type': 'application/json', 'Accept': '*/*',
           'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
-          'Authorization': 'hola'},
+          'Authorization': hardcodedAuth},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -75,7 +79,7 @@ class NetworkApiServices extends BaseApiServices {
         Uri.parse(url),
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json',
-          'Authorization': 'hola',},
+          'Authorization': hardcodedAuth,},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
