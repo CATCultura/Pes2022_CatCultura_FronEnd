@@ -92,7 +92,7 @@ class EventResult {
     longitud = jsonResponse['longitud'];
     imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
     tagsAmbits = (jsonResponse['tagsAmbits'] as List).map((item) => item as String).toList();
-    tagsAmbitsCateg = (jsonResponse['tagsAmbitsCateg'] as List).map((item) => item as String).toList();
+    tagsCateg = (jsonResponse['tagsAmbitsCateg'] as List).map((item) => item as String).toList();
     tagsAltresCateg = (jsonResponse['tagsAltresCateg'] as List).map((item) => item as String).toList();
 
     //imatges = List<String>.from(json.decode(jsonResponse['imatges']));
