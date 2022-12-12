@@ -98,8 +98,8 @@ class UsersRepository {
       } catch (e) {
         rethrow;
       }
-
   }
+
 
   Future<List<UserResult>> getReceivedById(String id) async {
 
@@ -128,16 +128,15 @@ class UsersRepository {
     }
   }
 
-  Future<String> deleteFavouriteByUserId(String id, int otherUserId) async{
-    try{
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/friends/$otherUserId", "" );
+  Future<String> deleteFavouriteByUserId(String id, int otherUserId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse(
+          "${baseUrl}users/$id/friends/$otherUserId", "");
       String res = response;
       return res;
     }
-    catch(e){
+    catch (e) {
       rethrow;
     }
   }
-
-
 }

@@ -27,4 +27,5 @@ class UsersViewModel with ChangeNotifier{
     }).onError((error, stackTrace) =>
         setUsersList(ApiResponse.error(error.toString())));
   }
+
 }

@@ -22,6 +22,7 @@ class NetworkApiServices extends BaseApiServices {
 
     try {
 
+
       // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
@@ -30,6 +31,7 @@ class NetworkApiServices extends BaseApiServices {
       final response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json',
+
         'Authorization': hardcodedAuth,},
         ).timeout(const Duration(seconds: 60));
         responseJson = returnResponse(response);
