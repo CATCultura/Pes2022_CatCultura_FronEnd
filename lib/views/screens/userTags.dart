@@ -79,8 +79,14 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                             child: ListView.builder (
                                 itemCount: viewModel.tagsList.data!.length,
                                 itemBuilder: (BuildContext context, int i) {
-                                  return Text(
-                                      viewModel.tagsList.data![i]
+                                  return   CheckboxListTile( //checkbox positioned at right
+                                    value: musica,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        musica = value;
+                                      });
+                                    },
+                                    title: Text(viewModel.tagsList.data![i]),
                                   );
                                 }),
                           )
