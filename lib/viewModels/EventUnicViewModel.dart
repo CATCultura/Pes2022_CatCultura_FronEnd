@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 
+import '../utils/Session.dart';
+
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
@@ -15,9 +17,22 @@ class EventUnicViewModel with ChangeNotifier {
 
   ApiResponse<List<ReviewResult>> reviews = ApiResponse.loading();
 
+  final sessio = Session();
+
+
   bool waiting = true;
 
   bool favorit = false, agenda = false;
+
+  String usernameSessio() {
+    if(sessio.get("username") == null) return "13658";
+    return sessio.get("username");
+  }
+
+  String passwordSessio() {
+    if(sessio.get("password") == null) return "13658";
+    return sessio.get("password");
+  }
 
   setEventSelected(ApiResponse<EventResult> response){
     debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
