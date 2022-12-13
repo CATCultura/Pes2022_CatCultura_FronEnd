@@ -78,6 +78,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Container(
                 padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 child: TextField(
+
                   controller: passwordController,
                   obscureText: !showPassword,
                   decoration: InputDecoration (
@@ -119,8 +120,11 @@ class _StatefulLoginState extends State<StatefulLogin> {
                           color:Colors.white
                       ),
                     ),
-                    onPressed: () {
-                      viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
+                    onPressed: () async {
+                      final b = await viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text).then((value){
+                        debugPrint(value? "true":"false");
+                      });
+                      debugPrint(b? "2 - true":"2 - false");
                     },
                   )
               ),

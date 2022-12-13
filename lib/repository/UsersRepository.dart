@@ -66,7 +66,7 @@ class UsersRepository {
   Future<UserResult> iniSessio() async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(
-          "${baseUrl}auth");
+          "${baseUrl}login");
       UserResult res = UserResult.fromJson(response);
       return res;
     } catch (e) {
