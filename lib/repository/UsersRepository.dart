@@ -5,6 +5,8 @@ import 'package:CatCultura/models/UserResult.dart';
 import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
 import 'package:CatCultura/data/network/networkApiServices.dart';
+
+import '../models/SessionResult.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class UsersRepository {
@@ -63,18 +65,19 @@ class UsersRepository {
     return result;
   }
 
-  Future<UserResult> iniSessio() async {
+  Future<SessionResult> iniSessio() async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(
-          "${baseUrl}auth");
-      UserResult res = UserResult.fromJson(response);
+          "${baseUrl}login");
+      SessionResult res = SessionResult.fromJson(response);
+      debugPrint("Res dedsde userRepo $res");
       return res;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<UserResult> postCreaCompte(UserResult data) async {
+  Future<SessionResult> postCreaCompte(UserResult data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", data);
       return response;
@@ -100,8 +103,8 @@ class UsersRepository {
       } catch (e) {
         rethrow;
       }
-
   }
+
 
   Future<List<UserResult>> getReceivedById(String id) async {
 
@@ -130,16 +133,15 @@ class UsersRepository {
     }
   }
 
-  Future<String> deleteFavouriteByUserId(String id, int otherUserId) async{
-    try{
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/friends/$otherUserId", "" );
+  Future<String> deleteFavouriteByUserId(String id, int otherUserId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse(
+          "${baseUrl}users/$id/friends/$otherUserId", "");
       String res = response;
       return res;
     }
-    catch(e){
+    catch (e) {
       rethrow;
     }
   }
-
-
 }

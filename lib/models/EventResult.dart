@@ -61,6 +61,7 @@ class EventResult {
     this.localitat,
     this.longitud,
     this.descripcio,
+
     this.entrades,
     this.horari,
     this.subtitol,
@@ -90,6 +91,15 @@ class EventResult {
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
     imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
+    tagsAmbits = (jsonResponse['tagsAmbits'] as List).map((item) => item as String).toList();
+    tagsCateg = (jsonResponse['tagsAmbitsCateg'] as List).map((item) => item as String).toList();
+    tagsAltresCateg = (jsonResponse['tagsAltresCateg'] as List).map((item) => item as String).toList();
+
+    //imatges = List<String>.from(json.decode(jsonResponse['imatges']));
+    // Iterable l = json.decode(json['imatges']);
+    // imatges = List<String?>.from(l.map((model)=> String.fromJson(model)));
+    // imatges = List.from(json['imatges'].map(e) => e.toString().toList);
+    // List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
     imgApp = jsonResponse['imgApp'];
     espai = jsonResponse['espai'];
     //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";

@@ -35,8 +35,8 @@ class StatefulLogin extends StatefulWidget {
 
 class _StatefulLoginState extends State<StatefulLogin> {
   final LoginViewModel viewModel = LoginViewModel();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController(/*text: "admin"*/);
+  TextEditingController passwordController = TextEditingController(/*text: "admin"*/);
   bool showPassword = false;
 
   @override
@@ -78,6 +78,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Container(
                 padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 child: TextField(
+
                   controller: passwordController,
                   obscureText: !showPassword,
                   decoration: InputDecoration (
@@ -119,7 +120,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                           color:Colors.white
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: ()  {
                       viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
                     },
                   )
@@ -169,7 +170,7 @@ class A extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/home');
-        return Container();
+    Future.microtask(() => Navigator.popAndPushNamed(context, '/home'));
+    return Container();
   }
 }

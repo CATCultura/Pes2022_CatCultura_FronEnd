@@ -9,8 +9,10 @@ import '../utils/Session.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
+  final session = Session();
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
   ApiResponse<EventResult> event = ApiResponse.loading();
+  bool favorit = false, agenda = false;
 
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<String> addAttendanceResult = ApiResponse.loading();
@@ -22,7 +24,6 @@ class EventUnicViewModel with ChangeNotifier {
 
   bool waiting = true;
 
-  bool favorit = false, agenda = false;
 
   String usernameSessio() {
     if(sessio.get("username") == null) return "13658";
@@ -55,6 +56,10 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
+    favorit = session.data.favouritesId!.contains(int.parse(id));
+    agenda = session.data.attendanceId!.contains(int.parse(id));
+    debugPrint(favorit? "si en favorit": "no en favorit");
+    debugPrint(agenda? "si en agenda": "no en agenda");
     await _eventsRepo.getEventById(id).then((value){
       setEventSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
@@ -78,7 +83,7 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> putFavouriteById(String userId, String? eventId) async{
     if(eventId != null) {
-      await _eventsRepo.addFavouriteByUserId(userId, int.parse(eventId)).then((value) {
+      await _eventsRepo.addFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value) {
         setFavouriteResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setFavouriteResult(ApiResponse.error(error.toString())));
@@ -88,7 +93,7 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> deleteFavouriteById(String userId, String? eventId) async{
     if(eventId != null){
-      await _eventsRepo.deleteFavouriteByUserId(userId, int.parse(eventId)).then((value){
+      await _eventsRepo.deleteFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         setFavouriteResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setFavouriteResult(ApiResponse.error(error.toString())));
     }
@@ -96,7 +101,7 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> putAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
-      await _eventsRepo.addAttendanceByUserId(userId, int.parse(eventId)).then((value){
+      await _eventsRepo.addAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         setAttendanceResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }
@@ -104,7 +109,7 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> deleteAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
-      await _eventsRepo.deleteAttendanceByUserId(userId, int.parse(eventId)).then((value){
+      await _eventsRepo.deleteAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         setAttendanceResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }

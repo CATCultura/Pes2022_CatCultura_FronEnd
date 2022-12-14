@@ -116,7 +116,7 @@ class EventsRepository {
   }
   Future<List<EventResult>> getAttendanceByUserId(String id) async {
     try{
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}user/$id/attendance");
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/attendance");
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       //_cachedEvents = res;
       return res;
@@ -172,7 +172,7 @@ class EventsRepository {
 
   Future<String> deleteAttendanceByUserId(String id, int eventId) async{
     try{
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/assistance/$eventId", "");
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
       String res = response;
       return res;
     }
@@ -236,6 +236,19 @@ class EventsRepository {
     // return [EventResult(id: "1", denominacio: "e1",longitud:41.3872, latitud: 2.1684),EventResult(id: "2", denominacio: "e2",longitud:41.3870, latitud: 2.1682),EventResult(id: "3", denominacio: "e3",longitud:41.3868, latitud: 2.1680)];
   }
 
+  Future<List<String>> getTags() async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}tags");
+      List<String> tagsAmbits = (response['ambits'] as List).map((item) => item as String).toList();
+      List<String> tagsAmbitsCateg = (response['altresCategories'] as List).map((item) => item as String).toList();
+      List<String> tagsAltresCateg = (response['categories'] as List).map((item) => item as String).toList();
+      List<String> res = [tagsAmbits, tagsAmbitsCateg, tagsAltresCateg].expand((x) => x).toList();
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
   Future<List<ReviewResult>>getEventReviewsById(String id) async {
     await Future.delayed(Duration(seconds: 2));
     try {

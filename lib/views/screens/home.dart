@@ -8,6 +8,8 @@ import 'package:CatCultura/views/widgets/cards/CardSquare.dart';
 import 'package:CatCultura/views/widgets/cards/cardHorizontal.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 
+import '../../utils/Session.dart';
+
 // import 'package:tryproject2/lib/widgets/navbar.dart';
 
 class Home extends StatefulWidget {
@@ -19,12 +21,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var viewModel = EventsViewModel();
+  final Session session = Session();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text("HOME"),
           backgroundColor: MyColorsPalette.lightBlue,
         ),
         backgroundColor: MyColors.bgColorScreen,
