@@ -17,8 +17,7 @@ class Agenda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String loggedUserId = viewModel.passwordSessio();
-    viewModel.fetchAttendanceById(loggedUserId);
+    viewModel.fetchAttendanceFromSession();
     return ChangeNotifierProvider<AgendaViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<AgendaViewModel>(builder: (context, value, _) {
@@ -29,7 +28,7 @@ class Agenda extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    viewModel.fetchAttendanceById(loggedUserId);
+                    viewModel.fetchAttendanceFromSession();
                   },
                   icon: Icon(Icons.refresh),
                 ),

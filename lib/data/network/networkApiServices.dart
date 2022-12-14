@@ -25,16 +25,23 @@ class NetworkApiServices extends BaseApiServices {
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
       //debugPrint(responseJson.toString());
+      final Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      late String encoded = stringToBase64.encode("admin:admin");
+      late String auth = "Basic $encoded";
 
       final response;
       if (session.get('authorization') != null) {
+        debugPrint("authorized");
         response = await http.get(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json',
+            // 'Authorization': session.get('authorization'),},
             'Authorization': session.get('authorization'),},
         ).timeout(const Duration(seconds: 60));
+
       }
       else{
+        debugPrint("not authorized");
         response = await http.get(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
@@ -50,6 +57,7 @@ class NetworkApiServices extends BaseApiServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
+    debugPrint("response json desde network api: $responseJson");
     return responseJson;
   }
 

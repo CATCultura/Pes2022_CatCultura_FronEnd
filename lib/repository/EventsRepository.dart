@@ -116,7 +116,7 @@ class EventsRepository {
   }
   Future<List<EventResult>> getAttendanceByUserId(String id) async {
     try{
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}user/$id/attendance");
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/attendance");
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       //_cachedEvents = res;
       return res;
@@ -172,7 +172,7 @@ class EventsRepository {
 
   Future<String> deleteAttendanceByUserId(String id, int eventId) async{
     try{
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/assistance/$eventId", "");
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
       String res = response;
       return res;
     }

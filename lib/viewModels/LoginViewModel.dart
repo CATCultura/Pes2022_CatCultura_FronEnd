@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:CatCultura/models/SessionResult.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
@@ -12,31 +13,34 @@ class LoginViewModel with ChangeNotifier{
   final sessio = Session();
   final Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
-  ApiResponse<UserResult> mainUser = ApiResponse.loading();
+  ApiResponse<SessionResult> mainUser = ApiResponse.loading();
 
   bool waiting = true;
   int errorN = 0;
 
 
-  setUsersSelected(ApiResponse<UserResult> response, String? auth){
+  setUsersSelected(ApiResponse<SessionResult> response, String? auth){
     // mainUser = response;
-    mainUser.status = Status.COMPLETED;
+    mainUser = response;
+    if(response.status == Status.COMPLETED)sessio.data = response.data!;
     // if(auth != null) sessio.set("authorization", auth);
     notifyListeners();
   }
 
-  Future<bool> iniciarSessio(String name, String pass) async {
+  Future<void> iniciarSessio(String name, String pass) async {
     late String encoded = stringToBase64.encode("$name:$pass");
     late String auth = "Basic $encoded";
     sessio.set("authorization", auth);
 
+    debugPrint("before send '/login', authorization for: $name - $pass");
+
     await _usersRepo.iniSessio().then((value) {
+      debugPrint("OK");
       setUsersSelected(ApiResponse.completed(value), auth);
-      return Future.value(true);
     }).onError((error, stackTrace){
-        setUsersSelected(ApiResponse.error(error.toString()),null);return Future.value(false);});
+        debugPrint("NOT OK");
+        setUsersSelected(ApiResponse.error(error.toString()),null);});
     waiting = false;
-    return true;
     notifyListeners();
   }
 
