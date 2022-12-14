@@ -75,7 +75,7 @@ class Trophies extends StatelessWidget {
                                   backgroundColor: Colors.green,
                                   foregroundColor: Colors.green,
                                   backgroundImage: NetworkImage(
-                                      'https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+                                      'https://media.istockphoto.com/id/1168757141/vector/gold-trophy-with-the-name-plate-of-the-winner-of-the-competition.jpg?s=612x612&w=0&k=20&c=ljsP4p0yuJnh4f5jE2VwXfjs96CC0x4zj8CHUoMo39E='),
                                 ),
                               ),
                               SizedBox(width: 6.0,),

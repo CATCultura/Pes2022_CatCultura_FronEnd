@@ -16,9 +16,9 @@ class TrophyResult {
 
   TrophyResult.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
-    name = json['username'].toString();
+    name = json['name'].toString();
     points = json['points'].toString();
-    description = json['points'].toString();
+    description = json['description'].toString();
   }
 
 
