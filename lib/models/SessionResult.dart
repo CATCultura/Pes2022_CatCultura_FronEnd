@@ -44,9 +44,21 @@ class SessionResult {
     password = jsonResponse['password'];
     points = jsonResponse['points'];
     hash = jsonResponse['userHash'];
-    favouritesId = (jsonResponse['favouriteEvents'] as List).map((item) => item as int).toList();
-    trophiesId = (jsonResponse['trophiesReceived'] as List).map((item) => item as int).toList();
-    attendanceId = (jsonResponse['eventsAttendance'] as List).map((item) => item as int).toList();
+    if(jsonResponse['favouriteEvents'] != null) {
+      favouritesId = (jsonResponse['favouriteEvents'] as List).map((item) => item as int).toList();
+    }else{
+      favouritesId = [];
+    }
+    if(jsonResponse['trophiesReceived'] != null) {
+      trophiesId = (jsonResponse['trophiesReceived'] as List).map((item) => item as int).toList();
+    }else{
+      trophiesId = [];
+    }
+    if(jsonResponse['eventsAttendance'] != null) {
+      attendanceId = (jsonResponse['eventsAttendance'] as List).map((item) => item as int).toList();
+    }else{
+      attendanceId = [];
+    }
     if(jsonResponse['friendsIds'] != null) {
       friendsId = (jsonResponse['friendsIds'] as List).map((item) => item as int).toList();
     }else {
