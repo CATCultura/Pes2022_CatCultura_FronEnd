@@ -28,7 +28,7 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.requestedUsersById('13658');
+    viewModel.requestedUsersById(selectedId);
     viewModel.setUserSelected(selectedId);
     viewModel.notifyListeners();
     return ChangeNotifierProvider<AnotherUserViewModel>(
@@ -81,10 +81,10 @@ class AnotherProfile extends StatelessWidget {
                           color: MyColorsPalette.lightRed),
                       onPressed: () {
                         if (viewModel.afegit == true) {
-                          viewModel.deleteFriendById('13658', selectedId);
+                          viewModel.deleteFriendById('2763', selectedId);
                         }
                         else {
-                          viewModel.putFriendById('13658', selectedId);
+                          viewModel.putFriendById('2763', selectedId);
                         }
                         //cridar una funcio al VM i que seteji el boolean i fagi NotifyListeners
                         viewModel.afegit = !viewModel.afegit;

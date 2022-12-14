@@ -118,26 +118,31 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                 ),
                               ),
                             ),
-                            Column(
-                              children: [
-                                Text(
-                                  'Trofeus',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontFamily: 'Nunito',
-                                    fontSize: 20,
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.popAndPushNamed(context, '/trophies');
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Trofeus',
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontFamily: 'Nunito',
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '1',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(
-                                        140, 123, 35,1),
-                                    fontFamily: 'Nunito',
-                                    fontSize: 20,
+                                  Text(
+                                    '1',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(
+                                          140, 123, 35,1),
+                                      fontFamily: 'Nunito',
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -228,7 +233,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
               ],
             ),
           ),
-        );
+         );
       })
     );
   }
