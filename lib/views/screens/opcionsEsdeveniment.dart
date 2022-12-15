@@ -71,7 +71,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                   foregroundColor: Colors.blue,
                                                 ),
                                                 onPressed: () {
-                                                  viewModel.deleteEventById(eventId);
+                                                  viewModel.deleteEventById("3056");
                                                   Navigator.popAndPushNamed(
                                                       context, '/home');
                                                 }
@@ -110,6 +110,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                   foregroundColor: Colors.blue,
                                                 ),
                                                 onPressed: () {
+                                                  //viewModel.putEventById("3056");
                                                   Navigator.popAndPushNamed(
                                                       context, '/home');
                                                 }
@@ -182,6 +183,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                   MyColorsPalette.orange)),
                             child: const Text('Modificar'),
                             onPressed: () {
+                              viewModel.putEventById("3056", DenominacioController.text);
                               Navigator.pushNamed(context, '/home');
                             },
                           ),

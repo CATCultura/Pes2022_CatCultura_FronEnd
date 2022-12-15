@@ -119,7 +119,7 @@ class NetworkApiServices extends BaseApiServices {
         response = await http.put(
           Uri.parse(url),
           body: jsonEncode(data),
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json',},
         ).timeout(const Duration(seconds: 10));
       }
 
@@ -140,7 +140,7 @@ class NetworkApiServices extends BaseApiServices {
         Uri.parse(url),
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json',
-          'Authorization': 'hola',},
+          'Authorization': session.get('authorization'),},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
