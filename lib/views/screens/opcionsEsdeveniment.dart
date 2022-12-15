@@ -2,6 +2,7 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/theme.dart';
@@ -20,6 +21,9 @@ class opcionsEsdeveniment extends StatelessWidget {
 
 //class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
+  String fecha = '';
+  TextEditingController DenominacioController = TextEditingController();
+  TextEditingController FinalDateController = TextEditingController();
   //late String eventId;
 
   @override
@@ -38,113 +42,147 @@ class opcionsEsdeveniment extends StatelessWidget {
                 child:
                 viewModel.waiting? Scaffold(
                   appBar: AppBar(
-                    title: const Text('Opcions'),
+                    title: const Text('Que vols fer?'),
                     backgroundColor: Colors.blue,
                   ),
                   body: Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              iconSize: 40,
+                              icon: Icon(Icons.delete),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      AlertDialog(
+                                          title: Text("Eliminar Esdeveniment"),
+                                          content: Text(
+                                              "Estas segur que vols eliminar aquest esdeveniment?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                child: Text("Si"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.blue,
+                                                ),
+                                                onPressed: () {
+                                                  viewModel.deleteEventById(eventId);
+                                                  Navigator.popAndPushNamed(
+                                                      context, '/home');
+                                                }
+                                            ),
 
-                        Container(
-                          height: 70,
-                          width: 150,
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                                MyColorsPalette.blue)),
-                            child: const Text('Modificar Esdeveniment'),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/modificar-Esdeveniment');
-                            },
-                          ),
+                                            TextButton(
+                                                child: Text("No"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }
+                                            ),
+                                          ]
+                                      ),
+                                );
+                              },
+                            ),
+
+                            IconButton(
+                              iconSize: 40,
+                              icon: Icon(Icons.cancel),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      AlertDialog(
+                                          title: Text("Cancel·lar Esdeveniment"),
+                                          content: Text(
+                                              "Estas segur que vols cancel·lar aquest esdeveniment?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                child: Text("Si"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.blue,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.popAndPushNamed(
+                                                      context, '/home');
+                                                }
+                                            ),
+
+                                            TextButton(
+                                                child: Text("No"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }
+                                            ),
+                                          ]
+                                      ),
+                                );
+                              },
+                            ),
+                          ],
                         ),
 
                         Container(
-                          height: 70,
-                          width: 150,
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                                MyColorsPalette.blue)),
-                            child: const Text('Eliminar Esdeveniment'),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    AlertDialog(
-                                        title: Text("Eliminar Esdeveniment"),
-                                        content: Text(
-                                            "Estas segur que vols eliminar aquest esdeveniment?"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              child: Text("Si"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.blue,
-                                              ),
-                                              onPressed: () {
-                                                viewModel.deleteEventById(eventId);
-                                                Navigator.popAndPushNamed(
-                                                    context, '/home');
-                                              }
-                                          ),
-
-                                          TextButton(
-                                              child: Text("No"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.red,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }
-                                          ),
-                                        ]
-                                    ),
-                              );
-                            },
+                          child: TextField(
+                            controller: DenominacioController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Nom Esdeveniment',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 3
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+
+                        /** Container(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: TextField(
+                            enableInteractiveSelection: false,
+                            controller: FinalDateController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Data Fi",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 3
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              FocusScope.of(context).requestFocus(
+                                  new FocusNode());
+                              selectFinalDate(context);
+                            },
+                          ),
+                        ), **/
 
                         Container(
                           height: 70,
                           width: 150,
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                                MyColorsPalette.blue)),
-                            child: const Text('Cancel·lar Esdeveniment'),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  MyColorsPalette.orange)),
+                            child: const Text('Modificar'),
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    AlertDialog(
-                                        title: Text("Cancel·lar Esdeveniment"),
-                                        content: Text(
-                                            "Estas segur que vols cancel·lar aquest esdeveniment?"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              child: Text("Si"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.blue,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.popAndPushNamed(
-                                                    context, '/home');
-                                              }
-                                          ),
-
-                                          TextButton(
-                                              child: Text("No"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.red,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }
-                                          ),
-                                        ]
-                                    ),
-                              );
+                              Navigator.pushNamed(context, '/home');
                             },
                           ),
                         ),
@@ -161,4 +199,21 @@ class opcionsEsdeveniment extends StatelessWidget {
           );
     }));
   }
+
+  /** selectFinalDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2999),
+    );
+    if (picked != null) {
+      var date = DateFormat('yyyy-MM-dd').format(picked);
+      setState(() {
+        fecha = date;
+        FinalDateController.text = fecha;
+      });
+    }
+  } **/
+
 }
