@@ -90,10 +90,26 @@ class EventResult {
     comarcaIMunicipi = jsonResponse['ubicacio'];
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
-    imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
-    tagsAmbits = (jsonResponse['tagsAmbits'] as List).map((item) => item as String).toList();
-    tagsCateg = (jsonResponse['tagsAmbitsCateg'] as List).map((item) => item as String).toList();
-    tagsAltresCateg = (jsonResponse['tagsAltresCateg'] as List).map((item) => item as String).toList();
+    if(jsonResponse['imatges'] != null) {
+      imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
+    }else{
+      imatges = [];
+    }
+    if(jsonResponse['tagsAmbits'] != null) {
+      tagsAmbits = (jsonResponse['tagsAmbits'] as List).map((item) => item as String).toList();
+    }else{
+      tagsAmbits = [];
+    }
+    if(jsonResponse['tagsAmbitsCateg'] != null) {
+      tagsCateg = (jsonResponse['tagsAmbitsCateg'] as List).map((item) => item as String).toList();
+    }else{
+      tagsCateg = [];
+    }
+    if(jsonResponse['tagsAltresCateg'] != null) {
+      tagsAltresCateg = (jsonResponse['tagsAltresCateg'] as List).map((item) => item as String).toList();
+    }else{
+      tagsAltresCateg = [];
+    }
 
     //imatges = List<String>.from(json.decode(jsonResponse['imatges']));
     // Iterable l = json.decode(json['imatges']);

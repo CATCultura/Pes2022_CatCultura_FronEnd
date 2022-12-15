@@ -10,11 +10,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 
+import '../utils/Session.dart';
+
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class EventsRepository {
   final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
+  final session = Session();
 
   EventsRepository._privateConstructor();
 
@@ -225,7 +228,9 @@ class EventsRepository {
 
     try {
       final random = new Random();
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
+      //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.375&lon=2.176&day=2022-10-07T00:00:00.000&userId=${session.data.id.toString()}&radius=800");
+      debugPrint(response.toString());
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
 
