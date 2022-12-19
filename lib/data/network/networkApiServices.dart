@@ -21,8 +21,6 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
-
-
       // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
