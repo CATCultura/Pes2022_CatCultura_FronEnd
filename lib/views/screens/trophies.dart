@@ -4,11 +4,15 @@ import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/viewModels/TrophyViewModel.dart';
 import '../../data/response/apiResponse.dart';
+import 'package:CatCultura/models/SessionResult.dart';
+
+import '../../utils/Session.dart';
 
 
 class Trophies extends StatelessWidget {
-
+  final Session sessio = Session();
   final TrophyViewModel viewModel = TrophyViewModel();
+  late List <String> trophyList = [];
   @override
   void initState() {
 
@@ -16,8 +20,16 @@ class Trophies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //viewModel.receivedTrophies();
     viewModel.receivedTrophies();
-    viewModel.notifyListeners();
+    /*
+    for (int i = 0; i < sessio.data.trophiesId!.length; i++ ){
+      if (viewModel.trophies.data!.toString().contains(sessio.data.trophiesId![i].toString())){
+        trophyList[i] = sessio.data.trophiesId![i].toString();
+      }
+    }
+     */
+
     return ChangeNotifierProvider<TrophyViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<TrophyViewModel>(builder: (context, value, _)
@@ -33,10 +45,8 @@ class Trophies extends StatelessWidget {
         drawer: const MyDrawer("Profile",
             username: "Superjuane", email: "juaneolivan@gmail.com"),
         body: Container(
-          child: viewModel.trophies.status == Status.LOADING ? const SizedBox(
-            child: Center(child: CircularProgressIndicator()),) :
-          viewModel.trophies.status == Status.ERROR ? Text(
-              viewModel.trophies.toString()) :
+          child: viewModel.trophies.status == Status.LOADING ? const SizedBox(child: Center(child: CircularProgressIndicator()),) :
+          viewModel.trophies.status == Status.ERROR ? Text(viewModel.trophies.toString()) :
           viewModel.trophies.status == Status.COMPLETED ? ListView.builder(
             itemCount: viewModel.trophies.data!.length,
             shrinkWrap: true,
@@ -87,8 +97,9 @@ class Trophies extends StatelessWidget {
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold)),
                                   SizedBox(height: 5.0),
-                                  Text('CATCultura',
-                                      style: TextStyle(color: Colors.grey)),
+                                  !sessio.data!.trophiesId!.contains(viewModel.trophies.data![index].id)? Text(
+                                      'ACONSEGUIT',
+                                      style: TextStyle(color: Colors.green)): Text("res"),
 
                                 ],
                               ),

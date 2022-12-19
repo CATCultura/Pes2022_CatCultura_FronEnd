@@ -9,6 +9,7 @@ class TrophyViewModel with ChangeNotifier{
 
   ApiResponse<TrophyResult> unicTrophy = ApiResponse.loading();
   ApiResponse<List<TrophyResult>> trophies = ApiResponse.loading();
+  ApiResponse<List<TrophyResult>> myTrophies = ApiResponse.loading();
 
   setTrpohySelected(ApiResponse<TrophyResult> response){
     unicTrophy = response;
@@ -22,11 +23,25 @@ class TrophyViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  setMyTrophiesReceived(ApiResponse<List<TrophyResult>> response){
+    print("before trophieslist = response (with exit)");
+    debugPrint(response.toString());
+    myTrophies = response;
+    notifyListeners();
+  }
+
   Future<void> receivedTrophies() async{
     await _trophyRepo.getTrophy().then((value){
       setTrophiesReceived(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setTrophiesReceived(ApiResponse.error(error.toString())));
+  }
+
+  Future<void> receivedMyTrophies(String id) async{
+    await _trophyRepo.getMyTrophies(id).then((value){
+      setMyTrophiesReceived(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setMyTrophiesReceived(ApiResponse.error(error.toString())));
   }
 
 }
