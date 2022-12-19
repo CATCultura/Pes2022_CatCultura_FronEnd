@@ -129,17 +129,6 @@ class EventResult {
     ];
     return result;
   }
-
-  /** Map<String, dynamic> toJson() {
-    final Map<String, dynamic> result =
-    <String, dynamic>{};
-    result['id'] = id;
-    result['denominacio'] = denominacio;
-    result['dataInici'] = dataInici;
-    result['dataFi'] = dataFi;
-    result['descripcio'] = descripcio;
-    return result;
-  } **/
 }
 
 String formatText(String s) {

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:CatCultura/models/EventResult.dart';
 
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
@@ -28,8 +29,6 @@ class opcionsEsdeveniment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("estas a l'apartat opcions");
-    print(eventId);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
@@ -71,7 +70,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                   foregroundColor: Colors.blue,
                                                 ),
                                                 onPressed: () {
-                                                  viewModel.deleteEventById("3056");
+                                                  viewModel.deleteEventById("3233");
                                                   Navigator.popAndPushNamed(
                                                       context, '/home');
                                                 }
@@ -183,7 +182,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                                   MyColorsPalette.orange)),
                             child: const Text('Modificar'),
                             onPressed: () {
-                              viewModel.putEventById("3056", DenominacioController.text);
+                              EventResult? e = EventResult();
+                              e.id = "3233";
+                              e.denominacio = DenominacioController.text;
+                              viewModel.putEventById(e);
                               Navigator.pushNamed(context, '/home');
                             },
                           ),
