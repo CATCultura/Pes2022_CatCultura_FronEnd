@@ -7,27 +7,27 @@ import '../utils/Session.dart';
 
 class FavoritsViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
-  final sessio = Session();
+  final session = Session();
   ApiResponse<List<EventResult>> favouritesList = ApiResponse.loading();
 
   String usernameSessio() {
-    if(sessio.get("username") == null) return "2";
-    return sessio.get("username");
+    if(session.get("username") == null) return "2";
+    return session.get("username");
   }
 
   String passwordSessio() {
-    if(sessio.get("password") == null) return "2";
-    return sessio.get("password");
+    if(session.get("password") == null) return "2";
+    return session.get("password");
   }
 
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
-    sessio.set("favorits", favouritesList);
+    session.set("favorits", favouritesList);
     notifyListeners();
   }
 
-  Future<void> fetchFavouritesById(String id) async{
-    await _eventsRepo.getFavouritesByUserId(id).then((value) {
+  Future<void> fetchFavouritesFromSession() async{
+    await _eventsRepo.getFavouritesByUserId(session.data.id.toString()).then((value) {
       setFavouritesList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setFavouritesList(ApiResponse.error(error.toString())));

@@ -5,6 +5,8 @@ import 'package:CatCultura/models/UserResult.dart';
 import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
 import 'package:CatCultura/data/network/networkApiServices.dart';
+
+import '../models/SessionResult.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class UsersRepository {
@@ -63,18 +65,19 @@ class UsersRepository {
     return result;
   }
 
-  Future<UserResult> iniSessio() async {
+  Future<SessionResult> iniSessio() async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(
-          "${baseUrl}auth");
-      UserResult res = UserResult.fromJson(response);
+          "${baseUrl}login");
+      SessionResult res = SessionResult.fromJson(response);
+      debugPrint("Res dedsde userRepo $res");
       return res;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<UserResult> postCreaCompte(UserResult data) async {
+  Future<SessionResult> postCreaCompte(UserResult data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", data);
       return response;
@@ -82,6 +85,8 @@ class UsersRepository {
       rethrow;
     }
   }
+
+
   Future<List<UserResult>> getRequestedsById(String id) async {
    // List<UserResult?> cached = userInCache(id);
    // if(cached.id!= null) {

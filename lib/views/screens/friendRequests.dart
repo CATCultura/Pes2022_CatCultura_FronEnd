@@ -20,7 +20,7 @@ class FriendRequests extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List names = ["Juanito Perez", "Agustí Gàllego", "SuperJuane"];
-    viewModel.receivedUsersById('13659');
+    viewModel.receivedUsersById('2764');
     //if (viewModel.usersReceived.status == Status.COMPLETED) {
    /*   for (var i = 0; i < 1; i++) {
         usersList.add(viewModel.usersReceived.data![i].username);
@@ -96,7 +96,7 @@ class FriendRequests extends StatelessWidget {
                                 color: Colors.green,
                               ),
                               onPressed: () {
-                               viewModel.putFriendById('13659', viewModel.usersReceived.data![index].id!);
+                               viewModel.putFriendById('2764', viewModel.usersReceived.data![index].id!);
                               },
                             ),
                           ),
@@ -111,7 +111,7 @@ class FriendRequests extends StatelessWidget {
                                   color: Colors.red,
                               ),
                               onPressed: () {
-                                viewModel.deleteFriendById('13659', viewModel.usersReceived.data![index].id!);
+                                viewModel.deleteFriendById('2764', viewModel.usersReceived.data![index].id!);
                               },
                             ),
                           ),

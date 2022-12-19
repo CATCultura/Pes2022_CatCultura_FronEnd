@@ -10,9 +10,7 @@ import '../../utils/Session.dart';
 
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson, responseJsonMock;
-  late Codec<String, String> stringToBase64 = utf8.fuse(base64);
-  late String encoded = stringToBase64.encode("admin:admin");
-  late String hardcodedAuth = "Basic $encoded";
+  final session = Session();
 
   @override
   Future getGetApiResponse(String url) async {
@@ -25,15 +23,29 @@ class NetworkApiServices extends BaseApiServices {
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
       //debugPrint(responseJson.toString());
+      final Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      late String encoded = stringToBase64.encode("admin:admin");
+      late String auth = "Basic $encoded";
 
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json',
-
-        'Authorization': hardcodedAuth,},
+      final response;
+      if (session.get('authorization') != null) {
+        debugPrint("authorized");
+        response = await http.get(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json',
+            // 'Authorization': session.get('authorization'),},
+            'Authorization': session.get('authorization'),},
         ).timeout(const Duration(seconds: 60));
-        responseJson = returnResponse(response);
 
+      }
+      else{
+        debugPrint("not authorized");
+        response = await http.get(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+        ).timeout(const Duration(seconds: 60));
+      }
+      responseJson = returnResponse(response);
 
       //debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
@@ -43,6 +55,7 @@ class NetworkApiServices extends BaseApiServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
+    debugPrint("response json desde network api: $responseJson");
     return responseJson;
   }
 
@@ -60,7 +73,7 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(data.toJson()),
         headers: {'Content-Type': 'application/json', 'Accept': '*/*',
           'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
-          'Authorization': hardcodedAuth},
+          'Authorization': session.get('authorization')},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -73,14 +86,41 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future getPutApiResponse(String url, dynamic data) async {
     dynamic responseJson;
-
+    var httpClient = http.Client();
     try {
-      http.Response response = await http.put(
-        Uri.parse(url),
-        body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json',
-          'Authorization': hardcodedAuth,},
-      ).timeout(const Duration(seconds: 60));
+
+      /*
+        Uri url = Uri.tryParse("https://ptsv2.com/t/umt4a-1569012506/post");
+        http.Request request = new http.Request("post", url);
+        request.headers.clear();
+        request.headers.addAll({"content-type":"application/json; charset=utf-8"});
+        request.body = '{mediaItemID: 04b568fa, uri: https://www.google.com}';
+        var letsGo = await request.send();
+       */
+      // http.Request request = new http.Request("put", Uri.parse(url));
+      // request.body = jsonEncode(data);
+      // request.headers.clear();
+      // request.headers.addAll({'Content-Type': 'application/json'});
+      // if (session.get('authorization') != null) {
+      //   request.headers.addAll({'Authorization': session.get('authorization')});
+      // }
+      http.Response response;
+      if (session.get('authorization') != null) {
+        response = await http.put(
+          Uri.parse(url),
+          body: jsonEncode(data),
+          headers: {'Content-Type': 'application/json',
+            'Authorization': session.get('authorization'),},
+        ).timeout(const Duration(seconds: 10));
+      }
+      else{
+        response = await http.put(
+          Uri.parse(url),
+          body: jsonEncode(data),
+          headers: {'Content-Type': 'application/json'},
+        ).timeout(const Duration(seconds: 10));
+      }
+
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

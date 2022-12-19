@@ -15,8 +15,7 @@ class Favorits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String loggedUserId = viewModel.passwordSessio();
-    viewModel.fetchFavouritesById(loggedUserId);
+    viewModel.fetchFavouritesFromSession();
     return ChangeNotifierProvider<FavoritsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<FavoritsViewModel>(builder: (context, value, _) {
@@ -27,7 +26,7 @@ class Favorits extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    viewModel.fetchFavouritesById(loggedUserId);
+                    viewModel.fetchFavouritesFromSession();
                   },
                   icon: Icon(Icons.refresh),
                 ),
