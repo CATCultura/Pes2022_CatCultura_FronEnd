@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
+import '../../utils/Session.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/search_locations.dart';
 import '../../data/response/apiResponse.dart';
@@ -38,6 +39,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
   late List <String> usersSuggList = [];
   final double coverHeight = 280;
   final double profileHeight = 144;
+  final Session sessio = Session();
 
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -93,7 +95,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                   ),
                                 ),
                                 Text(
-                                  '10',
+                                  sessio.data!.points.toString(),
                                   style: TextStyle(
                                     color: Color.fromRGBO(
                                         140, 123, 35,1),
@@ -133,7 +135,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                     ),
                                   ),
                                   Text(
-                                    '1',
+                                    sessio.data!.trophiesId!.length.toString(),
                                     style: TextStyle(
                                       color: Color.fromRGBO(
                                           140, 123, 35,1),
