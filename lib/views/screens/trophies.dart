@@ -20,7 +20,6 @@ class Trophies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //viewModel.receivedTrophies();
     viewModel.receivedTrophies();
     /*
     for (int i = 0; i < sessio.data.trophiesId!.length; i++ ){
@@ -97,16 +96,14 @@ class Trophies extends StatelessWidget {
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold)),
                                   SizedBox(height: 5.0),
-                                  !sessio.data!.trophiesId!.contains(viewModel.trophies.data![index].id)? Text(
+                                  sessio.data!.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? Text(
                                       'ACONSEGUIT',
-                                      style: TextStyle(color: Colors.green)): Text("res"),
-
+                                      style: TextStyle(color: Colors.green)): Text("No aconseguit", style: TextStyle(color: Colors.grey)),
                                 ],
                               ),
                             ],
                           ),
                         ],
-
                       ),
                     ),
                   ),
