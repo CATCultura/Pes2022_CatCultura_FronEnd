@@ -6,6 +6,9 @@ import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/views/widgets/events/reviewCard.dart';
+import 'package:CatCultura/views/widgets/datePickerWidget.dart';
+
+import 'package:CatCultura/notifications/notificationService.dart';
 import 'dart:math' as math;
 
 import '../../constants/theme.dart';
@@ -387,13 +390,21 @@ class Body extends StatelessWidget {
                 if(viewModel.agenda == true) {
                   viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   //widget.callback!("deleteAttendance");
-                  //NotificationService().deleteOneNotification(event!.id);
+                  NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
                 }
                 else {
                   viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   // widget.callback!("addAttendance");
-                  // NotificationService().showNotifications( event!.id, 8, "title", "body"); //widget.callback!("addAttendance");
+                  NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
                 }
+              },
+            ),
+            IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
+              onPressed: (){
+                print(viewModel.eventSelected.data!.id);
+                NotificationService().showNotifications( viewModel.eventSelected.data!.id, 3, "title", "body"); //widget.callback!("addAttendance");
               },
             ),
             IconButton(

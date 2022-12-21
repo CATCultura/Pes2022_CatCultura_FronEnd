@@ -33,6 +33,9 @@ class NotificationService {
   }
 
   Future<void> showNotifications(String? notiId, int segons, String title, String body,) async {
+    initializeTimeZones();
+    var timeZone = getLocation('Europe/Madrid');
+    setLocalLocation(timeZone);
     if(notiId != null) {
       scheduledNotifications.add(notiId);
       await flutterLocalNotificationsPlugin.zonedSchedule(
