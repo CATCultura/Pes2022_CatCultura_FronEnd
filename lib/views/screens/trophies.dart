@@ -91,10 +91,11 @@ class Trophies extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(viewModel.trophies.data![index].name!,
-                                      style: TextStyle(color: Colors.black,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold)),
+                                  FittedBox(
+                                    child: Text(viewModel.trophies.data![index].name!,
+                                        style: TextStyle(color: Colors.black,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold),),),
                                   SizedBox(height: 5.0),
                                   sessio.data!.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? Text(
                                       'ACONSEGUIT',

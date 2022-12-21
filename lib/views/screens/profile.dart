@@ -120,7 +120,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             ),
                             GestureDetector(
                               onTap: (){
-                                Navigator.popAndPushNamed(context, '/trophies');
+                                Navigator.pushNamed(context, '/trophies');
                               },
                               child: Column(
                                 children: [
@@ -161,7 +161,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             MaterialStateProperty.all(Colors.amberAccent)),
                         child: const Text('Configuració'),
                         onPressed: () {
-                          Navigator.popAndPushNamed(context, '/editProfile');
+                          Navigator.pushNamed(context, '/editProfile');
                         },
                       ),
                     ),
@@ -177,7 +177,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         MaterialStateProperty.all(Colors.amberAccent)),
                     child: const Text('Veure peticions amistat'),
                     onPressed: () {
-                      Navigator.popAndPushNamed(context, '/friendRequests');
+                      Navigator.pushNamed(context, '/friendRequests');
                     },
                   ),
                 ),
