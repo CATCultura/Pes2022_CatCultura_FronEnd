@@ -135,13 +135,27 @@ class NetworkApiServices extends BaseApiServices {
   Future getPutEventApiResponse(String url, dynamic data) async {
     dynamic responseJson;
 
+    List<Map<String, dynamic>> aux = data.toJson();
+    Map<String, dynamic> content = <String, dynamic>{};
+    for (int i = 0; i < 1; ++i) {
+      content = aux[i];
+      print(aux[i]);
+    }
+
+    print("el tamany de aux es: ");
+    print(aux.length);
+
+    print("el tamany de content es: ");
+    print(content.length);
+    print(content);
+
     try {
 
       http.Response response;
       if (session.get('authorization') != null) {
         response = await http.put(
           Uri.parse(url),
-          body: jsonEncode(data.toJson),
+          body: jsonEncode(content),
           headers: {'Content-Type': 'application/json',
             'Authorization': session.get('authorization'),},
         ).timeout(const Duration(seconds: 10));
@@ -149,7 +163,7 @@ class NetworkApiServices extends BaseApiServices {
       else{
         response = await http.put(
           Uri.parse(url),
-          body: jsonEncode(data.toJson),
+          body: jsonEncode(content),
           headers: {'Content-Type': 'application/json',},
         ).timeout(const Duration(seconds: 10));
       }

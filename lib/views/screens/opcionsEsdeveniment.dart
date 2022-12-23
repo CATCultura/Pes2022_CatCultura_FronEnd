@@ -23,9 +23,22 @@ class opcionsEsdeveniment extends StatelessWidget {
 //class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
   String fecha = '';
-  TextEditingController DenominacioController = TextEditingController();
+  TextEditingController CodiController = TextEditingController();
+  TextEditingController InitialDateController = TextEditingController();
   TextEditingController FinalDateController = TextEditingController();
-  //late String eventId;
+  TextEditingController DenominacioController = TextEditingController();
+  TextEditingController UbicacioController = TextEditingController();
+  TextEditingController AdrecaController = TextEditingController();
+  TextEditingController EspaiController = TextEditingController();
+
+
+  //CodiController = viewModel.eventSelected.data!.codi! as TextEditingController;
+  //InitialDateController = viewModel.eventSelected.data!.dataInici! as TextEditingController;
+  //FinalDateController = viewModel.eventSelected.data!.dataFi! as TextEditingController;
+  //DenominacioController = viewModel.eventSelected.data!.denominacio! as TextEditingController;
+  //UbicacioController = viewModel.eventSelected.data!.ubicacio! as TextEditingController;
+  //AdrecaController = viewModel.eventSelected.data!.adreca! as TextEditingController;
+  //EspaiController = viewModel.eventSelected.data!.espai! as TextEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +198,12 @@ class opcionsEsdeveniment extends StatelessWidget {
                               EventResult? e = EventResult();
                               e.id = "3233";
                               e.denominacio = DenominacioController.text;
+                              e.codi = "123456789";//CodiController.text;
+                              e.dataFi = "2022-12-31"; //FinalDateController.text;
+                              e.dataInici = "2022-12-30"; //InitialDateController.text;
+                              e.adreca = "BCN"; //AdrecaController.text;
+                              e.espai = "Ningun"; //EspaiController.text;
+                              e.ubicacio = "BCN"; //UbicacioController.text;
                               viewModel.putEventById(e);
                               Navigator.pushNamed(context, '/home');
                             },
