@@ -1,3 +1,5 @@
+//import 'dart:html';
+import 'dart:io';
 import 'dart:math';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
@@ -6,7 +8,14 @@ import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/views/widgets/events/reviewCard.dart';
-import 'package:CatCultura/views/widgets/datePickerWidget.dart';
+//import 'package:CatCultura/views/widgets/datePickerWidget.dart';
+
+//imports per compartir els events.
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+
+
 
 import 'package:CatCultura/notifications/notificationService.dart';
 import 'dart:math' as math;
@@ -108,7 +117,7 @@ class _EventUnicState extends State<EventUnic> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: Body(size: size,
+                  child: Body( event: viewModel.eventSelected.data!,size: size,
                       date: viewModel.eventSelected.data!.dataInici!+"\n"+viewModel.eventSelected.data!.dataFi!,
                       place: viewModel.eventSelected.data!.espai! +" -\n"+viewModel.eventSelected.data!.comarcaIMunicipi!,
                       descripcio: viewModel.eventSelected.data!.descripcio!, viewModel: viewModel
@@ -352,8 +361,10 @@ class Body extends StatelessWidget {
     required this.place,
     required this.descripcio,
     required this.viewModel,
+    required this.event,
   }) : super(key: key);
 
+  final EventResult event;
   final Size size;
   final String date;
   final String place;
@@ -402,10 +413,19 @@ class Body extends StatelessWidget {
             IconButton(
               iconSize: 40,
               icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
-              onPressed: (){
-                print(viewModel.eventSelected.data!.id);
-                NotificationService().showNotifications( viewModel.eventSelected.data!.id, 3, "title", "body"); //widget.callback!("addAttendance");
-              },
+              onPressed: () async {
+                final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
+                final url = Uri.parse(imgUrl);
+                final response = await http.get(url);
+                final bytes = response.bodyBytes;
+
+                final temp = await getTemporaryDirectory();
+                final path = '${temp.path}/image.jpg';
+                File(path).writeAsBytesSync(bytes);
+
+                final titol = event.denominacio;
+                await Share.shareFiles([path], text: titol);
+                },
             ),
             IconButton(
               // padding: const EdgeInsets.only(bottom: 5.0),
