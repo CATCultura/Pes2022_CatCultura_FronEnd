@@ -41,6 +41,8 @@ dependencies:
   like_button: ^2.0.4
   animations: ^2.0.5
   transparent_image: ^2.0.0
+  share_plus: ^2.1.4
+  path_provider: ^2.0.2
   google_maps_flutter: ^2.2.0
   flutter_local_notifications: ^9.7.0
   notification_permissions: ^0.6.1
