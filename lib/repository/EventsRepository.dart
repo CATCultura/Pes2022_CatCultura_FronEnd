@@ -281,4 +281,20 @@ class EventsRepository {
     }
   }
 
+  Future<bool>saveRutaCultural({String? name, String? description, required List<EventResult> events}) async{
+    try {
+      // final jsonList = events.map((e) => json.encode(e)).toList();
+      // debugPrint(jsonList.toString());
+      final idList = events.map((e) => e.id).toList();
+      debugPrint(idList.toString());
+      final Map<String, dynamic> data = {'name': name, 'description': description, 'routeEvents': idList};
+      debugPrint(jsonEncode(data).toString());
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/${session.data.id}/routes", data);
+      debugPrint("on eventRepository line 288: $response");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

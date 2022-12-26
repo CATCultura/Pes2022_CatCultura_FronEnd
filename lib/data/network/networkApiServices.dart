@@ -72,7 +72,8 @@ class NetworkApiServices extends BaseApiServices {
 
       http.Response response = await http.post(
         Uri.parse(url),
-        body: jsonEncode(data.toJson()),
+        // body: jsonEncode(data.toJson()),
+        body: jsonEncode(data),
         headers: {'Content-Type': 'application/json', 'Accept': '*/*',
           'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
           'Authorization': session.get('authorization')},
@@ -153,13 +154,15 @@ class NetworkApiServices extends BaseApiServices {
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        //dynamic responseJson = jsonDecode(response.body);
-
         final codeUnits = response.body.codeUnits;
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
       case 400:
+        throw BadRequestException(response.body.toString());
+      case 401:
+        throw BadRequestException(response.body.toString());
+      case 403:
         throw BadRequestException(response.body.toString());
       case 404:
         throw BadRequestException(response.body.toString());

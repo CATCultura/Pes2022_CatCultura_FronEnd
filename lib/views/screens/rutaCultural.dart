@@ -285,6 +285,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                 builder: (context) {
                                   return AlertDialog(
                                     title: Text('SE HA GUARDADO LA RUTA'),
+                                    content: Text(viewModel.savingRutaMsg),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
