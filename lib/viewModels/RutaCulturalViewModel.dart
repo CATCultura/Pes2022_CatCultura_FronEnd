@@ -22,7 +22,7 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   //MAP {markers, lines...}
   Set<Marker> markers = {};
-  List<LatLng> polylineCoordinates = [];
+  // List<LatLng> polylineCoordinates = [];
   ApiResponse<Map<PolylineId, Polyline>> polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null) ;
   PolylineId? selectedPolyline;
   //late PolylinePoints polylinePoints;
@@ -80,8 +80,10 @@ class RutaCulturalViewModel with ChangeNotifier {
     );
 
     // Adding the coordinates to the list
+    List<LatLng> polylineCoordinates = [];
+
     if (result.points.isNotEmpty) {
-      polylineCoordinates = [];
+      //polylineCoordinates = [];
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
