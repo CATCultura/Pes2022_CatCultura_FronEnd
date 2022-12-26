@@ -78,144 +78,241 @@ class RutaCulturalState extends State<RutaCultural> {
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('RUTA CULTURAL'),
-            ),
-            drawer: const MyDrawer("rutaCultural",
-                username: "Superjuane", email: "juaneolivan@gmail.com"),
-            body: viewModel.eventsListMap.status == Status.LOADING &&
-                    viewModel.rutaGenerada
-                ? SizedBox(
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        Padding(padding: EdgeInsets.only(top: 20)),
-                        Text(
-                          "Estem generant la teva ruta...",
-                          style: TextStyle(
-                              fontSize: 20, fontStyle: FontStyle.italic),
-                        )
-                      ],
-                    )),
-                  )
-                : viewModel.eventsListMap.status == Status.COMPLETED &&
-                        viewModel.polylines.status == Status.COMPLETED
-                    ? GoogleMap(
-                        zoomControlsEnabled: false,
-                        myLocationEnabled: false,
-                        mapType: MapType.normal,
-                        initialCameraPosition: viewModel.iniCameraPosition,
-                        markers: viewModel.markers,
-                        polylines:
-                            Set<Polyline>.of(viewModel.polylines.data!.values),
-                        onMapCreated: (GoogleMapController controller) {
-                          //for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
-                          if (!_controller.isCompleted)
-                            _controller.complete(controller);
-                          _manager.setMapId(controller.mapId);
-                          _manager.setItems(viewModel.eventsListMap.data!);
-                          _manager.updateMap();
-                        },
-                        onCameraMove: _manager.onCameraMove,
-                        onCameraIdle: _manager.updateMap)
-                    : GoogleMap(
-                        zoomControlsEnabled: false,
-                        myLocationEnabled: false,
-                        mapType: MapType.normal,
-                        initialCameraPosition: viewModel.iniCameraPosition,
-                        markers: viewModel.markers,
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                          //_manager.setMapId(controller.mapId);
-                        },
-                        //onCameraMove: _manager.onCameraMove,
-                        //onCameraIdle: _manager.updateMap),
-                      ),
-            floatingActionButton: ExpandableFab(
-              distance: 112.0,
-              children: [
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    _navigateAndDisplayRouteGeneratorSelector(context);
-                  },
-                  label: Text('Generar Ruta Cultural'),
+                appBar: AppBar(
+                  title: const Text('RUTA CULTURAL'),
                 ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    RutaCulturalSaveArgs args =
-                        RutaCulturalSaveArgs(null, null, true);
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Setting String"),
-                          content: Column(
-                            children: [
-                              TextField(
-                                onChanged: (value) {
-                                  args.name = value;
-                                },
-                                controller: _saveNameController,
-                                decoration:
-                                    InputDecoration(hintText: "name in Dialog"),
-                              ),
-                              TextField(
-                                onChanged: (value) {
-                                  args.description = value;
-                                },
-                                controller: _saveDescController,
-                                decoration: InputDecoration(hintText: "desc"),
-                              ),
-                            ],
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.red),
-                                  foregroundColor:
-                                      MaterialStateProperty.all(Colors.white)),
-                              child: Text('CANCEL'),
-                              onPressed: () {
-                                Navigator.pop(context, args);
-                              },
-                            ),
-                            TextButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.green),
-                                  foregroundColor:
-                                      MaterialStateProperty.all(Colors.white)),
-                              child: Text('OK'),
-                              onPressed: () {
-                                args.canceled = false;
-                                Navigator.pop(context, args);
-                              },
-                            ),
+                drawer: const MyDrawer("rutaCultural",
+                    username: "Superjuane", email: "juaneolivan@gmail.com"),
+                body: viewModel.eventsListMap.status == Status.LOADING &&
+                        viewModel.rutaGenerada
+                    ? SizedBox(
+                        child: Center(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(),
+                            Padding(padding: EdgeInsets.only(top: 20)),
+                            Text(
+                              "Estem generant la teva ruta...",
+                              style: TextStyle(
+                                  fontSize: 20, fontStyle: FontStyle.italic),
+                            )
                           ],
-                        );
+                        )),
+                      )
+                    : viewModel.eventsListMap.status == Status.COMPLETED &&
+                            viewModel.polylines.status == Status.COMPLETED
+                        ? GoogleMap(
+                            zoomControlsEnabled: false,
+                            myLocationEnabled: false,
+                            mapType: MapType.normal,
+                            initialCameraPosition: viewModel.iniCameraPosition,
+                            markers: viewModel.markers,
+                            polylines:
+                                Set<Polyline>.of(viewModel.polylines.data!.values),
+                            onMapCreated: (GoogleMapController controller) {
+                              //for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
+                              if (!_controller.isCompleted)
+                                _controller.complete(controller);
+                              _manager.setMapId(controller.mapId);
+                              _manager.setItems(viewModel.eventsListMap.data!);
+                              _manager.updateMap();
+                            },
+                            onCameraMove: _manager.onCameraMove,
+                            onCameraIdle: _manager.updateMap)
+                        : GoogleMap(
+                            zoomControlsEnabled: false,
+                            myLocationEnabled: false,
+                            mapType: MapType.normal,
+                            initialCameraPosition: viewModel.iniCameraPosition,
+                            markers: viewModel.markers,
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                              //_manager.setMapId(controller.mapId);
+                            },
+                            //onCameraMove: _manager.onCameraMove,
+                            //onCameraIdle: _manager.updateMap),
+                          ),
+                floatingActionButton: ExpandableFab(
+                  distance: 112.0,
+                  children: [
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        _navigateAndDisplayRouteGeneratorSelector(context);
                       },
-                    ).then((val) {
-                      debugPrint(
-                          "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
-                      if (!val.canceled) debugPrint("NOT CANCELED");
-                      _saveNameController = TextEditingController();
-                      _saveDescController = TextEditingController();
-                    });
-                  },
-                  label: Text('Guardar Ruta Actual'),
+                      label: Text('Generar Ruta Cultural'),
+                    ),
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        RutaCulturalSaveArgs args =
+                            RutaCulturalSaveArgs(null, null, true);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.lightBlue,
+                              icon: const Icon(Icons.save),
+                              iconColor: Colors.white,
+                              title: Container(decoration: BoxDecoration(color: Colors.lightBlue), child: Text("GUARDAR RUTA CULTURAL", style: TextStyle(color: Colors.white),)),
+                              content: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(8.0)),),
+                                    padding: EdgeInsets.only(left:15.0, right: 15.0, bottom: 5.0),
+                                    child: TextField(
+                                      maxLength: 25,
+                                      onChanged: (value) {
+                                        args.name = value;
+                                      },
+                                      controller: _saveNameController,
+                                      decoration:
+                                          InputDecoration(hintText: "Nom"),
+                                    ),
+                                  ),
+                                  SizedBox(height: 15.0,),
+                                  Container(
+                                    decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(8.0)),),
+                                    padding: EdgeInsets.only(left:15.0, right: 15.0, bottom: 5.0),
+                                    child: TextField(
+                                      maxLines: 3,
+                                      onChanged: (value) {
+                                        args.description = value;
+                                      },
+                                      controller: _saveDescController,
+                                      decoration: InputDecoration(hintText: "Descripció"),
+                                    ),
+                                  ),
+                                  SizedBox(height: 15.0,),
+                                  Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(8.0)),),
+                                      padding: EdgeInsets.only(left:15.0, right: 15.0, bottom: 5.0),
+                                      child: ListView.builder(
+                                          itemCount: viewModel
+                                              .eventsList
+                                              .data!
+                                              .length,
+                                          itemBuilder:
+                                              (BuildContext context,
+                                              int i) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(12.0),
+                                              child: Material(
+                                                elevation: 20,
+                                                shadowColor: Colors.black.withAlpha(70),
+
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                child: ListTile(
+
+                                                    onTap: () {
+                                                      debugPrint("clicked event: ${viewModel
+                                                          .eventsList
+                                                          .data![i].denominacio}");
+                                                      Navigator.pushNamed(context, "/eventUnic",
+                                                          arguments: EventUnicArgs(viewModel
+                                                              .eventsList
+                                                              .data![i].id!)).then((_){
+                                                        /*setState((){
+
+                        });*/
+                                                      });
+                                                    },
+                                                    shape: RoundedRectangleBorder(
+                                                      side: const BorderSide(color: Color(0xFF818181), width: 1),
+                                                      borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    tileColor: Colors.lightBlue,
+                                                    title: Column(children: [
+                                                      Text(viewModel
+                                                          .eventsList
+                                                          .data![i].denominacio!,
+                                                          style: const TextStyle(
+                                                            color: Colors.white,
+                                                              fontSize: 15)),
+                                                    ])),
+                                              ),
+                                            );
+                                            // (
+                                            //   event: viewModel
+                                            //       .eventsList
+                                            //       .data![i],
+                                            //   index: i,
+                                            // );
+                                          }),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(Colors.red),
+                                      foregroundColor:
+                                          MaterialStateProperty.all(Colors.white)),
+                                  child: Text('CANCEL'),
+                                  onPressed: () {
+                                    Navigator.pop(context, args);
+                                  },
+                                ),
+                                TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(Colors.green),
+                                      foregroundColor:
+                                          MaterialStateProperty.all(Colors.white)),
+                                  child: Text('SAVE'),
+                                  onPressed: () {
+                                    args.canceled = false;
+                                    Navigator.pop(context, args);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((val) async {
+                          debugPrint(
+                              "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
+                          if (!val.canceled){
+                            debugPrint("NOT CANCELED");
+                            setState(() {
+                              viewModel.savingRuta = true;
+                            });
+                            await viewModel.saveRutaCultural(args).then((_){
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('SE HA GUARDADO LA RUTA'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            });
+                            _saveNameController = TextEditingController();
+                            _saveDescController = TextEditingController();
+                          }
+                        });
+                      },
+                      label: Text('Guardar Ruta Actual'),
+                    ),
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        _showAction(context, 0);
+                      },
+                      label: Text('Obrir Rutes Guardades'),
+                    ),
+                  ],
                 ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    _showAction(context, 0);
-                  },
-                  label: Text('Obrir Rutes Guardades'),
-                ),
-              ],
-            ),
-          );
+              );
         }));
   }
 

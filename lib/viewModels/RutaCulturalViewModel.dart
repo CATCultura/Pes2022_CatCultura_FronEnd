@@ -30,6 +30,7 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   //STATES
   bool rutaGenerada = false;
+  bool savingRuta = false;
 
   void mantaintEventsListToMap() {
     List<Place> aux = [];
@@ -44,6 +45,12 @@ class RutaCulturalViewModel with ChangeNotifier {
     mantaintEventsListToMap();
     //paintRoute();
     //notifyListeners();
+  }
+
+  Future<void> saveRutaCultural(RutaCulturalSaveArgs args) async{
+    await Future.delayed(Duration(seconds: 2)).then((_){
+      notifyListeners();
+    });
   }
 
   Future<void> generateRutaCultural(RutaCulturalArgs? args) async {
@@ -114,4 +121,5 @@ class RutaCulturalViewModel with ChangeNotifier {
     }
     return Status.COMPLETED;
   }
+
 }
