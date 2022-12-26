@@ -1,3 +1,5 @@
+//import 'dart:html';
+import 'dart:io';
 import 'dart:math';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
@@ -6,6 +8,16 @@ import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/views/widgets/events/reviewCard.dart';
+//import 'package:CatCultura/views/widgets/datePickerWidget.dart';
+
+//imports per compartir els events.
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+
+
+
+import 'package:CatCultura/notifications/notificationService.dart';
 import 'dart:math' as math;
 
 import '../../constants/theme.dart';
@@ -105,7 +117,7 @@ class _EventUnicState extends State<EventUnic> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: Body(size: size,
+                  child: Body( event: viewModel.eventSelected.data!,size: size,
                       date: viewModel.eventSelected.data!.dataInici!+"\n"+viewModel.eventSelected.data!.dataFi!,
                       place: viewModel.eventSelected.data!.espai! +" -\n"+viewModel.eventSelected.data!.comarcaIMunicipi!,
                       descripcio: viewModel.eventSelected.data!.descripcio!, viewModel: viewModel
@@ -349,8 +361,10 @@ class Body extends StatelessWidget {
     required this.place,
     required this.descripcio,
     required this.viewModel,
+    required this.event,
   }) : super(key: key);
 
+  final EventResult event;
   final Size size;
   final String date;
   final String place;
@@ -387,14 +401,31 @@ class Body extends StatelessWidget {
                 if(viewModel.agenda == true) {
                   viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   //widget.callback!("deleteAttendance");
-                  //NotificationService().deleteOneNotification(event!.id);
+                  NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
                 }
                 else {
                   viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   // widget.callback!("addAttendance");
-                  // NotificationService().showNotifications( event!.id, 8, "title", "body"); //widget.callback!("addAttendance");
+                  NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
                 }
               },
+            ),
+            IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
+              onPressed: () async {
+                final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
+                final url = Uri.parse(imgUrl);
+                final response = await http.get(url);
+                final bytes = response.bodyBytes;
+
+                final temp = await getTemporaryDirectory();
+                final path = '${temp.path}/image.jpg';
+                File(path).writeAsBytesSync(bytes);
+
+                final titol = event.denominacio;
+                await Share.shareFiles([path], text: titol);
+                },
             ),
             IconButton(
               // padding: const EdgeInsets.only(bottom: 5.0),
