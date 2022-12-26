@@ -57,7 +57,7 @@ class NetworkApiServices extends BaseApiServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-    debugPrint("response json desde network api: $responseJson");
+    //debugPrint("response json desde network api: $responseJson");
     return responseJson;
   }
 

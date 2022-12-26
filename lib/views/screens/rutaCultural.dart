@@ -30,8 +30,6 @@ class RutaCulturalState extends State<RutaCultural> {
 
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
 
-  Position? _currentPosition;
-
   @override
   void initState() {
     _manager = _initClusterManager();
@@ -45,7 +43,7 @@ class RutaCulturalState extends State<RutaCultural> {
   }
 
   void _updateMarkers(Set<Marker> markers) {
-    debugPrint("markers to set: "+markers.toString());
+    //debugPrint("markers to set: "+markers.toString());
     setState(() {
       viewModel.markers = markers; //await setMarkers(markers);
     });
@@ -81,10 +79,11 @@ class RutaCulturalState extends State<RutaCultural> {
                 markers: viewModel.markers,
                 polylines: Set<Polyline>.of(viewModel.polylines.data!.values),
                 onMapCreated: (GoogleMapController controller) {
-                  for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
+                  //for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                   if (!_controller.isCompleted) _controller.complete(controller);
                   _manager.setMapId(controller.mapId);
                   _manager.setItems(viewModel.eventsListMap.data!);
+                  _manager.updateMap();
 
                 },
                 onCameraMove: _manager.onCameraMove,
@@ -125,6 +124,7 @@ class RutaCulturalState extends State<RutaCultural> {
     setState(() {
       viewModel.rutaGenerada = true;
     });
+    viewModel.polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null) ;
     await viewModel.generateRutaCultural(result);
     //viewModel.paintRoute();
     // setState(() {
@@ -134,9 +134,9 @@ class RutaCulturalState extends State<RutaCultural> {
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
       (cluster) async {
-    debugPrint("ENTRO EN MARKER BUILDER");
+    //debugPrint("ENTRO EN MARKER BUILDER");
         if (!cluster.isMultiple) {
-          debugPrint("cluster is simple");
+          //debugPrint("cluster is simple");
           return Marker(
             markerId: MarkerId(cluster.getId()),
             position: cluster.location,

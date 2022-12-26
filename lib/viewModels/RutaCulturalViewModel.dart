@@ -11,7 +11,9 @@ import '../models/Place.dart';
 class RutaCulturalViewModel with ChangeNotifier {
 
   //INI
-  final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
+  // final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
+  final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
+
 
   //VARIABLES
   final _eventsRepo = EventsRepository();
@@ -23,7 +25,7 @@ class RutaCulturalViewModel with ChangeNotifier {
   List<LatLng> polylineCoordinates = [];
   ApiResponse<Map<PolylineId, Polyline>> polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null) ;
   PolylineId? selectedPolyline;
-  late PolylinePoints polylinePoints;
+  //late PolylinePoints polylinePoints;
   String googleAPiKey = "AIzaSyAC-HdDDHsSjsvdpvVBoqhDHaGI0khcdyo";
 
   //STATES
@@ -31,11 +33,13 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   void mantaintEventsListToMap() {
     List<Place> aux = [];
+    aux.add(Place(event: EventResult(id: "1", denominacio: "harcoded marker", descripcio: "sustituto de User Loc", latitud: 41.3745183, longitud: 2.1695461), color: Colors.red));
     eventsList.data!.forEach((e) {aux.add(Place(event: e, color: Colors.blue));});
     eventsListMap = ApiResponse.completed(aux);
   }
 
   setEventsList(ApiResponse<List<EventResult>> response){
+    // if(response.data != null) response.data!.add(EventResult(id: "1", denominacio: "harcoded marker", descripcio: "sustituto de User Loc", latitud: 41.375, longitud: 2.176));
     eventsList = response;
     mantaintEventsListToMap();
     //paintRoute();
@@ -45,7 +49,7 @@ class RutaCulturalViewModel with ChangeNotifier {
   Future<void> generateRutaCultural(RutaCulturalArgs? args) async {
     eventsListMap.status = Status.LOADING;
     notifyListeners();
-    await _eventsRepo.getRutaCultural(args!.longitud,args.latitud,args.radio).then ((value) async {
+    await _eventsRepo.getRutaCultural(args!.longitud,args.latitud,args.radio, args.data).then ((value) async {
       setEventsList(ApiResponse.completed(value));
       await paintRoute().then((value){
         polylines.status = value;
@@ -64,7 +68,7 @@ class RutaCulturalViewModel with ChangeNotifier {
       int nId,
       ) async {
     // Initializing PolylinePoints
-    polylinePoints = PolylinePoints();
+    PolylinePoints polylinePoints = PolylinePoints();
 
     // Generating the list of coordinates to be used for
     // drawing the polylines
@@ -99,8 +103,8 @@ class RutaCulturalViewModel with ChangeNotifier {
   }
 
   Future<Status> paintRoute() async {
-    List<Color> c = [Colors.blue, Colors.red];
-    for(int i = 0; i < eventsListMap.data!.length - 1; ++i) {
+    List<Color> c = [Colors.blue, Colors.red, Colors.green];
+    for(int i = 0; i < /*2*/eventsListMap.data!.length - 1; ++i) {
       _createPolylines(eventsListMap.data![i].location.latitude,
           eventsListMap.data![i].location.longitude,
           eventsListMap.data![i+1].location.latitude,

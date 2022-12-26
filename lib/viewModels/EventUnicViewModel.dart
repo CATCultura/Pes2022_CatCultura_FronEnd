@@ -56,8 +56,8 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
-    favorit = session.data.favouritesId!.contains(int.parse(id));
-    agenda = session.data.attendanceId!.contains(int.parse(id));
+    if(sessio.data.favouritesId != null)favorit = session.data.favouritesId!.contains(int.parse(id));
+    if(sessio.data.attendanceId != null)agenda = session.data.attendanceId!.contains(int.parse(id));
     debugPrint(favorit? "si en favorit": "no en favorit");
     debugPrint(agenda? "si en agenda": "no en agenda");
     await _eventsRepo.getEventById(id).then((value){
