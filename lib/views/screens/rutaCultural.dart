@@ -29,6 +29,8 @@ class RutaCultural extends StatefulWidget {
 class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
+  TextEditingController _saveNameController = TextEditingController();
+  TextEditingController _saveDescController = TextEditingController();
 
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
 
@@ -101,8 +103,8 @@ class RutaCulturalState extends State<RutaCultural> {
                 : viewModel.eventsListMap.status == Status.COMPLETED &&
                         viewModel.polylines.status == Status.COMPLETED
                     ? GoogleMap(
-                zoomControlsEnabled: false,
-                myLocationEnabled: false,
+                        zoomControlsEnabled: false,
+                        myLocationEnabled: false,
                         mapType: MapType.normal,
                         initialCameraPosition: viewModel.iniCameraPosition,
                         markers: viewModel.markers,
@@ -136,13 +138,72 @@ class RutaCulturalState extends State<RutaCultural> {
               children: [
                 FloatingActionButton.extended(
                   onPressed: () {
-                    _navigateAndDisplaySelection(context);
+                    _navigateAndDisplayRouteGeneratorSelector(context);
                   },
                   label: Text('Generar Ruta Cultural'),
                 ),
                 FloatingActionButton.extended(
                   onPressed: () {
-                    _showAction(context, 0);
+                    RutaCulturalSaveArgs args =
+                        RutaCulturalSaveArgs(null, null, true);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Setting String"),
+                          content: Column(
+                            children: [
+                              TextField(
+                                onChanged: (value) {
+                                  args.name = value;
+                                },
+                                controller: _saveNameController,
+                                decoration:
+                                    InputDecoration(hintText: "name in Dialog"),
+                              ),
+                              TextField(
+                                onChanged: (value) {
+                                  args.description = value;
+                                },
+                                controller: _saveDescController,
+                                decoration: InputDecoration(hintText: "desc"),
+                              ),
+                            ],
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.red),
+                                  foregroundColor:
+                                      MaterialStateProperty.all(Colors.white)),
+                              child: Text('CANCEL'),
+                              onPressed: () {
+                                Navigator.pop(context, args);
+                              },
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.green),
+                                  foregroundColor:
+                                      MaterialStateProperty.all(Colors.white)),
+                              child: Text('OK'),
+                              onPressed: () {
+                                args.canceled = false;
+                                Navigator.pop(context, args);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ).then((val) {
+                      debugPrint(
+                          "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
+                      if (!val.canceled) debugPrint("NOT CANCELED");
+                      _saveNameController = TextEditingController();
+                      _saveDescController = TextEditingController();
+                    });
                   },
                   label: Text('Guardar Ruta Actual'),
                 ),
@@ -154,17 +215,12 @@ class RutaCulturalState extends State<RutaCultural> {
                 ),
               ],
             ),
-            // FloatingActionButton.extended(
-            //   onPressed: () {
-            //     _navigateAndDisplaySelection(context);
-            //   },
-            //   label: Text('Generar Ruta Cultural'),
-            // ),
           );
         }));
   }
 
-  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+  Future<void> _navigateAndDisplayRouteGeneratorSelector(
+      BuildContext context) async {
     setState(() {
       viewModel.rutaGenerada = false;
     });
@@ -263,6 +319,58 @@ class RutaCulturalState extends State<RutaCultural> {
 
 }
 
+// class DisplayTextInputDialog(BuildContext context) {
+//   RutaCulturalSaveArgs args = RutaCulturalSaveArgs(null, null, null);
+//   TextEditingController _nameController = TextEditingController();
+//   TextEditingController _descrriptionController = TextEditingController();
+//
+//   // @override
+//   // Widget build (BuildContext context) {
+//     return AlertDialog(
+//       title: Text('TextField in Dialog'),
+//       content: Column(
+//         children: [
+//           TextField(
+//             onChanged: (value) {
+//               args.name = value;
+//             },
+//             controller: _nameController,
+//             decoration: InputDecoration(hintText: "name in Dialog"),
+//           ),
+//           TextField(
+//             onChanged: (value) {
+//               args.description = value;
+//             },
+//             controller: _descrriptionController,
+//             decoration: InputDecoration(hintText: "desc"),
+//           ),
+//         ],
+//       ),
+//       actions: <Widget>[
+//         TextButton(
+//           style: ButtonStyle(
+//               backgroundColor: MaterialStateProperty.all(Colors.red),
+//               foregroundColor: MaterialStateProperty.all(Colors.white)),
+//           child: Text('CANCEL'),
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//         ),
+//         TextButton(
+//           style: ButtonStyle(
+//               backgroundColor: MaterialStateProperty.all(Colors.green),
+//               foregroundColor: MaterialStateProperty.all(Colors.white)),
+//           child: Text('OK'),
+//           onPressed: () {
+//             args.cancel = false;
+//             Navigator.pop(context, args);
+//           },
+//         ),
+//       ],
+//     );
+//   // }
+// }
+
 @immutable
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
@@ -360,7 +468,7 @@ class _ExpandableFabState extends State<ExpandableFab>
   List<Widget> _buildExpandingActionButtons() {
     final children = <Widget>[];
     final count = widget.children.length;
-    final step =50.0 / (count - 1);
+    final step = 50.0 / (count - 1);
     for (var i = 0, angleInDegrees = 0.0;
         i < count;
         i++, angleInDegrees += step) {
@@ -427,7 +535,7 @@ class _ExpandingActionButton extends StatelessWidget {
         );
         return Positioned(
           right: -45.0 + offset.dx,
-          bottom: 1.0 + offset.dy*1.5,
+          bottom: 1.0 + offset.dy * 1.5,
           child: Transform.rotate(
             angle: (1.0 - progress.value) * math.pi / 2,
             child: child!,
