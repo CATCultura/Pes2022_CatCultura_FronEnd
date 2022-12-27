@@ -427,16 +427,8 @@ class Body extends StatelessWidget {
               icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
               onPressed: () async {
                 final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
-                final url = Uri.parse(imgUrl);
-                final response = await http.get(url);
-                final bytes = response.bodyBytes;
-
-                final temp = await getTemporaryDirectory();
-                final path = '${temp.path}/image.jpg';
-                File(path).writeAsBytesSync(bytes);
-
                 final titol = event.denominacio;
-                await Share.shareFiles([path], text: titol);
+                viewModel.shareEvent(imgUrl, titol);
                 },
             ),
             IconButton(

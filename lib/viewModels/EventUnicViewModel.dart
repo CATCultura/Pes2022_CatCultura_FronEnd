@@ -1,12 +1,15 @@
-
 import 'dart:io';
-
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 import '../utils/Session.dart';
+//imports per compartir esdeveniment
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
@@ -112,6 +115,16 @@ class EventUnicViewModel with ChangeNotifier {
         setAttendanceResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }
+  }
+
+  shareEvent(var imgUrl, var titol) async {
+    final url = Uri.parse(imgUrl);
+    final response = await http.get(url);
+    final bytes = response.bodyBytes;
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+    File(path).writeAsBytesSync(bytes);
+    await Share.shareFiles([path], text: titol);
   }
 
   Future<void> addEventToGoogleCalendar(var _scopes)async{
