@@ -1,11 +1,18 @@
 
+import 'dart:io';
+
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
-
 import '../utils/Session.dart';
+
+//imports per google calendar
+import "package:googleapis_auth/auth_io.dart";
+import 'package:googleapis/calendar/v3.dart' as GCalendar;
+//import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
@@ -105,6 +112,18 @@ class EventUnicViewModel with ChangeNotifier {
         setAttendanceResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }
+  }
+
+  Future<void> addEventToGoogleCalendar(var _scopes)async{
+    var _credentials;
+    if(Platform.isAndroid){
+      _credentials = new ClientId('falta generar la ID');
+    }
+    else if(Platform.isIOS){
+      _credentials = new ClientId('falta generar la ID');
+    }
+
+
   }
 
   Future<void> deleteAttendanceById(String userId, String? eventId) async{
