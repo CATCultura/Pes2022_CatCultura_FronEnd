@@ -2,6 +2,7 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/models/EventResult.dart';
@@ -12,8 +13,8 @@ import '../widgets/events/eventInfoShort.dart';
 
 
 class opcionsEsdeveniment extends StatelessWidget {
-  opcionsEsdeveniment({super.key, required this.eventId});
-  String eventId;
+  opcionsEsdeveniment({super.key, required this.event});
+  EventResult event;
 
   /*+@override
   State<opcionsEsdeveniment> createState() => _opcionsState(); **/
@@ -32,16 +33,17 @@ class opcionsEsdeveniment extends StatelessWidget {
   TextEditingController EspaiController = TextEditingController();
 
 
-  //CodiController = viewModel.eventSelected.data!.codi! as TextEditingController;
-  //InitialDateController = viewModel.eventSelected.data!.dataInici! as TextEditingController;
-  //FinalDateController = viewModel.eventSelected.data!.dataFi! as TextEditingController;
-  //DenominacioController = viewModel.eventSelected.data!.denominacio! as TextEditingController;
-  //UbicacioController = viewModel.eventSelected.data!.ubicacio! as TextEditingController;
-  //AdrecaController = viewModel.eventSelected.data!.adreca! as TextEditingController;
-  //EspaiController = viewModel.eventSelected.data!.espai! as TextEditingController;
+  //CodiController = event.codi as TextEditingController;
+  //InitialDateController = event.dataInici as TextEditingController;
+  //FinalDateController = event.dataFi as TextEditingController;
+  //DenominacioController = event.denominacio as TextEditingController;
+  //UbicacioController = event.ubicacio as TextEditingController;
+  //AdrecaController = event.adreca as TextEditingController;
+  //EspaiController = event.espai as TextEditingController;
 
   @override
   Widget build(BuildContext context) {
+    print("inicialitzacio correcta ");
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {

@@ -385,7 +385,7 @@ class Body extends StatelessWidget {
               onPressed: () {
                 Navigator.popAndPushNamed(
                     context, '/opcions-Esdeveniment',
-                    arguments: EventUnicArgs(viewModel.eventSelected.data!.id!));
+                    arguments: EventArgs(viewModel.eventSelected.data!));
                 },
             ),
 
