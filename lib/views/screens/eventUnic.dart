@@ -9,15 +9,19 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/views/widgets/events/reviewCard.dart';
 //import 'package:CatCultura/views/widgets/datePickerWidget.dart';
-
 //imports per compartir els events.
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-
-
-
+//imports per notificacions
 import 'package:CatCultura/notifications/notificationService.dart';
+//imports per google calendar
+import "package:googleapis_auth/auth_io.dart";
+import 'package:googleapis/calendar/v3.dart' as GCalendar;
+//import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
 import 'dart:math' as math;
 
 import '../../constants/theme.dart';
@@ -371,6 +375,7 @@ class Body extends StatelessWidget {
   final String descripcio;
   final EventUnicViewModel viewModel;
   final String loggedUserId = "2";
+  static const _scopes = const [GCalendar.CalendarApi.calendarScope];
 
   @override
   Widget build(BuildContext context) {
@@ -408,6 +413,13 @@ class Body extends StatelessWidget {
                   // widget.callback!("addAttendance");
                   NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
                 }
+              },
+            ),
+            IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
+              onPressed: () {
+                viewModel.addEventToGoogleCalendar(_scopes);
               },
             ),
             IconButton(
