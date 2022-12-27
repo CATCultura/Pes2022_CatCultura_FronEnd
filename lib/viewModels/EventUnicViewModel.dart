@@ -36,12 +36,12 @@ class EventUnicViewModel with ChangeNotifier {
 
 
   String usernameSessio() {
-    if(sessio.get("username") == null) return "13658";
+    if(sessio.get("username") == null) return "2";
     return sessio.get("username");
   }
 
   String passwordSessio() {
-    if(sessio.get("password") == null) return "13658";
+    if(sessio.get("password") == null) return "2";
     return sessio.get("password");
   }
 
@@ -98,7 +98,6 @@ class EventUnicViewModel with ChangeNotifier {
       }).onError((error, stackTrace) =>
           setFavouriteResult(ApiResponse.error(error.toString())));
     }
-
   }
 
   Future<void> deleteFavouriteById(String userId, String? eventId) async{
@@ -112,6 +111,14 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> putAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.addAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        setAttendanceResult(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
+    }
+  }
+
+  Future<void> deleteAttendanceById(String userId, String? eventId) async{
+    if(eventId != null){
+      await _eventsRepo.deleteAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         setAttendanceResult(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }
@@ -137,14 +144,6 @@ class EventUnicViewModel with ChangeNotifier {
     }
 
 
-  }
-
-  Future<void> deleteAttendanceById(String userId, String? eventId) async{
-    if(eventId != null){
-      await _eventsRepo.deleteAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
-        setAttendanceResult(ApiResponse.completed(value));
-      }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
-    }
   }
   // @override
   // void dispose() {
