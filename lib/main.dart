@@ -1,3 +1,4 @@
+import 'package:CatCultura/providers/xat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:CatCultura/utils/routes/RouteGenerator.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => EventsViewModel()),
+        ChangeNotifierProvider(create: (_) => XatProvider()),
       ],
       child: MaterialApp(
           title: 'catcultura',

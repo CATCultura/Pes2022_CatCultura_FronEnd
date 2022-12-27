@@ -4,6 +4,7 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import '../../views/screens/xat.dart';
 
 
 
@@ -56,6 +57,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/xat':
+        return MaterialPageRoute(builder:(_)=>Xat());
 
       default:
         return _errorRoute();
