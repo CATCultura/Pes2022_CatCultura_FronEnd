@@ -556,6 +556,20 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                     e.descripcio = DescripcioController.text;
                                     e.latitud = double.parse(LatitudController.text);
                                     e.longitud = double.parse(LongitudController.text);
+                                    e.dataFiAprox = DataFiAproxController.text;
+                                    e.entrades = EntradesController.text;
+                                    e.horari = HorariController.text;
+                                    e.subtitol = SubtitolController.text;
+                                    e.links = LinkController.text;
+                                    e.documents = DocumentsController.text;
+                                    e.videos = VideoController.text;
+                                    e.codiPostal = CodiPostalController.text;
+                                    e.comarcaIMunicipi = ComarcaController.text;
+                                    e.email = EmailController.text;
+                                    e.localitat = LocalitatController.text;
+                                    e.telf = TelefonController.text;
+                                    e.URL = URLController.text;
+                                    e.imgApp = AppImgController.text;
                                     viewModel.crearEvent(e);
                                     Navigator.popAndPushNamed(context, '/home');
                                   }
@@ -581,60 +595,6 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
           );
         }));
   }
-
-  /* Widget createInitialDate(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-        child: TextField(
-          enableInteractiveSelection: false,
-          controller: InitialDateController,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "Data Inici",
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.orange,
-                  width: 3
-              ),
-            ),
-          ),
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-            selectInitialDate(context);
-          },
-        ),
-      ),
-    );
-  }*/
-
-  /* Widget createFinalDate(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-        child: TextField(
-          enableInteractiveSelection: false,
-          controller: FinalDateController,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "Data Fi",
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.orange,
-                  width: 3
-              ),
-            ),
-          ),
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-            selectFinalDate(context);
-          },
-        ),
-      ),
-    );
-  } */
 
   selectInitialDate(BuildContext context) async{
     DateTime? picked = await showDatePicker(

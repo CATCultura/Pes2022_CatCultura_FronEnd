@@ -127,7 +127,10 @@ class EventResult {
     final List<Map<String, dynamic>> result = [
       {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
       'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
-      'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud}
+      'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
+      'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
+      'videos': videos, 'codiPostal': codiPostal, 'comarcaIMunicipi': comarcaIMunicipi, 'email': email,
+      'localitat': localitat, 'telf': telf, 'URL': URL, 'imgApp': imgApp }
     ];
     return result;
   }
