@@ -8,12 +8,12 @@ class EventResult {
   String? codi = "";
   String? dataInici = "empty";
   //String? dataIniciHora = "empty";
-  String? dataFi;
+  String? dataFi = "empty";
   //String? dataFiHora = "empty";
   String? dataFiAprox = "";
   //String? dataFiAproxHora = "empty";
   String? denominacio = "NO_NAME";
-  String? descripcio;
+  String? descripcio = "NO DESCRIPTION AVAILABLE";
   String? entrades = "";
   String? horari = "";
   String? subtitol = "";
@@ -84,7 +84,7 @@ class EventResult {
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    descripcio = formatText(jsonResponse['descripcio']);
+    if(jsonResponse['descripcio'] != null)descripcio = formatText(jsonResponse['descripcio']);
     // if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
     // else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
     comarcaIMunicipi = jsonResponse['ubicacio'];

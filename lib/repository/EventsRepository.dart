@@ -33,9 +33,9 @@ class EventsRepository {
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events"); //40.113.160.200:8081
       // dynamic response = await _apiServices.getGetApiResponse("http://40.113.160.200:8081/events");
-
+      debugPrint("aqui");
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-      //debugPrint("print del repositori"+res[0].toString());
+      debugPrint("print del repositori"+res[0].toString());
       _cachedEvents = res;
 
       return res;
@@ -56,7 +56,7 @@ class EventsRepository {
     // }
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?q=$filter");
-
+      debugPrint(filter);
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
 
       return res;
@@ -285,9 +285,9 @@ class EventsRepository {
     try {
       // final jsonList = events.map((e) => json.encode(e)).toList();
       // debugPrint(jsonList.toString());
-      final idList = events.map((e) => e.id).toList();
+      final idList = events.map((e) => int.parse(e.id!)).toList();
       debugPrint(idList.toString());
-      final Map<String, dynamic> data = {'name': name, 'description': description, 'routeEvents': idList};
+      final Map<String, dynamic> data = {'name': name, 'description': description, 'eventIds': idList};
       debugPrint(jsonEncode(data).toString());
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/${session.data.id}/routes", data);
       debugPrint("on eventRepository line 288: $response");

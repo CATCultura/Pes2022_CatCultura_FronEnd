@@ -142,7 +142,7 @@ class RutaCulturalState extends State<RutaCultural> {
                       },
                       label: Text('Generar Ruta Cultural'),
                     ),
-                    FloatingActionButton.extended(
+                    viewModel.rutaGenerada? FloatingActionButton.extended(
                       onPressed: () {
                         RutaCulturalSaveArgs args =
                             RutaCulturalSaveArgs(null, null, true);
@@ -304,7 +304,7 @@ class RutaCulturalState extends State<RutaCultural> {
                         });
                       },
                       label: Text('Guardar Ruta Actual'),
-                    ),
+                    ): SizedBox(width: 0, height: 0,),
                     FloatingActionButton.extended(
                       onPressed: () {
                         _showAction(context, 0);
