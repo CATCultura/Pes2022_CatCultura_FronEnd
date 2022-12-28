@@ -13,7 +13,7 @@ class EventResult {
   String? dataFiAprox = "";
   //String? dataFiAproxHora = "empty";
   String? denominacio = "NO_NAME";
-  String? descripcio;
+  String? descripcio = "no te";
   String? entrades = "";
   String? horari = "";
   String? subtitol = "";

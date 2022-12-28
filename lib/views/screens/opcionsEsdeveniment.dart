@@ -9,6 +9,7 @@ import 'package:CatCultura/models/EventResult.dart';
 
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/events/eventInfoShort.dart';
 
 
@@ -32,18 +33,24 @@ class opcionsEsdeveniment extends StatelessWidget {
   TextEditingController AdrecaController = TextEditingController();
   TextEditingController EspaiController = TextEditingController();
 
-
-  //CodiController = event.codi as TextEditingController;
-  //InitialDateController = event.dataInici as TextEditingController;
-  //FinalDateController = event.dataFi as TextEditingController;
-  //DenominacioController = event.denominacio as TextEditingController;
-  //UbicacioController = event.ubicacio as TextEditingController;
-  //AdrecaController = event.adreca as TextEditingController;
-  //EspaiController = event.espai as TextEditingController;
-
   @override
   Widget build(BuildContext context) {
     print("inicialitzacio correcta ");
+    CodiController.text = event.codi!;
+    InitialDateController.text = event.dataInici!;
+    FinalDateController.text = event.dataFi!;
+    DenominacioController.text = event.denominacio!;
+    UbicacioController.text = event.ubicacio!;
+    AdrecaController.text = event.adreca!;
+    EspaiController.text = event.espai!;
+    print(event.id!);
+    print(CodiController.text);
+    print(InitialDateController.text);
+    print(FinalDateController.text);
+    print(DenominacioController.text);
+    print(UbicacioController.text);
+    print(AdrecaController.text);
+    print(EspaiController.text);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
@@ -198,16 +205,16 @@ class opcionsEsdeveniment extends StatelessWidget {
                             child: const Text('Modificar'),
                             onPressed: () {
                               EventResult? e = EventResult();
-                              e.id = "3233";
+                              e.id = event.id;
                               e.denominacio = DenominacioController.text;
-                              e.codi = "123456789";//CodiController.text;
-                              e.dataFi = "2022-12-31"; //FinalDateController.text;
-                              e.dataInici = "2022-12-30"; //InitialDateController.text;
-                              e.adreca = "BCN"; //AdrecaController.text;
-                              e.espai = "Ningun"; //EspaiController.text;
-                              e.ubicacio = "BCN"; //UbicacioController.text;
+                              e.codi = CodiController.text;
+                              e.dataFi = FinalDateController.text;
+                              e.dataInici = InitialDateController.text;
+                              e.adreca = AdrecaController.text;
+                              e.espai = EspaiController.text;
+                              e.ubicacio = UbicacioController.text;
                               viewModel.putEventById(e);
-                              Navigator.pushNamed(context, '/home');
+                              Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                             },
                           ),
                         ),

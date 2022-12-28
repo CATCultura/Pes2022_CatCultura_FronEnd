@@ -49,7 +49,7 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
         final argsEvent = settings.arguments as EventArgs;
-        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(event: argsEvent));
+        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(event: argsEvent.e));
       case '/userTags':
         return MaterialPageRoute(builder:(_)=>UserTags());
       case '/friendRequests':
