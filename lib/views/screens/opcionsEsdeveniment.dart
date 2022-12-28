@@ -94,7 +94,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                   foregroundColor: Colors.blue,
                                                 ),
                                                 onPressed: () {
-                                                  viewModel.deleteEventById("3233");
+                                                  viewModel.deleteEventById(event.id!);
                                                   Navigator.popAndPushNamed(
                                                       context, '/home');
                                                 }
