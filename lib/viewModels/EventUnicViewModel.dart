@@ -160,13 +160,11 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
 
-  /** Future<void> putEventById(String? id, String? d) async {
-    EventResult? e = EventResult();
-    e.denominacio = d;
-    await _eventsRepo.addEventById(id, e); /** .then((value) {
+  Future<void> putEventById(EventResult e) async {
+    await _eventsRepo.addEventById(e); /** .then((value) {
       setEventSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
-  } **/
+  }
 }

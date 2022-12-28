@@ -399,6 +399,16 @@ class Body extends StatelessWidget {
             }
              */
             IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.popAndPushNamed(
+                    context, '/opcions-Esdeveniment',
+                    arguments: EventArgs(viewModel.eventSelected.data!));
+                },
+            ),
+
+            IconButton(
               // padding: const EdgeInsets.only(bottom: 5.0),
               iconSize: 40,
               icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),

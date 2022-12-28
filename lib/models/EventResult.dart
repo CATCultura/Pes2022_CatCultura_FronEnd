@@ -36,7 +36,7 @@ class EventResult {
   String? URL = "";
   String? ubicacio = "ubicacio: no info";
   String? imgApp = "";
-  //bool cancelado = false;
+  bool? cancelado = false;
 
 
   EventResult({
@@ -73,7 +73,7 @@ class EventResult {
     this.URL,
     this.ubicacio,
     this.imgApp,
-    //this.cancelado
+    this.cancelado
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
@@ -119,27 +119,17 @@ class EventResult {
     imgApp = jsonResponse['imgApp'];
     espai = jsonResponse['espai'];
     //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";
+    cancelado = jsonResponse['cancelado'];
 
   }
 
   List<Map<String, dynamic>> toJson() {
     final List<Map<String, dynamic>> result = [
       {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
-      'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai}
+      'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado}
     ];
     return result;
   }
-
-  /** Map<String, dynamic> toJson() {
-    final Map<String, dynamic> result =
-    <String, dynamic>{};
-    result['id'] = id;
-    result['denominacio'] = denominacio;
-    result['dataInici'] = dataInici;
-    result['dataFi'] = dataFi;
-    result['descripcio'] = descripcio;
-    return result;
-  } **/
 }
 
 String formatText(String s) {

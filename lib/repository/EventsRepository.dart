@@ -204,16 +204,16 @@ class EventsRepository {
     }
   }
 
-  /** Future<String> addEventById(String? eventId, EventResult data) async {
+  Future<String> addEventById(EventResult data) async {
     try{
-      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      dynamic response = await _apiServices.getPutEventApiResponse("${baseUrl}events", data);
       String res = response;
       return res;
     }
     catch(e){
       rethrow;
     }
-  } **/
+  }
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
