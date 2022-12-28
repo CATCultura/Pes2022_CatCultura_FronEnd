@@ -16,6 +16,8 @@ class SessionResult {
   List<int>? trophiesId = [];
   List<int>? attendanceId = [];
   List<int>? friendsId = [];
+  List<int>? upvotedReviewsId = [];
+  List<int>? attendedId = [];
 
   SessionResult({
     required this.id,
@@ -30,11 +32,13 @@ class SessionResult {
     this.favouritesId,
     this.trophiesId,
     this.attendanceId,
-    this.friendsId
+    this.friendsId,
+    this.upvotedReviewsId,
+    this.attendedId
   });
 
   SessionResult.fromJson(Map<String, dynamic> jsonResponse) {
-    debugPrint(jsonResponse.toString());
+    //debugPrint(jsonResponse.toString());
     id = jsonResponse['id'];
     username = jsonResponse['username'];
     nameAndSurname = jsonResponse['nameAndSurname'];
@@ -63,6 +67,16 @@ class SessionResult {
       friendsId = (jsonResponse['friendsIds'] as List).map((item) => item as int).toList();
     }else {
       friendsId = [];
+    }
+    if(jsonResponse['upvotedReviewsId'] != null) {
+      upvotedReviewsId = (jsonResponse['upvotedReviewsId'] as List).map((item) => item as int).toList();
+    }else {
+      upvotedReviewsId = [];
+    }
+    if(jsonResponse['eventsAttended'] != null) {
+      attendedId = (jsonResponse['eventsAttended'] as List).map((item) => item as int).toList();
+    }else {
+      attendedId = [];
     }
   }
 

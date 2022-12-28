@@ -29,8 +29,8 @@ class UsersRepository {
 
       List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
       _cachedUsers = res;
-      debugPrint(res.toString());
-      debugPrint("nameSurname"+res[0].nameAndSurname!);
+      //debugPrint(res.toString());
+      //debugPrint("nameSurname"+res[0].nameAndSurname!);
       return res;
 
     } catch (e) {
