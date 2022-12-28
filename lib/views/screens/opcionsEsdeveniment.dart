@@ -32,6 +32,7 @@ class opcionsEsdeveniment extends StatelessWidget {
   TextEditingController UbicacioController = TextEditingController();
   TextEditingController AdrecaController = TextEditingController();
   TextEditingController EspaiController = TextEditingController();
+  TextEditingController CanceladoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class opcionsEsdeveniment extends StatelessWidget {
     UbicacioController.text = event.ubicacio!;
     AdrecaController.text = event.adreca!;
     EspaiController.text = event.espai!;
+
     print(event.id!);
     print(CodiController.text);
     print(InitialDateController.text);
@@ -131,9 +133,18 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                   foregroundColor: Colors.blue,
                                                 ),
                                                 onPressed: () {
-                                                  //viewModel.putEventById("3056");
-                                                  Navigator.popAndPushNamed(
-                                                      context, '/home');
+                                                  EventResult? e = EventResult();
+                                                  e.id = event.id;
+                                                  e.cancelado = true;
+                                                  e.denominacio = DenominacioController.text;
+                                                  e.codi = CodiController.text;
+                                                  e.dataFi = FinalDateController.text;
+                                                  e.dataInici = InitialDateController.text;
+                                                  e.adreca = AdrecaController.text;
+                                                  e.espai = EspaiController.text;
+                                                  e.ubicacio = UbicacioController.text;
+                                                  viewModel.putEventById(e);
+                                                  Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                                                 }
                                             ),
 
