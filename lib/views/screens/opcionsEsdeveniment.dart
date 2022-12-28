@@ -135,7 +135,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                 onPressed: () {
                                                   EventResult? e = EventResult();
                                                   e.id = event.id;
-                                                  e.cancelado = true;
+                                                  e.cancelado = false;
                                                   e.denominacio = DenominacioController.text;
                                                   e.codi = CodiController.text;
                                                   e.dataFi = FinalDateController.text;
