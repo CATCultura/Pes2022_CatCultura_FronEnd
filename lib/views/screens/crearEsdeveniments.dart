@@ -35,6 +35,21 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
   TextEditingController DescripcioController = TextEditingController();
   TextEditingController LatitudController = TextEditingController();
   TextEditingController LongitudController = TextEditingController();
+  TextEditingController DataFiAproxController = TextEditingController();
+  TextEditingController EntradesController = TextEditingController();
+  TextEditingController HorariController = TextEditingController();
+  TextEditingController SubtitolController = TextEditingController();
+  TextEditingController LinkController = TextEditingController();
+  TextEditingController DocumentsController = TextEditingController();
+  TextEditingController VideoController = TextEditingController();
+  TextEditingController CodiPostalController = TextEditingController();
+  TextEditingController ComarcaController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();
+  TextEditingController LocalitatController = TextEditingController();
+  TextEditingController TelefonController = TextEditingController();
+  TextEditingController URLController = TextEditingController();
+  TextEditingController AppImgController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +88,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: CodiController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Codi',
+                                  labelText: 'Codi (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -95,7 +110,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: InitialDateController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: "Data Inici",
+                                  labelText: "Data Inici (Obligatori)",
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -121,7 +136,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: FinalDateController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: "Data Fi",
+                                  labelText: "Data Fi (Obligatori)",
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -146,7 +161,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: DenominacioController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Nom Esdeveniment',
+                                  labelText: 'Nom Esdeveniment (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -167,7 +182,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: UbicacioController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Ubicació',
+                                  labelText: 'Ubicació (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -187,7 +202,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: AdrecaController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Adreça',
+                                  labelText: 'Adreça (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -207,7 +222,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: EspaiController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Espai',
+                                  labelText: 'Espai (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -227,7 +242,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: DescripcioController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Descripció',
+                                  labelText: 'Descripció (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -247,7 +262,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: LatitudController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Latitud',
+                                  labelText: 'Latitud (Obligatori)',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -267,7 +282,245 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 controller: LongitudController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Longitud',
+                                  labelText: 'Longitud (Obligatori)',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: DataFiAproxController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Data de fi aproximada',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: EntradesController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Informació entrades',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: HorariController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Horari',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: SubtitolController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Subtitol',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: LinkController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Link',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: DocumentsController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Documents',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: VideoController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Video',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: CodiPostalController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Codi Postal',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: ComarcaController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Comarca o Municipi',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: EmailController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: LocalitatController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Localitat',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: TelefonController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Telefon',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: URLController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Url',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 3
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: TextFormField(
+                                controller: AppImgController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Imatge App',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
