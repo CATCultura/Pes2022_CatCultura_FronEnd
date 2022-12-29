@@ -137,12 +137,14 @@ class RutaCulturalState extends State<RutaCultural> {
                   distance: 112.0,
                   children: [
                     FloatingActionButton.extended(
+                      heroTag: 'bGenerateRoute',
                       onPressed: () {
                         _navigateAndDisplayRouteGeneratorSelector(context);
                       },
                       label: Text('Generar Ruta Cultural'),
                     ),
                     viewModel.rutaGenerada? FloatingActionButton.extended(
+                      heroTag: 'bSaveroute',
                       onPressed: () {
                         RutaCulturalSaveArgs args =
                             RutaCulturalSaveArgs(null, null, true);
@@ -306,6 +308,7 @@ class RutaCulturalState extends State<RutaCultural> {
                       label: Text('Guardar Ruta Actual'),
                     ): SizedBox(width: 0, height: 0,),
                     FloatingActionButton.extended(
+                      heroTag: 'bSavedRoutes',
                       onPressed: () {
                         _showAction(context, 0);
                       },
