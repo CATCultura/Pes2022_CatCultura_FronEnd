@@ -215,6 +215,17 @@ class EventsRepository {
     }
   }
 
+  Future<String> cancelledEventById(String? eventId) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId/cancelled", "");
+      String res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
     // try{
