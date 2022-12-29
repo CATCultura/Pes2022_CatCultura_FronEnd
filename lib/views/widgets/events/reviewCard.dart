@@ -37,7 +37,7 @@ class ReviewCard extends StatelessWidget {
                     Flexible(
                       flex: 2,
                       child: Text(
-                        review.user!,
+                        review.author!,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -52,19 +52,19 @@ class ReviewCard extends StatelessWidget {
                         child: SizedBox(
                           child: Row(
                             children: [
-                              Icon(review.score! > 0
+                              Icon(review.rating! > 0
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(review.score! > 1
+                              Icon(review.rating! > 1
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(review.score! > 2
+                              Icon(review.rating! > 2
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(review.score!> 3
+                              Icon(review.rating!> 3
                                   ? Icons.star
                                   : Icons.star_outline),
-                              Icon(review.score! > 4
+                              Icon(review.rating! > 4
                                   ? Icons.star
                                   : Icons.star_outline),
                             ],
@@ -86,7 +86,7 @@ class ReviewCard extends StatelessWidget {
                           // Padding(padding: EdgeInsets.only(top: 5)),
                           Flexible(
                               child: Text(
-                                review.text!,
+                                review.review!,
                                 style: TextStyle(fontSize: 14),
                                 overflow: TextOverflow.fade,
                               ),

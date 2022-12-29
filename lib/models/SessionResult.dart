@@ -18,6 +18,8 @@ class SessionResult {
   List<int>? friendsId = [];
   List<int>? upvotedReviewsId = [];
   List<int>? attendedId = [];
+  List<int>? reportedReviews = [];
+
 
   SessionResult({
     required this.id,
@@ -34,7 +36,8 @@ class SessionResult {
     this.attendanceId,
     this.friendsId,
     this.upvotedReviewsId,
-    this.attendedId
+    this.attendedId,
+    this.reportedReviews
   });
 
   SessionResult.fromJson(Map<String, dynamic> jsonResponse) {
@@ -78,6 +81,12 @@ class SessionResult {
     }else {
       attendedId = [];
     }
+    if(jsonResponse['reportedReviewIds'] != null) {
+      reportedReviews = (jsonResponse['reportedReviewIds'] as List).map((item) => item as int).toList();
+    }else {
+      reportedReviews = [];
+    }
+
   }
 
   List<Map<String, dynamic>> toJson() {

@@ -35,7 +35,7 @@ class _ReviewUnicaState extends State<ReviewUnica> {
               Flexible(
                 // flex: 2,
                 child: Text(
-                  review.user!,
+                  review.author!,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -61,19 +61,19 @@ class _ReviewUnicaState extends State<ReviewUnica> {
                           child:
                        Row(
                         children: [
-                          Icon(review.score! > 0
+                          Icon(review.rating! > 0
                               ? Icons.star
                               : Icons.star_outline),
-                          Icon(review.score! > 1
+                          Icon(review.rating! > 1
                               ? Icons.star
                               : Icons.star_outline),
-                          Icon(review.score! > 2
+                          Icon(review.rating! > 2
                               ? Icons.star
                               : Icons.star_outline),
-                          Icon(review.score!> 3
+                          Icon(review.rating!> 3
                               ? Icons.star
                               : Icons.star_outline),
-                          Icon(review.score! > 4
+                          Icon(review.rating! > 4
                               ? Icons.star
                               : Icons.star_outline),
                         ],
@@ -107,7 +107,7 @@ class _ReviewUnicaState extends State<ReviewUnica> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    review.text!,
+                    review.review!,
                     style: TextStyle(fontSize: 14),
                     textAlign: TextAlign.justify,
                     // overflow: TextOverflow.fade,
