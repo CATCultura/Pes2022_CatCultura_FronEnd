@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:CatCultura/repository/UsersRepository.dart';
+
+import '../utils/Session.dart';
 
 class AnotherUserViewModel with ChangeNotifier{
   final _usersRepo = UsersRepository();
@@ -13,6 +17,7 @@ class AnotherUserViewModel with ChangeNotifier{
   bool afegit = false;
   bool requested = false;
   String id = '';
+  final Session sessio = Session();
 
   setUsersSelected(ApiResponse<UserResult> response){
     mainUser = response;
@@ -29,14 +34,31 @@ class AnotherUserViewModel with ChangeNotifier{
     debugPrint(response.toString());
     usersRequested = response;
     late List <String> usersList = [];
+    for (int i = 0; i < usersRequested.data!.length; ++i){
+      var aux = int.parse(response.data!.elementAt(i).id!);
+      sessio.data.requestedId!.add(aux);
+    }
+
     if(response.status == Status.COMPLETED){
-      for (int i = 0; i < usersRequested.data!.length; ++i) {
+      if (sessio.data.requestedId.toString().contains(id)) afegit = true;
+
+     /* for (int i = 0; i < usersRequested.data!.length; ++i) {
         usersList.add(usersRequested.data![i].id!);
       }
+
+
       if (usersList.contains(id)) afegit = true;
+      */
     }
     else if (response.status == Status.ERROR) afegit = false;
     notifyListeners();
+  }
+
+  setSession(ApiResponse<List<UserResult>> response) {
+    print("before userslist = response (with exit)");
+    debugPrint(response.toString());
+    usersRequested = response;
+    //late List <String> usersList = [];
   }
 
   setFriendResult(ApiResponse<String> response){
@@ -58,6 +80,13 @@ class AnotherUserViewModel with ChangeNotifier{
     }).onError((error, stackTrace) =>
         setUsersRequested(ApiResponse.error(error.toString())));
   }
+  Future<void> setSessionFriends(String id) async{
+    await _usersRepo.getListFriends(id).then((value){
+      setSession(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setSession(ApiResponse.error(error.toString())));
+  }
+
 
 
   Future<void> putFriendById(String userId, String? otherUserId) async{

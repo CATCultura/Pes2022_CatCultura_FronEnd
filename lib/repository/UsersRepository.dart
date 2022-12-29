@@ -87,13 +87,20 @@ class UsersRepository {
   }
 
 
+  Future<List<UserResult>> getListFriends(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/$id/friends/session");
+      List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
+
+      return res;//UserResult.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
   Future<List<UserResult>> getRequestedsById(String id) async {
-   // List<UserResult?> cached = userInCache(id);
-   // if(cached.id!= null) {
-     // debugPrint(cached.id.toString()!);
-      //return cached;
-    //}
-    //else{
       try {
         dynamic response = await _apiServices.getGetApiResponse(
             "${baseUrl}users/$id/friends?status=requested");

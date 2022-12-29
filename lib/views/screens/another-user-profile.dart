@@ -9,6 +9,7 @@ import '../../utils/auxArgsObjects/argsRouting.dart';
 import 'package:like_button/like_button.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
+import '../../utils/Session.dart';
 
 class AnotherProfile extends StatelessWidget {
   AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
@@ -17,7 +18,7 @@ class AnotherProfile extends StatelessWidget {
   final double coverHeight = 280;
   final double profileHeight = 144;
   late List <String> usersList = [];
-
+  final Session sessio = Session();
   final AnotherUserViewModel viewModel = AnotherUserViewModel();
 
   @override
@@ -28,7 +29,7 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.requestedUsersById(selectedId);
+    viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.notifyListeners();
     return ChangeNotifierProvider<AnotherUserViewModel>(
@@ -81,12 +82,15 @@ class AnotherProfile extends StatelessWidget {
                           color: MyColorsPalette.lightRed),
                       onPressed: () {
                         if (viewModel.afegit == true) {
-                          viewModel.deleteFriendById('2763', selectedId);
+                          viewModel.deleteFriendById(sessio.data!.id.toString(), selectedId);
+                          var aux = int.parse(selectedId);
+                          sessio.data.requestedId!.remove(aux);
                         }
                         else {
-                          viewModel.putFriendById('2763', selectedId);
+                          viewModel.putFriendById(sessio.data!.id.toString(), selectedId);
+                          var aux = int.parse(selectedId);
+                          sessio.data.requestedId!.add(aux);
                         }
-                        //cridar una funcio al VM i que seteji el boolean i fagi NotifyListeners
                         viewModel.afegit = !viewModel.afegit;
                         viewModel.notifyListeners();
                       },
