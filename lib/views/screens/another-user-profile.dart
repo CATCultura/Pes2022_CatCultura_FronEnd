@@ -29,6 +29,7 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    viewModel.setSessionFriends(sessio.data.id.toString());
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.notifyListeners();
@@ -82,12 +83,12 @@ class AnotherProfile extends StatelessWidget {
                           color: MyColorsPalette.lightRed),
                       onPressed: () {
                         if (viewModel.afegit == true) {
-                          viewModel.deleteFriendById(sessio.data!.id.toString(), selectedId);
+                          viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);
                           sessio.data.requestedId!.remove(aux);
                         }
                         else {
-                          viewModel.putFriendById(sessio.data!.id.toString(), selectedId);
+                          viewModel.putFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);
                           sessio.data.requestedId!.add(aux);
                         }

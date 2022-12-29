@@ -34,10 +34,7 @@ class AnotherUserViewModel with ChangeNotifier{
     debugPrint(response.toString());
     usersRequested = response;
     late List <String> usersList = [];
-    for (int i = 0; i < usersRequested.data!.length; ++i){
-      var aux = int.parse(response.data!.elementAt(i).id!);
-      sessio.data.requestedId!.add(aux);
-    }
+
 
     if(response.status == Status.COMPLETED){
       if (sessio.data.requestedId.toString().contains(id)) afegit = true;
@@ -58,6 +55,19 @@ class AnotherUserViewModel with ChangeNotifier{
     print("before userslist = response (with exit)");
     debugPrint(response.toString());
     usersRequested = response;
+    List<int> aux = [];
+    for (int i = 0; i < usersRequested.data!.length; ++i){
+      var auxiliar = int.parse(response.data!.elementAt(i).id!);
+      aux.add(auxiliar);
+    }
+    sessio.data.requestedId = aux;
+
+    /*for (int i = 0; i < usersRequested.data!.length; ++i){
+      var aux = int.parse(response.data!.elementAt(i).id!);
+      sessio.data.requestedId!.add(aux);
+    }
+     */
+
     //late List <String> usersList = [];
   }
 
@@ -66,7 +76,7 @@ class AnotherUserViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-    Future<void> selectUserById(String id) async{
+  Future<void> selectUserById(String id) async{
     await _usersRepo.getUserById(id).then((value){
       setUsersSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
@@ -80,8 +90,10 @@ class AnotherUserViewModel with ChangeNotifier{
     }).onError((error, stackTrace) =>
         setUsersRequested(ApiResponse.error(error.toString())));
   }
+
+
   Future<void> setSessionFriends(String id) async{
-    await _usersRepo.getListFriends(id).then((value){
+    await _usersRepo.getRequestedsById(id).then((value){
       setSession(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setSession(ApiResponse.error(error.toString())));
