@@ -24,14 +24,26 @@ class StatefulUserTags extends StatefulWidget {
 }
 
 class _StatefulUserTagsState extends State<StatefulUserTags> {
-  bool? musica = false;
-  //true for checked checkbox, flase for unchecked one
   final TagsViewModel viewModel = TagsViewModel();
   late List <String> tagsList = [];
+  List checkedTags = [];
+
+  void _onSelected(bool selected, String category) {
+    if (selected == true) {
+      setState(() {
+        checkedTags.add(category);
+      });
+    } else {
+      setState(() {
+        checkedTags.remove(category);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     viewModel.fetchTagsListApi();
+    tagsList = viewModel.tagsList.data!;
     return ChangeNotifierProvider<TagsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
@@ -74,31 +86,31 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                     viewModel.tagsList.status == Status.COMPLETED? Row(
                       children: <Widget> [
                         Expanded(
-                          child: SizedBox(
+                          child: Container(
                             height: 500.0,
                             child: ListView.builder (
-                                itemCount: viewModel.tagsList.data!.length,
+                                itemCount: tagsList.length,
                                 itemBuilder: (BuildContext context, int i) {
                                   return   CheckboxListTile( //checkbox positioned at right
-                                    value: musica,
+                                    value: checkedTags.contains(tagsList[i]),
                                     onChanged: (bool? value) {
-                                      setState(() {
-                                        musica = value;
-                                      });
+                                        _onSelected(value!, tagsList[i]);
                                     },
-                                    title: Text(viewModel.tagsList.data![i]),
+                                    title: Text(tagsList[i]),
+                                    activeColor: Colors.deepOrangeAccent,
                                   );
                                 }),
                           )
                         ),
                       ],
                     )
-                        : const Text("asdfasdf"),
+                        : const Text("Correct"),
                   ],
                 ),
             ),
         );
     })
     );
-    }
   }
+}
+
