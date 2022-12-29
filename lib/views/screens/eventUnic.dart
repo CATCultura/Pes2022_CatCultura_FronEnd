@@ -9,15 +9,19 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/views/widgets/events/reviewCard.dart';
 //import 'package:CatCultura/views/widgets/datePickerWidget.dart';
-
 //imports per compartir els events.
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-
-
-
+//imports per notificacions
 import 'package:CatCultura/notifications/notificationService.dart';
+//imports per google calendar
+import "package:googleapis_auth/auth_io.dart";
+import 'package:googleapis/calendar/v3.dart' as GCalendar;
+//import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
 import 'dart:math' as math;
 
 import '../../constants/theme.dart';
@@ -352,25 +356,46 @@ class BackgroundSliver extends StatelessWidget {
     );
   }
 }
-
-class Body extends StatelessWidget {
-  const Body({
-    Key? key,
-    required this.size,
+class Body extends StatefulWidget {
+  Body({super.key, required this.size,
     required this.date,
     required this.place,
     required this.descripcio,
     required this.viewModel,
-    required this.event,
-  }) : super(key: key);
+    required this.event,});
 
-  final EventResult event;
+ final EventResult event;
   final Size size;
   final String date;
   final String place;
   final String descripcio;
   final EventUnicViewModel viewModel;
   final String loggedUserId = "2";
+  static const _scopes = const [GCalendar.CalendarApi.calendarScope];
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+// class Body extends StatelessWidget {
+//   const Body({
+//     Key? key,
+//     required this.size,
+//     required this.date,
+//     required this.place,
+//     required this.descripcio,
+//     required this.viewModel,
+//     required this.event,
+//   }) : super(key: key);
+
+  late EventResult event = widget.event;
+  late Size size = widget.size;
+  late String date = widget.date;
+  late String place = widget.place;
+  late String descripcio = widget.descripcio;
+  late EventUnicViewModel viewModel = widget.viewModel;
+  late String loggedUserId = widget.loggedUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -394,6 +419,16 @@ class Body extends StatelessWidget {
             }
              */
             IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.popAndPushNamed(
+                    context, '/opcions-Esdeveniment',
+                    arguments: EventArgs(viewModel.eventSelected.data!));
+                },
+            ),
+
+            IconButton(
               // padding: const EdgeInsets.only(bottom: 5.0),
               iconSize: 40,
               icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
@@ -408,6 +443,13 @@ class Body extends StatelessWidget {
                   // widget.callback!("addAttendance");
                   NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
                 }
+              },
+            ),
+            IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
+              onPressed: () {
+                viewModel.addEventToGoogleCalendar(_scopes);
               },
             ),
             IconButton(
@@ -482,22 +524,30 @@ class Body extends StatelessWidget {
             const SizedBox(
               child: Center(
                   child: CircularProgressIndicator()),
-            ) :viewModel.reviews.status == Status.COMPLETED ? SingleChildScrollView(
+            ) :viewModel.reviews.status == Status.COMPLETED ?
+            SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              child: Column(
-
-                  children: List<ReviewCard>.generate(5, (index) => ReviewCard(review: viewModel.reviews.data![index]))
-                  // children: List.generate(
-                  //     5,
-                  //         (index) => Padding(
-                  //       padding: const EdgeInsets.only(left: 8.0),
-                  //       child: ClipRRect(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //         child: ReviewCard(review: viewModel.reviews.data![index]),
-                  //       ),
-                  //     )
-                  // )
+              child: viewModel.reviews.data!.length>0? Column(
+                  children: List<ReviewCard>.generate(viewModel.reviews.data!.length, (index) => ReviewCard(review: viewModel.reviews.data![index]))
+              ): GestureDetector(
+                onTap:() async {
+                  final value = await Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                  setState(() {
+                    viewModel.getReviews();
+                  });
+                  },
+                child: Center(
+                  child: Material(
+                    elevation: 20,
+                    shadowColor: Colors.black.withAlpha(70),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    child: SizedBox(
+                      height: 300,
+                      child: Text("Encara no hi ha reviews\nvols deixar una?"),
+                    ),
+                  ),
+                )
               ),
             ) : Text(viewModel.reviews.message!),
 
@@ -1007,234 +1057,3 @@ class DataCutRectangle extends StatelessWidget {
 // //         }));
 // //   }
 // // }
-@immutable
-class ExpandableFab extends StatefulWidget {
-  const ExpandableFab({
-    super.key,
-    this.initialOpen,
-    required this.distance,
-    required this.children,
-  });
-
-  final bool? initialOpen;
-  final double distance;
-  final List<Widget> children;
-
-  @override
-  State<ExpandableFab> createState() => _ExpandableFabState();
-}
-
-class _ExpandableFabState extends State<ExpandableFab>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _expandAnimation;
-  bool _open = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _open = widget.initialOpen ?? false;
-    _controller = AnimationController(
-      value: _open ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 250),
-      vsync: this,
-    );
-    _expandAnimation = CurvedAnimation(
-      curve: Curves.fastOutSlowIn,
-      reverseCurve: Curves.easeOutQuad,
-      parent: _controller,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _toggle() {
-    setState(() {
-      _open = !_open;
-      if (_open) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        clipBehavior: Clip.none,
-        children: [
-          _buildTapToCloseFab(),
-          ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTapToCloseFab() {
-    return SizedBox(
-      width: 56.0,
-      height: 56.0,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          child: InkWell(
-            onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildExpandingActionButtons() {
-    final children = <Widget>[];
-    final count = widget.children.length;
-    final step = 90.0 / (count - 1);
-    for (var i = 0, angleInDegrees = 0.0;
-    i < count;
-    i++, angleInDegrees += step) {
-      children.add(
-        _ExpandingActionButton(
-          directionInDegrees: angleInDegrees,
-          maxDistance: widget.distance,
-          progress: _expandAnimation,
-          child: widget.children[i],
-        ),
-      );
-    }
-    return children;
-  }
-
-  Widget _buildTapToOpenFab() {
-    return IgnorePointer(
-      ignoring: _open,
-      child: AnimatedContainer(
-        transformAlignment: Alignment.center,
-        transform: Matrix4.diagonal3Values(
-          _open ? 0.7 : 1.0,
-          _open ? 0.7 : 1.0,
-          1.0,
-        ),
-        duration: const Duration(milliseconds: 250),
-        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
-        child: AnimatedOpacity(
-          opacity: _open ? 0.0 : 1.0,
-          curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
-          duration: const Duration(milliseconds: 250),
-          child: FloatingActionButton(
-            onPressed: _toggle,
-            child: const Icon(Icons.more_horiz),
-            backgroundColor: Colors.red,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-@immutable
-class _ExpandingActionButton extends StatelessWidget {
-  const _ExpandingActionButton({
-    required this.directionInDegrees,
-    required this.maxDistance,
-    required this.progress,
-    required this.child,
-  });
-
-  final double directionInDegrees;
-  final double maxDistance;
-  final Animation<double> progress;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: progress,
-      builder: (context, child) {
-        final offset = Offset.fromDirection(
-          directionInDegrees * (math.pi / 180.0),
-          progress.value * maxDistance,
-        );
-        return Positioned(
-          right: 4.0 + offset.dx,
-          bottom: 4.0 + offset.dy,
-          child: Transform.rotate(
-            angle: (1.0 - progress.value) * math.pi / 2,
-            child: child!,
-          ),
-        );
-      },
-      child: FadeTransition(
-        opacity: progress,
-        child: child,
-      ),
-    );
-  }
-}
-
-@immutable
-class ActionButton extends StatelessWidget {
-  const ActionButton({
-    super.key,
-    this.onPressed,
-    required this.icon,
-  });
-
-  final VoidCallback? onPressed;
-  final Widget icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Material(
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      color: Colors.red,
-      elevation: 4.0,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-        color: theme.colorScheme.onSecondary,
-
-      ),
-    );
-  }
-}
-
-@immutable
-class FakeItem extends StatelessWidget {
-  const FakeItem({
-    super.key,
-    required this.isBig,
-  });
-
-  final bool isBig;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-      height: isBig ? 128.0 : 36.0,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-        color: Colors.grey.shade300,
-      ),
-    );
-  }
-}

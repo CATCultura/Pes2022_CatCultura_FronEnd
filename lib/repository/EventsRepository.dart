@@ -31,10 +31,10 @@ class EventsRepository {
 
   Future<List<EventResult>> getEvents() async {
     try {
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events");
-
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events"); //40.113.160.200:8081
+      // dynamic response = await _apiServices.getGetApiResponse("http://40.113.160.200:8081/events");
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-      debugPrint("print del repositori"+res[0].toString());
+      //debugPrint("print del repositori"+res[0].toString());
       _cachedEvents = res;
 
       return res;
@@ -55,7 +55,7 @@ class EventsRepository {
     // }
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?q=$filter");
-
+      debugPrint(filter);
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
 
       return res;
@@ -203,19 +203,19 @@ class EventsRepository {
     }
   }
 
-  /** Future<String> addEventById(String? eventId, EventResult data) async {
+  Future<String> addEventById(EventResult data) async {
     try{
-      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      dynamic response = await _apiServices.getPutEventApiResponse("${baseUrl}events", data);
       String res = response;
       return res;
     }
     catch(e){
       rethrow;
     }
-  } **/
+  }
 
 
-  Future<List<EventResult>> getRutaCultural(double longitud, double latitud, double radio) async {
+  Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
     // try{
     //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}xxxxxxx");
     //   List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
@@ -229,8 +229,8 @@ class EventsRepository {
     try {
       final random = new Random();
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.375&lon=2.176&day=2022-10-07T00:00:00.000&userId=${session.data.id.toString()}&radius=800");
-      debugPrint(response.toString());
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.375&lon=2.176&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
+      //debugPrint(response.toString());
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
 
@@ -257,25 +257,53 @@ class EventsRepository {
   Future<List<ReviewResult>>getEventReviewsById(String id) async {
     await Future.delayed(Duration(seconds: 2));
     try {
-      // dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
-      // List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
-      debugPrint("lista de reviews");
-      List<ReviewResult> res = [
-        ReviewResult(title: "Title of review 1", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-        score: 5, date: "4-4-4"),
-        ReviewResult(title: "Title of review 2", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-            score: 1, date: "4-4-4"),
-        ReviewResult(title: "Title of review 3", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-            score: 3, date: "4-4-4"),
-        ReviewResult(title: "Title of review 4", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-            score: 2, date: "4-4-4"),
-        ReviewResult(title: "Title of review 5", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-            score: 4, date: "4-4-4"),
-      ];
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
+      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      //debugPrint("lista de reviews");
+      // List<ReviewResult> res = [
+      //   ReviewResult(title: "Title of review 1", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      //   score: 5, date: "4-4-4"),
+      //   ReviewResult(title: "Title of review 2", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      //       score: 1, date: "4-4-4"),
+      //   ReviewResult(title: "Title of review 3", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      //       score: 3, date: "4-4-4"),
+      //   ReviewResult(title: "Title of review 4", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      //       score: 2, date: "4-4-4"),
+      //   ReviewResult(title: "Title of review 5", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      //       score: 4, date: "4-4-4"),
+      // ];
 
       return res;
 
     } catch (r) {
+      rethrow;
+    }
+  }
+
+  Future<bool>saveRutaCultural({String? name, String? description, required List<EventResult> events}) async{
+    try {
+      // final jsonList = events.map((e) => json.encode(e)).toList();
+      // debugPrint(jsonList.toString());
+      final idList = events.map((e) => int.parse(e.id!)).toList();
+      debugPrint(idList.toString());
+      final Map<String, dynamic> data = {'name': name, 'description': description, 'eventIds': idList};
+      debugPrint(jsonEncode(data).toString());
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/${session.data.id}/routes", data);
+      debugPrint("on eventRepository line 288: $response");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> postReview(String id, String title, String review, double rating) async {
+    try {
+      dynamic data = {'title': title, 'review': review, 'stars': rating.toInt()};
+      debugPrint("postReview: $data");
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews?eventId=$id", data);
+      debugPrint("response: $response");
+      return response;
+    } catch (e) {
       rethrow;
     }
   }
