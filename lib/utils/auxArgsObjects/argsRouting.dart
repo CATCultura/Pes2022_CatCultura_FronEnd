@@ -1,3 +1,4 @@
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 
@@ -20,4 +21,9 @@ class AnotherProfileArgs{
   final String selectedUser;
   final String selectedId;
   AnotherProfileArgs(this.selectedUser, this.selectedId);
+}
+
+class EventArgs {
+  final EventResult e;
+  EventArgs(this.e);
 }

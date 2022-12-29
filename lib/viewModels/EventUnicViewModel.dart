@@ -1,11 +1,21 @@
-
+import 'dart:io';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
-
 import '../utils/Session.dart';
+//imports per compartir esdeveniment
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
+//imports per google calendar
+import "package:googleapis_auth/auth_io.dart";
+import 'package:googleapis/calendar/v3.dart' as GCalendar;
+//import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
@@ -26,12 +36,12 @@ class EventUnicViewModel with ChangeNotifier {
 
 
   String usernameSessio() {
-    if(sessio.get("username") == null) return "13658";
+    if(sessio.get("username") == null) return "2";
     return sessio.get("username");
   }
 
   String passwordSessio() {
-    if(sessio.get("password") == null) return "13658";
+    if(sessio.get("password") == null) return "2";
     return sessio.get("password");
   }
 
@@ -56,8 +66,8 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
-    favorit = session.data.favouritesId!.contains(int.parse(id));
-    agenda = session.data.attendanceId!.contains(int.parse(id));
+    if(sessio.data.favouritesId != null)favorit = session.data.favouritesId!.contains(int.parse(id));
+    if(sessio.data.attendanceId != null)agenda = session.data.attendanceId!.contains(int.parse(id));
     debugPrint(favorit? "si en favorit": "no en favorit");
     debugPrint(agenda? "si en agenda": "no en agenda");
     await _eventsRepo.getEventById(id).then((value){
@@ -88,7 +98,6 @@ class EventUnicViewModel with ChangeNotifier {
       }).onError((error, stackTrace) =>
           setFavouriteResult(ApiResponse.error(error.toString())));
     }
-
   }
 
   Future<void> deleteFavouriteById(String userId, String? eventId) async{
@@ -114,6 +123,28 @@ class EventUnicViewModel with ChangeNotifier {
       }).onError((error, stackTrace) => setAttendanceResult(ApiResponse.error(error.toString())));
     }
   }
+
+  shareEvent(var imgUrl, var titol) async {
+    final url = Uri.parse(imgUrl);
+    final response = await http.get(url);
+    final bytes = response.bodyBytes;
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+    File(path).writeAsBytesSync(bytes);
+    await Share.shareFiles([path], text: titol);
+  }
+
+  Future<void> addEventToGoogleCalendar(var _scopes)async{
+    var _credentials;
+    if(Platform.isAndroid){
+      _credentials = new ClientId('falta generar la ID');
+    }
+    else if(Platform.isIOS){
+      _credentials = new ClientId('falta generar la ID');
+    }
+
+
+  }
   // @override
   // void dispose() {
   // }
@@ -129,13 +160,11 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
 
-  /** Future<void> putEventById(String? id, String? d) async {
-    EventResult? e = EventResult();
-    e.denominacio = d;
-    await _eventsRepo.addEventById(id, e); /** .then((value) {
+  Future<void> putEventById(EventResult e) async {
+    await _eventsRepo.addEventById(e); /** .then((value) {
       setEventSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
-  } **/
+  }
 }

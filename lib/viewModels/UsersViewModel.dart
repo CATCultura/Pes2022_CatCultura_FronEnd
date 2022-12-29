@@ -16,7 +16,7 @@ class UsersViewModel with ChangeNotifier{
 
   setUsersList(ApiResponse<List<UserResult>> response){
     print("before userslist = response (with exit)");
-    debugPrint(response.toString());
+    //debugPrint(response.toString());
     usersList = response;
     notifyListeners();
   }

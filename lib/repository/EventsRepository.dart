@@ -31,8 +31,9 @@ class EventsRepository {
 
   Future<List<EventResult>> getEvents() async {
     try {
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events");
-
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events"); //40.113.160.200:8081
+      // dynamic response = await _apiServices.getGetApiResponse("http://40.113.160.200:8081/events");
+      debugPrint("aqui");
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       debugPrint("print del repositori"+res[0].toString());
       _cachedEvents = res;
@@ -55,7 +56,7 @@ class EventsRepository {
     // }
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?q=$filter");
-
+      debugPrint(filter);
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
 
       return res;
@@ -203,19 +204,19 @@ class EventsRepository {
     }
   }
 
-  /** Future<String> addEventById(String? eventId, EventResult data) async {
+  Future<String> addEventById(EventResult data) async {
     try{
-      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      dynamic response = await _apiServices.getPutEventApiResponse("${baseUrl}events", data);
       String res = response;
       return res;
     }
     catch(e){
       rethrow;
     }
-  } **/
+  }
 
 
-  Future<List<EventResult>> getRutaCultural(double longitud, double latitud, double radio) async {
+  Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
     // try{
     //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}xxxxxxx");
     //   List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
@@ -229,8 +230,8 @@ class EventsRepository {
     try {
       final random = new Random();
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.375&lon=2.176&day=2022-10-07T00:00:00.000&userId=${session.data.id.toString()}&radius=800");
-      debugPrint(response.toString());
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.375&lon=2.176&day=$data&userId=${session.data.id.toString()}&radius=$radio");
+      //debugPrint(response.toString());
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
 
@@ -276,6 +277,22 @@ class EventsRepository {
       return res;
 
     } catch (r) {
+      rethrow;
+    }
+  }
+
+  Future<bool>saveRutaCultural({String? name, String? description, required List<EventResult> events}) async{
+    try {
+      // final jsonList = events.map((e) => json.encode(e)).toList();
+      // debugPrint(jsonList.toString());
+      final idList = events.map((e) => int.parse(e.id!)).toList();
+      debugPrint(idList.toString());
+      final Map<String, dynamic> data = {'name': name, 'description': description, 'eventIds': idList};
+      debugPrint(jsonEncode(data).toString());
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/${session.data.id}/routes", data);
+      debugPrint("on eventRepository line 288: $response");
+      return response;
+    } catch (e) {
       rethrow;
     }
   }

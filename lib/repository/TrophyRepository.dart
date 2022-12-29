@@ -35,6 +35,22 @@ class TrophyRepository {
       rethrow;
     }
   }
+
+  Future<List<TrophyResult>> getMyTrophies(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/trophies");
+
+      List<TrophyResult> res = List.from(response.map((e) => TrophyResult.fromJson(e)).toList());
+      _cachedTrophy = res;
+      debugPrint(res.toString());
+      debugPrint("name"+res[0].name!);
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 /* //No existe
   Future<TrophyResult> getTrophyById(String id) async {
     TrophyResult? cached = TrophyInCache(id);
