@@ -152,7 +152,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, '/login');
+                Navigator.popAndPushNamed(context, '/userTags');
               },
               child: const Text(
                 'Ja tinc compte',

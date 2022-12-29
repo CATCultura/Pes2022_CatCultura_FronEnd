@@ -26,7 +26,7 @@ class StatefulUserTags extends StatefulWidget {
 class _StatefulUserTagsState extends State<StatefulUserTags> {
   final TagsViewModel viewModel = TagsViewModel();
   late List <String> tagsList = [];
-  List checkedTags = [];
+  List<String> checkedTags = [];
 
   void _onSelected(bool selected, String category) {
     if (selected == true) {
@@ -83,27 +83,115 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                       child: Center(child: CircularProgressIndicator()),
                     ):
                     viewModel.tagsList.status == Status.ERROR? Text(viewModel.tagsList.toString()):
-                    viewModel.tagsList.status == Status.COMPLETED? Row(
+                    viewModel.tagsList.status == Status.COMPLETED? Column(
                       children: <Widget> [
-                        Expanded(
-                          child: Container(
-                            height: 500.0,
-                            child: ListView.builder (
-                                itemCount: tagsList.length,
-                                itemBuilder: (BuildContext context, int i) {
-                                  return   CheckboxListTile( //checkbox positioned at right
-                                    value: checkedTags.contains(tagsList[i]),
-                                    onChanged: (bool? value) {
-                                        _onSelected(value!, tagsList[i]);
-                                    },
-                                    title: Text(tagsList[i]),
-                                    activeColor: Colors.deepOrangeAccent,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 450.0,
+                                child: ListView.builder (
+                                    itemCount: tagsList.length,
+                                    itemBuilder: (BuildContext context, int i) {
+                                      return SizedBox(
+                                        width: 400,
+                                        height: 90,
+                                        child: Center(
+                                          child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                          children: [
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: Colors.grey,
+                                                      offset: Offset(1.0, 1.0), //Offset
+                                                      blurRadius: 3.0,
+                                                      spreadRadius: 1.0,
+                                                    ), //BoxShadow
+                                                    BoxShadow(
+                                                      color: Colors.white,
+                                                      offset: Offset(0.0, 0.0),
+                                                      blurRadius: 0.0,
+                                                      spreadRadius: 0.0,
+                                                    ), //BoxShadow
+                                                  ],
+                                                ), //BoxDecorationDecoration
+
+                                              child: CheckboxListTile( //checkbox positioned at right
+                                                value: checkedTags.contains(tagsList[i]),
+                                                onChanged: (bool? selected) {
+                                                  bool s = false;
+                                                  if (selected != null) {
+                                                    _onSelected(selected, tagsList[i]);
+                                                  }
+                                                  else {
+                                                    _onSelected(s, tagsList[i]);
+                                                  }
+                                                },
+                                                title: Text(
+                                                  tagsList[i],
+                                                  style: TextStyle(
+                                                    color: Colors.black38,
+                                                    fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                                activeColor: Colors.deepOrangeAccent
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      )
+                                    )
                                   );
                                 }),
-                          )
+                              )
+                            ),
+                          ],
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left:16, top: 30, right:16),
+                          child: Row (
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.popAndPushNamed(context, '/home');
+                                    },
+                                    child: const Text("ARA NO",
+                                      style: TextStyle (
+                                          fontSize: 15,
+                                          letterSpacing: 2.2,
+                                          color:Colors.black
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: ElevatedButton(
+                                    style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
+                                    child: const Text('DESA',
+                                      style: TextStyle (
+                                          fontSize: 15,
+                                          letterSpacing: 2.2,
+                                          color:Colors.white
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.popAndPushNamed(context, '/home');
+                                    },
+                                  ),
+                                ),
+                              ]
+                          ),
                         ),
                       ],
                     )
+
                         : const Text("Correct"),
                   ],
                 ),
@@ -113,4 +201,5 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
     );
   }
 }
+
 
