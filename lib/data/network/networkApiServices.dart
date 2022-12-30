@@ -49,7 +49,7 @@ class NetworkApiServices extends BaseApiServices {
       }
       responseJson = returnResponse(response);
 
-      print(responseJson.toString());
+      // debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
       //responseJsonMock = jsonDecode(jsonMock);
 
@@ -157,6 +157,12 @@ class NetworkApiServices extends BaseApiServices {
         final codeUnits = response.body.codeUnits;
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
+        return res;
+      case 201:
+        final codeUnits = response.body.codeUnits;
+        String text = const Utf8Decoder().convert(codeUnits);
+        dynamic res = jsonDecode(text);
+        debugPrint("from networkApiServices printing response on code 201:\n$res\n");
         return res;
       case 400:
         throw BadRequestException(response.body.toString());

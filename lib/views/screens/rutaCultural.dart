@@ -6,6 +6,8 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/Place.dart';
 import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
 import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
+// import 'package:CatCultura/views/screens/savedRutesCulturals.darts';
+import './savedRutesCulturals.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -310,7 +312,7 @@ class RutaCulturalState extends State<RutaCultural> {
                     FloatingActionButton.extended(
                       heroTag: 'bSavedRoutes',
                       onPressed: () {
-                        _showAction(context, 0);
+                        _navigateAndDisplaySavedRoutes(context);
                       },
                       label: Text('Obrir Rutes Guardades'),
                     ),
@@ -341,6 +343,28 @@ class RutaCulturalState extends State<RutaCultural> {
     // setState(() {
     //
     // });
+  }
+
+
+  Future<void> _navigateAndDisplaySavedRoutes(BuildContext context) async {
+    setState(() {
+      viewModel.rutaGenerada = false;
+    });
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute<RutaCulturalLoadArgs>(
+          builder: (context) => const SavedRutesCulturals()),
+    );
+    if (!mounted) return;
+    setState(() {
+      viewModel.rutaGenerada = true;
+    });
+    viewModel.polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+    await viewModel.loadRutaCultural(result!); //viewModel.generateRutaCultural(result).then((value) => {});
+    viewModel.paintRoute();
+    setState(() {
+
+    });
   }
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>

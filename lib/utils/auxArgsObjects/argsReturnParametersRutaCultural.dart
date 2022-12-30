@@ -1,3 +1,5 @@
+import '../../models/EventResult.dart';
+
 class RutaCulturalArgs {
   final double longitud;
   final double latitud;
@@ -13,4 +15,9 @@ class RutaCulturalSaveArgs{
   bool? canceled = true;
 
   RutaCulturalSaveArgs(this.name, this.description, this.canceled);
+}
+
+class RutaCulturalLoadArgs{
+  List<EventResult>? events = [];
+  RutaCulturalLoadArgs(this.events);
 }

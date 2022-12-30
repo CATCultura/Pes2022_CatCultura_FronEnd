@@ -17,7 +17,7 @@ class ParametersRutaCultural extends StatefulWidget {
 
 class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
   double _currentSliderValue = 0;
-  TextEditingController dateController = TextEditingController(text:DateFormat('dd-MM-yyyy').format(DateTime(2022, 10, 07))); //"2022-10-07T00:00:00.000" //DateFormat('dd-MM-yyyy').format(DateTime.now())
+  TextEditingController dateController = TextEditingController(text:DateFormat('dd-MM-yyyy').format(DateTime(2022, 12, 26))); //"2022-10-07T00:00:00.000" //DateFormat('dd-MM-yyyy').format(DateTime.now())
   /*TextField(
         controller: dateController, //editing controller of this TextField
           decoration: const InputDecoration(
@@ -242,17 +242,29 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
           ),
           Expanded(
               flex: 5,
-              child: Slider(
-                value: _currentSliderValue,
+              child:
+              Slider(
+                value: values[selectedIndex],
                 max: 300,
                 divisions: 5,
-                label: _currentSliderValue == 300? "+∞" : _currentSliderValue.toString(),
+                label: values[selectedIndex] == 300? "+∞" : values[selectedIndex].toString(),
                 onChanged: (double value) {
                   setState(() {
-                    _currentSliderValue = value;
+                    selectedIndex = values.indexOf(value);
                   });
                 },
               )
+              // Slider(
+              //   value: _currentSliderValue,
+              //   max: 300,
+              //   divisions: 5,
+              //   label: _currentSliderValue == 300? "+∞" : _currentSliderValue.toString(),
+              //   onChanged: (double value) {
+              //     setState(() {
+              //       _currentSliderValue = value;
+              //     });
+              //   },
+              // )
             // Slider(
               //   value: 4,//2,//_currentSliderValue,
               //   min: 0,

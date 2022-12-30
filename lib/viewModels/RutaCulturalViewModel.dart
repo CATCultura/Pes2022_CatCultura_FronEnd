@@ -133,4 +133,9 @@ class RutaCulturalViewModel with ChangeNotifier {
     return Status.COMPLETED;
   }
 
+  loadRutaCultural(RutaCulturalLoadArgs result) {
+    if(result.events != null && result.events != []){
+      setEventsList(ApiResponse.completed(result.events));
+    }
+  }
 }
