@@ -36,7 +36,7 @@ class RequestsUserViewModel with ChangeNotifier{
       var auxiliar = int.parse(response.data!.elementAt(i).id!);
       aux.add(auxiliar);
     }
-    sessio.data.receivedId = aux;
+    sessio.data.receivedRequestsIds = aux;
     notifyListeners();
 
     /*

@@ -37,7 +37,7 @@ class AnotherUserViewModel with ChangeNotifier{
 
 
     if(response.status == Status.COMPLETED){
-      if (sessio.data.requestedId.toString().contains(id)) afegit = true;
+      if (sessio.data.sentRequestsIds.toString().contains(id)) afegit = true;
 
      /* for (int i = 0; i < usersRequested.data!.length; ++i) {
         usersList.add(usersRequested.data![i].id!);
@@ -60,7 +60,7 @@ class AnotherUserViewModel with ChangeNotifier{
       var auxiliar = int.parse(response.data!.elementAt(i).id!);
       aux.add(auxiliar);
     }
-    sessio.data.requestedId = aux;
+    sessio.data.sentRequestsIds = aux;
 
     /*for (int i = 0; i < usersRequested.data!.length; ++i){
       var aux = int.parse(response.data!.elementAt(i).id!);

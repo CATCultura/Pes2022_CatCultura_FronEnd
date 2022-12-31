@@ -85,12 +85,12 @@ class AnotherProfile extends StatelessWidget {
                         if (viewModel.afegit == true) {
                           viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);
-                          sessio.data.requestedId!.remove(aux);
+                          sessio.data.sentRequestsIds!.remove(aux);
                         }
                         else {
                           viewModel.putFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);
-                          sessio.data.requestedId!.add(aux);
+                          sessio.data.sentRequestsIds!.add(aux);
                         }
                         viewModel.afegit = !viewModel.afegit;
                         viewModel.notifyListeners();

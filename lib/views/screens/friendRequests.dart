@@ -99,7 +99,7 @@ class FriendRequests extends StatelessWidget {
                               onPressed: () {
                                viewModel.putFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
                                var aux = int.parse(viewModel.usersReceived.data![index].id!);
-                               sessio.data.receivedId!.remove(aux);
+                               sessio.data.receivedRequestsIds!.remove(aux);
                                sessio.data.friendsId!.add(aux);
                               },
                             ),
@@ -117,7 +117,7 @@ class FriendRequests extends StatelessWidget {
                               onPressed: () {
                                 viewModel.deleteFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
                                 var aux = int.parse(viewModel.usersReceived.data![index].id!);
-                                sessio.data.receivedId!.remove(aux);
+                                sessio.data.receivedRequestsIds!.remove(aux);
                               },
                             ),
                           ),
