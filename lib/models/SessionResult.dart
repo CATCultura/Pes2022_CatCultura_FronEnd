@@ -69,8 +69,8 @@ class SessionResult {
     }else{
       attendanceId = [];
     }
-    if(jsonResponse['friendsIds'] != null) {
-      friendsId = (jsonResponse['friendsIds'] as List).map((item) => item as int).toList();
+    if(jsonResponse['friendIds'] != null) {
+      friendsId = (jsonResponse['friendIds'] as List).map((item) => item as int).toList();
     }else {
       friendsId = [];
     }
