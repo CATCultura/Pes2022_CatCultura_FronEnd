@@ -43,9 +43,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
   TextEditingController DocumentsController = TextEditingController();
   TextEditingController VideoController = TextEditingController();
   TextEditingController CodiPostalController = TextEditingController();
-  TextEditingController ComarcaController = TextEditingController();
   TextEditingController EmailController = TextEditingController();
-  TextEditingController LocalitatController = TextEditingController();
   TextEditingController TelefonController = TextEditingController();
   TextEditingController URLController = TextEditingController();
   TextEditingController AppImgController = TextEditingController();
@@ -432,44 +430,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
-                                controller: ComarcaController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Comarca o Municipi',
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              child: TextFormField(
                                 controller: EmailController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Email',
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              child: TextFormField(
-                                controller: LocalitatController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Localitat',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
@@ -564,9 +528,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                     e.documents = DocumentsController.text;
                                     e.videos = VideoController.text;
                                     e.codiPostal = CodiPostalController.text;
-                                    e.comarcaIMunicipi = ComarcaController.text;
                                     e.email = EmailController.text;
-                                    e.localitat = LocalitatController.text;
                                     e.telf = TelefonController.text;
                                     e.URL = URLController.text;
                                     e.imgApp = AppImgController.text;

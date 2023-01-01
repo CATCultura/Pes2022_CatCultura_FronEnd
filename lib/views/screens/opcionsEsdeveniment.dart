@@ -26,16 +26,30 @@ class opcionsEsdeveniment extends StatelessWidget {
 //class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
   String fecha = '';
-  TextEditingController CodiController = TextEditingController();
-  TextEditingController InitialDateController = TextEditingController();
-  TextEditingController FinalDateController = TextEditingController();
-  TextEditingController DenominacioController = TextEditingController();
-  TextEditingController UbicacioController = TextEditingController();
-  TextEditingController AdrecaController = TextEditingController();
-  TextEditingController EspaiController = TextEditingController();
-  TextEditingController DescripcioController = TextEditingController();
-  TextEditingController LatitudController = TextEditingController();
-  TextEditingController LongitudController = TextEditingController();
+  TextEditingController CodiController = TextEditingController();//
+  TextEditingController InitialDateController = TextEditingController();//
+  TextEditingController FinalDateController = TextEditingController();//
+  TextEditingController DenominacioController = TextEditingController();//
+  TextEditingController UbicacioController = TextEditingController();//
+  TextEditingController AdrecaController = TextEditingController();//
+  TextEditingController EspaiController = TextEditingController();//
+  TextEditingController DescripcioController = TextEditingController();//
+  TextEditingController LatitudController = TextEditingController();//
+  TextEditingController LongitudController = TextEditingController();//
+  TextEditingController DataFiAproxController = TextEditingController();//
+  TextEditingController EntradesController = TextEditingController();//
+  TextEditingController HorariController = TextEditingController();//
+  TextEditingController SubtitolController = TextEditingController();//
+  TextEditingController LinkController = TextEditingController();//
+  TextEditingController DocumentsController = TextEditingController();//
+  TextEditingController VideoController = TextEditingController();//
+  TextEditingController CodiPostalController = TextEditingController();//
+  //TextEditingController ComarcaController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();//
+  //TextEditingController LocalitatController = TextEditingController();
+  TextEditingController TelefonController = TextEditingController();//
+  TextEditingController URLController = TextEditingController();//
+  TextEditingController AppImgController = TextEditingController();//
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +64,24 @@ class opcionsEsdeveniment extends StatelessWidget {
     DescripcioController.text = event.descripcio!;
     LatitudController.text = (event.latitud!).toString();
     LongitudController.text = (event.longitud!).toString();
+    //DataFiAproxController.text = event.dataFiAprox!;
+    EntradesController.text = event.entrades!;
+    HorariController.text = event.horari!;
+    SubtitolController.text = event.subtitol!;
+    LinkController.text = event.links!;
+    DocumentsController.text = event.documents!;
+    VideoController.text = event.videos!;
+    CodiPostalController.text = event.codiPostal!;
+    //ComarcaController.text = event.comarcaIMunicipi!;
+    EmailController.text = event.email!;
+    //LocalitatController.text = event.localitat!;
+    TelefonController.text = event.telf!;
+    URLController.text = event.URL!;
+    AppImgController.text = event.imgApp!;
+    //List<String>? tagsAmbits = event.tagsAmbits!;
+    //List<String>? tagsCateg = event.tagsCateg!;
+    //List<String>? tagsAltresCateg = event.tagsAltresCateg!;
+    //List<String>? imatges = event.imatges!;
 
     print(event.id!);
     print(CodiController.text);
@@ -334,19 +366,37 @@ class opcionsEsdeveniment extends StatelessWidget {
                                     MyColorsPalette.orange)),
                               child: const Text('Modificar'),
                               onPressed: () {
-                                EventResult? e = EventResult();
-                                e.id = "3472"; //event.id;
-                                e.denominacio = DenominacioController.text;
-                                e.codi = CodiController.text;
-                                e.dataFi = FinalDateController.text;
-                                e.dataInici = InitialDateController.text;
-                                e.adreca = AdrecaController.text;
-                                e.espai = EspaiController.text;
-                                e.ubicacio = UbicacioController.text;
-                                e.descripcio = DescripcioController.text;
-                                e.latitud = double.parse(LatitudController.text);
-                                e.longitud = double.parse(LongitudController.text);
-                                viewModel.putEventById(e);
+                                event.id = "3472"; //event.id;
+                                event.denominacio = DenominacioController.text;
+                                event.codi = CodiController.text;
+                                event.dataFi = FinalDateController.text;
+                                event.dataInici = InitialDateController.text;
+                                event.adreca = AdrecaController.text;
+                                event.espai = EspaiController.text;
+                                event.ubicacio = UbicacioController.text;
+                                event.descripcio = DescripcioController.text;
+                                event.latitud = double.parse(LatitudController.text);
+                                event.longitud = double.parse(LongitudController.text);
+                                event.dataFiAprox = "dema"; //DataFiAproxController.text;
+                                event.entrades = EntradesController.text;
+                                event.horari = HorariController.text;
+                                event.subtitol = SubtitolController.text;
+                                event.links = LinkController.text;
+                                event.documents = DocumentsController.text;
+                                event.videos = VideoController.text;
+                                event.codiPostal = CodiPostalController.text;
+                                //e.comarcaIMunicipi = ComarcaController.text;
+                                event.email = EmailController.text;
+                                //e.localitat = LocalitatController.text;
+                                event.telf = TelefonController.text;
+                                event.URL = URLController.text;
+                                event.imgApp = AppImgController.text;
+                                event.cancelado = false;
+                                //e.tagsCateg = tagsAmbits;
+                                //e.tagsCateg = tagsCateg;
+                                //e.tagsAltresCateg = tagsAltresCateg;
+                                //e.imatges = imatges;
+                                viewModel.putEventById(event);
                                 Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                               },
                             ),

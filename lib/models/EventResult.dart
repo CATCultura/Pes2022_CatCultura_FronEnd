@@ -73,7 +73,7 @@ class EventResult {
     this.URL,
     this.ubicacio,
     this.imgApp,
-    this.cancelado
+    //this.cancelado
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
@@ -129,8 +129,8 @@ class EventResult {
       'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
       'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
       'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
-      'videos': videos, 'codiPostal': codiPostal, 'comarcaIMunicipi': comarcaIMunicipi, 'email': email,
-      'localitat': localitat, 'telf': telf, 'URL': URL, 'imgApp': imgApp }
+      'videos': videos, 'codiPostal': codiPostal, 'email': email, 'telf': telf, 'URL': URL, 'imgApp': imgApp,
+        'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges }
     ];
     return result;
   }
