@@ -1,6 +1,6 @@
 //import 'dart:html';
 
-import 'package:flutter/material.dart';
+import  'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +43,7 @@ class _xatState extends State<Xat> {
   @override
   void initState() {
     super.initState();
-    _socket = IO.io('http://10.0.2.2:3000',
+    _socket = IO.io('http://10.4.41.41:8081/chat',
         IO.OptionBuilder().setTransports(['websocket']).setQuery({'username': "PolYate"}).build());
     _connectSocket();
   }
@@ -122,7 +122,7 @@ class _xatState extends State<Xat> {
                     child: TextField(
                       controller: _messageInputController,
                       decoration: const InputDecoration(
-                        hintText: 'Escriu el missatge aqui ...',
+                        hintText: 'Escriu el missatge aqui',
                         border: InputBorder.none,
                       ),
                     ),
