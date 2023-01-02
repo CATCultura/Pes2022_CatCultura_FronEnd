@@ -46,7 +46,7 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   setEventSelected(ApiResponse<EventResult> response){
-    debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
+    debugPrint("event selected with status: ${response.status}, id: ${response.data!.id} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
     eventSelected = response;
     notifyListeners();
   }
@@ -57,9 +57,9 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   setReviews(ApiResponse<List<ReviewResult>> response) {
-    for (var e in response.data!) {
-      debugPrint(e.title);
-    }
+    // for (var e in response.data!) {
+    //   debugPrint(e.title);
+    // }
     reviews = response;
     notifyListeners();
   }
@@ -76,7 +76,15 @@ class EventUnicViewModel with ChangeNotifier {
         setEventSelected(ApiResponse.error(error.toString())));
     await _eventsRepo.getEventReviewsById(id).then((value){
       setReviews(ApiResponse.completed(value));
-    })  ;
+    });
+  }
+
+  Future<void> getReviews() async {
+    reviews.status = Status.LOADING;
+    notifyListeners();
+    await _eventsRepo.getEventReviewsById(eventSelected.data!.id!).then((value){
+      setReviews(ApiResponse.completed(value));
+    });
   }
 
   setFavouriteResult(ApiResponse<String> response){

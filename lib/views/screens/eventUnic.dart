@@ -356,19 +356,15 @@ class BackgroundSliver extends StatelessWidget {
     );
   }
 }
-
-class Body extends StatelessWidget {
-  const Body({
-    Key? key,
-    required this.size,
+class Body extends StatefulWidget {
+  Body({super.key, required this.size,
     required this.date,
     required this.place,
     required this.descripcio,
     required this.viewModel,
-    required this.event,
-  }) : super(key: key);
+    required this.event,});
 
-  final EventResult event;
+ final EventResult event;
   final Size size;
   final String date;
   final String place;
@@ -376,6 +372,30 @@ class Body extends StatelessWidget {
   final EventUnicViewModel viewModel;
   final String loggedUserId = "2";
   static const _scopes = const [GCalendar.CalendarApi.calendarScope];
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+// class Body extends StatelessWidget {
+//   const Body({
+//     Key? key,
+//     required this.size,
+//     required this.date,
+//     required this.place,
+//     required this.descripcio,
+//     required this.viewModel,
+//     required this.event,
+//   }) : super(key: key);
+
+  late EventResult event = widget.event;
+  late Size size = widget.size;
+  late String date = widget.date;
+  late String place = widget.place;
+  late String descripcio = widget.descripcio;
+  late EventUnicViewModel viewModel = widget.viewModel;
+  late String loggedUserId = widget.loggedUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -504,22 +524,30 @@ class Body extends StatelessWidget {
             const SizedBox(
               child: Center(
                   child: CircularProgressIndicator()),
-            ) :viewModel.reviews.status == Status.COMPLETED ? SingleChildScrollView(
+            ) :viewModel.reviews.status == Status.COMPLETED ?
+            SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              child: Column(
-
-                  children: List<ReviewCard>.generate(5, (index) => ReviewCard(review: viewModel.reviews.data![index]))
-                  // children: List.generate(
-                  //     5,
-                  //         (index) => Padding(
-                  //       padding: const EdgeInsets.only(left: 8.0),
-                  //       child: ClipRRect(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //         child: ReviewCard(review: viewModel.reviews.data![index]),
-                  //       ),
-                  //     )
-                  // )
+              child: viewModel.reviews.data!.length>0? Column(
+                  children: List<ReviewCard>.generate(viewModel.reviews.data!.length, (index) => ReviewCard(review: viewModel.reviews.data![index]))
+              ): GestureDetector(
+                onTap:() async {
+                  final value = await Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                  setState(() {
+                    viewModel.getReviews();
+                  });
+                  },
+                child: Center(
+                  child: Material(
+                    elevation: 20,
+                    shadowColor: Colors.black.withAlpha(70),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    child: SizedBox(
+                      height: 300,
+                      child: Text("Encara no hi ha reviews\nvols deixar una?"),
+                    ),
+                  ),
+                )
               ),
             ) : Text(viewModel.reviews.message!),
 
