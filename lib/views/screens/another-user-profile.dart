@@ -29,7 +29,8 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //viewModel.setSessionFriends(sessio.data.id.toString());
+    //viewModel.setSessionRequests(sessio.data.id.toString());
+    viewModel.setMyFriends(sessio.data.id.toString());
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.notifyListeners();

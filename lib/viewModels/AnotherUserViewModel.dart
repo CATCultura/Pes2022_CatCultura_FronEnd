@@ -15,7 +15,7 @@ class AnotherUserViewModel with ChangeNotifier{
   ApiResponse<String> addFriendResult = ApiResponse.loading();
   ApiResponse<List<UserResult>> usersRequested = ApiResponse.loading();
   bool afegit = false;
-  bool requested = false;
+  bool friend = false;
   String id = '';
   final Session sessio = Session();
 
@@ -35,9 +35,9 @@ class AnotherUserViewModel with ChangeNotifier{
     usersRequested = response;
     late List <String> usersList = [];
 
-
     if(response.status == Status.COMPLETED){
       if (sessio.data.sentRequestsIds.toString().contains(id)) afegit = true;
+      if (sessio.data.friendsId.toString().contains(id)) friend = true;
 
      /* for (int i = 0; i < usersRequested.data!.length; ++i) {
         usersList.add(usersRequested.data![i].id!);
@@ -47,7 +47,10 @@ class AnotherUserViewModel with ChangeNotifier{
       if (usersList.contains(id)) afegit = true;
       */
     }
-    else if (response.status == Status.ERROR) afegit = false;
+    else if (response.status == Status.ERROR){
+      afegit = false;
+      if (sessio.data.friendsId.toString().contains(id)) friend = true;
+    }
     notifyListeners();
   }
 
@@ -71,6 +74,18 @@ class AnotherUserViewModel with ChangeNotifier{
     //late List <String> usersList = [];
   }
 
+  setSessionFriends(ApiResponse<List<UserResult>> response) {
+    print("before userslist = response (with exit)");
+    debugPrint(response.toString());
+    usersRequested = response;
+    List<int> aux = [];
+    for (int i = 0; i < usersRequested.data!.length; ++i){
+      var auxiliar = int.parse(response.data!.elementAt(i).id!);
+      aux.add(auxiliar);
+    }
+    sessio.data.friendsId = aux;
+  }
+
   setFriendResult(ApiResponse<String> response){
     addFriendResult = response;
     notifyListeners();
@@ -91,12 +106,20 @@ class AnotherUserViewModel with ChangeNotifier{
         setUsersRequested(ApiResponse.error(error.toString())));
   }
 
-
-  Future<void> setSessionFriends(String id) async{
+/*
+  Future<void> setSessionRequests(String id) async{
     await _usersRepo.getRequestedsById(id).then((value){
       setSession(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setSession(ApiResponse.error(error.toString())));
+  }
+ */
+
+  Future<void> setMyFriends(String id) async{
+    await _usersRepo.getFriendsById(id).then((value){
+      setSessionFriends(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setSessionFriends(ApiResponse.error(error.toString())));
   }
 
 

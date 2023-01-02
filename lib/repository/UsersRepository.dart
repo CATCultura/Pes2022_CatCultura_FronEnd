@@ -86,7 +86,7 @@ class UsersRepository {
     }
   }
 
-
+/*
   Future<List<UserResult>> getListFriends(String id) async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(
@@ -98,7 +98,19 @@ class UsersRepository {
       rethrow;
     }
   }
+ */
 
+  Future<List<UserResult>> getFriendsById(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/$id/friends?status=accepted");
+      List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
+
+      return res;//UserResult.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<List<UserResult>> getRequestedsById(String id) async {
       try {
