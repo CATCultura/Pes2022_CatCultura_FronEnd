@@ -4,12 +4,14 @@ import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/viewModels/RequestsUserViewModel.dart';
 import '../../data/response/apiResponse.dart';
+import '../../utils/Session.dart';
 
 
 class FriendRequests extends StatelessWidget {
 
   final RequestsUserViewModel viewModel = RequestsUserViewModel();
   late List <String> usersList = [];
+  final Session sessio = Session();
 
   @override
   void initState() {
@@ -18,9 +20,8 @@ class FriendRequests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     List names = ["Juanito Perez", "Agustí Gàllego", "SuperJuane"];
-    viewModel.receivedUsersById('2764');
+    viewModel.receivedUsersById(sessio.data.id.toString());
     //if (viewModel.usersReceived.status == Status.COMPLETED) {
    /*   for (var i = 0; i < 1; i++) {
         usersList.add(viewModel.usersReceived.data![i].username);
@@ -96,7 +97,10 @@ class FriendRequests extends StatelessWidget {
                                 color: Colors.green,
                               ),
                               onPressed: () {
-                               viewModel.putFriendById('2764', viewModel.usersReceived.data![index].id!);
+                               viewModel.putFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
+                               var aux = int.parse(viewModel.usersReceived.data![index].id!);
+                               sessio.data.receivedRequestsIds!.remove(aux);
+                               sessio.data.friendsId!.add(aux);
                               },
                             ),
                           ),
@@ -111,7 +115,9 @@ class FriendRequests extends StatelessWidget {
                                   color: Colors.red,
                               ),
                               onPressed: () {
-                                viewModel.deleteFriendById('2764', viewModel.usersReceived.data![index].id!);
+                                viewModel.deleteFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
+                                var aux = int.parse(viewModel.usersReceived.data![index].id!);
+                                sessio.data.receivedRequestsIds!.remove(aux);
                               },
                             ),
                           ),
