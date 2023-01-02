@@ -68,10 +68,8 @@ class AnotherProfile extends StatelessWidget {
                   viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
                   viewModel.usersRequested.status == Status.COMPLETED?
                  Row(
-                  //viewModel.usersRequested.data!;
-
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+                  children: viewModel.friend==false? <Widget>[
                     const Text (
                       'Afegir amic:  ',
                       style: TextStyle(
@@ -99,7 +97,15 @@ class AnotherProfile extends StatelessWidget {
 
 
                       ) : Text("a"),
-                    ],
+                    ]:
+                      <Widget>[
+                        const Text(
+                         'Ja sou amics!',
+                         style: TextStyle(
+                             fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                        ),
+                      ],
+
                   ) : const Text(""),
 
 
