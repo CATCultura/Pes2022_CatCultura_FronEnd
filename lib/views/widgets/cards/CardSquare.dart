@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:CatCultura/constants/theme.dart';
 
-class CardSquare extends StatelessWidget {
-  const CardSquare(
-      {super.key, this.title = "Placeholder Title",
-        this.cta = "",
-        this.img = "https://via.placeholder.com/200",
-        this.tap = defaultFunc});
+import '../../../models/EventResult.dart';
+import '../../../utils/auxArgsObjects/argsRouting.dart';
 
-  final String cta;
-  final String img;
-  final Function tap;
-  final String title;
+class CardSquare extends StatelessWidget {
+  final EventResult event;
+
+  const CardSquare(this.event, {super.key});
 
   static void defaultFunc() {
     print("the function works!");
@@ -23,7 +19,14 @@ class CardSquare extends StatelessWidget {
         height: 250,
         width: null,
         child: GestureDetector(
-          onTap: defaultFunc,
+          onTap: () {
+            Navigator.pushNamed(context, "/eventUnic",
+                arguments: EventUnicArgs(event.id!)).then((_){
+              /*setState((){
+
+                    });*/
+            });
+          },
           child: Card(
               elevation: 0.4,
               shape: RoundedRectangleBorder(
@@ -32,14 +35,14 @@ class CardSquare extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                      flex: 3,
+                      flex: 2,
                       child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(6.0),
                                   topRight: Radius.circular(6.0)),
                               image: DecorationImage(
-                                image: NetworkImage(img),
+                                image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imgApp!}"),
                                 fit: BoxFit.cover,
                               )))),
                   Flexible(
@@ -47,19 +50,22 @@ class CardSquare extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 8.0, bottom: 8.0, left: 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(title,
-                                style: TextStyle(
-                                    color: MyColors.header, fontSize: 13)),
-                            Text(cta,
-                                style: TextStyle(
-                                    color: MyColors.primary,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600))
-                          ],
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(event.denominacio!,
+                                  style: TextStyle(
+                                      color: MyColors.header, fontSize: 15)),
+                              Text(event.descripcio!,
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                      color: MyColors.text,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600))
+                            ],
+                          ),
                         ),
                       ))
                 ],

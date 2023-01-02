@@ -19,6 +19,7 @@ class SessionResult {
   List<int>? upvotedReviewsId = [];
   List<int>? attendedId = [];
   List<int>? reportedReviews = [];
+  List<String>? tags = [];
 
 
   SessionResult({
@@ -85,6 +86,11 @@ class SessionResult {
       reportedReviews = (jsonResponse['reportedReviewIds'] as List).map((item) => item as int).toList();
     }else {
       reportedReviews = [];
+    }
+    if (jsonResponse['tags'] != null) {
+      tags = (jsonResponse['tags'] as List).map((item) => item as String).toList();
+    } else {
+      tags = [];
     }
 
   }

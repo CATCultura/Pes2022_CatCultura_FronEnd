@@ -449,7 +449,7 @@ class _BodyState extends State<Body> {
               iconSize: 40,
               icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
               onPressed: () {
-                viewModel.addEventToGoogleCalendar(_scopes);
+                // viewModel.addEventToGoogleCalendar(_scopes);
               },
             ),
             IconButton(

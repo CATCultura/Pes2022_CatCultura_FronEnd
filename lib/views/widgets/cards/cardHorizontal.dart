@@ -1,21 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:CatCultura/constants/theme.dart';
 
-class CardHorizontal extends StatelessWidget {
-  const CardHorizontal(
-      {this.title = "Placeholder Title",
-      this.cta = "",
-      this.backcolor = MyColors.lightBlue,
-      this.img =
-          "https://media.istockphoto.com/photos/arizona-state-fair-picture-id1008794422?k=20&m=1008794422&s=612x612&w=0&h=LBWbyxQnvWb5hSeLsi1-eFyoiKCTZqpj3Jb3YmtE2Hg=",
-      this.onTap = defaultFunc});
+import '../../../models/EventResult.dart';
+import '../../../utils/auxArgsObjects/argsRouting.dart';
 
-  final String cta;
-  final String img;
-  final Color backcolor;
-  final Function onTap;
-  final String title;
+class CardHorizontal extends StatelessWidget {
+  final EventResult event;
+
+  const CardHorizontal(this.event, {super.key});
+
 
   static void defaultFunc() {
     print("the function works!");
@@ -24,12 +20,20 @@ class CardHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 130,
+        height: 150,
         child: GestureDetector(
-          onTap: defaultFunc,
+          onTap: () {
+            Navigator.pushNamed(context, "/eventUnic",
+                arguments: EventUnicArgs(event.id!)).then((_){
+              /*setState((){
+
+                    });*/
+            });
+          },
           child: Card(
-            color: backcolor,
+            color: Colors.white,
             elevation: 0.6,
+
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(6.0))),
             child: Row(
@@ -42,37 +46,34 @@ class CardHorizontal extends StatelessWidget {
                               topLeft: Radius.circular(6.0),
                               bottomLeft: Radius.circular(6.0)),
                           image: DecorationImage(
-                            image: NetworkImage(img),
-                            fit: BoxFit.cover,
+                            image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
+                            fit: BoxFit.fitHeight,
+                            alignment: Alignment.centerLeft
                           ))),
                 ),
                 Flexible(
-                    flex: 1,
+                    flex: 4,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(title,
+                          Text(event.denominacio!,
                               style: const TextStyle(
-                                  color: MyColors.header, fontSize: 13)),
-                          TextButton(
-                              onPressed: () => showModal(
-                                configuration: const FadeScaleTransitionConfiguration(
-                                  transitionDuration: Duration(milliseconds: 500),
-                                ),
-                                context: context,
-                                builder: (ctx) => const AlertDialog(
-                                  title: Text('BUTTON WORKS'),
-                                  content: Text('The button Prueba works'),
-                                ),
-                              ),
-                              child: Text(cta,
-                                  style: const TextStyle(
-                                      color: MyColors.primary,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600)))
+                                  color: MyColors.header, fontSize: 13),
+                                  textAlign: TextAlign.left,
+                          ),
+                          const Divider(thickness: 4, height: 1, indent: 5,),
+                          Flexible(
+                            flex:1,
+                            child: Text("${event.descripcio!.substring(0,min(event.descripcio!.length,150))}...",
+                              style: const TextStyle(
+                                  color: MyColors.text, fontSize: 13),
+                                  textAlign: TextAlign.justify,
+
+                            ),
+                          )
                         ],
                       ),
                     ))
