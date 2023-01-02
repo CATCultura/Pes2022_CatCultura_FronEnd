@@ -60,54 +60,24 @@ class HomeViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  void addToEventsList(ApiResponse<List<EventResult>> apiResponse) {
-    if(apiResponse.status == Status.COMPLETED && eventsList.status == Status.COMPLETED){
-      chargingNextPage = false;
-      List<EventResult> aux = eventsList.data!;
-      aux.addAll(apiResponse.data!);
-      eventsList = ApiResponse.completed(aux);
-      mantaintEventsListToMap();
-      //loadedPages.add(lastPage()+1);
-    }
-    notifyListeners();
-  }
+  List<String> auxTags = ["arts-visuals", "espectacles", "nadal"];
 
 
   Future<void> fetchEvents() async {
-    if (session.data.id == -1) {
-      await _eventsRepo.getEvents().then((value) {
-        setEventsList(ApiResponse.completed(value));
-      }).onError((error, stackTrace) =>
-          setEventsList(ApiResponse.error(error.toString())));
-    }
-    else {
-      if (session.data.tags != null) {
-        for (int i = 0; i < max(3,session.data.tags!.length); ++i) {
-          await _eventsRepo.getEventsByTag(session.data.tags![i]).then((value) {
-            setEventTagList(ApiResponse.completed(value), session.data.tags![i]);
-          }).onError((error, stackTrace) =>
-              setEventsList(ApiResponse.error(error.toString())));
-        }
+    await _eventsRepo.getEvents().then((value) {
+      setEventsList(ApiResponse.completed(value));
+  }).onError((error, stackTrace) =>
+        setEventsList(ApiResponse.error(error.toString())));
+    if (session.data.id != -1 && auxTags != null) {
+      for (int i = 0; i < max(3,auxTags.length); ++i) {
+        await _eventsRepo.getEventsByTag(auxTags[i]).then((value) {
+          setEventTagList(ApiResponse.completed(value), auxTags[i]);
+        }).onError((error, stackTrace) =>
+            setEventsList(ApiResponse.error(error.toString())));
       }
     }
-    if(loadedPages.isEmpty) {
-      loadedPages.add(0);
-      await _eventsRepo.getEvents().then((value) {
-        setEventsList(ApiResponse.completed(value));
-      }).onError((error, stackTrace) =>
-          setEventsList(ApiResponse.error(error.toString())));
-      count++;
-      debugPrint("EvViewModel. times accesed fetchEvents: $count");
     }
-    else{
-      debugPrint("--all list : ${loadedPages}");
-      debugPrint("--charging next page: ${lastPage()}");
-      await _eventsRepo.getEventsWithParameters(lastPage(),null, null).then((value) {
-        addToEventsList(ApiResponse.completed(value));
-      }).onError((error, stackTrace) =>
-          setEventsList(ApiResponse.error(error.toString())));
-    }
-  }
+
 
   Future<void> redrawWithFilter(String filter) async{
     await _eventsRepo.getEventsWithFilter(filter).then((value) {
