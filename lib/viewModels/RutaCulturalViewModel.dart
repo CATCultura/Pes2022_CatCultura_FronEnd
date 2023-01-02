@@ -133,9 +133,15 @@ class RutaCulturalViewModel with ChangeNotifier {
     return Status.COMPLETED;
   }
 
-  loadRutaCultural(RutaCulturalLoadArgs result) {
+  Future<bool> loadRutaCultural(RutaCulturalLoadArgs result) async {
     if(result.events != null && result.events != []){
       setEventsList(ApiResponse.completed(result.events));
+      await paintRoute().then((value){
+        polylines.status = value;
+        notifyListeners();
+      });
+      return true;
     }
+    return false;
   }
 }

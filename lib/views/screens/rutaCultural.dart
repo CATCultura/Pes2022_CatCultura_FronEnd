@@ -56,24 +56,6 @@ class RutaCulturalState extends State<RutaCultural> {
     });
   }
 
-  final _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
-  void _showAction(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RutaCulturalViewModel>(
@@ -105,7 +87,7 @@ class RutaCulturalState extends State<RutaCultural> {
                     : viewModel.eventsListMap.status == Status.COMPLETED &&
                             viewModel.polylines.status == Status.COMPLETED
                         ? GoogleMap(
-                            zoomControlsEnabled: false,
+                            //zoomControlsEnabled: false,
                             myLocationEnabled: false,
                             mapType: MapType.normal,
                             initialCameraPosition: viewModel.iniCameraPosition,
@@ -113,6 +95,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             polylines:
                                 Set<Polyline>.of(viewModel.polylines.data!.values),
                             onMapCreated: (GoogleMapController controller) {
+                              debugPrint("rutaCultutal - no breakpoint available - Creating routed google map");
                               //for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                               if (!_controller.isCompleted)
                                 _controller.complete(controller);
@@ -129,11 +112,12 @@ class RutaCulturalState extends State<RutaCultural> {
                             initialCameraPosition: viewModel.iniCameraPosition,
                             markers: viewModel.markers,
                             onMapCreated: (GoogleMapController controller) {
+                              debugPrint("rutaCultutal - no breakpoint available - Creating basic empty google map");
                               _controller.complete(controller);
                               //_manager.setMapId(controller.mapId);
                             },
                             //onCameraMove: _manager.onCameraMove,
-                            //onCameraIdle: _manager.updateMap),
+                            onCameraIdle: _manager.updateMap,
                           ),
                 floatingActionButton: ExpandableFab(
                   distance: 112.0,
@@ -349,6 +333,7 @@ class RutaCulturalState extends State<RutaCultural> {
   Future<void> _navigateAndDisplaySavedRoutes(BuildContext context) async {
     setState(() {
       viewModel.rutaGenerada = false;
+      viewModel.eventsListMap.status = Status.LOADING;
     });
     final result = await Navigator.push(
       context,
@@ -360,8 +345,15 @@ class RutaCulturalState extends State<RutaCultural> {
       viewModel.rutaGenerada = true;
     });
     viewModel.polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
-    await viewModel.loadRutaCultural(result!); //viewModel.generateRutaCultural(result).then((value) => {});
-    viewModel.paintRoute();
+    if(result != null) {
+      bool b = await viewModel.loadRutaCultural(result);
+      if(b) {
+        //viewModel.paintRoute();
+        debugPrint(viewModel.eventsListMap.data!.toString());
+        _manager.setItems(viewModel.eventsListMap.data!);
+        //_manager.updateMap();
+      }
+    }
     setState(() {
 
     });
