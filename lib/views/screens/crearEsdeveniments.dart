@@ -51,7 +51,6 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.fetchEvents();
     return ChangeNotifierProvider<EventsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventsViewModel>(builder: (context, value, _) {
@@ -532,6 +531,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                     e.telf = TelefonController.text;
                                     e.URL = URLController.text;
                                     e.imgApp = AppImgController.text;
+                                    e.tagsAmbits = [];
+                                    e.tagsCateg = [];
+                                    e.tagsAltresCateg = [];
+                                    e.imatges = [];
                                     viewModel.crearEvent(e);
                                     Navigator.popAndPushNamed(context, '/home');
                                   }
@@ -548,11 +551,11 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                   ),
                 ),
               )
-                  : viewModel.events.status == Status.LOADING? const SizedBox(
+                  : viewModel.eventsList.status == Status.LOADING? const SizedBox(
                       child: Center(child: CircularProgressIndicator()),
               )
-                  : viewModel.events.status == Status.ERROR? Text(viewModel.events.toString())
-                  : viewModel.events.status == Status.COMPLETED? EventCreat(): Text ("Esdeveniment creat")
+                  : viewModel.eventsList.status == Status.ERROR? Text(viewModel.eventsList.toString())
+                  : viewModel.eventsList.status == Status.COMPLETED? EventCreat(): Text ("Esdeveniment creat")
             ),
           );
         }));

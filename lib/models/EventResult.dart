@@ -17,9 +17,9 @@ class EventResult {
   String? entrades = "";
   String? horari = "";
   String? subtitol = "";
-  List<String>? tagsAmbits;
-  List<String>? tagsCateg;
-  List<String>? tagsAltresCateg;
+  List<String>? tagsAmbits = [];
+  List<String>? tagsCateg = [];
+  List<String>? tagsAltresCateg = [];
   String? links = "";
   String? documents = "";
   List<String>? imatges = [];
@@ -37,6 +37,12 @@ class EventResult {
   String? ubicacio = "ubicacio: no info";
   String? imgApp = "";
   bool? cancelado = false;
+  bool? outdated = false;
+  String? nomOrganitzador;
+  String? urlOrganitzador;
+  String? telefonOrganitzador;
+  String? emailOrganitzador;
+  String? idOrganitzador;
 
 
   EventResult({
@@ -74,6 +80,11 @@ class EventResult {
     this.ubicacio,
     this.imgApp,
     //this.cancelado
+    this.nomOrganitzador,
+    this.urlOrganitzador,
+    this.telefonOrganitzador,
+    this.emailOrganitzador,
+    this.idOrganitzador
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
@@ -120,6 +131,12 @@ class EventResult {
     espai = jsonResponse['espai'];
     //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";
     cancelado = jsonResponse['cancelado'];
+    if(jsonResponse['nomOrganitzador'] != null)nomOrganitzador = jsonResponse['nomOrganitzador'];
+    if(jsonResponse['urlOrganitzador'] != null)urlOrganitzador = jsonResponse['urlOrganitzador'];
+    if(jsonResponse['telefonOrganitzador'] != null)telefonOrganitzador = jsonResponse['telefonOrganitzador'];
+    if(jsonResponse['emailOrganitzador'] != null)emailOrganitzador = jsonResponse['emailOrganitzador'];
+    if(jsonResponse['idOrganitzador'] != null)idOrganitzador = jsonResponse['idOrganitzador'].toString();
+    outdated = jsonResponse['outdated'];
 
   }
 
@@ -130,7 +147,8 @@ class EventResult {
       'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
       'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
       'videos': videos, 'codiPostal': codiPostal, 'email': email, 'telf': telf, 'URL': URL, 'imgApp': imgApp,
-        'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges }
+        'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges,
+      }
     ];
     return result;
   }

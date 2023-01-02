@@ -36,7 +36,7 @@ class opcionsEsdeveniment extends StatelessWidget {
   TextEditingController DescripcioController = TextEditingController();//
   TextEditingController LatitudController = TextEditingController();//
   TextEditingController LongitudController = TextEditingController();//
-  TextEditingController DataFiAproxController = TextEditingController();//
+  /** TextEditingController DataFiAproxController = TextEditingController();//
   TextEditingController EntradesController = TextEditingController();//
   TextEditingController HorariController = TextEditingController();//
   TextEditingController SubtitolController = TextEditingController();//
@@ -49,7 +49,7 @@ class opcionsEsdeveniment extends StatelessWidget {
   //TextEditingController LocalitatController = TextEditingController();
   TextEditingController TelefonController = TextEditingController();//
   TextEditingController URLController = TextEditingController();//
-  TextEditingController AppImgController = TextEditingController();//
+  TextEditingController AppImgController = TextEditingController();// **/
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +65,19 @@ class opcionsEsdeveniment extends StatelessWidget {
     LatitudController.text = (event.latitud!).toString();
     LongitudController.text = (event.longitud!).toString();
     //DataFiAproxController.text = event.dataFiAprox!;
-    EntradesController.text = event.entrades!;
-    HorariController.text = event.horari!;
-    SubtitolController.text = event.subtitol!;
-    LinkController.text = event.links!;
-    DocumentsController.text = event.documents!;
-    VideoController.text = event.videos!;
-    CodiPostalController.text = event.codiPostal!;
+    //EntradesController.text = event.entrades!;
+    //HorariController.text = event.horari!;
+    //SubtitolController.text = event.subtitol!;
+    //LinkController.text = event.links!;
+    //DocumentsController.text = event.documents!;
+    //VideoController.text = event.videos!;
+    //CodiPostalController.text = event.codiPostal!;
     //ComarcaController.text = event.comarcaIMunicipi!;
-    EmailController.text = event.email!;
+    //EmailController.text = event.email!;
     //LocalitatController.text = event.localitat!;
-    TelefonController.text = event.telf!;
-    URLController.text = event.URL!;
-    AppImgController.text = event.imgApp!;
+    //TelefonController.text = event.telf!;
+    //URLController.text = event.URL!;
+    //AppImgController.text = event.imgApp!;
     //List<String>? tagsAmbits = event.tagsAmbits!;
     //List<String>? tagsCateg = event.tagsCateg!;
     //List<String>? tagsAltresCateg = event.tagsAltresCateg!;
@@ -173,7 +173,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                     foregroundColor: Colors.blue,
                                                   ),
                                                   onPressed: () {
-                                                    viewModel.putCancelledEventById("3472");
+                                                    viewModel.putCancelledEventById("3233");
                                                     Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                                                   }
                                               ),
@@ -366,7 +366,18 @@ class opcionsEsdeveniment extends StatelessWidget {
                                     MyColorsPalette.orange)),
                               child: const Text('Modificar'),
                               onPressed: () {
-                                event.id = "3472"; //event.id;
+                                print(event.id!);
+                                print(CodiController.text);
+                                print("DATES:");
+                                print(InitialDateController.text);
+                                print(FinalDateController.text);
+                                print(DenominacioController.text);
+                                print(UbicacioController.text);
+                                print(AdrecaController.text);
+                                print(EspaiController.text);
+                                print(event.horari);
+
+                                event.id = "3522"; //event.id;
                                 event.denominacio = DenominacioController.text;
                                 event.codi = CodiController.text;
                                 event.dataFi = FinalDateController.text;
@@ -377,7 +388,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 event.descripcio = DescripcioController.text;
                                 event.latitud = double.parse(LatitudController.text);
                                 event.longitud = double.parse(LongitudController.text);
-                                event.dataFiAprox = "dema"; //DataFiAproxController.text;
+                                /** event.dataFiAprox = "dema"; //DataFiAproxController.text;
                                 event.entrades = EntradesController.text;
                                 event.horari = HorariController.text;
                                 event.subtitol = SubtitolController.text;
@@ -395,7 +406,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 //e.tagsCateg = tagsAmbits;
                                 //e.tagsCateg = tagsCateg;
                                 //e.tagsAltresCateg = tagsAltresCateg;
-                                //e.imatges = imatges;
+                                //e.imatges = imatges; **/
                                 viewModel.putEventById(event);
                                 Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                               },

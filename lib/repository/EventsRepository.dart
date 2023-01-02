@@ -185,7 +185,7 @@ class EventsRepository {
     }
   }
 
-  Future<EventResult> postCreaEvent(EventResult data) async {
+  Future<List<EventResult>> postCreaEvent(EventResult data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
       return response;
@@ -204,10 +204,10 @@ class EventsRepository {
     }
   }
 
-  Future<String> addEventById(EventResult data) async {
+  Future<EventResult> addEventById(EventResult data) async {
     try{
       dynamic response = await _apiServices.getPutEventApiResponse("${baseUrl}events", data);
-      String res = response;
+      EventResult res = response;
       return res;
     }
     catch(e){
@@ -215,10 +215,10 @@ class EventsRepository {
     }
   }
 
-  Future<String> cancelledEventById(String? eventId) async {
+  Future<EventResult> cancelledEventById(String? eventId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId/cancelled", "");
-      String res = response;
+      EventResult res = response;
       return res;
     }
     catch(e){
