@@ -120,7 +120,52 @@ class NetworkApiServices extends BaseApiServices {
         response = await http.put(
           Uri.parse(url),
           body: jsonEncode(data),
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json',},
+        ).timeout(const Duration(seconds: 10));
+      }
+
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    return responseJson;
+  }
+
+  @override
+  Future getPutEventApiResponse(String url, dynamic data) async {
+    dynamic responseJson;
+
+    List<Map<String, dynamic>> aux = data.toJson();
+    Map<String, dynamic> content = <String, dynamic>{};
+    for (int i = 0; i < 1; ++i) {
+      content = aux[i];
+      print(aux[i]);
+    }
+
+    print("el tamany de aux es: ");
+    print(aux.length);
+
+    print("el tamany de content es: ");
+    print(content.length);
+    print(content);
+
+    try {
+
+      http.Response response;
+      if (session.get('authorization') != null) {
+        response = await http.put(
+          Uri.parse(url),
+          body: jsonEncode(content),
+          headers: {'Content-Type': 'application/json',
+            'Authorization': session.get('authorization'),},
+        ).timeout(const Duration(seconds: 10));
+      }
+      else{
+        response = await http.put(
+          Uri.parse(url),
+          body: jsonEncode(content),
+          headers: {'Content-Type': 'application/json',},
         ).timeout(const Duration(seconds: 10));
       }
 
@@ -141,7 +186,7 @@ class NetworkApiServices extends BaseApiServices {
         Uri.parse(url),
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json',
-          'Authorization': 'hola',},
+          'Authorization': session.get('authorization'),},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {

@@ -16,6 +16,7 @@ import '../utils/Session.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class EventsRepository {
+  //final baseUrl = "http://40.113.160.200:8081/";
   final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
   final session = Session();
@@ -204,16 +205,16 @@ class EventsRepository {
     }
   }
 
-  /** Future<String> addEventById(String? eventId, EventResult data) async {
+  Future<String> addEventById(EventResult data) async {
     try{
-      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId", data);
+      dynamic response = await _apiServices.getPutEventApiResponse("${baseUrl}events", data);
       String res = response;
       return res;
     }
     catch(e){
       rethrow;
     }
-  } **/
+  }
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
@@ -284,6 +285,16 @@ class EventsRepository {
     }
   }
 
+  Future<List<EventResult>> getEventsByTag(String s) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}events?tag=$s");
+      return List.from(response.map((e) => EventResult.fromJson(e)).toList());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<RouteResult>>getSavedRoutes(String id) async {
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/routes"); //40.113.160.200:8081
@@ -295,4 +306,5 @@ class EventsRepository {
     }
 
   }
+}
 }

@@ -9,15 +9,19 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/views/widgets/events/reviewCard.dart';
 //import 'package:CatCultura/views/widgets/datePickerWidget.dart';
-
 //imports per compartir els events.
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-
-
-
+//imports per notificacions
 import 'package:CatCultura/notifications/notificationService.dart';
+//imports per google calendar
+import "package:googleapis_auth/auth_io.dart";
+import 'package:googleapis/calendar/v3.dart' as GCalendar;
+//import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
 import 'dart:math' as math;
 
 import '../../constants/theme.dart';
@@ -367,6 +371,7 @@ class Body extends StatefulWidget {
   final String descripcio;
   final EventUnicViewModel viewModel;
   final String loggedUserId = "2";
+  static const _scopes = const [GCalendar.CalendarApi.calendarScope];
 
   @override
   State<Body> createState() => _BodyState();
@@ -414,6 +419,16 @@ class _BodyState extends State<Body> {
             }
              */
             IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.popAndPushNamed(
+                    context, '/opcions-Esdeveniment',
+                    arguments: EventArgs(viewModel.eventSelected.data!));
+                },
+            ),
+
+            IconButton(
               // padding: const EdgeInsets.only(bottom: 5.0),
               iconSize: 40,
               icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
@@ -432,19 +447,18 @@ class _BodyState extends State<Body> {
             ),
             IconButton(
               iconSize: 40,
+              icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
+              onPressed: () {
+                // viewModel.addEventToGoogleCalendar(_scopes);
+              },
+            ),
+            IconButton(
+              iconSize: 40,
               icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
               onPressed: () async {
                 final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
-                final url = Uri.parse(imgUrl);
-                final response = await http.get(url);
-                final bytes = response.bodyBytes;
-
-                final temp = await getTemporaryDirectory();
-                final path = '${temp.path}/image.jpg';
-                File(path).writeAsBytesSync(bytes);
-
                 final titol = event.denominacio;
-                await Share.shareFiles([path], text: titol);
+                viewModel.shareEvent(imgUrl, titol);
                 },
             ),
             IconButton(

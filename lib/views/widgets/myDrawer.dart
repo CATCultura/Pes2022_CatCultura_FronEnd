@@ -4,15 +4,17 @@ import '../../data/response/apiResponse.dart';
 import '../../models/UserResult.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import 'package:CatCultura/constants/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../utils/Session.dart';
 
 class MyDrawer extends Drawer {
-  const MyDrawer(this.actualPage,
+  MyDrawer(this.actualPage,
       {this.username = "", this.email = "", super.key});
   final String actualPage;
   final String username;
   final String email;
+  Session session = Session();
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +106,7 @@ class MyDrawer extends Drawer {
               }
             },
           ),
-          ListTile(
+          if (session.data.role == "ADMIN" || session.data.role == "ORGANIZER" )ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.create, size: 28),
             title: const Text('Crear Esdeveniment', style: TextStyle(fontSize: 18)),
@@ -116,10 +118,10 @@ class MyDrawer extends Drawer {
               }
             },
           ),
-          ListTile(
+          if (session.data.id != -1) ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.star, size: 28),
-            title: const Text('Favorits', style: TextStyle(fontSize:18)),
+            title: Text(AppLocalizations.of(context)!.favouritesTitle, style: TextStyle(fontSize:18)),
             onTap: (){
               if(actualPage == "Favorits"){
                 Navigator.pop(context);
@@ -129,10 +131,10 @@ class MyDrawer extends Drawer {
           }
           }
           ),
-          ListTile(
+          if (session.data.id != -1) ListTile(
               horizontalTitleGap: 0,
               leading: const Icon(Icons.calendar_month, size: 28),
-              title: const Text('Agenda', style: TextStyle(fontSize:18)),
+              title: Text(AppLocalizations.of(context)!.agendaTitle, style: TextStyle(fontSize:18)),
               onTap: (){
                 if(actualPage == "Agenda"){
                   Navigator.pop(context);
@@ -146,6 +148,7 @@ class MyDrawer extends Drawer {
             horizontalTitleGap: 0,
             title: const Text('Tancar sessió', style: TextStyle(fontSize: 18)),
             onTap: () {
+              session.deleteSession();
                 Navigator.pushReplacementNamed(context, '/login');
             },
           ),

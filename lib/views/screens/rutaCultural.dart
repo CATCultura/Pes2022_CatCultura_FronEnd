@@ -65,7 +65,7 @@ class RutaCulturalState extends State<RutaCultural> {
                 appBar: AppBar(
                   title: const Text('RUTA CULTURAL'),
                 ),
-                drawer: const MyDrawer("rutaCultural",
+                drawer: MyDrawer("rutaCultural",
                     username: "Superjuane", email: "juaneolivan@gmail.com"),
                 body: viewModel.eventsListMap.status == Status.LOADING &&
                         viewModel.rutaGenerada

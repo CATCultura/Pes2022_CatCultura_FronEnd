@@ -1,5 +1,6 @@
 import 'package:CatCultura/models/SessionResult.dart';
 
+
 class Session {
   Session._privateConstructor();
   static final Session _instance = Session._privateConstructor();
@@ -8,7 +9,7 @@ class Session {
     return _instance;
   }
 
-  SessionResult data = SessionResult(id: -1, username: "x", role: "x", hash: "x");
+  SessionResult data = SessionResult(id: -1, username: "Anonymous", email: "missing email", role: "x", hash: "x");
 
   dynamic set(String key, dynamic value) {
     sessionData[key] = value;
@@ -20,5 +21,9 @@ class Session {
     } else {
       return null;
     }
+  }
+
+  void deleteSession() {
+    data = SessionResult(id: -1, username: "Anonymous", email: "missing email", role: "x", hash: "x");
   }
 }

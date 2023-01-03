@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:CatCultura/constants/theme.dart';
 
-class CardSmall extends StatelessWidget {
-  CardSmall(
-      {this.title = "Placeholder Title",
-        this.cta = "",
-        this.img = "https://via.placeholder.com/200",
-        this.tap = defaultFunc});
+import '../../../models/EventResult.dart';
+import '../../../utils/auxArgsObjects/argsRouting.dart';
 
-  final String cta;
-  final String img;
-  final Function tap;
-  final String title;
+class CardSmall extends StatelessWidget {
+  final EventResult event;
+
+  const CardSmall(this.event, {super.key});
 
   static void defaultFunc() {
     print("the function works!");
@@ -20,10 +16,17 @@ class CardSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-        child: Container(
+        child: SizedBox(
           height: 235,
           child: GestureDetector(
-            onTap: defaultFunc,
+            onTap: () {
+              Navigator.pushNamed(context, "/eventUnic",
+                  arguments: EventUnicArgs(event.id!)).then((_){
+                /*setState((){
+
+                    });*/
+              });
+            },
             child: Card(
                 elevation: 0.4,
                 shape: RoundedRectangleBorder(
@@ -39,7 +42,7 @@ class CardSmall extends StatelessWidget {
                                     topLeft: Radius.circular(6.0),
                                     topRight: Radius.circular(6.0)),
                                 image: DecorationImage(
-                                  image: NetworkImage(img),
+                                  image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
                                   fit: BoxFit.cover,
                                 )))),
                     Flexible(
@@ -47,22 +50,16 @@ class CardSmall extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               top: 8.0, bottom: 8.0, left: 8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(title,
-                                  style: TextStyle(
-                                      color: MyColors.header, fontSize: 13)),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(cta,
+                          child: SingleChildScrollView (
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(event.denominacio!,
                                     style: TextStyle(
-                                        color: MyColors.primary,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600)),
-                              )
-                            ],
+                                        color: MyColors.header, fontSize: 13)),
+                              ],
+                            ),
                           ),
                         ))
                   ],
