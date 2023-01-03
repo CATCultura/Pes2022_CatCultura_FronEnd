@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 import '../../data/response/apiResponse.dart';
 import '../../viewModels/LoginViewModel.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
+
 
 class CreateUser extends StatelessWidget {
   const CreateUser({Key? key}) : super(key: key);
@@ -145,14 +147,14 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                   style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
                   child: const Text('Crea compte'),
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, '/userTags');
-                    viewModel.crearcompte(nameController.text, userController.text, emailController.text, passwordController.text);
+                    Navigator.popAndPushNamed(context, '/userTags', arguments: CrearUserArgs(nameController.text, userController.text, emailController.text, passwordController.text));
+                    //viewModel.crearcompte(nameController.text, userController.text, emailController.text, passwordController.text);
                   },
                 ),
             ),
             TextButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, '/userTags');
+                Navigator.popAndPushNamed(context, '/login');
               },
               child: const Text(
                 'Ja tinc compte',

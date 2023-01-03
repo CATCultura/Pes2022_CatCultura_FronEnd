@@ -4,9 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
 import '../../viewModels/TagsViewModel.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
+import '../../viewModels/LoginViewModel.dart';
+
 
 class UserTags extends StatelessWidget {
-  const UserTags({Key? key}) : super(key: key);
+  UserTags({super.key, required this.nameController, required this.userController, required this.emailController, required this.passwordController});
+  String nameController;
+  String userController;
+  String emailController;
+  String passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +32,8 @@ class StatefulUserTags extends StatefulWidget {
 
 class _StatefulUserTagsState extends State<StatefulUserTags> {
   final TagsViewModel viewModel = TagsViewModel();
+  final LoginViewModel viewModelLogin = LoginViewModel();
+
   late List <String> tagsList = [];
   List<String> checkedTags = [];
 
@@ -183,7 +192,9 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                                     ),
                                     onPressed: () {
                                       Navigator.popAndPushNamed(context, '/home');
-                                    },
+                                      viewModelLogin.crearcompte(nameController, userController, emailController, passwordController);
+                                      viewModelLogin.notifyListeners();
+                                      },
                                   ),
                                 ),
                               ]

@@ -72,9 +72,7 @@ class NetworkApiServices extends BaseApiServices {
         Uri.parse(url),
         // body: jsonEncode(data.toJson()),
         body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json', 'Accept': '*/*',
-          'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
-          'Authorization': session.get('authorization')},
+        headers: {'Content-Type': 'application/json'},
       ).timeout(const Duration(seconds: 60));
       responseJson = returnResponse(response);
     } on SocketException {

@@ -27,3 +27,11 @@ class EventArgs {
   final EventResult e;
   EventArgs(this.e);
 }
+
+class CrearUserArgs{
+  final String nameController;
+  final String userController;
+  final String emailController;
+  final String passwordController;
+  CrearUserArgs(this.nameController, this.userController, this.emailController, this.passwordController);
+}

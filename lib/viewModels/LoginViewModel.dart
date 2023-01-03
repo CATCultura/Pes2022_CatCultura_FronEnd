@@ -51,11 +51,11 @@ class LoginViewModel with ChangeNotifier{
     user.username = u;
     user.email = e;
     user.password = p;
+    user.points = "0";
     late String encoded = stringToBase64.encode("$u:$p");
-    late String auth = "Basic $encoded";
 
     await _usersRepo.postCreaCompte(user).then((value) {
-      setUsersSelected(ApiResponse.completed(value), auth);
+      setUsersSelected(ApiResponse.completed(value), "completed");
     }).onError((error, stackTrace) =>
         setUsersSelected(ApiResponse.error(error.toString()), null));
     //} else errorN = 1;

@@ -79,7 +79,7 @@ class UsersRepository {
 
   Future<SessionResult> postCreaCompte(UserResult data) async {
     try {
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", data);
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users", data.toJson());
       return response;
     } catch (e) {
       rethrow;

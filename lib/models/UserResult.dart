@@ -6,7 +6,7 @@ class UserResult {
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
   String ? password = "empty";
-  String ? points = "empty";
+  String ? points = "0";
   /*
   password	string
   creationDate	string
