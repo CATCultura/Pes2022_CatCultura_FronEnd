@@ -18,6 +18,7 @@
     "@passwordInputBoxLabel": {
           "description": "Text for input box"
         },
+
     "forgotPassword": "Did you forget your password?",
     "@forgotPassword": {
           "description": "Hint text for resetting password."
@@ -55,6 +56,27 @@
     "tagEventsSection": "Because you are interested in",
     "@tagEventsSection": {
           "description": "Title for a particular tag events sections."
+    },
+
+    "agendaTitle": "Calendar",
+    "@agendaTitle": {
+          "description": "Title for events to attend"
+        },
+
+    "favouritesTitle": "Favourites",
+    "@favouritesTitle": {
+          "description": "Title for favourite events"
+    },
+
+    "anonymousUser": "Anonymous",
+    "@anonymousUser": {
+          "description": "We are legion"
+    },
+
+    "missingEmail": "Email not provided",
+    "@missingEmail": {
+      "description": "Description for user without email"
     }
+
 
 }

@@ -53,12 +53,47 @@ class _HomeState extends State<Home> {
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                AppLocalizations.of(context)!.homeScreenTitle, username: "Superjuane", email: "juaneolivan@gmail.com"),
+                AppLocalizations.of(context)!.homeScreenTitle,
+                username: session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
+                email: session.data.email == "missing email" || session.data.email == null ? AppLocalizations.of(context)!.missingEmail : session.data.email!),
             body: Container(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: ListView(
                 // shrinkWrap: true,
                 children: [
+                  if (session.data.id != -1) Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () => {
+                              Navigator.pushNamed(context, '/favorits')
+                            },
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white54),
+                            icon: const Icon(
+                              Icons.star,
+                              color: Colors.red
+                            ),
+                            label: Text(AppLocalizations.of(context)!.favouritesTitle)
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          ElevatedButton.icon(
+                              onPressed: () => Navigator.pushNamed(context, '/agenda'),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white54),
+                              icon: const Icon(
+                                  Icons.calendar_month,
+                                  color: Colors.green
+                              ),
+                              label: Text(AppLocalizations.of(context)!.agendaTitle)
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                   const SizedBox(height: 8.0,),
                   Text(AppLocalizations.of(context)!.interestingEventsSection, style: const TextStyle(fontSize: 20),),
                   const SizedBox(height: 8.0,),
@@ -74,7 +109,7 @@ class _HomeState extends State<Home> {
                         : viewModel.eventsList.status ==
                           Status.COMPLETED ? InterestingEventsWidget(viewModel.eventsList.data!) : const Text("Error"),
                 ),
-              for(int i = 0; i < tags.length; ++i) viewModel.tagEventList[tags[i]]!.status == Status.LOADING ?
+              if (session.data.id != -1) for(int i = 0; i < tags.length; ++i) viewModel.tagEventList[tags[i]]!.status == Status.LOADING ?
               const SizedBox(
                 child: Center(
                     child: CircularProgressIndicator()),

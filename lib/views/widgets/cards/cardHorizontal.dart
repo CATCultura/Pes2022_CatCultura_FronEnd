@@ -25,9 +25,6 @@ class CardHorizontal extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(context, "/eventUnic",
                 arguments: EventUnicArgs(event.id!)).then((_){
-              /*setState((){
-
-                    });*/
             });
           },
           child: Card(

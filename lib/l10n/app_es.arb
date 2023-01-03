@@ -21,5 +21,13 @@
 
     "interestingEventsSection": "Eventos interesantes",
 
-    "tagEventsSection": "Porque te interesa"
+    "tagEventsSection": "Porque te interesa",
+
+    "agendaTitle": "Agenda",
+
+    "favouritesTitle": "Favoritos",
+
+    "anonymousUser": "Anónimo",
+
+    "missingEmail": "Falta el correo"
 }
