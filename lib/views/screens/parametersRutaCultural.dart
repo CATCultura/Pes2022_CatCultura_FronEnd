@@ -112,7 +112,7 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  Navigator.pop(context, RutaCulturalArgs(1.0, 2.0,2000, privateDateFormat(dateController.text)));
+                                  Navigator.pop(context, RutaCulturalArgs(1.0, 2.0,20000, privateDateFormat(dateController.text)));
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(

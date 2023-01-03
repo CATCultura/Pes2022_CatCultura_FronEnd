@@ -30,16 +30,30 @@ class RutaCultural extends StatefulWidget {
 
 class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
+  GoogleMapController? mapController;
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _saveNameController = TextEditingController();
   TextEditingController _saveDescController = TextEditingController();
 
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
 
+  void getPos() async{
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value){
+      viewModel.realPosition = value;
+      debugPrint("you are in "+viewModel.realPosition.longitude.toString()+" "+viewModel.realPosition.latitude.toString());
+      //viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 7.0);
+      setState(() {
+        viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 15.0);
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+      });
+    });
+  }
+
   @override
   void initState() {
     _manager = _initClusterManager();
     GLOBAL_OPEN = false;
+    //getPos();
     super.initState();
   }
 
@@ -62,7 +76,9 @@ class RutaCulturalState extends State<RutaCultural> {
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
-                appBar: AppBar(
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+
+            appBar: AppBar(
                   title: const Text('RUTA CULTURAL'),
                 ),
                 drawer: MyDrawer("rutaCultural",
@@ -102,6 +118,7 @@ class RutaCulturalState extends State<RutaCultural> {
                               _manager.setMapId(controller.mapId);
                               _manager.setItems(viewModel.eventsListMap.data!);
                               _manager.updateMap();
+                              debugPrint("currentLocation = ${viewModel.realPosition.latitude}, ${viewModel.realPosition.longitude}");
                             },
                             onCameraMove: _manager.onCameraMove,
                             onCameraIdle: _manager.updateMap)
@@ -113,8 +130,15 @@ class RutaCulturalState extends State<RutaCultural> {
                             markers: viewModel.markers,
                             onMapCreated: (GoogleMapController controller) {
                               debugPrint("rutaCultutal - no breakpoint available - Creating basic empty google map");
-                              _controller.complete(controller);
+                              setState(() {
+                                mapController = controller;
+                              });
+                              _controller.complete(mapController);
+                              setState(() {
+                                getPos();
+                              });
                               //_manager.setMapId(controller.mapId);
+                              //debugPrint("currentLocation = ${viewModel.realPosition.latitude}, ${viewModel.realPosition.longitude}");
                             },
                             //onCameraMove: _manager.onCameraMove,
                             onCameraIdle: _manager.updateMap,
@@ -620,6 +644,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
+            backgroundColor: Colors.blue,
             onPressed: _toggle,
             child: const Icon(Icons.add),
           ),

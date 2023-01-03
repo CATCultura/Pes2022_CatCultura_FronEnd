@@ -5,6 +5,7 @@ import 'package:CatCultura/repository/EventsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsReturnParametersRutaCultural.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/Place.dart';
 
@@ -12,7 +13,9 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   //INI
   // final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
-  final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
+  late CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
+  late Position realPosition;
+
 
 
   //VARIABLES
@@ -35,7 +38,7 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   void mantaintEventsListToMap() {
     List<Place> aux = [];
-    aux.add(Place(event: EventResult(id: "1", denominacio: "harcoded marker", descripcio: "sustituto de User Loc", latitud: 41.3745183, longitud: 2.1695461), color: Colors.red));
+    aux.add(Place(event: EventResult(id: "1", denominacio: "harcoded marker", descripcio: "sustituto de User Loc", latitud:realPosition.latitude , longitud: realPosition.longitude), color: Colors.red));
     eventsList.data!.forEach((e) {aux.add(Place(event: e, color: Colors.blue));});
     eventsListMap = ApiResponse.completed(aux);
   }
