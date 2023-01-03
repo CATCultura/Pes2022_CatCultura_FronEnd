@@ -107,7 +107,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             onCameraIdle: _manager.updateMap)
                         : GoogleMap(
                             zoomControlsEnabled: false,
-                            myLocationEnabled: false,
+                            myLocationEnabled: true,
                             mapType: MapType.normal,
                             initialCameraPosition: viewModel.iniCameraPosition,
                             markers: viewModel.markers,
@@ -353,10 +353,12 @@ class RutaCulturalState extends State<RutaCultural> {
         _manager.setItems(viewModel.eventsListMap.data!);
         //_manager.updateMap();
       }
+      else{
+        setState(() {
+          //viewModel.
+        });
+      }
     }
-    setState(() {
-
-    });
   }
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>

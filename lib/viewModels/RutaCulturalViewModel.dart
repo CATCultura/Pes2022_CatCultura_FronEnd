@@ -77,6 +77,18 @@ class RutaCulturalViewModel with ChangeNotifier {
         setEventsList(ApiResponse.error(error.toString())));
   }
 
+  Future<bool> loadRutaCultural(RutaCulturalLoadArgs result) async {
+    if(result.events != null && result.events != []){
+      setEventsList(ApiResponse.completed(result.events));
+      await paintRoute().then((value){
+        polylines.status = value;
+        notifyListeners();
+      });
+      return true;
+    }
+    return false;
+  }
+
   _createPolylines(
       double startLatitude,
       double startLongitude,
@@ -133,15 +145,4 @@ class RutaCulturalViewModel with ChangeNotifier {
     return Status.COMPLETED;
   }
 
-  Future<bool> loadRutaCultural(RutaCulturalLoadArgs result) async {
-    if(result.events != null && result.events != []){
-      setEventsList(ApiResponse.completed(result.events));
-      await paintRoute().then((value){
-        polylines.status = value;
-        notifyListeners();
-      });
-      return true;
-    }
-    return false;
-  }
 }
