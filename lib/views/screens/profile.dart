@@ -64,22 +64,33 @@ class _StatefulProfileState extends State<StatefulProfile>  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 buildTop(),
 
                 Column(
                   children: [
                     Text(
-                      'SuperJuane',
+                      sessio.data.nameAndSurname.toString(),
                       style: TextStyle(
                         color: Color.fromRGBO(230, 192, 2, 1),
                         fontFamily: 'Nunito',
-                        fontSize: 30,
+                        fontSize: 35,
                         ),
                       ),
                       SizedBox(
                         height: 5,
                       ),
+                    Text(
+                      sessio.data.username.toString(),
+                      style: TextStyle(
+                        color: Color.fromRGBO(230, 192, 2, 1),
+                        fontFamily: 'Nunito',
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                       Row(
                           mainAxisAlignment:
                           MainAxisAlignment.center,
@@ -95,7 +106,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                   ),
                                 ),
                                 Text(
-                                  sessio.data!.points.toString(),
+                                  sessio.data.points.toString(),
                                   style: TextStyle(
                                     color: Color.fromRGBO(
                                         140, 123, 35,1),
@@ -232,6 +243,30 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
                   // onPressed: (){},
                 ): Text("res"),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Icon(Icons.calendar_month_rounded, color: Colors.amber),
+                        Text(sessio.data.creationDate.toString()),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Icon(Icons.alternate_email, color: Colors.amber),
+                        Text(sessio.data.email.toString()),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Icon(Icons.workspace_premium, color: Colors.amber),
+                        Text(sessio.data.role.toString()),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -242,7 +277,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
 
   Widget buildTop() {
-    final bottom = profileHeight/4;
+    final bottom = profileHeight/8;
     return Stack (
       clipBehavior: Clip.none,
       alignment: Alignment.center,
