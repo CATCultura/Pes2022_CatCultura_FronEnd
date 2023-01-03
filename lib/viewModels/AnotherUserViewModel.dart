@@ -19,7 +19,7 @@ class AnotherUserViewModel with ChangeNotifier{
   String id = '';
   final Session sessio = Session();
 
-  setUsersSelected(ApiResponse<UserResult> response){
+  setMainUserSelected(ApiResponse<UserResult> response){
     mainUser = response;
     notifyListeners();
   }
@@ -93,9 +93,9 @@ class AnotherUserViewModel with ChangeNotifier{
 
   Future<void> selectUserById(String id) async{
     await _usersRepo.getUserById(id).then((value){
-      setUsersSelected(ApiResponse.completed(value));
+      setMainUserSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
-        setUsersSelected(ApiResponse.error(error.toString())));
+        setMainUserSelected(ApiResponse.error(error.toString())));
   }
 
 
