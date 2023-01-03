@@ -15,10 +15,16 @@ class SessionResult {
   List<int>? favouritesId = [];
   List<int>? trophiesId = [];
   List<int>? attendanceId = [];
-  List<int>? friendsId = [];
   List<int>? upvotedReviewsId = [];
   List<int>? attendedId = [];
   List<int>? reportedReviews = [];
+
+  List<String>? tags = [];
+
+
+  List<int>? friendsId = [];
+  List<int>? receivedRequestsIds = [];
+  List<int>? sentRequestsIds = [];
 
 
   SessionResult({
@@ -34,14 +40,16 @@ class SessionResult {
     this.favouritesId,
     this.trophiesId,
     this.attendanceId,
-    this.friendsId,
     this.upvotedReviewsId,
     this.attendedId,
-    this.reportedReviews
+    this.reportedReviews,
+    this.friendsId,
+    this.sentRequestsIds,
+    this.receivedRequestsIds
   });
 
   SessionResult.fromJson(Map<String, dynamic> jsonResponse) {
-    //debugPrint(jsonResponse.toString());
+    debugPrint(jsonResponse.toString());
     id = jsonResponse['id'];
     username = jsonResponse['username'];
     nameAndSurname = jsonResponse['nameAndSurname'];
@@ -66,8 +74,8 @@ class SessionResult {
     }else{
       attendanceId = [];
     }
-    if(jsonResponse['friendsIds'] != null) {
-      friendsId = (jsonResponse['friendsIds'] as List).map((item) => item as int).toList();
+    if(jsonResponse['friendIds'] != null) {
+      friendsId = (jsonResponse['friendIds'] as List).map((item) => item as int).toList();
     }else {
       friendsId = [];
     }
@@ -85,6 +93,24 @@ class SessionResult {
       reportedReviews = (jsonResponse['reportedReviewIds'] as List).map((item) => item as int).toList();
     }else {
       reportedReviews = [];
+    }
+
+    if (jsonResponse['tags'] != null) {
+      tags = (jsonResponse['tags'] as List).map((item) => item as String).toList();
+    } else {
+      tags = [];
+    }
+
+
+    if(jsonResponse['sentRequestsIds'] != null) {
+      sentRequestsIds = (jsonResponse['sentRequestsIds'] as List).map((item) => item as int).toList();
+    }else {
+      sentRequestsIds = [];
+    }
+    if(jsonResponse['receivedRequestsIds'] != null) {
+      receivedRequestsIds = (jsonResponse['receivedRequestsIds'] as List).map((item) => item as int).toList();
+    }else {
+      receivedRequestsIds = [];
     }
 
   }

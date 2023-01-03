@@ -9,6 +9,7 @@ import '../../utils/auxArgsObjects/argsRouting.dart';
 import 'package:like_button/like_button.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
+import '../../utils/Session.dart';
 
 class AnotherProfile extends StatelessWidget {
   AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
@@ -17,7 +18,7 @@ class AnotherProfile extends StatelessWidget {
   final double coverHeight = 280;
   final double profileHeight = 144;
   late List <String> usersList = [];
-
+  final Session sessio = Session();
   final AnotherUserViewModel viewModel = AnotherUserViewModel();
 
   @override
@@ -28,7 +29,9 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.requestedUsersById(selectedId);
+    //viewModel.setSessionRequests(sessio.data.id.toString());
+    viewModel.setMyFriends(sessio.data.id.toString());
+    viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.notifyListeners();
     return ChangeNotifierProvider<AnotherUserViewModel>(
@@ -41,7 +44,7 @@ class AnotherProfile extends StatelessWidget {
             ),
             backgroundColor: Colors.grey[200],
             // key: _scaffoldKey,
-            drawer: const MyDrawer(
+            drawer: MyDrawer(
                 "AnotherProfile", username: "SuperJuane",
                 email: "juaneolivan@gmail.com"),
             body: ListView(
@@ -65,10 +68,8 @@ class AnotherProfile extends StatelessWidget {
                   viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
                   viewModel.usersRequested.status == Status.COMPLETED?
                  Row(
-                  //viewModel.usersRequested.data!;
-
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+                  children: viewModel.friend==false? <Widget>[
                     const Text (
                       'Afegir amic:  ',
                       style: TextStyle(
@@ -81,19 +82,30 @@ class AnotherProfile extends StatelessWidget {
                           color: MyColorsPalette.lightRed),
                       onPressed: () {
                         if (viewModel.afegit == true) {
-                          viewModel.deleteFriendById('2763', selectedId);
+                          viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
+                          var aux = int.parse(selectedId);
+                          sessio.data.sentRequestsIds!.remove(aux);
                         }
                         else {
-                          viewModel.putFriendById('2763', selectedId);
+                          viewModel.putFriendById(sessio.data.id.toString(), selectedId);
+                          var aux = int.parse(selectedId);
+                          sessio.data.sentRequestsIds!.add(aux);
                         }
-                        //cridar una funcio al VM i que seteji el boolean i fagi NotifyListeners
                         viewModel.afegit = !viewModel.afegit;
                         viewModel.notifyListeners();
                       },
 
 
                       ) : Text("a"),
-                    ],
+                    ]:
+                      <Widget>[
+                        const Text(
+                         'Ja sou amics!',
+                         style: TextStyle(
+                             fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                        ),
+                      ],
+
                   ) : const Text(""),
 
 

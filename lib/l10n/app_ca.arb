@@ -15,5 +15,19 @@
 
     "signUpButton": "Registra't",
 
-    "guestMode": "Entra com a convidat"
+    "guestMode": "Entra com a convidat",
+
+    "homeScreenTitle": "Pàgina d'inici",
+
+    "interestingEventsSection": "Esdeveniments interessants",
+
+    "tagEventsSection": "Perquè t'interessa",
+
+    "agendaTitle": "Agenda",
+
+    "favouritesTitle": "Preferits",
+
+    "anonymousUser": "Anònim",
+
+    "missingEmail": "Falta el correu"
 }

@@ -49,7 +49,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                   title: const Text("Crear Esdeveniment"),
                   backgroundColor: MyColorsPalette.orange,
                 ),
-                drawer: const MyDrawer("Crear Esdeveniment", username: "Superjuane",
+                drawer: MyDrawer("Crear Esdeveniment", username: "Superjuane",
                   email: "juaneolivan@gmail.com"),
                 body: SingleChildScrollView(
                   child: SizedBox(
