@@ -47,8 +47,8 @@ class CardHorizontal extends StatelessWidget {
                               bottomLeft: Radius.circular(6.0)),
                           image: DecorationImage(
                             image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
-                            fit: BoxFit.fitHeight,
-                            alignment: Alignment.centerLeft
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center
                           ))),
                 ),
                 Flexible(

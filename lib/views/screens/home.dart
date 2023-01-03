@@ -1,22 +1,19 @@
-import 'dart:math';
 
 import 'package:CatCultura/views/widgets/interestingEventsWidget.dart';
 import 'package:flutter/material.dart';
 
 
 import 'package:CatCultura/constants/theme.dart';
-import 'package:CatCultura/views/widgets/cards/cardSmall.dart';
-import 'package:CatCultura/views/widgets/cards/CardSquare.dart';
-import 'package:CatCultura/views/widgets/cards/cardHorizontal.dart';
+
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/response/apiResponse.dart';
-import '../../models/EventResult.dart';
+
 import '../../utils/Session.dart';
 import '../../viewModels/HomeViewModel.dart';
 import '../widgets/eventsByTagWidget.dart';
-import '../widgets/horizontalScrollingRow.dart';
+
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -55,17 +52,18 @@ class _HomeState extends State<Home> {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: const MyDrawer(
-                "Home", username: "Superjuane", email: "juaneolivan@gmail.com"),
+            drawer: MyDrawer(
+                AppLocalizations.of(context)!.homeScreenTitle, username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Container(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: ListView(
                 // shrinkWrap: true,
                 children: [
-                  Text(AppLocalizations.of(context)!.interestingEventsSection),
-                  SizedBox(height: 8.0,),
+                  const SizedBox(height: 8.0,),
+                  Text(AppLocalizations.of(context)!.interestingEventsSection, style: const TextStyle(fontSize: 20),),
+                  const SizedBox(height: 8.0,),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height-150,
+                    height: MediaQuery.of(context).size.height-200,
                     child: viewModel.eventsList.status == Status.LOADING ?
                       const SizedBox(
                         child: Center(
@@ -74,29 +72,37 @@ class _HomeState extends State<Home> {
                         : viewModel.eventsList.status == Status.ERROR
                           ? Text(viewModel.eventsList.toString())
                         : viewModel.eventsList.status ==
-                          Status.COMPLETED ? InterestingEventsWidget(viewModel.eventsList.data!) : Text("Error"),
+                          Status.COMPLETED ? InterestingEventsWidget(viewModel.eventsList.data!) : const Text("Error"),
                 ),
-              viewModel.tagEventList[tags[0]]!.status == Status.LOADING ?
+              for(int i = 0; i < tags.length; ++i) viewModel.tagEventList[tags[i]]!.status == Status.LOADING ?
               const SizedBox(
                 child: Center(
                     child: CircularProgressIndicator()),
               )
-                  : viewModel.tagEventList[tags[0]]!.status == Status.COMPLETED
-                  ? EventsByTagWidget(tags[0], viewModel.tagEventList[tags[0]]!.data!) : Text("Error"),
-                  viewModel.tagEventList[tags[1]]!.status == Status.LOADING ?
-                  const SizedBox(
-                    child: Center(
-                        child: CircularProgressIndicator()),
-                  )
-                      : viewModel.tagEventList[tags[1]]!.status == Status.COMPLETED
-                      ? EventsByTagWidget(tags[1], viewModel.tagEventList[tags[1]]!.data!) : Text("Error"),
-                  viewModel.tagEventList[tags[2]]!.status == Status.LOADING ?
-                  const SizedBox(
-                    child: Center(
-                        child: CircularProgressIndicator()),
-                  )
-                      : viewModel.tagEventList[tags[2]]!.status == Status.COMPLETED
-                      ? EventsByTagWidget(tags[2], viewModel.tagEventList[tags[2]]!.data!) : Text("Error"),
+                  : viewModel.tagEventList[tags[i]]!.status == Status.COMPLETED
+                  ? EventsByTagWidget(tags[i], viewModel.tagEventList[tags[i]]!.data!) : const Text("Error"),
+              //
+              // if (session.data.id != -1) viewModel.tagEventList[tags[0]]!.status == Status.LOADING ?
+              // const SizedBox(
+              //   child: Center(
+              //       child: CircularProgressIndicator()),
+              // )
+              //     : viewModel.tagEventList[tags[0]]!.status == Status.COMPLETED
+              //     ? EventsByTagWidget(tags[0], viewModel.tagEventList[tags[0]]!.data!) : const Text("Error"),
+              // if (session.data.id != -1) viewModel.tagEventList[tags[1]]!.status == Status.LOADING ?
+              //     const SizedBox(
+              //       child: Center(
+              //           child: CircularProgressIndicator()),
+              //     )
+              //         : viewModel.tagEventList[tags[1]]!.status == Status.COMPLETED
+              //         ? EventsByTagWidget(tags[1], viewModel.tagEventList[tags[1]]!.data!) : const Text("Error"),
+              // if (session.data.id != -1) viewModel.tagEventList[tags[2]]!.status == Status.LOADING ?
+              //     const SizedBox(
+              //       child: Center(
+              //           child: CircularProgressIndicator()),
+              //     )
+              //         : viewModel.tagEventList[tags[2]]!.status == Status.COMPLETED
+              //         ? EventsByTagWidget(tags[2], viewModel.tagEventList[tags[2]]!.data!) : const Text("Error"),
                 ]
               ),
               ),

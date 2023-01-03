@@ -1,7 +1,5 @@
-import 'package:CatCultura/views/widgets/cards/cardSmall.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/EventResult.dart';
 import '../../models/EventResult.dart';
 import 'cards/FixedSmallCard.dart';
 
@@ -13,10 +11,12 @@ class HorizontalScrollingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-          // shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          children: buildTagList(events)
+    return Scrollbar(
+      child: ListView(
+            // shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: buildTagList(events)
+      ),
     );
 
   }

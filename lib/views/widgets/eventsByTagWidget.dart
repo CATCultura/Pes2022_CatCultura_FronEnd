@@ -16,9 +16,10 @@ class EventsByTagWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8.0,),
-        Text("${AppLocalizations.of(context)!.tagEventsSection} $tag"),
+        Text("${AppLocalizations.of(context)!.tagEventsSection} $tag", textAlign: TextAlign.left,),
         const SizedBox(height: 8.0,),
         SizedBox(
           height: 200,

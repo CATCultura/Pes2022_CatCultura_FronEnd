@@ -29,7 +29,7 @@ class CardSquare extends StatelessWidget {
           },
           child: Card(
               elevation: 0.4,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,11 +38,11 @@ class CardSquare extends StatelessWidget {
                       flex: 2,
                       child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(6.0),
                                   topRight: Radius.circular(6.0)),
                               image: DecorationImage(
-                                image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imgApp!}"),
+                                image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
                                 fit: BoxFit.cover,
                               )))),
                   Flexible(
@@ -56,11 +56,11 @@ class CardSquare extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(event.denominacio!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: MyColors.header, fontSize: 15)),
                               Text(event.descripcio!,
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: MyColors.text,
                                       fontSize: 11,
                                       fontWeight: FontWeight.w600))
