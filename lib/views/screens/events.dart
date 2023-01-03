@@ -209,7 +209,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: const MyDrawer("Events",
+            drawer: MyDrawer("Events",
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             /**/
             body: DefaultTabController(
