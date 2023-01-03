@@ -40,6 +40,21 @@
     "guestMode": "Enter as a guest",
     "@guestMode": {
           "description": "Text of button to enter guest mode."
-        }
+        },
+
+    "homeScreenTitle": "Home",
+    "@homeScreenTitle": {
+          "description": "Home screen title."
+        },
+
+    "interestingEventsSection": "Interesting events",
+    "@interestingEventsSection": {
+          "description": "Title for the interesting events sections."
+        },
+
+    "tagEventsSection": "Because you are interested in",
+    "@tagEventsSection": {
+          "description": "Title for a particular tag events sections."
+    }
 
 }

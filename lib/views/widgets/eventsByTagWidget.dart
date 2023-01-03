@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 import 'HorizontalScrollingRow.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EventsByTagWidget extends StatelessWidget {
 
@@ -17,7 +18,7 @@ class EventsByTagWidget extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 8.0,),
-        Text("Perquè t'agrada ${tag}"),
+        Text("${AppLocalizations.of(context)!.tagEventsSection} $tag"),
         const SizedBox(height: 8.0,),
         SizedBox(
           height: 200,

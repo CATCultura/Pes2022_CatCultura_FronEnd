@@ -18,6 +18,8 @@ import '../../viewModels/HomeViewModel.dart';
 import '../widgets/eventsByTagWidget.dart';
 import '../widgets/horizontalScrollingRow.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 // import 'package:tryproject2/lib/widgets/navbar.dart';
 
 class Home extends StatefulWidget {
@@ -48,7 +50,7 @@ class _HomeState extends State<Home> {
       {
         return Scaffold(
             appBar: AppBar(
-              title: Text("HOME"),
+              title: Text(AppLocalizations.of(context)!.homeScreenTitle),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: MyColors.bgColorScreen,
@@ -60,7 +62,7 @@ class _HomeState extends State<Home> {
               child: ListView(
                 // shrinkWrap: true,
                 children: [
-                  Text("Interesting events"),
+                  Text(AppLocalizations.of(context)!.interestingEventsSection),
                   SizedBox(height: 8.0,),
                   SizedBox(
                     height: MediaQuery.of(context).size.height-150,

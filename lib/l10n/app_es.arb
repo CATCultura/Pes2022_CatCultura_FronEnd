@@ -15,5 +15,11 @@
 
     "signUpButton": "Registrarse",
 
-    "guestMode": "Entrar como invitado"
+    "guestMode": "Entrar como invitado",
+
+    "homeScreenTitle": "Página de inicio",
+
+    "interestingEventsSection": "Eventos interesantes",
+
+    "tagEventsSection": "Porque te interesa"
 }
