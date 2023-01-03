@@ -24,7 +24,7 @@ class _xatState extends State<Xat> {
   _sendMessage() {
     _socket.emit('message', {
       'message': _messageInputController.text.trim(),
-      'sender': "PolYate",
+      'sender': "admin",
     });
     _messageInputController.clear();
   }
@@ -44,7 +44,7 @@ class _xatState extends State<Xat> {
   void initState() {
     super.initState();
     _socket = IO.io('http://10.4.41.41:8081/chat',
-        IO.OptionBuilder().setTransports(['websocket']).setQuery({'username': "PolYate"}).build());
+        IO.OptionBuilder().setTransports(['websocket']).setQuery({'username': "admin"}).build());
     _connectSocket();
   }
 
@@ -72,12 +72,12 @@ class _xatState extends State<Xat> {
                 itemBuilder: (context, index) {
                   final message = provider.messages[index];
                   return Wrap(
-                    alignment: message.senderUsername == "PolYate"
+                    alignment: message.senderUsername == "admin"
                         ? WrapAlignment.end
                         : WrapAlignment.start,
                     children: [
                       Card(
-                        color: message.senderUsername == "PolYate"
+                        color: message.senderUsername == "admin"
                             ? Theme.of(context).primaryColorLight
                             : Colors.white,
                         child: Padding(
@@ -85,7 +85,7 @@ class _xatState extends State<Xat> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment:
-                              message.senderUsername == "PolYate"
+                              message.senderUsername == "admin"
                                 ? CrossAxisAlignment.end
                                 : CrossAxisAlignment.start,
                             children: [
