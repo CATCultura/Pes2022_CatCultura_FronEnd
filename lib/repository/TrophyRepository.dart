@@ -8,7 +8,7 @@ import 'package:CatCultura/data/network/networkApiServices.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class TrophyRepository {
-  final baseUrl = "http://10.4.41.41:8081/";
+  final baseUrl = "http://40.113.160.200:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
 
   TrophyRepository._privateConstructor();

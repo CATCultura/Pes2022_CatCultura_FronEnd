@@ -2,6 +2,8 @@ import 'package:CatCultura/views/widgets/cards/cardSmall.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/EventResult.dart';
+import '../../models/EventResult.dart';
+import 'cards/FixedSmallCard.dart';
 
 class HorizontalScrollingRow extends StatelessWidget {
   final List<EventResult> events;
@@ -12,7 +14,7 @@ class HorizontalScrollingRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-          shrinkWrap: true,
+          // shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           children: buildTagList(events)
     );
@@ -21,7 +23,7 @@ class HorizontalScrollingRow extends StatelessWidget {
 
   List<Widget> buildTagList(List<EventResult> list) {
     return [
-      for (int i = 0; i < 20; i+=1) CardSmall(list[i]),
+      for (int i = 0; i < 20; i+=1) FixedCardSmall(list[i]),
     ];
   }
 

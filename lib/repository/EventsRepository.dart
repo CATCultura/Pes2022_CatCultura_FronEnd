@@ -15,7 +15,7 @@ import '../utils/Session.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class EventsRepository {
-  final baseUrl = "http://10.4.41.41:8081/";
+  final baseUrl = "http://40.113.160.200:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
   final session = Session();
 
@@ -303,6 +303,16 @@ class EventsRepository {
       dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews?eventId=$id", data);
       debugPrint("response: $response");
       return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<EventResult>> getEventsByTag(String s) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}events?tag=$s");
+      return List.from(response.map((e) => EventResult.fromJson(e)).toList());
     } catch (e) {
       rethrow;
     }

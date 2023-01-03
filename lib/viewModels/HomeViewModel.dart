@@ -15,6 +15,7 @@ class HomeViewModel with ChangeNotifier{
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   Map<String, ApiResponse<List<EventResult>>> tagEventList = {};
+  Status tagStatus = Status.LOADING;
   ApiResponse<EventResult> events = ApiResponse.loading();
   ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();//= ApiResponse.completed([ç
 
@@ -52,6 +53,7 @@ class HomeViewModel with ChangeNotifier{
 
   void setEventTagList(ApiResponse<List<EventResult>> response, String tag) {
     tagEventList[tag] = response;
+    tagStatus = Status.COMPLETED;
     notifyListeners();
   }
 
@@ -64,6 +66,11 @@ class HomeViewModel with ChangeNotifier{
 
 
   Future<void> fetchEvents() async {
+    //FOR NOW TO MAKE IT THE CUTREST
+    for (String a in auxTags) {
+      tagEventList[a] = ApiResponse.loading();
+    }
+
     await _eventsRepo.getEvents().then((value) {
       setEventsList(ApiResponse.completed(value));
   }).onError((error, stackTrace) =>
@@ -102,15 +109,5 @@ class HomeViewModel with ChangeNotifier{
     notifyListeners();
     fetchEvents();
   }
-
-  Future<void> crearEvent(EventResult e) async {
-    await _eventsRepo.postCreaEvent(e).then((value) {
-      setEvents(ApiResponse.completed(value));
-    }); /**.onError((error, stackTrace) =>
-        setEvents(ApiResponse.error(error.toString()))); **/
-    waiting = false;
-    notifyListeners();
-  }
-
 
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:CatCultura/views/widgets/interestingEventsWidget.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,7 +15,8 @@ import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 import '../../utils/Session.dart';
 import '../../viewModels/HomeViewModel.dart';
-import '../widgets/HorizontalScrollingRow.dart';
+import '../widgets/eventsByTagWidget.dart';
+import '../widgets/horizontalScrollingRow.dart';
 
 // import 'package:tryproject2/lib/widgets/navbar.dart';
 
@@ -32,11 +34,14 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     viewModel.fetchEvents();
+
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> tags = viewModel.tagEventList.keys.toList();
     return ChangeNotifierProvider<HomeViewModel>(
       create: (BuildContext context) => viewModel,
       child: Consumer<HomeViewModel>(builder: (context, value, _)
@@ -51,141 +56,57 @@ class _HomeState extends State<Home> {
             drawer: const MyDrawer(
                 "Home", username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Container(
-              padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-              child:  ListView(
-                  children:  buildList(),
-                  ),
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: ListView(
+                // shrinkWrap: true,
+                children: [
+                  Text("Interesting events"),
+                  SizedBox(height: 8.0,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height-150,
+                    child: viewModel.eventsList.status == Status.LOADING ?
+                      const SizedBox(
+                        child: Center(
+                          child: CircularProgressIndicator()),
+                    )
+                        : viewModel.eventsList.status == Status.ERROR
+                          ? Text(viewModel.eventsList.toString())
+                        : viewModel.eventsList.status ==
+                          Status.COMPLETED ? InterestingEventsWidget(viewModel.eventsList.data!) : Text("Error"),
+                ),
+              viewModel.tagEventList[tags[0]]!.status == Status.LOADING ?
+              const SizedBox(
+                child: Center(
+                    child: CircularProgressIndicator()),
+              )
+                  : viewModel.tagEventList[tags[0]]!.status == Status.COMPLETED
+                  ? EventsByTagWidget(tags[0], viewModel.tagEventList[tags[0]]!.data!) : Text("Error"),
+                  viewModel.tagEventList[tags[1]]!.status == Status.LOADING ?
+                  const SizedBox(
+                    child: Center(
+                        child: CircularProgressIndicator()),
+                  )
+                      : viewModel.tagEventList[tags[1]]!.status == Status.COMPLETED
+                      ? EventsByTagWidget(tags[1], viewModel.tagEventList[tags[1]]!.data!) : Text("Error"),
+                  viewModel.tagEventList[tags[2]]!.status == Status.LOADING ?
+                  const SizedBox(
+                    child: Center(
+                        child: CircularProgressIndicator()),
+                  )
+                      : viewModel.tagEventList[tags[2]]!.status == Status.COMPLETED
+                      ? EventsByTagWidget(tags[2], viewModel.tagEventList[tags[2]]!.data!) : Text("Error"),
+                ]
+              ),
               ),
             );
     }
     ));
   }
 
-  Padding buildSquared(int index) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: viewModel.eventsList.status ==
-          Status.LOADING
-          ? const SizedBox(
-        child: Center(
-            child: CircularProgressIndicator()),
-      )
-          : viewModel.eventsList.status == Status.ERROR
-          ? Text(viewModel.eventsList.toString())
-          : viewModel.eventsList.status ==
-          Status.COMPLETED
-          ?
-      CardSquare(viewModel.eventsList.data![index]) : const Text(
-          "oopsie"),
-    );
-  }
-
-
-  Padding buildHorizontal(int index) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 0.0),
-        child:viewModel.eventsList.status ==
-            Status.LOADING
-            ? const SizedBox(
-          child: Center(
-              child: CircularProgressIndicator()),
-        )
-            : viewModel.eventsList.status == Status.ERROR
-            ? Text(viewModel.eventsList.toString())
-            : viewModel.eventsList.status ==
-            Status.COMPLETED
-            ?
-        CardHorizontal(viewModel.eventsList.data![index])
-            : const Text("oopsie")
-    );
-  }
-
-  Row buildTwoSmalls(int index1, int index2) {
-    debugPrint("*********************");
-    debugPrint(index1.toString());
-    debugPrint(index2.toString());
-    debugPrint("*********************");
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        viewModel.eventsList.status ==
-            Status.LOADING
-            ? const SizedBox(
-          child: Center(
-              child: CircularProgressIndicator()),
-        )
-            : viewModel.eventsList.status == Status.ERROR
-            ? Text(viewModel.eventsList.toString())
-            : viewModel.eventsList.status ==
-            Status.COMPLETED
-            ?
-        CardSmall(viewModel.eventsList.data![index1])
-            : const Text("oopsie"),
-        if (index1 != index2)
-        viewModel.eventsList.status ==
-            Status.LOADING
-            ? const SizedBox(
-          child: Center(
-              child: CircularProgressIndicator()),
-        )
-            : viewModel.eventsList.status == Status.ERROR
-            ? Text(viewModel.eventsList.toString())
-            : viewModel.eventsList.status ==
-            Status.COMPLETED
-            ?
-        CardSmall(viewModel.eventsList.data![index2])
-            : const Text("oopsie")
-      ],
-    );
-  }
-
-  List<Widget> buildList() {
-    if (viewModel.eventsList.data != null && ((session.data.id != -1 && viewModel.tagEventList.values.isNotEmpty) || session.data.id == -1) ) {
-        return [
-          if (viewModel.eventsList.data!.isNotEmpty)
-            buildSquared(0),
-          const SizedBox(height: 8.0),
-          if (viewModel.eventsList.data!.length > 1)
-            buildSquared(1),
-          const SizedBox(height: 8.0),
-          for (int i = 2; i < min(9, viewModel.eventsList.data!.length); ++i) buildHorizontal(i), const SizedBox(height: 8.0),
-          for (int j = 9; j < viewModel.eventsList.data!.length; j+=2) buildTwoSmalls(j,min(j+1,viewModel.eventsList.data!.length-1)), const SizedBox(height: 8.0),
-          const SizedBox(height: 8.0),
-          // if (session.data.id != -1) Text("Perquè t'agraden coses rares"),
-          // if (session.data.id != -1) HorizontalScrollingRow(viewModel.tagEventList.values.first.data!.sublist(0,20))
-        ];
-  }
-    else {
-      return [
-        const SizedBox(
-          child: Center(
-            child: CircularProgressIndicator()),
-          )
-      ];
-    }
-  }
-
 
 
 }
 
-ListView buildTiles(List<EventResult> eventList, int offset, int number) {
-  var _scrollController = ScrollController();
 
-  List<EventResult> toShow = eventList.getRange(offset, offset+number).toList();
-
-
-  return ListView.builder(
-      itemCount: toShow.length,
-      controller:
-      _scrollController,
-      itemBuilder:
-          (BuildContext context,
-          int i) {
-        return CardHorizontal(
-          eventList[i]
-        );
-      });
-}
 
 
