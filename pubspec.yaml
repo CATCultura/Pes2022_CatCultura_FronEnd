@@ -70,6 +70,7 @@ dependencies:
   fluttertoast: ^8.1.1
   flutter_polyline_points: ^1.0.0
   marquee: ^2.2.3
+  permission_handler: ^10.2.0
 
 flutter_icons:
   android: true

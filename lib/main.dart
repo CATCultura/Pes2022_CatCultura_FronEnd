@@ -12,13 +12,20 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/notifications/notificationService.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 //import 'utils/routes/routes.dart';
+
+void setPermissions() async{
+  final locStatus = await Permission.location.request();
+}
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   debugPaintSizeEnabled=false;
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initialize();
+  setPermissions();
   runApp(const MyApp());
 }
 
