@@ -52,7 +52,7 @@ class LoginViewModel with ChangeNotifier{
     user.email = email;
     user.password = password;
     user.points = "0";
-    user.tagsList = tagsList;
+    user.tags = tagsList;
     late String encoded = stringToBase64.encode("$user:$password");
     late String auth = "Basic $encoded";
 

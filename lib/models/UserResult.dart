@@ -7,7 +7,7 @@ class UserResult {
   String ? email = "empty";
   String ? password = "empty";
   String ? points = "0";
-  List<String> ? tagsList = ["empty"];
+  List<String> ? tags = ["empty"];
   /*
   password	string
   creationDate	string
@@ -25,7 +25,7 @@ class UserResult {
     this.email,
     this.password,
     this.points,
-    this.tagsList,
+    this.tags,
   });
 
   UserResult.fromJson(Map<String, dynamic> json) {
@@ -44,7 +44,7 @@ class UserResult {
       "email": this.email,
       "password": this.password,
       "points": this.points,
-      "tagsList": this.tagsList,
+      "tags": this.tags,
     };
     return result;
   }
