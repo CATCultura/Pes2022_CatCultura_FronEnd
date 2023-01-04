@@ -11,8 +11,8 @@ class CustomErrorWidget extends StatelessWidget {
           Text("Oopsies"),
           SizedBox(
             height: 400,
-            child: FittedBox(
-                fit: BoxFit.fitWidth,
+            child: SizedBox(
+
                 child: Image.asset('resources/img/error.png', scale: 2.0,)
             ),
           ),

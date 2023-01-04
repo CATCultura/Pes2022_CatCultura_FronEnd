@@ -47,7 +47,7 @@ class MyDrawer extends Drawer {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     verticalDirection: VerticalDirection.down,
                     mainAxisSize: MainAxisSize.max,
@@ -55,12 +55,11 @@ class MyDrawer extends Drawer {
                       const CircleAvatar(
                           radius: 36.0,
                           backgroundColor: MyColorsPalette.white,
-                          backgroundImage: NetworkImage(
-                              "https://avatars.githubusercontent.com/u/99893934?s=400&u=cc0636970f96e71b96dfb4696945dc0a95ebb787&v=4")),
+                          backgroundImage: AssetImage('resources/img/logo.png')),
                       const SizedBox(
                         height: 6,
                       ),
-                      Text(session.data.username,
+                      Text(session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
                           style: const TextStyle(
                               fontSize: 25, color: MyColorsPalette.white)),
                       const SizedBox(
