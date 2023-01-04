@@ -51,7 +51,8 @@ class RouteGenerator{
         final argsEvent = settings.arguments as EventArgs;
         return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(event: argsEvent.e));
       case '/userTags':
-        return MaterialPageRoute(builder:(_)=>UserTags());
+        final argsCreateUser = settings.arguments as CrearUserArgs;
+        return MaterialPageRoute(builder:(_)=>UserTags(name: argsCreateUser.name, user: argsCreateUser.user, email: argsCreateUser.email, password: argsCreateUser.password));
       case '/friendRequests':
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
