@@ -18,4 +18,5 @@ export 'package:CatCultura/views/screens/friendRequests.dart';
 export 'package:CatCultura/views/screens/reviewUnica.dart';
 export 'package:CatCultura/views/screens/crearReview.dart';
 export 'package:CatCultura/views/screens/trophies.dart';
+export 'package:CatCultura/views/screens/userEditTags.dart';
 

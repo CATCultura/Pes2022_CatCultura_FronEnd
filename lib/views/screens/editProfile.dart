@@ -186,9 +186,9 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                                 showPasswordNew = !showPasswordNew;
                               });
                             },
-                            icon: const Icon (
+                            icon: Icon (
                               Icons.remove_red_eye,
-                              color: Colors.grey,
+                              color: showPasswordNew ? Colors.blueAccent : Colors.grey,
                             ),
                           ),
                           contentPadding: const EdgeInsets.only(bottom: 3),
@@ -207,7 +207,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: OutlinedButton(
                         onPressed: () {
-                          Navigator.popAndPushNamed(context, '/userTags');
+                          Navigator.popAndPushNamed(context, '/userEditTags');
                         },
                         child: const Text("Edita els tags",
                           style: TextStyle(

@@ -57,6 +57,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/userEditTags':
+        return MaterialPageRoute(builder:(_)=>UserEditTags());
 
       default:
         return _errorRoute();

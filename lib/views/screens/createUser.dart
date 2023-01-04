@@ -129,9 +129,9 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                         showPassword = !showPassword;
                       });
                     },
-                    icon: const Icon (
+                    icon: Icon (
                       Icons.remove_red_eye,
-                      color: Colors.grey,
+                      color: showPassword ? Colors.deepOrangeAccent : Colors.grey,
                     )
                   ),
                     labelText: 'Contrasenya'
