@@ -190,7 +190,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         MaterialStateProperty.all(Colors.amberAccent)),
                     child: const Text('Veure peticions amistat'),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/friendRequests');
+                      Navigator.pushNamed(context, '/allUsers');
+                      //Navigator.pushNamed(context, '/friendRequests');
                     },
                   ),
                 ),

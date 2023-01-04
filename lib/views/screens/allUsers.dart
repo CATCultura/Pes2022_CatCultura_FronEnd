@@ -166,13 +166,77 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
               ),
               backgroundColor: MyColors.bgColorScreen,
               // key: _scaffoldKey,
-              drawer: MyDrawer("Events",
+              drawer: MyDrawer("Usuaris",
                   username: "Superjuane", email: "juaneolivan@gmail.com"),
               body: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
+                  children: <Widget>[     //no expanded
+                     Expanded(
+                       child: Center(
+                        child: viewModel.usersList.status == Status.LOADING? const SizedBox(
+                                child: Center(
+                                child: CircularProgressIndicator()),
+                        )
+                            : viewModel.usersList.status == Status.ERROR? Text(viewModel.usersList.toString())
+                            : viewModel.usersList.status == Status.COMPLETED?
+                            Column(
+                              children: [
+                                Expanded(
+                                  child: ListView.builder(
+                                      controller:
+                                      _scrollController,
+                                      itemCount: viewModel.usersList.data!.length,
+                                      itemBuilder: (BuildContext context,int i) =>
+                                        Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        padding: EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 5.0),
+                                          child: Material(
+                                            elevation: 20,
+                                            shadowColor: Colors.black.withAlpha(70),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                            child: ListTile(
+                                              onTap: () {
+                                                //debugPrint("clicked event: ${event.denominacio}");
+                                                Navigator.pushNamed(context, '/another-user-profile',
+                                                arguments: AnotherProfileArgs(viewModel.usersList.data![i].username!.toString(), viewModel.usersList.data![i].id!.toString()));
+                                              },
+                                              shape: RoundedRectangleBorder(
+                                                side: const BorderSide(color: Color(0xFF818181), width: 1),
+                                                borderRadius: BorderRadius.circular(5),
+                                              ),
+                                                tileColor: Theme.of(context).cardColor,
+                                                title: Column(children: [
+                                                    Text(viewModel.usersList.data![i].username!,
+                                                    style: const TextStyle(
+                                                        fontWeight: FontWeight.bold, fontSize: 17)),
+                                                    const Padding(
+                                                      padding: EdgeInsets.only(top: 5),
+                                                    ),
+                                                ],
 
+                                              ),
+
+                                        ),
+                                        /*return UserInfoTile(event: viewModel.usersList.data![i],
+                                          index: i,
+                                        );
+                                        */
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                viewModel.chargingNextPage? const SizedBox(
+                                  child: Center(
+                                      child:
+                                      CircularProgressIndicator()),
+                                  ): const SizedBox.shrink(),
+                              ],
+
+                            ): const Text("a"),
+                    ),
+                     ),
                   ],
                 ),
               ),
