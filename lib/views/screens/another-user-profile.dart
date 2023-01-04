@@ -114,6 +114,9 @@ class AnotherProfile extends StatelessWidget {
                             viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
                             var aux = int.parse(selectedId);
                             sessio.data.friendsId!.remove(aux);
+                            viewModel.afegit = false;
+                            viewModel.friend = false;
+                            viewModel.notifyListeners();
                           },
                         ),
 
