@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
-import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/response/apiResponse.dart';
 import '../../viewModels/LoginViewModel.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';

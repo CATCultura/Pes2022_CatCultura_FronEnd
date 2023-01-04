@@ -164,4 +164,12 @@ class UsersRepository {
       rethrow;
     }
   }
-}
+
+  Future<SessionResult> putEditUser(UserResult data) async {
+    try {
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users", data.toJson());
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }}
