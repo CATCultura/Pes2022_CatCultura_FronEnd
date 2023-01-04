@@ -245,7 +245,7 @@ class EventsRepository {
     }
   }
   Future<List<ReviewResult>>getEventReviewsById(String id) async {
-    await Future.delayed(Duration(seconds: 2));
+    //await Future.delayed(Duration(seconds: 2));
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
       List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
@@ -348,6 +348,17 @@ class EventsRepository {
       List<int> res = (response as List).map((item) => item as int).toList();
       debugPrint("res desde eventRepo upvoteReview(): ${res.toString()}");
       return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ReviewResult> getReview(int eventId, int reviewId) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$eventId/reviews");
+      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      debugPrint("res desde eventRepo getReview(): ${res.toString()}");
+      return res.firstWhere((r) => r.reviewId! == reviewId);
     } catch (e) {
       rethrow;
     }

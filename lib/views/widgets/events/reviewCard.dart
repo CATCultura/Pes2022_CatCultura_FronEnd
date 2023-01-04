@@ -60,9 +60,10 @@ class ReviewCardState extends State<ReviewCard>
               height: 150,
               width: MediaQuery.of(context).size.width,
               child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "/reviewUnica",
+                onTap: () async {
+                  final value = await Navigator.pushNamed(context, "/reviewUnica",
                       arguments: ReviewUnicaArgs(review));
+                  viewModel.reloadReview();
                 },
                 child: Card(
                   color: Color(0xFFf6f6f6),
@@ -92,11 +93,21 @@ class ReviewCardState extends State<ReviewCard>
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+                                    Text(review.upvotes.toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: MyColors.header,
+                                        )),
                                     IconButton(
                                         onPressed: () {
-                                          viewModel.isUpvoted
-                                              ? viewModel.downvote()
-                                              : viewModel.upvote();
+                                          if(viewModel.isUpvoted) {
+                                            viewModel.downvote();
+                                            review.upvotes = review.upvotes! - 1;
+                                          } else {
+                                            viewModel.upvote();
+                                            review.upvotes = review.upvotes! + 1;
+                                          }
                                         },
                                         icon: viewModel.isUpvoted
                                             ? Icon(Icons.arrow_upward,

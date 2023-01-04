@@ -17,12 +17,18 @@ class ReviewViewModel with ChangeNotifier {
 
   void setReview(ReviewResult review) {
     this.review = review;
+    // debugPrint("-------------- review ${review.reviewId}:------------\n  -upvotes: ${review.upvotes}\n  -user: ${review.author}");
+    // debugPrint("Lista de reviews del usuario:\n  -${session.data.upvotedReviews}\n  -${session.data.reportedReviews}");
+    // debugPrint("--------------------------------------");
     if(session.data.id == review.userId) isMine = true;
     else isMine = false;
     if(session.data.reportedReviews!.contains(review.reviewId!)) isReported = true;
     else isReported = false;
     if(session.data.upvotedReviews!.contains(review.reviewId!)) isUpvoted = true;
     else isUpvoted = false;
+    // debugPrint(isMine? "isMine":"isNotMine");
+    // debugPrint(isReported? "isReported":"isNotReported");
+    // debugPrint(isUpvoted? "isUpvoted":"isNotUpvoted");
     notifyListeners();
   }
 
@@ -50,11 +56,11 @@ class ReviewViewModel with ChangeNotifier {
     notifyListeners();
     if(review.userId != null && review.reviewId != null) {
       await _eventsRepo.downvoteReview(review.userId!, review.reviewId!).then((value) {
-        if(value.contains(review.reviewId!)) {
+        // if(value.contains(review.reviewId!)) {
           isUpvoted = false;
           session.data.upvotedReviews = value;
           notifyListeners();
-        }
+        // }
       });
     }
   }
@@ -69,6 +75,12 @@ class ReviewViewModel with ChangeNotifier {
         notifyListeners();
       });
     }
+  }
+
+  Future<void> reloadReview() async{
+    await _eventsRepo.getReview(review.eventId!, review.reviewId!).then((value) {
+      setReview(value);
+    });
   }
 
 }

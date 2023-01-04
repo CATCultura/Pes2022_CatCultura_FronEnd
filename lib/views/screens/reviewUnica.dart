@@ -57,11 +57,21 @@ class _ReviewUnicaState extends State<ReviewUnica> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            Text(review.upvotes.toString(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: MyColors.header,
+                                )),
                             IconButton(
                                 onPressed: () {
-                                  viewModel.isUpvoted
-                                      ? viewModel.downvote()
-                                      : viewModel.upvote();
+                                  if(viewModel.isUpvoted) {
+                                    viewModel.downvote();
+                                    review.upvotes = review.upvotes! - 1;
+                                  } else {
+                                    viewModel.upvote();
+                                    review.upvotes = review.upvotes! + 1;
+                                  }
                                 },
                                 icon: viewModel.isUpvoted
                                     ? Icon(Icons.arrow_upward,

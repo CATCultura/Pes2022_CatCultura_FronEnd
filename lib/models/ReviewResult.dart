@@ -6,6 +6,7 @@ class ReviewResult {
   String? title = "noTitle";
   String? review = "noText";
   int? rating = 0;
+  int? eventId = 0;
   String? author = "noUser";
   int? userId = -1;
   int? reviewId = -1;
@@ -16,6 +17,7 @@ class ReviewResult {
     this.title,
     this.review,
     this.rating,
+    this.eventId,
     this.author,
     this.userId,
     this.reviewId,
@@ -27,6 +29,7 @@ class ReviewResult {
     title = jsonResponse['title'];
     review = jsonResponse['review'];
     rating = jsonResponse['stars'];
+    eventId = jsonResponse['eventId'];
     author = jsonResponse['authorUsername'];
     reviewId = jsonResponse['id'];
     userId = jsonResponse['authorId'];
