@@ -29,5 +29,14 @@
 
     "anonymousUser": "Anònim",
 
-    "missingEmail": "Falta el correu"
+    "missingEmail": "Falta el correu",
+
+    "eventScreenTitle": "Esdeveniments",
+
+    "culturalRouteTitle": "Ruta cultural",
+
+    "logoutButton": "Tanca la sessió",
+
+    "searchByQueryPrompt": "Cerca un esdeveniment..."
+
 }

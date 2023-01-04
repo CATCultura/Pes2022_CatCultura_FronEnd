@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:CatCultura/data/response/apiResponse.dart';
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
@@ -10,8 +11,8 @@ import '../models/SessionResult.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class UsersRepository {
-  //final baseUrl = "http://40.113.160.200:8081/";
-  final baseUrl = "http://10.4.41.41:8081/";
+  final baseUrl = "http://40.113.160.200:8081/";
+  // final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
 
   UsersRepository._privateConstructor();
@@ -163,5 +164,17 @@ class UsersRepository {
     catch (e) {
       rethrow;
     }
+  }
+
+  Future<dynamic> getEventsById(int id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/$id/events");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+
   }
 }

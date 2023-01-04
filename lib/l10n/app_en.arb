@@ -76,6 +76,26 @@
     "missingEmail": "Email not provided",
     "@missingEmail": {
       "description": "Description for user without email"
+    },
+
+    "eventScreenTitle": "Events",
+    "@eventScreenTitle": {
+      "description": "Title for event search screen."
+    },
+
+    "culturalRouteTitle": "Cultural route",
+    "@culturalRouteTitle": {
+      "description": "Title for cultural route screen."
+    },
+
+    "logoutButton": "Logout",
+    "@logoutButton": {
+      "description": "Title for button to logout."
+    },
+
+    "searchByQueryPrompt": "Search by query...",
+    "@searchByQueryPrompt": {
+      "description": "Prompt the user to search by query."
     }
 
 

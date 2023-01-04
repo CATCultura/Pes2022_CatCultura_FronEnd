@@ -77,7 +77,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.house_outlined, size: 28),
-            title: Text(AppLocalizations.of(context)!.homeScreenTitle, style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.homeScreenTitle, style: const TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "Home") {
                 Navigator.pop(context);
@@ -89,7 +89,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.calendar_today_sharp, size: 28),
-            title: const Text('Events', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.eventScreenTitle, style: const TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "Events") {
                 Navigator.pop(context);
@@ -101,7 +101,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.map, size: 28),
-            title: const Text('Ruta Cultural', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.culturalRouteTitle, style: const TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "rutaCultural") {
                 Navigator.pop(context);
@@ -125,7 +125,7 @@ class MyDrawer extends Drawer {
           if (session.data.id != -1) ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.star, size: 28),
-            title: Text(AppLocalizations.of(context)!.favouritesTitle, style: TextStyle(fontSize:18)),
+            title: Text(AppLocalizations.of(context)!.favouritesTitle, style: const TextStyle(fontSize:18)),
             onTap: (){
               if(actualPage == "Favorits"){
                 Navigator.pop(context);
@@ -138,7 +138,7 @@ class MyDrawer extends Drawer {
           if (session.data.id != -1) ListTile(
               horizontalTitleGap: 0,
               leading: const Icon(Icons.calendar_month, size: 28),
-              title: Text(AppLocalizations.of(context)!.agendaTitle, style: TextStyle(fontSize:18)),
+              title: Text(AppLocalizations.of(context)!.agendaTitle, style: const TextStyle(fontSize:18)),
               onTap: (){
                 if(actualPage == "Agenda"){
                   Navigator.pop(context);
@@ -150,7 +150,7 @@ class MyDrawer extends Drawer {
           ),
           ListTile(
             horizontalTitleGap: 0,
-            title: const Text('Tancar sessió', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.logoutButton, style: TextStyle(fontSize: 18)),
             onTap: () {
               session.deleteSession();
                 Navigator.pushReplacementNamed(context, '/login');

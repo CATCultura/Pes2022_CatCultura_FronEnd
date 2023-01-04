@@ -537,7 +537,13 @@ class _BodyState extends State<Body> {
                               return AlertDialog(
                                 actions: [
                                   ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
-                                  ElevatedButton(onPressed: () => {}, child: Text("Veure'n més"))
+                                  ElevatedButton(onPressed: () =>
+                                  {
+                                    Navigator.pushNamed(context, "/organizer",
+                                  arguments: OrganizerArgs(event.idOrganitzador!)).then((_){
+
+                                  })
+                                        }, child: Text("Veure'n més"))
                                 ],
                                 title: Text("Info de l'organitzador"),
                                 content: OrganizerCard(event)
@@ -778,7 +784,7 @@ class CoverPhoto extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Image.network(
           imgUrl,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
     );

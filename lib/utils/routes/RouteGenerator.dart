@@ -6,6 +6,7 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
 
+import '../../views/screens/organizerEvents.dart';
 import '../../views/widgets/errorWidget.dart';
 import '../Session.dart';
 
@@ -61,6 +62,9 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/organizer':
+        final argsOrganizerId = settings.arguments as OrganizerArgs;
+        return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId));
 
       default:
         return _errorRoute();
@@ -77,3 +81,4 @@ class RouteGenerator{
     });
   }
 }
+
