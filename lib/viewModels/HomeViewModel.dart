@@ -112,4 +112,7 @@ class HomeViewModel with ChangeNotifier{
     fetchEvents();
   }
 
+  @override
+  void dispose(){
+  }
 }
