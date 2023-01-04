@@ -51,7 +51,7 @@ class _UserTagsState extends State<UserTags> {
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
         return  Scaffold(
             body: Container(
-                padding: EdgeInsets.only(top:20, left:20, right:20),
+                padding: EdgeInsets.only(top:20, left:20, right:20, bottom: 10),
                 alignment: Alignment.topLeft,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,16 +91,16 @@ class _UserTagsState extends State<UserTags> {
                           children: [
                             Expanded(
                               child: Container(
-                                height: 450.0,
+                                height: 400.0,
                                 child: ListView.builder (
                                     itemCount: viewModel.tagsList.data?.length,
                                     itemBuilder: (BuildContext context, int i) {
                                       return SizedBox(
                                         width: 400,
-                                        height: 90,
+                                        //height: 90,
                                         child: Center(
                                           child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(7.0),
                                           child: Column(
                                           children: [
                                             Container(
@@ -162,7 +162,9 @@ class _UserTagsState extends State<UserTags> {
                                 Container(
                                   child: OutlinedButton(
                                     onPressed: () {
-                                      Navigator.popAndPushNamed(context, '/home');
+                                      Navigator.popAndPushNamed(context, '/login');
+                                      viewModelLogin.crearcompte(name, user, email, password, checkedTags);
+                                      viewModelLogin.notifyListeners();
                                     },
                                     child: const Text("ARA NO",
                                       style: TextStyle (
@@ -184,7 +186,7 @@ class _UserTagsState extends State<UserTags> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.popAndPushNamed(context, '/home');
+                                      Navigator.popAndPushNamed(context, '/login');
                                       viewModelLogin.crearcompte(name, user, email, password, checkedTags);
                                       viewModelLogin.notifyListeners();
                                       },
