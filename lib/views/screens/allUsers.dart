@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -12,6 +10,7 @@ import 'package:CatCultura/viewModels/AllUsersViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
+import '../../utils/Session.dart';
 import '../../models/Place.dart';
 
 
@@ -28,6 +27,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
   bool findedSomething = false;
   String message = "Search by name...";
   var searchResult;
+  final Session sessio = Session();
   //late ClusterManager _manager;
   //Completer<GoogleMapController> _controller = Completer();
   //Set<Marker> markers = Set();
@@ -197,7 +197,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                             child: ListTile(
                                               onTap: () {
                                                 //debugPrint("clicked event: ${event.denominacio}");
-                                                Navigator.pushNamed(context, '/another-user-profile',
+                                                if (viewModel.usersList.data![i].id!.toString() != sessio.data.id.toString())Navigator.pushNamed(context, '/another-user-profile',
                                                 arguments: AnotherProfileArgs(viewModel.usersList.data![i].username!.toString(), viewModel.usersList.data![i].id!.toString()));
                                               },
                                               shape: RoundedRectangleBorder(
@@ -210,7 +210,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                                   children: [
                                                     Text(viewModel.usersList.data![i].username!,
                                                     style: const TextStyle(
-                                                        fontWeight: FontWeight.w500, fontSize: 15)),
+                                                        fontWeight: FontWeight.w600, fontSize: 17)),
                                                     const Padding(
                                                       padding: EdgeInsets.only(top: 5),
                                                     ),

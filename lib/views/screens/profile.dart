@@ -196,11 +196,14 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   ),
                 ),
                 const SizedBox(height: 16),
-                viewModel.usersList.status == Status.LOADING? const SizedBox(
+                /*viewModel.usersList.status == Status.LOADING? const SizedBox(
                   child: Center(child: CircularProgressIndicator()),
                 ):
                 viewModel.usersList.status == Status.ERROR? Text(viewModel.usersList.toString()):
-                viewModel.usersList.status == Status.COMPLETED? Container(
+                viewModel.usersList.status == Status.COMPLETED?
+
+                 */
+                Container(
                   height: 40,
                   padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                     child: ElevatedButton(
@@ -209,7 +212,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                           MaterialStateProperty.all(Colors.amberAccent)),
                       child: const Text ('Buscar Usuaris'),
                       onPressed: ()async{
-
+                          /*
                           for (var i = 0; i < 20; i++) {
                             usersList.add(viewModel.usersList.data![i].username!);
                             usersSuggList.add(viewModel.usersList.data![i].username!);
@@ -231,6 +234,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             selectedUser = viewModel.usersList.data![pos].nameAndSurname!;
                             selectedId = viewModel.usersList.data![pos].id!;
                           });
+                           */
                           // ignore: use_build_context_synchronously
                           //if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
                           Navigator.pushNamed(context, '/allUsers');
@@ -244,7 +248,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   ),*/
 
                   // onPressed: (){},
-                ): Text("res"),
+                ),
                 const SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
