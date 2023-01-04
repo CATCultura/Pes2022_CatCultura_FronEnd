@@ -8,29 +8,22 @@ import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../../viewModels/LoginViewModel.dart';
 
 
-class UserTags extends StatelessWidget {
-  UserTags({super.key, required this.nameController, required this.userController, required this.emailController, required this.passwordController});
-  String nameController;
-  String userController;
-  String emailController;
-  String passwordController;
-
+class UserTags extends StatefulWidget {
+  const UserTags({super.key, required this.name, required this.user, required this.email, required this.password});
+  final String name;
+  final String user;
+  final String email;
+  final String password;
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: StatefulUserTags(),
-    );
-  }
+  State<UserTags> createState() => _UserTagsState();
 }
 
-class StatefulUserTags extends StatefulWidget {
-  const StatefulUserTags({Key? key}) : super(key: key);
+class _UserTagsState extends State<UserTags> {
+  late String name = widget.name;
+  late String user = widget.user;
+  late String email = widget.email;
+  late String password = widget.password;
 
-  @override
-  State<StatefulUserTags> createState() => _StatefulUserTagsState();
-}
-
-class _StatefulUserTagsState extends State<StatefulUserTags> {
   final TagsViewModel viewModel = TagsViewModel();
   final LoginViewModel viewModelLogin = LoginViewModel();
 
@@ -192,7 +185,7 @@ class _StatefulUserTagsState extends State<StatefulUserTags> {
                                     ),
                                     onPressed: () {
                                       Navigator.popAndPushNamed(context, '/home');
-                                      viewModelLogin.crearcompte(nameController, userController, emailController, passwordController);
+                                      viewModelLogin.crearcompte(name, user, email, password);
                                       viewModelLogin.notifyListeners();
                                       },
                                   ),

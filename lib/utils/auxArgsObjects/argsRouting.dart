@@ -29,9 +29,9 @@ class EventArgs {
 }
 
 class CrearUserArgs{
-  final String nameController;
-  final String userController;
-  final String emailController;
-  final String passwordController;
-  CrearUserArgs(this.nameController, this.userController, this.emailController, this.passwordController);
+  final String name;
+  final String user;
+  final String email;
+  final String password;
+  CrearUserArgs(this.name, this.user, this.email, this.password);
 }
