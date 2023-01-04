@@ -44,18 +44,20 @@ class LoginViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> crearcompte(String n, String u, String e, String p) async {
+  Future<void> crearcompte(String name, String username, String email, String password, List<String> tagsList) async {
     //if(n != "") {
     UserResult user = UserResult();
-    user.nameAndSurname = n;
-    user.username = u;
-    user.email = e;
-    user.password = p;
+    user.nameAndSurname = name;
+    user.username = username;
+    user.email = email;
+    user.password = password;
     user.points = "0";
-    late String encoded = stringToBase64.encode("$u:$p");
+    user.tagsList = tagsList;
+    late String encoded = stringToBase64.encode("$user:$password");
+    late String auth = "Basic $encoded";
 
     await _usersRepo.postCreaCompte(user).then((value) {
-      setUsersSelected(ApiResponse.completed(value), "completed");
+      setUsersSelected(ApiResponse.completed(value), auth);
     }).onError((error, stackTrace) =>
         setUsersSelected(ApiResponse.error(error.toString()), null));
     //} else errorN = 1;

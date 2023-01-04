@@ -27,7 +27,7 @@ class _UserTagsState extends State<UserTags> {
   final TagsViewModel viewModel = TagsViewModel();
   final LoginViewModel viewModelLogin = LoginViewModel();
 
-  late List <String> tagsList = [];
+  late List <String>? tagsList = [];
   List<String> checkedTags = [];
 
   void _onSelected(bool selected, String category) {
@@ -45,7 +45,7 @@ class _UserTagsState extends State<UserTags> {
   @override
   Widget build(BuildContext context) {
     viewModel.fetchTagsListApi();
-    tagsList = viewModel.tagsList.data!;
+    tagsList = viewModel.tagsList.data;
     return ChangeNotifierProvider<TagsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
@@ -93,7 +93,7 @@ class _UserTagsState extends State<UserTags> {
                               child: Container(
                                 height: 450.0,
                                 child: ListView.builder (
-                                    itemCount: tagsList.length,
+                                    itemCount: viewModel.tagsList.data?.length,
                                     itemBuilder: (BuildContext context, int i) {
                                       return SizedBox(
                                         width: 400,
@@ -123,18 +123,18 @@ class _UserTagsState extends State<UserTags> {
                                                 ), //BoxDecorationDecoration
 
                                               child: CheckboxListTile( //checkbox positioned at right
-                                                value: checkedTags.contains(tagsList[i]),
+                                                value: checkedTags.contains(viewModel.tagsList.data![i]),
                                                 onChanged: (bool? selected) {
                                                   bool s = false;
                                                   if (selected != null) {
-                                                    _onSelected(selected, tagsList[i]);
+                                                    _onSelected(selected, viewModel.tagsList.data![i]);
                                                   }
                                                   else {
-                                                    _onSelected(s, tagsList[i]);
+                                                    _onSelected(s, viewModel.tagsList.data![i]);
                                                   }
                                                 },
                                                 title: Text(
-                                                  tagsList[i],
+                                                  viewModel.tagsList.data![i],
                                                   style: TextStyle(
                                                     color: Colors.black38,
                                                     fontWeight: FontWeight.bold
@@ -185,7 +185,7 @@ class _UserTagsState extends State<UserTags> {
                                     ),
                                     onPressed: () {
                                       Navigator.popAndPushNamed(context, '/home');
-                                      viewModelLogin.crearcompte(name, user, email, password);
+                                      viewModelLogin.crearcompte(name, user, email, password, checkedTags);
                                       viewModelLogin.notifyListeners();
                                       },
                                   ),
