@@ -6,6 +6,7 @@ import 'dart:math';
 
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
+import 'package:CatCultura/models/RouteResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
@@ -217,20 +218,10 @@ class EventsRepository {
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
-    // try{
-    //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}xxxxxxx");
-    //   List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-    //   //_cachedEvents = res;
-    //   return res;
-    // } catch(e){
-    //   rethrow;
-    // }
-    //41.3874, 2.1686
 
     try {
-      final random = new Random();
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.375&lon=2.176&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.3723235&lon=2.1398554&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
       //debugPrint(response.toString());
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
@@ -238,16 +229,14 @@ class EventsRepository {
     } catch (e) {
       rethrow;
     }
-    // await Future.delayed(const Duration(seconds: 2));
-    // return [EventResult(id: "1", denominacio: "e1",longitud:41.3872, latitud: 2.1684),EventResult(id: "2", denominacio: "e2",longitud:41.3870, latitud: 2.1682),EventResult(id: "3", denominacio: "e3",longitud:41.3868, latitud: 2.1680)];
   }
 
   Future<List<String>> getTags() async {
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}tags");
-      List<String> tagsAmbits = (response['ambits'] as List).map((item) => item as String).toList();
-      List<String> tagsAmbitsCateg = (response['altresCategories'] as List).map((item) => item as String).toList();
-      List<String> tagsAltresCateg = (response['categories'] as List).map((item) => item as String).toList();
+      List<String> tagsAmbits = (response['AMBITS'] as List).map((item) => item as String).toList();
+      List<String> tagsAmbitsCateg = (response['ALTRES_CATEGORIES'] as List).map((item) => item as String).toList();
+      List<String> tagsAltresCateg = (response['CATEGORIES'] as List).map((item) => item as String).toList();
       List<String> res = [tagsAmbits, tagsAmbitsCateg, tagsAltresCateg].expand((x) => x).toList();
       return res;
 
@@ -256,23 +245,10 @@ class EventsRepository {
     }
   }
   Future<List<ReviewResult>>getEventReviewsById(String id) async {
-    await Future.delayed(Duration(seconds: 2));
+    //await Future.delayed(Duration(seconds: 2));
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
       List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
-      //debugPrint("lista de reviews");
-      // List<ReviewResult> res = [
-      //   ReviewResult(title: "Title of review 1", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      //   score: 5, date: "4-4-4"),
-      //   ReviewResult(title: "Title of review 2", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      //       score: 1, date: "4-4-4"),
-      //   ReviewResult(title: "Title of review 3", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      //       score: 3, date: "4-4-4"),
-      //   ReviewResult(title: "Title of review 4", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      //       score: 2, date: "4-4-4"),
-      //   ReviewResult(title: "Title of review 5", user: "Juane Olivan", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at auctor dolor. Mauris varius tincidunt ante eu condimentum. In hac habitasse platea dictumst. Nunc ullamcorper nunc sed porta dignissim. Donec justo arcu, vehicula sit amet odio ac, tincidunt malesuada augue. Nullam sollicitudin mollis hendrerit. Suspendisse libero felis, imperdiet fermentum nunc eget, dictum iaculis tortor. Nam id odio neque. Proin aliquam a diam id aliquet. Maecenas at erat est. Nullam eu enim tortor. Suspendisse vel ex eget ligula luctus vehicula. Morbi sodales consequat sem, a tincidunt nisi semper vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      //       score: 4, date: "4-4-4"),
-      // ];
 
       return res;
 
@@ -319,4 +295,72 @@ class EventsRepository {
     }
   }
 
+  Future<List<RouteResult>>getSavedRoutes(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/routes"); //40.113.160.200:8081
+      List<RouteResult> res = List.from(response.map((r) => RouteResult.fromJson(r)).toList());
+      //dynamic res = RouteResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+
+  }
+
+  Future<List<int>> reportReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews/$reviewId/reports", "");
+      debugPrint("response desde eventRepo reportReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo reportReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  deleteReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId", "");
+      debugPrint("response desde eventRepo deleteReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> downvoteReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/${session.data.id}/upvotes/$reviewId", "");
+      debugPrint("response desde eventRepo downvoteReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo downvoteReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> upvoteReview(int userId, int reviewId) async{
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/upvotes/$reviewId", "");
+      debugPrint("response desde eventRepo upvoteReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo upvoteReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ReviewResult> getReview(int eventId, int reviewId) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$eventId/reviews");
+      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      debugPrint("res desde eventRepo getReview(): ${res.toString()}");
+      return res.firstWhere((r) => r.reviewId! == reviewId);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

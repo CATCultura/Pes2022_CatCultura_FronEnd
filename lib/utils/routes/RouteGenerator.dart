@@ -5,6 +5,8 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
+import '../../views/widgets/errorWidget.dart';
+
 
 
 class RouteGenerator{
@@ -51,7 +53,8 @@ class RouteGenerator{
         final argsEvent = settings.arguments as EventArgs;
         return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(event: argsEvent.e));
       case '/userTags':
-        return MaterialPageRoute(builder:(_)=>UserTags());
+        final argsCreateUser = settings.arguments as CrearUserArgs;
+        return MaterialPageRoute(builder:(_)=>UserTags(name: argsCreateUser.name, user: argsCreateUser.user, email: argsCreateUser.email, password: argsCreateUser.password));
       case '/friendRequests':
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
@@ -68,7 +71,7 @@ class RouteGenerator{
     return MaterialPageRoute(builder: (_){
       return Scaffold(
         appBar: AppBar(title:Text("ERROR")),
-        body: Center(child:Text("ERROR")),
+        body: CustomErrorWidget(),
         drawer: MyDrawer(""),
       );
     });

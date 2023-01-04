@@ -2,13 +2,14 @@ import 'dart:core';
 
 class UserResult {
   String ? id	= "empty";
-  String ? username = "manolitoklk";
+  String ? username = "empty";
   String ? nameAndSurname	= "empty";
   String ? email = "empty";
   String ? creationDate;
   String ? role;
   String ? password = "empty";
   String ? points = "empty";
+  List<String> ? tags = ["empty"];
 
   UserResult({
     this.id,
@@ -18,7 +19,8 @@ class UserResult {
     this.creationDate,
     this.role,
     this.password,
-    this.points
+    this.points,
+    this.tags,
   });
 
   UserResult.fromJson(Map<String, dynamic> json) {
@@ -40,7 +42,8 @@ class UserResult {
       "creationDate": this.creationDate,
       "role": this.role,
       "password": this.password,
-      "points": this.points
+      "points": this.points,
+      "tags": this.tags,
     };
     return result;
   }

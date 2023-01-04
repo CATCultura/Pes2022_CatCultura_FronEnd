@@ -37,6 +37,12 @@ class EventResult {
   String? ubicacio = "ubicacio: no info";
   String? imgApp = "";
   bool? cancelado = false;
+  String? nomOrganitzador;
+  int? idOrganitzador;
+  String? urlOrganitzador;
+  String? telefonOrganitzador;
+  String? emailOrganitzador;
+
 
 
   EventResult({
@@ -73,7 +79,12 @@ class EventResult {
     this.URL,
     this.ubicacio,
     this.imgApp,
-    this.cancelado
+    this.cancelado,
+    this.nomOrganitzador,
+    this.idOrganitzador,
+    this.urlOrganitzador,
+    this.telefonOrganitzador,
+    this.emailOrganitzador
   });
 
   EventResult.fromJson(Map<String, dynamic> jsonResponse) {
@@ -84,12 +95,19 @@ class EventResult {
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    if(jsonResponse['descripcio'] != null)descripcio = formatText(jsonResponse['descripcio']);
+    if(jsonResponse['descripcio'] != null) {
+      descripcio = formatText(jsonResponse['descripcio']);
+    } else {
+      descripcio = "No descripcio";
+    }
     // if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
     // else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
     comarcaIMunicipi = jsonResponse['ubicacio'];
+    ubicacio = jsonResponse['ubicacio'];
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
+    horari = jsonResponse['horaris'] ?? "No info sobre horaris";
+    entrades = jsonResponse['entrades'] ?? "No info sobre entrades";
     if(jsonResponse['imatges'] != null) {
       imatges = (jsonResponse['imatges'] as List).map((item) => item as String).toList();
     }else{
@@ -118,8 +136,15 @@ class EventResult {
     // List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
     imgApp = jsonResponse['imgApp'];
     espai = jsonResponse['espai'];
+    adreca = jsonResponse['adreca'];
     //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";
     cancelado = jsonResponse['cancelado'];
+    nomOrganitzador = jsonResponse['nomOrganitzador'] ?? "Organitzador anònim";
+    idOrganitzador = jsonResponse['idOrganitzador'] ?? -1;
+    urlOrganitzador = jsonResponse['urlOrganitzador'] ?? "";
+    telefonOrganitzador = jsonResponse['telefonOrganitzador'] ?? "";
+    emailOrganitzador = jsonResponse['emailOrganitzador'] ?? "";
+
 
   }
 
@@ -133,10 +158,10 @@ class EventResult {
 }
 
 String formatText(String s) {
-  String aux = s.replaceAll ("&nbsp;", "\n");
+  String aux = s.replaceAll ("&nbsp;", " ");
   aux = aux.replaceAll ("nbsp;", "");
-  aux = aux.replaceAll ("&amp;", "\n");
-  aux = aux.replaceAll ("amp;", "\n");
+  aux = aux.replaceAll ("&amp;", "&");
+  aux = aux.replaceAll ("amp;", "&");
 
   return aux;
 }

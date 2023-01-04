@@ -19,8 +19,6 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
-
-
       // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
@@ -49,7 +47,7 @@ class NetworkApiServices extends BaseApiServices {
       }
       responseJson = returnResponse(response);
 
-      print(responseJson.toString());
+      // debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
       //responseJsonMock = jsonDecode(jsonMock);
 
@@ -67,17 +65,39 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
-
     try {
+      final response;
+      if (session.get('authorization') != null) {
+        debugPrint("auth: " + session.get('authorization').toString());
+        response = await http.post(
+          Uri.parse(url),
+          // body: jsonEncode(data.toJson()),
+          body: jsonEncode(data),
+          headers: {
+            'Content-Type': 'application/json',
 
-      http.Response response = await http.post(
-        Uri.parse(url),
-        // body: jsonEncode(data.toJson()),
-        body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json', 'Accept': '*/*',
-          'Accept-Encoding': 'gzip, deflate, br', 'Host': '10.4.41.41:8081', 'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
-          'Authorization': session.get('authorization')},
-      ).timeout(const Duration(seconds: 60));
+            'Authorization': session.get('authorization')
+          ?? ""},
+        ).timeout(const Duration(seconds: 60));
+      }
+      else {
+        debugPrint("not authorized");
+        response = await http.post(
+          Uri.parse(url),
+          // body: jsonEncode(data.toJson()),
+          body: jsonEncode(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Host': '10.4.41.41:8081',
+            'Content-Length': utf8
+                .encode(jsonEncode(data))
+                .length
+                .toString(),
+          },
+        ).timeout(const Duration(seconds: 60));
+      }
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -203,9 +223,16 @@ class NetworkApiServices extends BaseApiServices {
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
+      case 201:
+        final codeUnits = response.body.codeUnits;
+        String text = const Utf8Decoder().convert(codeUnits);
+        dynamic res = jsonDecode(text);
+        debugPrint("from networkApiServices printing response on code 201:\n$res\n");
+        return res;
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:
+        debugPrint("from networkApiServices printing response on code 401");
         throw BadRequestException(response.body.toString());
       case 403:
         throw BadRequestException(response.body.toString());
