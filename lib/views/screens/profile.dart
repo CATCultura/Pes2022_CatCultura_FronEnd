@@ -231,8 +231,9 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             selectedId = viewModel.usersList.data![pos].id!;
                           });
                           // ignore: use_build_context_synchronously
-                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
-                        },
+                          //if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
+                          Navigator.pushNamed(context, '/allUsers');
+                      },
 
                     ),
                   /*icon: const Icon(Icons.search), label: const Text("Search users"),

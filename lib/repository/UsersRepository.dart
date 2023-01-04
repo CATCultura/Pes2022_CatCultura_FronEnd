@@ -39,6 +39,36 @@ class UsersRepository {
     }
   }
 
+  Future<List<UserResult>> getUsersWithParameters(int? page, int? size, String? sort) async {
+    //events?page=0&size=2&sort=string
+    page ??= 0;
+    size ??= 20;
+    //sort ??= "string";
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users?page=$page&size=$size"); //no va --> &sort=$sort
+      List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<UserResult>> getUsersWithFilter(String filter) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users?username=$filter");
+      debugPrint(filter);
+      List<UserResult> res = List.from(response.map((e) => UserResult.fromJson(e)).toList());
+
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+
   Future<UserResult> getUserById(String id) async {
     UserResult? cached = userInCache(id);
     if(cached.id!= null) {
