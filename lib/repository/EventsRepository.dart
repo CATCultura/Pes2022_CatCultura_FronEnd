@@ -306,4 +306,50 @@ class EventsRepository {
     }
 
   }
+
+  Future<List<int>> reportReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews/$reviewId/reports", "");
+      debugPrint("response desde eventRepo reportReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo reportReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  deleteReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId", "");
+      debugPrint("response desde eventRepo deleteReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> downvoteReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/${session.data.id}/upvotes/$reviewId", "");
+      debugPrint("response desde eventRepo downvoteReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo downvoteReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> upvoteReview(int userId, int reviewId) async{
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/upvotes/$reviewId", "");
+      debugPrint("response desde eventRepo upvoteReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo upvoteReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

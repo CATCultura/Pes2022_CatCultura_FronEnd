@@ -15,7 +15,7 @@ class SessionResult {
   List<int>? favouritesId = [];
   List<int>? trophiesId = [];
   List<int>? attendanceId = [];
-  List<int>? upvotedReviewsId = [];
+  List<int>? upvotedReviews = [];
   List<int>? attendedId = [];
   List<int>? reportedReviews = [];
 
@@ -40,7 +40,7 @@ class SessionResult {
     this.favouritesId,
     this.trophiesId,
     this.attendanceId,
-    this.upvotedReviewsId,
+    this.upvotedReviews,
     this.attendedId,
     this.reportedReviews,
     this.friendsId,
@@ -80,9 +80,9 @@ class SessionResult {
       friendsId = [];
     }
     if(jsonResponse['upvotedReviewsId'] != null) {
-      upvotedReviewsId = (jsonResponse['upvotedReviewsId'] as List).map((item) => item as int).toList();
+      upvotedReviews = (jsonResponse['upvotedReviewsId'] as List).map((item) => item as int).toList();
     }else {
-      upvotedReviewsId = [];
+      upvotedReviews = [];
     }
     if(jsonResponse['eventsAttended'] != null) {
       attendedId = (jsonResponse['eventsAttended'] as List).map((item) => item as int).toList();

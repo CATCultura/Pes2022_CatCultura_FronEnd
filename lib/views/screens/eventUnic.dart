@@ -64,7 +64,7 @@ class _EventUnicState extends State<EventUnic> {
   @override
   void initState() {
     viewModel.selectEventById(eventId);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -512,10 +512,12 @@ class _BodyState extends State<Body> {
                     'Reviews',
                     style: TextStyle(fontSize: 23),
                   ),
-                  IconButton(icon: Icon(Icons.edit), onPressed: () {
-                    // print("Button works");
-                    Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
-                    },
+                  IconButton(icon: Icon(Icons.edit), onPressed:() async {
+                    final value = await Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                    setState(() {
+                      viewModel.getReviews();
+                    });
+                  },
                   )
                 ],
               ),
@@ -537,20 +539,33 @@ class _BodyState extends State<Body> {
                     viewModel.getReviews();
                   });
                   },
-                child: Center(
-                  child: Material(
-                    elevation: 20,
-                    shadowColor: Colors.black.withAlpha(70),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    child: SizedBox(
-                      height: 300,
-                      child: Text("Encara no hi ha reviews\nvols deixar una?"),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom:8.0),
+                  child: Center(
+                    child: Material(
+                      elevation: 20,
+                      shadowColor: Colors.black.withAlpha(70),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      child: SizedBox(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: Center(child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Encara no hi ha reviews...🥲\nvols deixar una?", style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
+                            Text("CLIC AQUÍ", style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
                 )
               ),
             ) : Text(viewModel.reviews.message!),
-
+            SizedBox(height: 50, width: 0,),
 
           ],
         ));
