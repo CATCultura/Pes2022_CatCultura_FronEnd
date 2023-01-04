@@ -38,7 +38,7 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   void mantaintEventsListToMap() {
     List<Place> aux = [];
-    aux.add(Place(event: EventResult(id: "1", denominacio: "harcoded marker", descripcio: "sustituto de User Loc", latitud:realPosition.latitude , longitud: realPosition.longitude), color: Colors.red));
+    aux.add(Place(event: EventResult(id: "1", denominacio: "YOU", descripcio: "You are here", latitud:realPosition.latitude , longitud: realPosition.longitude), color: Colors.red));
     eventsList.data!.forEach((e) {aux.add(Place(event: e, color: Colors.blue));});
     eventsListMap = ApiResponse.completed(aux);
   }

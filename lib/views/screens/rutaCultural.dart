@@ -110,7 +110,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             markers: viewModel.markers,
                             polylines:
                                 Set<Polyline>.of(viewModel.polylines.data!.values),
-                            onMapCreated: (GoogleMapController controller) {
+                            onMapCreated: (GoogleMapController controller) async {
                               debugPrint("rutaCultutal - no breakpoint available - Creating routed google map");
                               //for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                               if (!_controller.isCompleted)
@@ -118,6 +118,14 @@ class RutaCulturalState extends State<RutaCultural> {
                               _manager.setMapId(controller.mapId);
                               _manager.setItems(viewModel.eventsListMap.data!);
                               _manager.updateMap();
+                              //doesnt work to paint lines at map creation...
+                              // await viewModel.paintRoute().then((_){
+                              //   debugPrint("rutaCultutal - no breakpoint available - painted ruta, let's update map");
+                              //   setState(() {
+                              //     _manager.updateMap();
+                              //     mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+                              //   });
+                              // });
                               debugPrint("currentLocation = ${viewModel.realPosition.latitude}, ${viewModel.realPosition.longitude}");
                             },
                             onCameraMove: _manager.onCameraMove,
@@ -137,7 +145,7 @@ class RutaCulturalState extends State<RutaCultural> {
                               setState(() {
                                 getPos();
                               });
-                              //_manager.setMapId(controller.mapId);
+                              _manager.setMapId(controller.mapId);
                               //debugPrint("currentLocation = ${viewModel.realPosition.latitude}, ${viewModel.realPosition.longitude}");
                             },
                             //onCameraMove: _manager.onCameraMove,
