@@ -39,7 +39,7 @@ class _UserEditTagsState extends State<UserEditTags> {
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
           return  Scaffold(
             body: Container(
-              padding: EdgeInsets.only(top:20, left:20, right:20, bottom: 10),
+              padding: EdgeInsets.only(top:40, left:20, right:20, bottom: 10),
               alignment: Alignment.topLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,16 +56,18 @@ class _UserEditTagsState extends State<UserEditTags> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.all(50),
-                    child: const Text(
-                      'Selecciona les teves categories favorites',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.deepOrangeAccent,
-                          letterSpacing: 2.2,
-                          fontWeight: FontWeight.bold
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.all(30),
+                      child: const Text(
+                        'EDITA ELS TAGS',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.blueAccent,
+                            letterSpacing: 2.2,
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   ),
@@ -79,13 +81,12 @@ class _UserEditTagsState extends State<UserEditTags> {
                         children: [
                           Expanded(
                               child: Container(
-                                height: 400.0,
+                                height: 500.0,
                                 child: ListView.builder (
                                     itemCount: viewModel.tagsList.data?.length,
                                     itemBuilder: (BuildContext context, int i) {
                                       return SizedBox(
                                           width: 400,
-                                          //height: 90,
                                           child: Center(
                                               child: Padding(
                                                   padding: const EdgeInsets.all(7.0),
@@ -128,7 +129,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                                                       fontWeight: FontWeight.bold
                                                                   ),
                                                                 ),
-                                                                activeColor: Colors.deepOrangeAccent
+                                                                activeColor: Colors.blueAccent
                                                             )
                                                         )
                                                       ]
@@ -143,40 +144,46 @@ class _UserEditTagsState extends State<UserEditTags> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(left:16, top: 30, right:16),
-                        child: Row (
+                        padding: const EdgeInsets.only(left: 0, top: 35, right: 0),
+                        child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.popAndPushNamed(context, '/login');
-                                    //viewModel.putUserTags(checkedTags);
-                                    //viewModel.notifyListeners();
-                                  },
-                                  child: const Text("ARA NO",
-                                    style: TextStyle (
-                                        fontSize: 15,
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(
+                                          Colors.redAccent)),
+                                  child: const Text('CANCEL·LAR',
+                                    style: TextStyle(
+                                        fontSize: 12,
                                         letterSpacing: 2.2,
-                                        color:Colors.black
+                                        color: Colors.white
                                     ),
                                   ),
+                                  onPressed: () {
+                                    Navigator.popAndPushNamed(context, '/editProfile');
+                                  },
                                 ),
                               ),
                               Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
                                 child: ElevatedButton(
-                                  style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(
+                                          Colors.blueAccent)),
                                   child: const Text('DESA',
-                                    style: TextStyle (
-                                        fontSize: 15,
+                                    style: TextStyle(
+                                        fontSize: 12,
                                         letterSpacing: 2.2,
-                                        color:Colors.white
+                                        color: Colors.white
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.popAndPushNamed(context, '/login');
-                                    viewModelLogin.crearcompte(name, user, email, password, checkedTags);
-                                    viewModelLogin.notifyListeners();
+                                    Navigator.popAndPushNamed(context, '/editProfile');
+                                    viewModel.editUserTags(checkedTags);
+                                    viewModel.notifyListeners();
+
                                   },
                                 ),
                               ),
