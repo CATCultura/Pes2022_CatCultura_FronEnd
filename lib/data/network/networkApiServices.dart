@@ -19,8 +19,6 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
-
-
       // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
@@ -77,12 +75,9 @@ class NetworkApiServices extends BaseApiServices {
           body: jsonEncode(data),
           headers: {
             'Content-Type': 'application/json',
-            'Accept': '*/*',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Host': '10.4.41.41:8081',
-            'Content-Length': utf8.encode(jsonEncode(data)).length.toString(),
+
             'Authorization': session.get('authorization')
-          },
+          ?? ""},
         ).timeout(const Duration(seconds: 60));
       }
       else {
