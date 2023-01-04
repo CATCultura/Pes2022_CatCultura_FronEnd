@@ -125,19 +125,17 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                         ),
                       );
                       // ignore: use_build_context_synchronously
-                      /*if (viewModel.suggestions.contains(searchQueryResult)) {
+                      if (viewModel.suggestions.contains(searchQueryResult)) {
                         debugPrint(searchQueryResult);
                         Navigator.pushNamed(context, '/another-user-profile',
                             arguments: EventUnicArgs(searchQueryResult!));
-                      }*/
-                      if (searchQueryResult != null &&
-                          searchQueryResult != '') {
+                      }
+                      else if (searchQueryResult != null && searchQueryResult != '') {
                         message = searchQueryResult;
                         findedSomething = true;
                         debugPrint(searchQueryResult);
                         viewModel.setLoading();
                         viewModel.redrawWithFilter(searchQueryResult);
-                        //Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(finalResult!));
                       }
                     }),
                 backgroundColor: MyColorsPalette.red,
@@ -207,15 +205,16 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                                 borderRadius: BorderRadius.circular(5),
                                               ),
                                                 tileColor: Theme.of(context).cardColor,
-                                                title: Column(children: [
+                                                title:
+                                                Column(
+                                                  children: [
                                                     Text(viewModel.usersList.data![i].username!,
                                                     style: const TextStyle(
-                                                        fontWeight: FontWeight.bold, fontSize: 17)),
+                                                        fontWeight: FontWeight.w500, fontSize: 15)),
                                                     const Padding(
                                                       padding: EdgeInsets.only(top: 5),
                                                     ),
                                                 ],
-
                                               ),
 
                                         ),

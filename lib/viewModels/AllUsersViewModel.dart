@@ -96,13 +96,15 @@ class AllUsersViewModel with ChangeNotifier{
     notifyListeners();
     fetchUsers();
   }
-
+/*
   Future<void> fetchUsersListApi() async {
     await _usersRepo.getUsers().then((value) {
       setUsersList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setUsersList(ApiResponse.error(error.toString())));
   }
+
+ */
 
 
 
