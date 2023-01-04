@@ -4,6 +4,7 @@ import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../utils/Session.dart';
 //imports per compartir esdeveniment
 import 'package:share_plus/share_plus.dart';
@@ -16,6 +17,7 @@ import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
@@ -134,16 +136,71 @@ class EventUnicViewModel with ChangeNotifier {
     await Share.shareFiles([path], text: titol);
   }
 
-  Future<void> addEventToGoogleCalendar(var _scopes)async{
+  Future<void> addEventToGoogleCalendar(var _scopes, var titolEvent, var startTime)async{
     var _credentials;
     if(Platform.isAndroid){
-      _credentials = new ClientId('falta generar la ID');
+      _credentials = new ClientId("612365228212-mscjcj8d8m8ga4hosroetl32lklgm208.apps.googleusercontent.com","");
     }
     else if(Platform.isIOS){
-      _credentials = new ClientId('falta generar la ID');
+      _credentials = new ClientId("612365228212-tigv3ubogsu0fnmscboqtuofp5feqq0m.apps.googleusercontent.com","");
     }
 
+    DateTime dateTime = DateFormat("d-M-yyyy").parse(startTime);
+    GCalendar.Event event = GCalendar.Event();
+    GCalendar.EventDateTime eventStartTime = new GCalendar.EventDateTime();
+    eventStartTime.date = dateTime;
+    //eventStartTime.date = startTime;
+    eventStartTime.timeZone = "UTC+01:00";
+    event.start = eventStartTime;
 
+    insertarEvent(event, _credentials, _scopes);
+
+  }
+
+  Future<void> insertarEvent(var event, var _credentials, var _scopes) async {
+    clientViaUserConsent(_credentials, _scopes, prompt).then((AuthClient client){
+      var calendar = GCalendar.CalendarApi(client);
+      String calendarId = "primary";
+      calendar.events.insert(event, calendarId).then((value){
+        print("ADDEDDD___________${value.status}");
+        if(value.status == "confirmed"){
+          print('Event added in gogle calendar');
+        }
+        else{
+          print("Unable to add event in google calendar");
+        }
+      });
+    });
+  }
+
+  /*Future<void> insertarEvent(var event, var _credentials, var _scopes) async {
+    try{
+      clientViaUserConsent(_credentials, _scopes, prompt).then((AuthClient client){
+        var calendar = GCalendar.CalendarApi(client);
+        String calendarId = "primary";
+        calendar.events.insert(event, calendarId).then((value){
+          print("ADDEDDD___________${value.status}");
+          if(value.status == "confirmed"){
+            print('Event added in gogle calendar');
+          }
+          else{
+            print("Unable to add event in google calendar");
+          }
+        });
+      });
+    }
+    catch (e){
+      print('Error creating event $e');
+    }
+  }*/
+
+  void prompt (String url) async {
+    if(1 == 1/*await canLaunchUrlString(url)*/){
+      await launchUrlString(url);
+    }
+    else {
+      throw 'could not launch $url';
+    }
   }
   // @override
   // void dispose() {
