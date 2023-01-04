@@ -62,8 +62,8 @@ class InterestingEventsWidget extends StatelessWidget {
         if (events.length > 1)
           buildSquared(1),
         const SizedBox(height: 8.0),
-        for (int i = 2; i < min(9, events.length); ++i) buildHorizontal(i), const SizedBox(height: 8.0),
-        for (int j = 9; j < events.length; j+=2) buildTwoSmalls(j,min(j+1,events.length-1)), const SizedBox(height: 8.0),
+        if (events.length > 2) for (int i = 2; i < min(9, events.length); ++i) buildHorizontal(i), const SizedBox(height: 8.0),
+        if (events.length > 10) for (int j = 9; j < events.length; j+=2) buildTwoSmalls(j,min(j+1,events.length-1)), const SizedBox(height: 8.0),
         const SizedBox(height: 8.0),
       ];
     }
