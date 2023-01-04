@@ -95,7 +95,11 @@ class EventResult {
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    if(jsonResponse['descripcio'] != null) descripcio = formatText(jsonResponse['descripcio']);
+    if(jsonResponse['descripcio'] != null) {
+      descripcio = formatText(jsonResponse['descripcio']);
+    } else {
+      descripcio = "No descripcio";
+    }
     // if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
     // else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
     comarcaIMunicipi = jsonResponse['ubicacio'];
@@ -154,10 +158,10 @@ class EventResult {
 }
 
 String formatText(String s) {
-  String aux = s.replaceAll ("&nbsp;", "\n");
+  String aux = s.replaceAll ("&nbsp;", " ");
   aux = aux.replaceAll ("nbsp;", "");
-  aux = aux.replaceAll ("&amp;", "\n");
-  aux = aux.replaceAll ("amp;", "\n");
+  aux = aux.replaceAll ("&amp;", "&");
+  aux = aux.replaceAll ("amp;", "&");
 
   return aux;
 }
