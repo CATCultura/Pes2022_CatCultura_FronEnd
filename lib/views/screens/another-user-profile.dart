@@ -100,12 +100,23 @@ class AnotherProfile extends StatelessWidget {
                       ) : const Text(" "),
                     ]:
                       <Widget>[
-
-                        const Text(
-                         'Ja sou amics!',
-                         style: TextStyle(
-                             fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                          const Text(
+                           'Ja sou amics!    ',
+                           style: TextStyle(
+                               fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                          ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                              MaterialStateProperty.all(Colors.redAccent)),
+                          child: const Text ('Eliminar'),
+                          onPressed: (){
+                            viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
+                            var aux = int.parse(selectedId);
+                            sessio.data.friendsId!.remove(aux);
+                          },
                         ),
+
                       ],
 
                   ) : const Text(""),
