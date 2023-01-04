@@ -9,12 +9,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../utils/Session.dart';
 
 class MyDrawer extends Drawer {
-  MyDrawer(this.actualPage,
+  const MyDrawer(this.actualPage,this.session,
       {this.username = "", this.email = "", super.key});
   final String actualPage;
   final String username;
   final String email;
-  Session session = Session();
+  final Session session;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,15 @@ class MyDrawer extends Drawer {
             ),
             child: InkWell(
               onTap: () {
-                if (actualPage == "Profile") {
-                  Navigator.pop(context);
-                } else {
-                  Navigator.pushReplacementNamed(context, '/profile');
+                if (session.data.id != -1) {
+                  if (actualPage == "Profile") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushReplacementNamed(context, '/profile');
+                  }
+                }
+                else {
+                  Navigator.pushReplacementNamed(context, '/login');
                 }
               },
               child: Container(
@@ -55,14 +60,14 @@ class MyDrawer extends Drawer {
                       const SizedBox(
                         height: 6,
                       ),
-                      Text(username,
+                      Text(session.data.username,
                           style: const TextStyle(
                               fontSize: 25, color: MyColorsPalette.white)),
                       const SizedBox(
                         height: 6,
                       ),
                       Text(
-                        email,
+                        session.data.email ?? AppLocalizations.of(context)!.missingEmail,
                         style: const TextStyle(
                             fontSize: 12, color: MyColorsPalette.white),
                       ),
@@ -73,7 +78,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.house_outlined, size: 28),
-            title: const Text('Home', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.homeScreenTitle, style: TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "Home") {
                 Navigator.pop(context);

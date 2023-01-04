@@ -16,6 +16,7 @@ import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 import '../../models/Place.dart';
+import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
 /*class MainPage extends StatefulWidget{
@@ -209,7 +210,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Events",
+            drawer: MyDrawer("Events",  Session(),
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             /**/
             body: DefaultTabController(

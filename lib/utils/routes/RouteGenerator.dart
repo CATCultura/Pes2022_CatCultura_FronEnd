@@ -5,7 +5,9 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
+
 import '../../views/widgets/errorWidget.dart';
+import '../Session.dart';
 
 
 
@@ -69,8 +71,8 @@ class RouteGenerator{
     return MaterialPageRoute(builder: (_){
       return Scaffold(
         appBar: AppBar(title:Text("ERROR")),
-        body: CustomErrorWidget(),
-        drawer: MyDrawer(""),
+        body: const CustomErrorWidget(),
+        drawer: MyDrawer("", Session()),
       );
     });
   }

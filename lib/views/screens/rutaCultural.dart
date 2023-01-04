@@ -7,6 +7,7 @@ import 'package:CatCultura/models/Place.dart';
 import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
 import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
 // import 'package:CatCultura/views/screens/savedRutesCulturals.darts';
+import '../../utils/Session.dart';
 import './savedRutesCulturals.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class RutaCulturalState extends State<RutaCultural> {
             appBar: AppBar(
                   title: const Text('RUTA CULTURAL'),
                 ),
-                drawer: MyDrawer("rutaCultural",
+                drawer: MyDrawer("rutaCultural",  Session(),
                     username: "Superjuane", email: "juaneolivan@gmail.com"),
                 body: viewModel.eventsListMap.status == Status.LOADING &&
                         viewModel.rutaGenerada
