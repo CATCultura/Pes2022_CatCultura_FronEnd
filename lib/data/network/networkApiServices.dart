@@ -203,6 +203,11 @@ class NetworkApiServices extends BaseApiServices {
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
+      case 201:
+        final codeUnits = response.body.codeUnits;
+        String text = const Utf8Decoder().convert(codeUnits);
+        dynamic res = jsonDecode(text);
+        return res;
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:

@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 
+import '../models/EventResult.dart';
 import '../utils/Session.dart';
 
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
@@ -187,8 +188,10 @@ class EventsRepository {
 
   Future<List<EventResult>> postCreaEvent(EventResult data) async {
     try {
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
-      return response;
+      debugPrint(data.toJson().toString());
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data.toJson());
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
     } catch (e) {
       rethrow;
     }

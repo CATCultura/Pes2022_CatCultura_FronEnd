@@ -40,6 +40,120 @@
     "guestMode": "Enter as a guest",
     "@guestMode": {
           "description": "Text of button to enter guest mode."
-        }
+        },
 
+    "createEventDrawer": "Create event",
+    "@createEventDrawer": {
+           "description": "Text of drawer create event."
+        },
+
+    "codeEvent": "Code (Required)",
+    "@codeEvent": {
+           "description": "Text for input box"
+        },
+
+    "startDateEvent": "Start Date (Required)",
+    "@startDateEvent": {
+           "description": "Text for input box"
+        },
+
+    "finalDateEvent": "Final Date (Required)",
+    "@finalDateEvent": {
+           "description": "Text for input box"
+        },
+
+    "nameEvent": "Event Name (Required)",
+    "@nameEvent": {
+           "description": "Text for input box"
+        },
+
+    "locationEvent": "Location (Required)",
+    "@locationEvent": {
+           "description": "Text for input box"
+        },
+
+    "addressEvent": "Address (Required)",
+    "@addressEvent": {
+           "description": "Text for input box"
+        },
+
+    "spaceEvent": "Space (Required)",
+    "@spaceEvent": {
+           "description": "Text for input box"
+        },
+
+    "descriptionEvent": "Description (Required)",
+    "@descriptionEvent": {
+           "description": "Text for input box"
+        },
+
+    "latitudeEvent": "Latitude (Required)",
+    "@latitudeEvent": {
+           "description": "Text for input box"
+        },
+
+    "longitudeEvent": "Longitude (Required)",
+    "@longitudeEvent": {
+           "description": "Text for input box"
+        },
+
+    "approximateEndDate": "ApproximateEndDate",
+    "@approximateEndDate": {
+           "description": "Text for input box"
+        },
+
+    "ticket": "Ticket information",
+    "@ticket": {
+           "description": "Text for input box"
+        },
+
+    "schedule": "Schedule",
+    "@schedule": {
+           "description": "Text for input box"
+        },
+
+    "subtitle": "Subtitle",
+    "@subtitle": {
+           "description": "Text for input box"
+        },
+
+    "documents": "Documents",
+    "@documents": {
+           "description": "Text for input box"
+        },
+
+    "video": "Video",
+    "@video": {
+           "description": "Text for input box"
+        },
+
+    "postalCode": "Postal code",
+    "@postalCode": {
+            "description": "Text for input box"
+        },
+
+    "email": "Email",
+    "@email": {
+            "description": "Text for input box"
+         },
+
+    "telephone": "Telephone",
+    "@telephone": {
+            "description": "Text for input box"
+        },
+
+    "url": "Url",
+    "@url": {
+            "description": "Text for input box"
+        },
+
+    "imageApp": "Image App",
+    "@imageApp": {
+            "description": "Text for input box"
+        },
+
+    "createEvent": "Create",
+    "@createEvent": {
+            "description": "Text of button for create events"
+        }
 }

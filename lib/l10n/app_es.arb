@@ -15,5 +15,51 @@
 
     "signUpButton": "Registrarse",
 
-    "guestMode": "Entrar como invitado"
+    "guestMode": "Entrar como invitado",
+
+    "createEventDrawer": "Crear evento",
+
+    "codeEvent": "Codigo (Obligatorio)",
+
+    "startDateEvent": "Fecha Inicio (Obligatorio)",
+
+    "finalDateEvent": "Fecha Final (Obligatorio)",
+
+    "nameEvent": "Nombre Evento (Obligatorio)",
+
+    "locationEvent": "Localizacion (Obligatorio)",
+
+    "addressEvent": "Dirección (Obligatorio)",
+
+    "spaceEvent": "Sitio (Obligatorio)",
+
+    "descriptionEvent": "Descripción (Obligatorio)",
+
+    "latitudeEvent": "Latitud (Obligatorio)",
+
+    "longitudeEvent": "Longitud (Obligatorio)",
+
+    "approximateEndDate": "Fecha aproximada de fin",
+
+    "ticket": "Entradas",
+
+    "schedule": "Horario",
+
+    "subtitle": "Subtítulo",
+
+    "documents": "Documentos",
+
+    "video": "Video",
+
+    "postalCode": "Código Postal",
+
+    "email": "Email",
+
+    "telephone": "Teléfono",
+
+    "url": "Url",
+
+    "imageApp": "Imagen App",
+
+    "createEvent": "Crear"
 }

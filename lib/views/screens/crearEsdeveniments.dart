@@ -1,6 +1,7 @@
 // import 'dart:ffi';
 
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:CatCultura/constants/theme.dart';
