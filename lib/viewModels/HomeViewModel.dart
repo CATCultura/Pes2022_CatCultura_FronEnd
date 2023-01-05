@@ -88,4 +88,7 @@ class HomeViewModel with ChangeNotifier{
     }
 
 
+  @override
+  void dispose(){
+  }
 }

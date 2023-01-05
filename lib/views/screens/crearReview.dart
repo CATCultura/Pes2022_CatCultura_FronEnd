@@ -65,7 +65,7 @@ class _CrearReviewState extends State<CrearReview> {
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
               child: TextField(
                 minLines: 2,
-                maxLines: 10,
+                maxLines: 7,
                 controller: revController,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(bottom: 3),
