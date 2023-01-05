@@ -31,15 +31,18 @@ class _UserEditTagsState extends State<UserEditTags> {
         checkedTags.remove(category);
         viewModel.checkedTags.remove(category);
         unCheckedTags.add(category);
-        print(unCheckedTags);
       });
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    viewModel.fetchTagsListApi();
+  void initState() {
     viewModel.fetchUserTags();
+    viewModel.fetchTagsListApi();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ChangeNotifierProvider<TagsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
@@ -149,7 +152,6 @@ class _UserEditTagsState extends State<UserEditTags> {
                           ),
                         ],
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(left: 0, top: 35, right: 0),
                         child: Row(
@@ -199,7 +201,6 @@ class _UserEditTagsState extends State<UserEditTags> {
                       ),
                     ],
                   )
-
                       : const Text("Correct"),
                 ],
               ),
