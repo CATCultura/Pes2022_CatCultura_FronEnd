@@ -148,6 +148,21 @@ class MyDrawer extends Drawer {
                 }
               }
           ),
+
+          ListTile(
+              horizontalTitleGap: 0,
+              leading: const Icon(Icons.chat, size: 28),
+              title: const Text('Xat', style: TextStyle(fontSize:18)),
+              onTap: (){
+                if(actualPage == "Xat"){
+                  Navigator.pop(context);
+                }
+                else{
+                  Navigator.pushReplacementNamed(context, '/xat');
+                }
+              }
+          ),
+
           ListTile(
             horizontalTitleGap: 0,
             title: Text(AppLocalizations.of(context)!.logoutButton, style: TextStyle(fontSize: 18)),

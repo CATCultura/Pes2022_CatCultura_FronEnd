@@ -4,6 +4,7 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import '../../views/screens/xat.dart';
 
 
 import '../../views/screens/organizerEvents.dart';
@@ -67,6 +68,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
       case '/allUsers':
         return MaterialPageRoute(builder:(_)=>AllUsers());
+      case '/xat':
+        return MaterialPageRoute(builder:(_)=>Xat());
 
       default:
         return _errorRoute();
