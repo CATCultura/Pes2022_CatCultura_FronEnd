@@ -189,4 +189,18 @@ class UsersRepository {
       rethrow;
     }
   }
+
+  Future<List<String>> getUserTags(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/tags");
+      List<String> tagsAmbits = (response['AMBITS'] as List).map((item) => item as String).toList();
+      List<String> tagsAmbitsCateg = (response['ALTRES_CATEGORIES'] as List).map((item) => item as String).toList();
+      List<String> tagsAltresCateg = (response['CATEGORIES'] as List).map((item) => item as String).toList();
+      List<String> res = [tagsAmbits, tagsAmbitsCateg, tagsAltresCateg].expand((x) => x).toList();
+      return res;
+
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

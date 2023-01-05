@@ -98,8 +98,8 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     child: Stack(
                       children: [
                         Container(
-                          width: 150,
-                          height: 150,
+                          width: 120,
+                          height: 120,
                           decoration: BoxDecoration(
                               border: Border.all(
                                 width: 5,
@@ -202,7 +202,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 30, right: 0),
+                    padding: const EdgeInsets.only(left: 0, top: 15, right: 0),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: OutlinedButton(
@@ -220,7 +220,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 35, right: 0),
+                    padding: const EdgeInsets.only(left: 0, top: 15, right: 0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

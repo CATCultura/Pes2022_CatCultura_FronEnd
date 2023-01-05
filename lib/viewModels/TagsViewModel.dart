@@ -13,10 +13,20 @@ class TagsViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
   final _usersRepo = UsersRepository();
   ApiResponse<List<String>> tagsList = ApiResponse.loading();
+  ApiResponse<List<String>> userTagsList = ApiResponse.loading();
+  List<String> checkedTags = [];
 
   setTagsList(ApiResponse<List<String>> response){
     debugPrint(response.toString());
     tagsList = response;
+    notifyListeners();
+  }
+
+  setUserTagsList(ApiResponse<List<String>> response){
+    debugPrint(response.toString());
+    userTagsList = response;
+    checkedTags = userTagsList.data!;
+
     notifyListeners();
   }
 
@@ -30,6 +40,13 @@ class TagsViewModel with ChangeNotifier {
       setTagsList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setTagsList(ApiResponse.error(error.toString())));
+  }
+
+  Future<void> fetchUserTags() async {
+    await _usersRepo.getUserTags(Session().data.id.toString()).then((value) {
+      setUserTagsList(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setUserTagsList(ApiResponse.error(error.toString())));
   }
 
   Future<void> editUserTags(List<String> tags) async {

@@ -15,7 +15,6 @@ class UserEditTags extends StatefulWidget {
 
 class _UserEditTagsState extends State<UserEditTags> {
   final TagsViewModel viewModel = TagsViewModel();
-
   late List <String>? tagsList = [];
   List<String> checkedTags = [];
 
@@ -34,6 +33,7 @@ class _UserEditTagsState extends State<UserEditTags> {
   @override
   Widget build(BuildContext context) {
     viewModel.fetchTagsListApi();
+    viewModel.fetchUserTags();
     return ChangeNotifierProvider<TagsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
@@ -81,7 +81,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                         children: [
                           Expanded(
                               child: Container(
-                                height: 500.0,
+                                height: 450.0,
                                 child: ListView.builder (
                                     itemCount: viewModel.tagsList.data?.length,
                                     itemBuilder: (BuildContext context, int i) {
@@ -112,7 +112,8 @@ class _UserEditTagsState extends State<UserEditTags> {
                                                             ), //BoxDecorationDecoration
 
                                                             child: CheckboxListTile( //checkbox positioned at right
-                                                                value: checkedTags.contains(viewModel.tagsList.data![i]),
+                                                                value: checkedTags.contains(viewModel.tagsList.data![i]) ||
+                                                                    viewModel.checkedTags.contains(viewModel.tagsList.data![i]),
                                                                 onChanged: (bool? selected) {
                                                                   bool s = false;
                                                                   if (selected != null) {
@@ -124,7 +125,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                                                 },
                                                                 title: Text(
                                                                   viewModel.tagsList.data![i],
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       color: Colors.black38,
                                                                       fontWeight: FontWeight.bold
                                                                   ),
@@ -180,7 +181,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.popAndPushNamed(context, '/editProfile');
+                                    Navigator.popAndPushNamed(context, '/userEditTags');
                                     viewModel.editUserTags(checkedTags);
                                     viewModel.notifyListeners();
 
