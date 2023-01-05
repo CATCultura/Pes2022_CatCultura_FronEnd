@@ -11,6 +11,8 @@ import '../../models/EventResult.dart';
 
 import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 
+import '../../utils/Session.dart';
+
 class Agenda extends StatelessWidget {
   Agenda({super.key});
   final AgendaViewModel viewModel = AgendaViewModel();
@@ -36,7 +38,7 @@ class Agenda extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Agenda",
+            drawer: MyDrawer("Agenda",  Session(),
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Center(
               child: viewModel.attendanceList.status == Status.LOADING? const SizedBox(

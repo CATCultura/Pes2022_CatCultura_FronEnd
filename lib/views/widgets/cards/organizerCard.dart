@@ -20,12 +20,21 @@ class OrganizerCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(event.nomOrganitzador!,
-                style: const TextStyle(color: MyColors.header),),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: MyColors.header),),
                 const SizedBox(height: 8.0,),
                 Row(
                   children: [
                     const Text("Email: "),
-                    Text(event.emailOrganitzador == "" ? "No email": event.emailOrganitzador!)
+                    Flexible(child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child:
+                        Text(event.emailOrganitzador == "" ? "No email": event.emailOrganitzador!,
+                            softWrap: false,
+                            style: const TextStyle(overflow: TextOverflow.fade)
+                        )
+                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8.0,),
@@ -37,7 +46,10 @@ class OrganizerCard extends StatelessWidget {
                         child:
                         Text(event.urlOrganitzador == "" ? "No url": event.urlOrganitzador!,
                             softWrap: false,
-                            style: TextStyle(overflow: TextOverflow.fade))))
+                            style: const TextStyle(overflow: TextOverflow.fade)
+                        )
+                      )
+                    )
                   ],
                 ),
                 const SizedBox(height: 8.0,),

@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                AppLocalizations.of(context)!.homeScreenTitle,
+                AppLocalizations.of(context)!.homeScreenTitle,  Session(),
                 username: session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
                 email: session.data.email == "missing email" || session.data.email == null ? AppLocalizations.of(context)!.missingEmail : session.data.email!),
             body: Container(

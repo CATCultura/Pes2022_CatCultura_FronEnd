@@ -39,7 +39,7 @@ class FriendRequests extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Profile",
+            drawer: MyDrawer("Profile",  Session(),
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Container(
               child: viewModel.usersReceived.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):

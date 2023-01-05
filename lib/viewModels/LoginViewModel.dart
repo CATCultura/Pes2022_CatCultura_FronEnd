@@ -22,7 +22,7 @@ class LoginViewModel with ChangeNotifier{
   setUsersSelected(ApiResponse<SessionResult> response, String? auth){
     // mainUser = response;
     mainUser = response;
-    if(response.status == Status.COMPLETED)sessio.data = response.data!;
+    if(response.status == Status.COMPLETED) sessio.data = response.data!;
     // if(auth != null) sessio.set("authorization", auth);
     notifyListeners();
   }
