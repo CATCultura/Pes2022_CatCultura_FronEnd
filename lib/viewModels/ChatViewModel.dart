@@ -1,6 +1,7 @@
 import 'package:CatCultura/models/ChatMessage.dart';
 import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/shared.dart';
 
 import '../data/response/apiResponse.dart';
 import '../utils/Session.dart';
@@ -12,7 +13,6 @@ class ChatViewModel with ChangeNotifier {
   String? currentEvent;
 
   ChatViewModel(String eventId) {
-
     currentEvent = eventId;
     _chatRepo.subscribe(currentEvent!, this);
     _chatRepo.subscribeToEvent(currentEvent!);
@@ -63,6 +63,12 @@ class ChatViewModel with ChangeNotifier {
     };
     _chatRepo.send(message);
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _chatRepo.unsubscribe(currentEvent!, this);
+    super.dispose();
   }
 
 }

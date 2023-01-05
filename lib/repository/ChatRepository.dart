@@ -65,10 +65,9 @@ class ChatRepository {
     final codeUnits = frame.body?.codeUnits;
     String text = const Utf8Decoder().convert(codeUnits!);
     dynamic res = jsonDecode(text);
-
     ChatMessage message = ChatMessage.fromJson(res);
     notifyObservers(message.eventId.toString(), message);
-
+    //mostrar notificació
   }
 
   void subscribeToEvent(String eventId) {
@@ -78,11 +77,6 @@ class ChatRepository {
       }
       remoteSubscriptions[eventId] = client.subscribe(destination: '/topic/messages/$eventId', callback: returnMessage);
     }
-    // else {
-    //   connect();
-    //   while (!client.connected);
-    //   client.subscribe(destination: '/topic/messages/$eventId', callback: returnMessage);
-    // }
   }
 
   void notifyObservers(String string, ChatMessage message) {
