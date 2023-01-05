@@ -69,7 +69,8 @@ class RouteGenerator{
       case '/allUsers':
         return MaterialPageRoute(builder:(_)=>AllUsers());
       case '/xat':
-        return MaterialPageRoute(builder:(_)=>Xat());
+         final argsEventUnic = settings.arguments as EventUnicArgs;
+        return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
 
       default:
         //return _errorRoute();

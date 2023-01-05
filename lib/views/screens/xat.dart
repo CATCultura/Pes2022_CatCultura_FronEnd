@@ -1,51 +1,44 @@
 //import 'dart:html';
 
+import 'package:CatCultura/views/widgets/errorWidget.dart';
 import  'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:stomp_dart_client/stomp_frame.dart';
 
 import '../../constants/theme.dart';
+import '../../data/response/apiResponse.dart';
 import '../../models/Message.dart';
 import '../../providers/xat.dart';
+import '../../utils/Session.dart';
+import '../../viewModels/ChatViewModel.dart';
 import '../widgets/myDrawer.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Xat extends StatefulWidget {
-  Xat({super.key});
+  final String eventId;
+  Xat(this.eventId, {super.key});
+  // final ChatViewModel viewModel = ChatViewModel();
 
   @override
-  _xatState createState() => _xatState();
+  State<Xat> createState() => _xatState();
 }
 
 class _xatState extends State<Xat> {
-  late IO.Socket _socket;
+  late String eventId = widget.eventId;
+  late ChatViewModel viewModel = ChatViewModel(eventId);
+
+
+
   final TextEditingController _messageInputController = TextEditingController();
 
-  _sendMessage() {
-    _socket.emit('message', {
-      'message': _messageInputController.text.trim(),
-      'sender': "admin",
-    });
-    _messageInputController.clear();
-  }
-
-  _connectSocket() {
-    _socket.onConnect((data) => print('Connection established'));
-    _socket.onConnectError((data) => print('Connect Error: $data'));
-    _socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-    _socket.on(
-      'message',
-        (data) => Provider.of<XatProvider>(context, listen: false).addNewMessage(Message.fromJson(data),
-        ),
-    );
-  }
 
   @override
   void initState() {
     super.initState();
-    _socket = IO.io('http://10.4.41.41:8081/chat',
-        IO.OptionBuilder().setTransports(['websocket']).setQuery({'username': "admin"}).build());
-    _connectSocket();
+    viewModel.fetchMessages();
   }
 
   @override
@@ -56,91 +49,196 @@ class _xatState extends State<Xat> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Xat"),
-        backgroundColor: MyColorsPalette.orange,
-      ),
-      drawer: const MyDrawer("Xat", username: "Superjuane",
-          email: "juaneolivan@gmail.com"),
-      body: Column(
-        children: [
-          Expanded(
-            child: Consumer<XatProvider>(
-              builder: (_, provider, __) => ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemBuilder: (context, index) {
-                  final message = provider.messages[index];
-                  return Wrap(
-                    alignment: message.senderUsername == "admin"
-                        ? WrapAlignment.end
-                        : WrapAlignment.start,
-                    children: [
-                      Card(
-                        color: message.senderUsername == "admin"
-                            ? Theme.of(context).primaryColorLight
-                            : Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment:
-                              message.senderUsername == "admin"
-                                ? CrossAxisAlignment.end
-                                : CrossAxisAlignment.start,
-                            children: [
-                              Text(message.message),
-                              Text(
-                                DateFormat('hh:mm a').format(message.sentAt),
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                },
-                separatorBuilder: (_, index) => const SizedBox(
-                  height: 5,
-                ),
-                itemCount: provider.messages.length,
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: SafeArea(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _messageInputController,
-                      decoration: const InputDecoration(
-                        hintText: 'Escriu el missatge aqui',
-                        border: InputBorder.none,
-                      ),
-                    ),
+
+    return ChangeNotifierProvider<ChatViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<ChatViewModel>(builder: (context, value, _) {
+          return Scaffold(
+              appBar: AppBar(
+                    title: const Text("Xat"),
+                    backgroundColor: MyColorsPalette.orange,
                   ),
-                  IconButton(
-                    onPressed: () {
-                      if (_messageInputController.text.trim().isNotEmpty) {
-                        _sendMessage();
-                      }
-                    },
-                    icon: const Icon(Icons.send),
-                  )
-                ],
+            drawer: MyDrawer("xat", Session()),
+            body: viewModel.eventChatMessages.status == Status.LOADING ? const SizedBox(
+              child: Center(
+                  child: CircularProgressIndicator()
               ),
-            ),
-          )
-        ],
-      ),
+            )
+                : viewModel.eventChatMessages.status == Status.ERROR ? Text(viewModel.eventChatMessages.toString())
+                : viewModel.eventChatMessages.status == Status.COMPLETED ?
+            Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                      itemCount: viewModel
+                          .eventChatMessages
+                          .data!
+                          .length,
+                      itemBuilder:
+                          (BuildContext context,
+                          int i) {
+                        return Wrap(
+                          crossAxisAlignment: viewModel.eventChatMessages.data![i].userId == Session().data.id.toString()
+                            ? WrapCrossAlignment.end
+                          : WrapCrossAlignment.start,
+                          alignment: viewModel.eventChatMessages.data![i].userId == Session().data.id.toString()
+                              ? WrapAlignment.end
+                              : WrapAlignment.start,
+                          children: [
+                              Card(
+                                color: viewModel.eventChatMessages.data![i].userId == Session().data.id.toString()
+                                    ? Theme.of(context).primaryColorLight
+                                    : Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                      viewModel.eventChatMessages.data![i].userId == Session().data.id.toString()
+                                        ? CrossAxisAlignment.end
+                                        : CrossAxisAlignment.start,
+                                    children: [
+                                      Text(viewModel.eventChatMessages.data![i].username),
+                                      Text(viewModel.eventChatMessages.data![i].content),
+                                      Text(
+                                        viewModel.eventChatMessages.data![i].timeSent,
+                                        style: Theme.of(context).textTheme.caption,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                      }),
+                ),
+                    SafeArea(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _messageInputController,
+                              decoration: const InputDecoration(
+                                hintText: 'Escriu el missatge aqui',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              if (_messageInputController.text.trim().isNotEmpty) {
+                                viewModel.sendMessage(_messageInputController.text.trim());
+                                _messageInputController.clear();
+                              }
+                            },
+                            icon: const Icon(Icons.send),
+                          )
+                        ],
+                      )
+                    )
+              ],
+            ) : const CustomErrorWidget(),
+          );
+        },
+        )
     );
+
+    // return ChangeNotifierProvider<ChatViewModel>(
+    //   create: (BuildContext context) => viewModel,
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       title: const Text("Xat"),
+    //       backgroundColor: MyColorsPalette.orange,
+    //     ),
+    //     drawer: MyDrawer("Xat", Session(), username: "Superjuane",
+    //         email: "juaneolivan@gmail.com"),
+    //     body:
+    //     viewModel.eventChatMessages.status ==
+    //         Status.LOADING
+    //         ? const SizedBox(
+    //       child: Center(
+    //           child: CircularProgressIndicator()),
+    //     )
+    //         : viewModel.eventChatMessages.status == Status.ERROR
+    //         ? Text(viewModel.eventChatMessages.toString())
+    //         : viewModel.eventChatMessages.status ==
+    //         Status.COMPLETED ? Column(
+    //       children: [
+    //         Expanded(
+    //           child: Consumer<ChatViewModel>(
+    //             builder: (_, provider, __) => ListView.builder(
+    //               padding: const EdgeInsets.all(16),
+    //                 itemCount: viewModel
+    //                     .eventChatMessages
+    //                     .data!
+    //                     .length,
+    //
+    //               itemBuilder: (context, index) {
+    //                 return  Wrap(
+    //                   children: [
+    //                     Card(
+    //                       // color: message.senderUsername == "admin"
+    //                       //     ? Theme.of(context).primaryColorLight
+    //                       //     : Colors.white,
+    //                       child: Padding(
+    //                         padding: const EdgeInsets.all(8.0),
+    //                         child: Column(
+    //                           mainAxisSize: MainAxisSize.min,
+    //                           // crossAxisAlignment:
+    //                           //   message.senderUsername == "admin"
+    //                           //     ? CrossAxisAlignment.end
+    //                           //     : CrossAxisAlignment.start,
+    //                           children: [
+    //                             Text(viewModel.eventChatMessages.data![index].content),
+    //                             Text(
+    //                               viewModel.eventChatMessages.data![index].timeSent,
+    //                               style: Theme.of(context).textTheme.caption,
+    //                             ),
+    //                           ],
+    //                         ),
+    //                       ),
+    //                     )
+    //                   ],
+    //                 );
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         Container(
+    //           decoration: BoxDecoration(
+    //             color: Colors.grey.shade200,
+    //           ),
+    //           padding: const EdgeInsets.symmetric(
+    //             horizontal: 16,
+    //           ),
+    //           child: SafeArea(
+    //             child: Row(
+    //               children: [
+    //                 Expanded(
+    //                   child: TextField(
+    //                     controller: _messageInputController,
+    //                     decoration: const InputDecoration(
+    //                       hintText: 'Escriu el missatge aqui',
+    //                       border: InputBorder.none,
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 IconButton(
+    //                   onPressed: () {
+    //                     if (_messageInputController.text.trim().isNotEmpty) {
+    //                       _sendMessage();
+    //                     }
+    //                   },
+    //                   icon: const Icon(Icons.send),
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ) : const CustomErrorWidget(),
+    //   ),
+    // );
   }
 }
