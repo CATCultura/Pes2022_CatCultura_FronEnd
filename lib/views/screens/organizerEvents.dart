@@ -42,7 +42,8 @@ class _OrganizerEventsState extends State<OrganizerEvents> {
         child: Consumer<OrganizerEventsViewModel>(builder: (context, value, _) {
             return Scaffold(
               appBar: AppBar(
-                title: SingleChildScrollView(
+                title:
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Flex(
                     direction: Axis.horizontal,
@@ -50,7 +51,8 @@ class _OrganizerEventsState extends State<OrganizerEvents> {
                       Text("${AppLocalizations.of(context)!.orgEventsScreenTitle} $organizerName")
                     ]
                   ),
-                ),
+                )
+                ,
               ),
               drawer: MyDrawer("organizer",Session()),
               body: viewModel.eventsList.status == Status.LOADING ? const SizedBox(

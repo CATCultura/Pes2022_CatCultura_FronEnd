@@ -70,7 +70,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 Column(
                   children: [
                     Text(
-                      sessio.data.nameAndSurname,
+                      sessio.data.nameAndSurname!,
                       style: TextStyle(
                         color: Color.fromRGBO(230, 192, 2, 1),
                         fontFamily: 'Nunito',

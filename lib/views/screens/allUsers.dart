@@ -12,6 +12,7 @@ import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
 import '../../models/Place.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -164,11 +165,11 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
               ),
               backgroundColor: MyColors.bgColorScreen,
               // key: _scaffoldKey,
-              drawer: MyDrawer("Usuaris",
+              drawer: MyDrawer("Usuaris", Session(),
                   username: "Superjuane", email: "juaneolivan@gmail.com"),
               body: Container(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[     //no expanded
                      Expanded(
                        child: Center(
