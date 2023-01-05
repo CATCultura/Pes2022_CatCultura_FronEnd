@@ -23,12 +23,15 @@ class _UserEditTagsState extends State<UserEditTags> {
     if (selected == true) {
       setState(() {
         checkedTags.add(category);
+        viewModel.checkedTags.add(category);
         unCheckedTags.remove(category);
       });
     } else {
       setState(() {
         checkedTags.remove(category);
+        viewModel.checkedTags.remove(category);
         unCheckedTags.add(category);
+        print(unCheckedTags);
       });
     }
   }
@@ -184,9 +187,9 @@ class _UserEditTagsState extends State<UserEditTags> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.popAndPushNamed(context, '/userEditTags');
-                                    if (checkedTags != []) viewModel.editUserTags(checkedTags);
-                                    if (unCheckedTags != []) viewModel.deleteUserTags(unCheckedTags);
+                                    Navigator.popAndPushNamed(context, '/editProfile');
+                                    viewModel.editUserTags(checkedTags);
+                                    viewModel.deleteUserTags(unCheckedTags);
                                     viewModel.notifyListeners();
                                   },
                                 ),
