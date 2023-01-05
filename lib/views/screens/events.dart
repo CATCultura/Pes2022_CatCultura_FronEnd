@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:googleapis/appengine/v1.dart' as appengine;
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
@@ -14,8 +15,9 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
-import '../../models/EventResult.dart';
+
 import '../../models/Place.dart';
+import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
 /*class MainPage extends StatefulWidget{
@@ -36,7 +38,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   late TabController _tabController;
   bool findedSomething = false;
-  String message = "Search by name...";
+  String message = "";
   var searchResult;
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
@@ -140,7 +142,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                       left: 8.0, top: 5, bottom: 5, right: 5),
                                   child: Text(
-                                    message,
+                                    AppLocalizations.of(context)!.searchByQueryPrompt,
                                     style: const TextStyle(
                                         color:
                                             Color.fromRGBO(105, 105, 105, 0.6),
@@ -189,7 +191,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                     ? IconButton(
                         onPressed: () {
                           setState(() {
-                            message = "Search by name...";
+                            message = AppLocalizations.of(context)!.searchByQueryPrompt;
                             findedSomething = false;
                           });
                           viewModel.refresh();
@@ -209,7 +211,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Events",
+            drawer: MyDrawer("Events",  Session(),
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             /**/
             body: DefaultTabController(

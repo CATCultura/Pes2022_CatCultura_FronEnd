@@ -29,5 +29,21 @@
 
     "anonymousUser": "Anónimo",
 
-    "missingEmail": "Falta el correo"
+    "missingEmail": "Falta el correo",
+
+    "eventScreenTitle": "Eventos",
+
+    "culturalRouteTitle": "Ruta cultural",
+
+    "logoutButton": "Cerrar sesión",
+
+    "searchByQueryPrompt": "Buscar un evento...",
+
+    "orgInfoCardTitle": "Información del organizador",
+
+    "seeMoreEventsByOrgButton": "Ver más",
+
+    "okButton": "Entendido",
+
+    "orgEventsScreenTitle": "Eventos organizados por"
 }

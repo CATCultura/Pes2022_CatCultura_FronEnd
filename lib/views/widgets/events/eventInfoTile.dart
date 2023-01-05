@@ -54,7 +54,7 @@ class EventInfoTile extends StatelessWidget {
               Row(
                 children: [
                   const Icon(Icons.place),
-                  Text(event.localitat!),
+                  Flexible(child: Text(event.ubicacio!, style: const TextStyle(overflow: TextOverflow.fade),)),
                 ],
               ),
             ])),

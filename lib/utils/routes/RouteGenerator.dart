@@ -5,7 +5,10 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
+
+import '../../views/screens/organizerEvents.dart';
 import '../../views/widgets/errorWidget.dart';
+import '../Session.dart';
 
 
 
@@ -59,6 +62,9 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/organizer':
+        final argsOrganizerId = settings.arguments as OrganizerArgs;
+        return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
       case '/allUsers':
         return MaterialPageRoute(builder:(_)=>AllUsers());
 
@@ -71,9 +77,10 @@ class RouteGenerator{
     return MaterialPageRoute(builder: (_){
       return Scaffold(
         appBar: AppBar(title:Text("ERROR")),
-        body: CustomErrorWidget(),
-        drawer: MyDrawer(""),
+        body: const CustomErrorWidget(),
+        drawer: MyDrawer("", Session()),
       );
     });
   }
 }
+

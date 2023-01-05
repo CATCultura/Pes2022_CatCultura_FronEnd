@@ -20,6 +20,7 @@ import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 import 'dart:math' as math;
@@ -536,10 +537,20 @@ class _BodyState extends State<Body> {
                             builder: (BuildContext) {
                               return AlertDialog(
                                 actions: [
-                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
-                                  ElevatedButton(onPressed: () => {}, child: Text("Veure'n més"))
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text(AppLocalizations.of(context)!.okButton)),
+                                  ElevatedButton(onPressed: () =>
+                                  {
+                                    if (event.idOrganitzador != null)
+                                      {
+                                              Navigator.pushNamed(
+                                                      context, "/organizer",
+                                                      arguments: OrganizerArgs(
+                                                          event.idOrganitzador!, event.nomOrganitzador!))
+                                                  .then((_) {})
+                                            }
+                                        }, child: Text(AppLocalizations.of(context)!.seeMoreEventsByOrgButton))
                                 ],
-                                title: Text("Info de l'organitzador"),
+                                title: Text(AppLocalizations.of(context)!.orgInfoCardTitle, style: TextStyle(fontSize: 18),),
                                 content: OrganizerCard(event)
                                 // Text(
                                 //     "Nom:\n${event.nomOrganitzador!}\n"
@@ -793,7 +804,7 @@ class CoverPhoto extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Image.network(
           imgUrl,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
     );
