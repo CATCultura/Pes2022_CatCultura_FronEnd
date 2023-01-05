@@ -363,4 +363,33 @@ class EventsRepository {
       rethrow;
     }
   }
+
+  Future<List<List<EventResult>>> getEventsWithFilter2(String filter) async {
+
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?q=$filter");
+      List<EventResult> similars = [], noSimilars = [];
+      if(response['Similar'] != null) similars = (response['Similar'] as List).map((e) => EventResult.fromJson(e)).toList();
+      if(response['Not similar'] != null) noSimilars = (response['Not similar'] as List).map((e) => EventResult.fromJson(e)).toList();
+      debugPrint(similars.toString());
+      List<List<EventResult>> res = [];
+      res.add(similars);
+      res.add(noSimilars);
+      // List<List<EventResult>> res = json.decode(response) as List<List<EventResult>>;//List.from(List.from(response(e) => EventResult.fromJson(e).toList()).toList());
+      // final lists = response as List<List<EventResult>>;
+      // List<List<EventResult>> res = lists.map((innerList) => innerList.cast<EventResult>()).toList(),
+
+      debugPrint("res: "+res.toString());
+      List<List<EventResult>> res2 = [];
+      return res;
+
+    }  catch (e, stacktrace) {
+      debugPrintStack(stackTrace: stacktrace);
+      rethrow;
+    }
+    // catch (e) {
+    //   rethrow;
+    // }
+
+  }
 }

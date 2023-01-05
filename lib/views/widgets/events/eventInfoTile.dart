@@ -5,16 +5,37 @@ import '../../../utils/auxArgsObjects/argsRouting.dart';
 class EventInfoTile extends StatelessWidget {
   final EventResult event;
   final int index;
+  final String mode;
 
-  const EventInfoTile({super.key, required this.event, required this.index});
+  EventInfoTile({super.key, required this.event, required this.index, this.mode = "normal"});
+
+  var color;
+  var leading;
+
+  void modeSetup(BuildContext context){
+    if(mode == "noSimilar"){
+      color = Colors.blue;
+      leading = SizedBox(width: 0,height: 0,);
+    }
+    else{
+      color = Theme.of(context).cardColor;
+      leading = CircleAvatar(
+        backgroundColor: Colors.red.shade700,
+        child: Text((index+1).toString()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // debugPrint("*************** MODE: $mode");
+    modeSetup(context);
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Material(
         elevation: 20,
         shadowColor: Colors.black.withAlpha(70),
+        color: Colors.blue,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: ListTile(
             onTap: () {
@@ -26,15 +47,12 @@ class EventInfoTile extends StatelessWidget {
                     });*/
               });
             },
-            leading: CircleAvatar(
-              backgroundColor: Colors.red.shade700,
-              child: Text((index+1).toString()),
-            ),
+            leading: leading,
             shape: RoundedRectangleBorder(
               side: const BorderSide(color: Color(0xFF818181), width: 1),
               borderRadius: BorderRadius.circular(5),
             ),
-            tileColor: Theme.of(context).cardColor,
+            tileColor: color,
             title: Column(children: [
               Text(event.denominacio!,
                   style: const TextStyle(

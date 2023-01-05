@@ -11,6 +11,7 @@ class OrganizerArgs {
   final int orgId;
   final String orgName;
   OrganizerArgs(this.orgId, this.orgName);
+
 }
 
 class ReviewUnicaArgs {

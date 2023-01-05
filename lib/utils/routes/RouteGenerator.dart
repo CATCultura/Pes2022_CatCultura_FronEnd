@@ -72,7 +72,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Xat());
 
       default:
-        return _errorRoute();
+        //return _errorRoute();
+        return MaterialPageRoute(builder:(_)=>Home());
     }
   }
 
