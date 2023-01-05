@@ -37,5 +37,13 @@
 
     "logoutButton": "Cerrar sesión",
 
-    "searchByQueryPrompt": "Buscar un evento..."
+    "searchByQueryPrompt": "Buscar un evento...",
+
+    "orgInfoCardTitle": "Información del organizador",
+
+    "seeMoreEventsByOrgButton": "Ver más",
+
+    "okButton": "Entendido",
+
+    "orgEventsScreenTitle": "Eventos organizados por"
 }

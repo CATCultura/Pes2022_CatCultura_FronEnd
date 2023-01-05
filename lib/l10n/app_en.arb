@@ -96,6 +96,26 @@
     "searchByQueryPrompt": "Search by query...",
     "@searchByQueryPrompt": {
       "description": "Prompt the user to search by query."
+    },
+
+    "orgInfoCardTitle": "Organizer info",
+    "@orgInfoCardTitle": {
+      "description": "Title for card showing organizer info."
+    },
+
+    "seeMoreEventsByOrgButton": "See more",
+    "@seeMoreEventsByOrgButton": {
+          "description": "Title for showing more events by org."
+        },
+
+    "okButton": "OK",
+    "@okButton": {
+      "description": "OK button in dialog."
+    },
+
+    "orgEventsScreenTitle": "Events by",
+    "@orgEventsScreenTitle": {
+      "description": "Title for org events screen."
     }
 
 

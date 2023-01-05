@@ -20,7 +20,8 @@ class OrganizerCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(event.nomOrganitzador!,
-                style: const TextStyle(color: MyColors.header),),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: MyColors.header),),
                 const SizedBox(height: 8.0,),
                 Row(
                   children: [

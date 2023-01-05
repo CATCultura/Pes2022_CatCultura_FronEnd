@@ -37,6 +37,14 @@
 
     "logoutButton": "Tanca la sessió",
 
-    "searchByQueryPrompt": "Cerca un esdeveniment..."
+    "searchByQueryPrompt": "Cerca un esdeveniment...",
+
+    "orgInfoCardTitle": "Informació de l'organitzador",
+
+    "seeMoreEventsByOrgButton": "Veure'n més",
+
+    "okButton": "D'acord",
+
+    "orgEventsScreenTitle": "Esdeveniments organitzats per"
 
 }

@@ -64,7 +64,7 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Trophies());
       case '/organizer':
         final argsOrganizerId = settings.arguments as OrganizerArgs;
-        return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId));
+        return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
 
       default:
         return _errorRoute();

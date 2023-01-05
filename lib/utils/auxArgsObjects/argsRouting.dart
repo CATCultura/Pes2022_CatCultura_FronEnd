@@ -9,7 +9,8 @@ class EventUnicArgs {
 
 class OrganizerArgs {
   final int orgId;
-  OrganizerArgs(this.orgId);
+  final String orgName;
+  OrganizerArgs(this.orgId, this.orgName);
 }
 
 class ReviewUnicaArgs {
