@@ -13,6 +13,8 @@ class EventsViewModel with ChangeNotifier{
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<EventResult> events = ApiResponse.loading();
   ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();//= ApiResponse.completed([
+  ApiResponse<List<EventResult>> eventsSimilars = ApiResponse.loading();
+  ApiResponse<List<EventResult>> eventsNoSimilars = ApiResponse.loading();
 
   void mantaintEventsListToMap(){
     List<Place> aux = [];
@@ -25,6 +27,7 @@ class EventsViewModel with ChangeNotifier{
   Set<int> loadedPages = {};
   bool chargingNextPage = false;
   bool waiting = true;
+  bool userUsedFilter = false;
 
   void setLoading(){
     eventsList.status = Status.LOADING;
@@ -33,6 +36,8 @@ class EventsViewModel with ChangeNotifier{
 
  void refresh(){
    eventsList.status = Status.LOADING;
+   eventsSimilars.status = Status.LOADING;
+    eventsNoSimilars.status = Status.LOADING;
    loadedPages = {};
    notifyListeners();
  }
@@ -41,6 +46,15 @@ class EventsViewModel with ChangeNotifier{
     eventsList = response;
     if(response.status == Status.COMPLETED)mantaintEventsListToMap();
     loadedPages.add(0);
+    notifyListeners();
+  }
+
+  setEventsSimilars(ApiResponse<List<EventResult>> response){
+    eventsSimilars = response;
+    notifyListeners();
+  }
+  setEventsNoSimilars(ApiResponse<List<EventResult>> response){
+    eventsNoSimilars = response;
     notifyListeners();
   }
 
@@ -83,10 +97,12 @@ class EventsViewModel with ChangeNotifier{
   }
 
   Future<void> redrawWithFilter(String filter) async{
-    await _eventsRepo.getEventsWithFilter(filter).then((value) {
-      debugPrint("---------------LIST WITH FILTER---------------------");
-      for(EventResult e in value) debugPrint("  -${e.denominacio!}");
-      setEventsList(ApiResponse.completed(value));
+    await _eventsRepo.getEventsWithFilter2(filter).then((value) {
+      debugPrint("---------------LISTS WITH FILTER---------------------");
+      debugPrint(value[0].toString());
+      setEventsList(ApiResponse.completed(value[0]+value[1]));
+      setEventsSimilars(ApiResponse.completed(value[0]));
+      setEventsNoSimilars(ApiResponse.completed(value[1]));
     }).onError((error, stackTrace) =>
         setEventsList(ApiResponse.error(error.toString())));
     debugPrint("EvViewModel, accesed from filter redraw");
