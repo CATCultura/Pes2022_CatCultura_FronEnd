@@ -21,7 +21,7 @@ class TagsViewModel with ChangeNotifier {
   }
 
   setTags(ApiResponse<String> response){
-    debugPrint(response.toString());
+    //debugPrint(response.toString());
     notifyListeners();
   }
 
@@ -38,4 +38,6 @@ class TagsViewModel with ChangeNotifier {
     }).onError((error, stackTrace) =>
         setTags(ApiResponse.error(error.toString())));
   }
+
+  void dispose() {}
 }

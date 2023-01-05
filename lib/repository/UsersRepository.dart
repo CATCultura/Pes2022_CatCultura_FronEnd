@@ -182,7 +182,7 @@ class UsersRepository {
   Future<String> postCreaTags(String id, List<String> data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse(
-          "${baseUrl}users/$id/tags", jsonEncode(data));
+          "${baseUrl}users/$id/tags", data);
       return response;
     }
     catch (e) {
