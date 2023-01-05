@@ -529,6 +529,17 @@ class _BodyState extends State<Body> {
                         ),
                   ),
                   _CustomIcon(
+                    icon: Icons.chat_bubble,
+                    text: "Xat",
+                    onTap: () => {
+                      Navigator.pushNamed(
+                          context, "/xat",
+                          arguments: EventUnicArgs(
+                              event.id!))
+                          .then((_) {})
+                    },
+                  ),
+                  _CustomIcon(
                     icon: Icons.person,
                     text: event.nomOrganitzador!,
                     onTap: () =>
