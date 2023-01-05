@@ -11,8 +11,8 @@ import '../models/SessionResult.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class UsersRepository {
-  final baseUrl = "http://40.113.160.200:8081/";
-  // final baseUrl = "http://10.4.41.41:8081/";
+  // final baseUrl = "http://40.113.160.200:8081/";
+  final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
 
   UsersRepository._privateConstructor();
@@ -198,8 +198,7 @@ class UsersRepository {
 
   Future<dynamic> getEventsById(int id) async {
     try {
-      dynamic response = await _apiServices.getGetApiResponse(
-          "${baseUrl}users/$id/events");
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/events");
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     } catch (e) {
