@@ -63,7 +63,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>AllUsers());
 
       default:
-        return _errorRoute();
+        //return _errorRoute();
+        return MaterialPageRoute(builder:(_)=>Home());
     }
   }
 
