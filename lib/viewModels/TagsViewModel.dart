@@ -56,5 +56,12 @@ class TagsViewModel with ChangeNotifier {
         setTags(ApiResponse.error(error.toString())));
   }
 
+  Future<void> deleteUserTags(List<String> tags) async {
+    await _usersRepo.deleteUserTags(Session().data.id.toString(), tags).then((value) {
+      setTags(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setTags(ApiResponse.error(error.toString())));
+  }
+
   void dispose() {}
 }

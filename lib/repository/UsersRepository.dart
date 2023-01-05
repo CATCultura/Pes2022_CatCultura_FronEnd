@@ -203,4 +203,15 @@ class UsersRepository {
       rethrow;
     }
   }
+
+  Future<String> deleteUserTags(String id, List<String> data) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse(
+          "${baseUrl}users/$id/tags", data);
+      return response;
+    }
+    catch (e) {
+      rethrow;
+    }
+  }
 }

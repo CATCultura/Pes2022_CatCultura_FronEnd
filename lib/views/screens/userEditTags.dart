@@ -17,15 +17,18 @@ class _UserEditTagsState extends State<UserEditTags> {
   final TagsViewModel viewModel = TagsViewModel();
   late List <String>? tagsList = [];
   List<String> checkedTags = [];
+  List<String> unCheckedTags = [];
 
   void _onSelected(bool selected, String category) {
     if (selected == true) {
       setState(() {
         checkedTags.add(category);
+        unCheckedTags.remove(category);
       });
     } else {
       setState(() {
         checkedTags.remove(category);
+        unCheckedTags.add(category);
       });
     }
   }
@@ -182,9 +185,9 @@ class _UserEditTagsState extends State<UserEditTags> {
                                   ),
                                   onPressed: () {
                                     Navigator.popAndPushNamed(context, '/userEditTags');
-                                    viewModel.editUserTags(checkedTags);
+                                    if (checkedTags != []) viewModel.editUserTags(checkedTags);
+                                    if (unCheckedTags != []) viewModel.deleteUserTags(unCheckedTags);
                                     viewModel.notifyListeners();
-
                                   },
                                 ),
                               ),
