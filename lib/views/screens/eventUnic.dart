@@ -20,6 +20,7 @@ import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 import 'dart:math' as math;
@@ -27,6 +28,7 @@ import 'dart:math' as math;
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/ReviewResult.dart';
+import '../widgets/cards/organizerCard.dart';
 
 const backgroundcolor = Color(0xffFBFBFB);
 
@@ -64,7 +66,7 @@ class _EventUnicState extends State<EventUnic> {
   @override
   void initState() {
     viewModel.selectEventById(eventId);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -124,6 +126,7 @@ class _EventUnicState extends State<EventUnic> {
                   child: Body( event: viewModel.eventSelected.data!,size: size,
                       date: viewModel.eventSelected.data!.dataInici!+"\n"+viewModel.eventSelected.data!.dataFi!,
                       place: viewModel.eventSelected.data!.espai! +" -\n"+viewModel.eventSelected.data!.comarcaIMunicipi!,
+                      // place: viewModel.eventSelected.data!.u!
                       descripcio: viewModel.eventSelected.data!.descripcio!, viewModel: viewModel
                   ),
                 )
@@ -478,26 +481,91 @@ class _BodyState extends State<Body> {
             ),
           ],
           ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children:  [
-                _CustomIcon(
-                  icon: Icons.calendar_month,
-                  text: date,
-                ),
-                _CustomIcon(
-                  icon: Icons.map,
-                  text: place,
-                ),
-                // _CustomIcon(
-                //   icon: Icons.wc,
-                //   text: 'Tv +14',
-                // ),
-                // _CustomIcon(
-                //   icon: Icons.av_timer_rounded,
-                //   text: '50m',
-                // ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children:  [
+                  _CustomIcon(
+                    icon: Icons.calendar_month,
+                    text: date,
+                    onTap: () =>
+                        showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return AlertDialog(
+                                actions: [
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK"))
+                                ],
+                                title: Text("Més info sobre horaris"),
+                                content: Text(
+                                    "Horari:\n${event.horari!}\n"
+                                        "Entrades:\n${event.entrades!}\n"
+                                        ),
+                              );
+                            }
+                        ),
+                  ),
+                  _CustomIcon(
+                    icon: Icons.map,
+                    text: event.espai!,
+                    onTap: () =>
+                        showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return AlertDialog(
+                                actions: [
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
+                                  ElevatedButton(onPressed: () => {}, child: Text("Veure al mapa"))
+                                ],
+                                title: Text("Info ubicacio"),
+                                content: Text(
+                                    "Espai:\n${event.espai!}\n"
+                                        "Adreça:\n${event.adreca!}\n"
+                                        "Lloc:\n${event.ubicacio!}"),
+                              );
+                            }
+                        ),
+                  ),
+                  _CustomIcon(
+                    icon: Icons.person,
+                    text: event.nomOrganitzador!,
+                    onTap: () =>
+                        showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return AlertDialog(
+                                actions: [
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text(AppLocalizations.of(context)!.okButton)),
+                                  ElevatedButton(onPressed: () =>
+                                  {
+                                    if (event.idOrganitzador != null)
+                                      {
+                                              Navigator.pushNamed(
+                                                      context, "/organizer",
+                                                      arguments: OrganizerArgs(
+                                                          event.idOrganitzador!, event.nomOrganitzador!))
+                                                  .then((_) {})
+                                            }
+                                        }, child: Text(AppLocalizations.of(context)!.seeMoreEventsByOrgButton))
+                                ],
+                                title: Text(AppLocalizations.of(context)!.orgInfoCardTitle, style: TextStyle(fontSize: 18),),
+                                content: OrganizerCard(event)
+                                // Text(
+                                //     "Nom:\n${event.nomOrganitzador!}\n"
+                                //         "Email:\n${event.emailOrganitzador!}\n"
+                                //         "URL:\n${event.urlOrganitzador!}"),
+                              );
+                            }
+                        ),
+                  ),
+                  // _CustomIcon(
+                  //   icon: Icons.av_timer_rounded,
+                  //   text: '50m',
+                  // ),
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(15.0),
@@ -512,10 +580,12 @@ class _BodyState extends State<Body> {
                     'Reviews',
                     style: TextStyle(fontSize: 23),
                   ),
-                  IconButton(icon: Icon(Icons.edit), onPressed: () {
-                    // print("Button works");
-                    Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
-                    },
+                  IconButton(icon: Icon(Icons.edit), onPressed:() async {
+                    final value = await Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                    setState(() {
+                      viewModel.getReviews();
+                    });
+                  },
                   )
                 ],
               ),
@@ -537,20 +607,33 @@ class _BodyState extends State<Body> {
                     viewModel.getReviews();
                   });
                   },
-                child: Center(
-                  child: Material(
-                    elevation: 20,
-                    shadowColor: Colors.black.withAlpha(70),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    child: SizedBox(
-                      height: 300,
-                      child: Text("Encara no hi ha reviews\nvols deixar una?"),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom:8.0),
+                  child: Center(
+                    child: Material(
+                      elevation: 20,
+                      shadowColor: Colors.black.withAlpha(70),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      child: SizedBox(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: Center(child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Encara no hi ha reviews...🥲\nvols deixar una?", style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
+                            Text("CLIC AQUÍ", style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
                 )
               ),
             ) : Text(viewModel.reviews.message!),
-
+            SizedBox(height: 50, width: 0,),
 
           ],
         ));
@@ -562,10 +645,12 @@ class _CustomIcon extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.text,
+    required this.onTap,
   }) : super(key: key);
 
   final IconData icon;
   final String text;
+  final VoidCallback onTap;
 
   String cutText(String t){
     String result = t;
@@ -581,26 +666,30 @@ class _CustomIcon extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color: Colors.grey,
-          size: 45,
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width/2 -5,
-          child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.clip,
-              style: const TextStyle( color: Colors.grey),
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: Colors.grey,
+            size: 45,
           ),
-        )
-      ],
-    );
+          SizedBox(
+            width: MediaQuery.of(context).size.width/2 -5,
+            child: Center(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
+                style: const TextStyle( color: Colors.grey),
+              ),
+            ),
+          )
+        ],
+      ),
+    )
+    ;
   }
 }
 
@@ -715,7 +804,7 @@ class CoverPhoto extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Image.network(
           imgUrl,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
     );

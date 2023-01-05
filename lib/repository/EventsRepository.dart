@@ -245,7 +245,7 @@ class EventsRepository {
     }
   }
   Future<List<ReviewResult>>getEventReviewsById(String id) async {
-    await Future.delayed(Duration(seconds: 2));
+    //await Future.delayed(Duration(seconds: 2));
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
       List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
@@ -304,6 +304,92 @@ class EventsRepository {
     } catch (e) {
       rethrow;
     }
+
+  }
+
+  Future<List<int>> reportReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews/$reviewId/reports", "");
+      debugPrint("response desde eventRepo reportReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo reportReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  deleteReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId", "");
+      debugPrint("response desde eventRepo deleteReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> downvoteReview(int userId, int reviewId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/${session.data.id}/upvotes/$reviewId", "");
+      debugPrint("response desde eventRepo downvoteReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo downvoteReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<int>> upvoteReview(int userId, int reviewId) async{
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/upvotes/$reviewId", "");
+      debugPrint("response desde eventRepo upvoteReview(): ${response.toString()}");
+      List<int> res = (response as List).map((item) => item as int).toList();
+      debugPrint("res desde eventRepo upvoteReview(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ReviewResult> getReview(int eventId, int reviewId) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$eventId/reviews");
+      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      debugPrint("res desde eventRepo getReview(): ${res.toString()}");
+      return res.firstWhere((r) => r.reviewId! == reviewId);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<List<EventResult>>> getEventsWithFilter2(String filter) async {
+
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?q=$filter");
+      List<EventResult> similars = [], noSimilars = [];
+      if(response['Similar'] != null) similars = (response['Similar'] as List).map((e) => EventResult.fromJson(e)).toList();
+      if(response['Not similar'] != null) noSimilars = (response['Not similar'] as List).map((e) => EventResult.fromJson(e)).toList();
+      debugPrint(similars.toString());
+      List<List<EventResult>> res = [];
+      res.add(similars);
+      res.add(noSimilars);
+      // List<List<EventResult>> res = json.decode(response) as List<List<EventResult>>;//List.from(List.from(response(e) => EventResult.fromJson(e).toList()).toList());
+      // final lists = response as List<List<EventResult>>;
+      // List<List<EventResult>> res = lists.map((innerList) => innerList.cast<EventResult>()).toList(),
+
+      debugPrint("res: "+res.toString());
+      List<List<EventResult>> res2 = [];
+      return res;
+
+    }  catch (e, stacktrace) {
+      debugPrintStack(stackTrace: stacktrace);
+      rethrow;
+    }
+    // catch (e) {
+    //   rethrow;
+    // }
 
   }
 }

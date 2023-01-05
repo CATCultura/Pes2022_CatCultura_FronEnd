@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:CatCultura/viewModels/AnotherUserViewModel.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/UserResult.dart';
-import '../../utils/auxArgsObjects/argsRouting.dart';
 
-import 'package:like_button/like_button.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../utils/Session.dart';
@@ -20,6 +18,7 @@ class AnotherProfile extends StatelessWidget {
   late List <String> usersList = [];
   final Session sessio = Session();
   final AnotherUserViewModel viewModel = AnotherUserViewModel();
+  late UserResult useraux = viewModel.mainUser as UserResult;
 
   @override
   void initState() {
@@ -33,7 +32,9 @@ class AnotherProfile extends StatelessWidget {
     viewModel.setMyFriends(sessio.data.id.toString());
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
+    viewModel.selectUserById(selectedId);
     viewModel.notifyListeners();
+
     return ChangeNotifierProvider<AnotherUserViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
@@ -45,7 +46,7 @@ class AnotherProfile extends StatelessWidget {
             backgroundColor: Colors.grey[200],
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                "AnotherProfile", username: "SuperJuane",
+                "AnotherProfile",  Session(), username: "SuperJuane",
                 email: "juaneolivan@gmail.com"),
             body: ListView(
               padding: EdgeInsets.zero,
@@ -62,7 +63,7 @@ class AnotherProfile extends StatelessWidget {
                     ]
                 ),
                 buildContent(),
-                SizedBox(height: 32),
+                const SizedBox(height: 20),
 
                   viewModel.usersRequested.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
                   viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
@@ -96,17 +97,70 @@ class AnotherProfile extends StatelessWidget {
                       },
 
 
-                      ) : Text("a"),
+                      ) : const Text(" "),
                     ]:
                       <Widget>[
-                        const Text(
-                         'Ja sou amics!',
-                         style: TextStyle(
-                             fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                          const Text(
+                           'Ja sou amics!    ',
+                           style: TextStyle(
+                               fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                          ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                              MaterialStateProperty.all(Colors.redAccent)),
+                          child: const Text ('Eliminar'),
+                          onPressed: (){
+                            viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
+                            var aux = int.parse(selectedId);
+                            sessio.data.friendsId!.remove(aux);
+                            viewModel.afegit = false;
+                            viewModel.friend = false;
+                            viewModel.notifyListeners();
+                          },
                         ),
+
                       ],
 
                   ) : const Text(""),
+                const SizedBox(height: 30),
+
+                   Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.calendar_month_rounded, color: Colors.amber),
+                        Text('    ${viewModel.mainUser.data!.creationDate!}'),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.alternate_email, color: Colors.amber),
+                        Text('     ${viewModel.mainUser.data!.email!}'),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.workspace_premium, color: Colors.amber),
+                        Text('     ${viewModel.mainUser.data!.role!}'),
+                      ],
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.monetization_on_outlined, color: Colors.amber),
+                      Text('     ${viewModel.mainUser.data!.points!}'),
+                    ],
+                  ),
+
+
+
+
 
 
                 /*Row(
@@ -149,24 +203,13 @@ class AnotherProfile extends StatelessWidget {
   }
 
   Widget buildContent() => Column(
-      children: const [
-
+      children: [
       SizedBox(height: 12),
       Text (
-        'Usuari de CATCultura',
+        viewModel.mainUser.data!.username!,
         style: TextStyle(fontSize: 20, height: 1.4, color: Colors.grey),
       ),
-     /* Row (
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget> [
-
-
-        ],
-      ),
-
-*/
-    ]
-
+    ],
   );
 
   Widget buildTop() {
@@ -202,11 +245,6 @@ class AnotherProfile extends StatelessWidget {
     backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
 
-  getUsers() {
-
-
-
-  }
 
 
 }

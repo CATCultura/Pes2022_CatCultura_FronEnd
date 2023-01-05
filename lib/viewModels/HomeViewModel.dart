@@ -67,18 +67,20 @@ class HomeViewModel with ChangeNotifier{
 
   Future<void> fetchEvents() async {
     //FOR NOW TO MAKE IT THE CUTREST
-    for (String a in auxTags) {
-      tagEventList[a] = ApiResponse.loading();
+    if (session.data.tags != null) {
+      for (String a in session.data.tags!) {
+        tagEventList[a] = ApiResponse.loading();
+      }
     }
 
     await _eventsRepo.getEvents().then((value) {
       setEventsList(ApiResponse.completed(value));
   }).onError((error, stackTrace) =>
         setEventsList(ApiResponse.error(error.toString())));
-    if (session.data.id != -1 && auxTags != null) {
-      for (int i = 0; i < max(3,auxTags.length); ++i) {
-        await _eventsRepo.getEventsByTag(auxTags[i]).then((value) {
-          setEventTagList(ApiResponse.completed(value), auxTags[i]);
+    if (session.data.id != -1 && session.data.tags != null) {
+      for (int i = 0; i < session.data.tags!.length; ++i) {
+        await _eventsRepo.getEventsByTag(session.data.tags![i]).then((value) {
+          setEventTagList(ApiResponse.completed(value), session.data.tags![i]);
         }).onError((error, stackTrace) =>
             setEventsList(ApiResponse.error(error.toString())));
       }
@@ -86,28 +88,7 @@ class HomeViewModel with ChangeNotifier{
     }
 
 
-  Future<void> redrawWithFilter(String filter) async{
-    await _eventsRepo.getEventsWithFilter(filter).then((value) {
-      debugPrint("---------------LIST WITH FILTER---------------------");
-      for(EventResult e in value) debugPrint("  -${e.denominacio!}");
-      setEventsList(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-        setEventsList(ApiResponse.error(error.toString())));
-    debugPrint("EvViewModel, accesed from filter redraw");
+  @override
+  void dispose(){
   }
-
-  int lastPage(){
-    int result = 0;
-    final List<int> list = loadedPages.toList();
-    if(list.isNotEmpty) result = list.reduce(max);
-    return result;
-  }
-
-  void addNewPage() {
-    loadedPages.add(lastPage()+1);
-    chargingNextPage = true;
-    notifyListeners();
-    fetchEvents();
-  }
-
 }

@@ -65,17 +65,39 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
-
     try {
+      final response;
+      if (session.get('authorization') != null) {
+        debugPrint("auth: " + session.get('authorization').toString());
+        response = await http.post(
+          Uri.parse(url),
+          // body: jsonEncode(data.toJson()),
+          body: jsonEncode(data),
+          headers: {
+            'Content-Type': 'application/json',
 
-      http.Response response = await http.post(
-        Uri.parse(url),
-        // body: jsonEncode(data.toJson()),
-        body: jsonEncode(data),
-        headers: {'Content-Type': 'application/json',
-          'Authorization': session.get('authorization') ?? ""},
-
-      ).timeout(const Duration(seconds: 60));
+            'Authorization': session.get('authorization')
+          ?? ""},
+        ).timeout(const Duration(seconds: 60));
+      }
+      else {
+        debugPrint("not authorized");
+        response = await http.post(
+          Uri.parse(url),
+          // body: jsonEncode(data.toJson()),
+          body: jsonEncode(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Host': '10.4.41.41:8081',
+            'Content-Length': utf8
+                .encode(jsonEncode(data))
+                .length
+                .toString(),
+          },
+        ).timeout(const Duration(seconds: 60));
+      }
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -210,6 +232,7 @@ class NetworkApiServices extends BaseApiServices {
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:
+        debugPrint("from networkApiServices printing response on code 401");
         throw BadRequestException(response.body.toString());
       case 403:
         throw BadRequestException(response.body.toString());

@@ -9,7 +9,7 @@ class Session {
     return _instance;
   }
 
-  SessionResult data = SessionResult(id: -1, username: "Anonymous", email: "missing email", role: "x", hash: "x");
+  SessionResult data = SessionResult(id: -1, username: "Anonymous", role: "x", hash: "x");
 
   dynamic set(String key, dynamic value) {
     sessionData[key] = value;
@@ -24,6 +24,6 @@ class Session {
   }
 
   void deleteSession() {
-    data = SessionResult(id: -1, username: "Anonymous", email: "missing email", role: "x", hash: "x");
+    data = SessionResult(id: -1, username: "Anonymous", role: "x", hash: "x");
   }
 }

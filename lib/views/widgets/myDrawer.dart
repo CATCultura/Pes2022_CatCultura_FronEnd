@@ -9,12 +9,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../utils/Session.dart';
 
 class MyDrawer extends Drawer {
-  MyDrawer(this.actualPage,
+  const MyDrawer(this.actualPage,this.session,
       {this.username = "", this.email = "", super.key});
   final String actualPage;
   final String username;
   final String email;
-  Session session = Session();
+  final Session session;
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +33,21 @@ class MyDrawer extends Drawer {
             ),
             child: InkWell(
               onTap: () {
-                if (actualPage == "Profile") {
-                  Navigator.pop(context);
-                } else {
-                  Navigator.pushReplacementNamed(context, '/profile');
+                if (session.data.id != -1) {
+                  if (actualPage == "Profile") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushReplacementNamed(context, '/profile');
+                  }
+                }
+                else {
+                  Navigator.pushReplacementNamed(context, '/login');
                 }
               },
               child: Container(
                 padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     verticalDirection: VerticalDirection.down,
                     mainAxisSize: MainAxisSize.max,
@@ -50,19 +55,18 @@ class MyDrawer extends Drawer {
                       const CircleAvatar(
                           radius: 36.0,
                           backgroundColor: MyColorsPalette.white,
-                          backgroundImage: NetworkImage(
-                              "https://avatars.githubusercontent.com/u/99893934?s=400&u=cc0636970f96e71b96dfb4696945dc0a95ebb787&v=4")),
+                          backgroundImage: AssetImage('resources/img/logo.png')),
                       const SizedBox(
                         height: 6,
                       ),
-                      Text(username,
+                      Text(session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
                           style: const TextStyle(
                               fontSize: 25, color: MyColorsPalette.white)),
                       const SizedBox(
                         height: 6,
                       ),
                       Text(
-                        email,
+                        session.data.email ?? AppLocalizations.of(context)!.missingEmail,
                         style: const TextStyle(
                             fontSize: 12, color: MyColorsPalette.white),
                       ),
@@ -73,7 +77,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.house_outlined, size: 28),
-            title: const Text('Home', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.homeScreenTitle, style: const TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "Home") {
                 Navigator.pop(context);
@@ -85,7 +89,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.calendar_today_sharp, size: 28),
-            title: const Text('Events', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.eventScreenTitle, style: const TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "Events") {
                 Navigator.pop(context);
@@ -97,7 +101,7 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.map, size: 28),
-            title: const Text('Ruta Cultural', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.culturalRouteTitle, style: const TextStyle(fontSize: 18)),
             onTap: () {
               if (actualPage == "rutaCultural") {
                 Navigator.pop(context);
@@ -121,7 +125,7 @@ class MyDrawer extends Drawer {
           if (session.data.id != -1) ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.star, size: 28),
-            title: Text(AppLocalizations.of(context)!.favouritesTitle, style: TextStyle(fontSize:18)),
+            title: Text(AppLocalizations.of(context)!.favouritesTitle, style: const TextStyle(fontSize:18)),
             onTap: (){
               if(actualPage == "Favorits"){
                 Navigator.pop(context);
@@ -134,7 +138,7 @@ class MyDrawer extends Drawer {
           if (session.data.id != -1) ListTile(
               horizontalTitleGap: 0,
               leading: const Icon(Icons.calendar_month, size: 28),
-              title: Text(AppLocalizations.of(context)!.agendaTitle, style: TextStyle(fontSize:18)),
+              title: Text(AppLocalizations.of(context)!.agendaTitle, style: const TextStyle(fontSize:18)),
               onTap: (){
                 if(actualPage == "Agenda"){
                   Navigator.pop(context);
@@ -146,7 +150,7 @@ class MyDrawer extends Drawer {
           ),
           ListTile(
             horizontalTitleGap: 0,
-            title: const Text('Tancar sessió', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.logoutButton, style: TextStyle(fontSize: 18)),
             onTap: () {
               session.deleteSession();
                 Navigator.pushReplacementNamed(context, '/login');

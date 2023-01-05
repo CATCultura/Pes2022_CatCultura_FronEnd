@@ -159,7 +159,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
             child: Center(child: CircularProgressIndicator()),
           )
               : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
-              : viewModel.mainUser.status == Status.COMPLETED? A(): Text("d")
+              : viewModel.mainUser.status == Status.COMPLETED? A()
+              : Text("d")
         )
     );
         }));
@@ -170,7 +171,10 @@ class A extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.microtask(() => Navigator.popAndPushNamed(context, '/home'));
+    Future.microtask(() =>
+        Navigator.popAndPushNamed(context, '/home')
+    )
+    ;
     return Container();
   }
 }
