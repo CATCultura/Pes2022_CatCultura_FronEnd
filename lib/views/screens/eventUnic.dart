@@ -409,6 +409,7 @@ class _BodyState extends State<Body> {
   var _scopes = [GCalendar.CalendarApi.calendarScope];
 
   Future<void> _selectedDate(BuildContext context) async{
+    DateTime currentTime = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -423,13 +424,40 @@ class _BodyState extends State<Body> {
     if(pickedTime != null && pickedTime != selectedTime) setState(() {
       selectedTime = pickedTime;
     });
-    print(selectedTime);
-    print(selectedDate);
+    DateTime newDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+    if(newDateTime.isBefore(currentTime)){
+      _showErrorDialog(context, "Date && time are not valid");
+    }
+
     String titolEv = viewModel.eventSelected.data!.denominacio as String;
     NotificationService().showScheduledNotifications( viewModel.eventSelected.data!.id, "CATCultura", titolEv, selectedDate, selectedTime); //widget.callback!("addAttendance");
   }
 
-
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            CupertinoButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
