@@ -233,7 +233,8 @@ class NetworkApiServices extends BaseApiServices {
         throw BadRequestException(response.body.toString());
       case 401:
         debugPrint("from networkApiServices printing response on code 401");
-        throw BadRequestException(response.body.toString());
+        //throw BadRequestException(response.body.toString());
+          throw UnauthorisedException(response.body.toString());
       case 403:
         throw BadRequestException(response.body.toString());
       case 404:

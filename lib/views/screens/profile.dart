@@ -167,7 +167,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   children: [
                     Container(
                       height: 40,
-                      padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
@@ -183,7 +184,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 const SizedBox(height: 16),
                 Container(
                   height: 40,
-                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
@@ -205,7 +207,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                  */
                 Container(
                   height: 40,
-                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
