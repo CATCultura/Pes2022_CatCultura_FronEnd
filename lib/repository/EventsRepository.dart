@@ -404,4 +404,15 @@ class EventsRepository {
     }
 
   }
+
+  /*Future<void>*/ deleteRouteById(String routeId, String userId) {
+      try {
+        dynamic response = _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/routes/$routeId", "");
+        //RouteResult res = RouteResult.fromJson(response);
+        //dynamic res = RouteResult.fromJson(response);
+        return response;
+      } catch (e) {
+        rethrow;
+      }
+  }
 }

@@ -80,6 +80,7 @@ class RutaCulturalViewModel with ChangeNotifier {
       savingRutaMsg = "tot ok";
       notifyListeners();
     }).onError((error, stackTrace) {
+      //debugPrintStack()
       savingRutaMsg=error.toString();
       notifyListeners();
     });
@@ -99,6 +100,7 @@ class RutaCulturalViewModel with ChangeNotifier {
   }
 
   Future<bool> loadRutaCultural(RutaCulturalLoadArgs result) async {
+    polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
     if(result.events != null && result.events != []){
       setEventsList(ApiResponse.completed(result.events));
       await paintRoute().then((value){
