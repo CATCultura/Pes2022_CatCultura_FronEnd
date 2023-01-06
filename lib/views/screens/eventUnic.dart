@@ -23,6 +23,7 @@ import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 import 'dart:math' as math;
@@ -30,6 +31,7 @@ import 'dart:math' as math;
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/ReviewResult.dart';
+import '../widgets/cards/organizerCard.dart';
 
 const backgroundcolor = Color(0xffFBFBFB);
 
@@ -67,7 +69,7 @@ class _EventUnicState extends State<EventUnic> {
   @override
   void initState() {
     viewModel.selectEventById(eventId);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -127,6 +129,7 @@ class _EventUnicState extends State<EventUnic> {
                   child: Body( event: viewModel.eventSelected.data!,size: size,
                       date: viewModel.eventSelected.data!.dataInici!+"\n"+viewModel.eventSelected.data!.dataFi!,
                       place: viewModel.eventSelected.data!.espai! +" -\n"+viewModel.eventSelected.data!.comarcaIMunicipi!,
+                      // place: viewModel.eventSelected.data!.u!
                       descripcio: viewModel.eventSelected.data!.descripcio!, viewModel: viewModel
                   ),
                 )
@@ -359,19 +362,15 @@ class BackgroundSliver extends StatelessWidget {
     );
   }
 }
-
-class Body extends StatelessWidget {
-  const Body({
-    Key? key,
-    required this.size,
+class Body extends StatefulWidget {
+  Body({super.key, required this.size,
     required this.date,
     required this.place,
     required this.descripcio,
     required this.viewModel,
-    required this.event,
-  }) : super(key: key);
+    required this.event,});
 
-  final EventResult event;
+ final EventResult event;
   final Size size;
   final String date;
   final String place;
@@ -379,6 +378,30 @@ class Body extends StatelessWidget {
   final EventUnicViewModel viewModel;
   final String loggedUserId = "2";
   static const _scopes = const [GCalendar.CalendarApi.calendarScope];
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+// class Body extends StatelessWidget {
+//   const Body({
+//     Key? key,
+//     required this.size,
+//     required this.date,
+//     required this.place,
+//     required this.descripcio,
+//     required this.viewModel,
+//     required this.event,
+//   }) : super(key: key);
+
+  late EventResult event = widget.event;
+  late Size size = widget.size;
+  late String date = widget.date;
+  late String place = widget.place;
+  late String descripcio = widget.descripcio;
+  late EventUnicViewModel viewModel = widget.viewModel;
+  late String loggedUserId = widget.loggedUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -401,6 +424,16 @@ class Body extends StatelessWidget {
               else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
             }
              */
+            IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.popAndPushNamed(
+                    context, '/opcions-Esdeveniment',
+                    arguments: EventArgs(viewModel.eventSelected.data!));
+                },
+            ),
+
             IconButton(
               // padding: const EdgeInsets.only(bottom: 5.0),
               iconSize: 40,
@@ -451,26 +484,102 @@ class Body extends StatelessWidget {
             ),
           ],
           ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children:  [
-                _CustomIcon(
-                  icon: Icons.calendar_month,
-                  text: date,
-                ),
-                _CustomIcon(
-                  icon: Icons.map,
-                  text: place,
-                ),
-                // _CustomIcon(
-                //   icon: Icons.wc,
-                //   text: 'Tv +14',
-                // ),
-                // _CustomIcon(
-                //   icon: Icons.av_timer_rounded,
-                //   text: '50m',
-                // ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children:  [
+                  _CustomIcon(
+                    icon: Icons.calendar_month,
+                    text: date,
+                    onTap: () =>
+                        showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return AlertDialog(
+                                actions: [
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK"))
+                                ],
+                                title: Text("Més info sobre horaris"),
+                                content: Text(
+                                    "Horari:\n${event.horari!}\n"
+                                        "Entrades:\n${event.entrades!}\n"
+                                        ),
+                              );
+                            }
+                        ),
+                  ),
+                  _CustomIcon(
+                    icon: Icons.map,
+                    text: event.espai!,
+                    onTap: () =>
+                        showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return AlertDialog(
+                                actions: [
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
+                                  ElevatedButton(onPressed: () => {}, child: Text("Veure al mapa"))
+                                ],
+                                title: Text("Info ubicacio"),
+                                content: Text(
+                                    "Espai:\n${event.espai!}\n"
+                                        "Adreça:\n${event.adreca!}\n"
+                                        "Lloc:\n${event.ubicacio!}"),
+                              );
+                            }
+                        ),
+                  ),
+                  _CustomIcon(
+                    icon: Icons.chat_bubble,
+                    text: "Xat",
+                    onTap: () => {
+                      Navigator.pushNamed(
+                          context, "/xat",
+                          arguments: EventUnicArgs(
+                              event.id!))
+                          .then((_) {})
+                    },
+                  ),
+                  _CustomIcon(
+                    icon: Icons.person,
+                    text: event.nomOrganitzador!,
+                    onTap: () =>
+                        showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return AlertDialog(
+                                actions: [
+                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text(AppLocalizations.of(context)!.okButton)),
+                                  ElevatedButton(onPressed: () =>
+                                  {
+                                    if (event.idOrganitzador != null)
+                                      {
+                                              Navigator.pushNamed(
+                                                      context, "/organizer",
+                                                      arguments: OrganizerArgs(
+                                                          event.idOrganitzador!, event.nomOrganitzador!))
+                                                  .then((_) {})
+                                            }
+                                        }, child: Text(AppLocalizations.of(context)!.seeMoreEventsByOrgButton))
+                                ],
+                                title: Text(AppLocalizations.of(context)!.orgInfoCardTitle, style: TextStyle(fontSize: 18),),
+                                content: OrganizerCard(event)
+                                // Text(
+                                //     "Nom:\n${event.nomOrganitzador!}\n"
+                                //         "Email:\n${event.emailOrganitzador!}\n"
+                                //         "URL:\n${event.urlOrganitzador!}"),
+                              );
+                            }
+                        ),
+                  ),
+                  // _CustomIcon(
+                  //   icon: Icons.av_timer_rounded,
+                  //   text: '50m',
+                  // ),
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(15.0),
@@ -485,10 +594,12 @@ class Body extends StatelessWidget {
                     'Reviews',
                     style: TextStyle(fontSize: 23),
                   ),
-                  IconButton(icon: Icon(Icons.edit), onPressed: () {
-                    // print("Button works");
-                    Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
-                    },
+                  IconButton(icon: Icon(Icons.edit), onPressed:() async {
+                    final value = await Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                    setState(() {
+                      viewModel.getReviews();
+                    });
+                  },
                   )
                 ],
               ),
@@ -497,25 +608,46 @@ class Body extends StatelessWidget {
             const SizedBox(
               child: Center(
                   child: CircularProgressIndicator()),
-            ) :viewModel.reviews.status == Status.COMPLETED ? SingleChildScrollView(
+            ) :viewModel.reviews.status == Status.COMPLETED ?
+            SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              child: Column(
-
-                  children: List<ReviewCard>.generate(5, (index) => ReviewCard(review: viewModel.reviews.data![index]))
-                  // children: List.generate(
-                  //     5,
-                  //         (index) => Padding(
-                  //       padding: const EdgeInsets.only(left: 8.0),
-                  //       child: ClipRRect(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //         child: ReviewCard(review: viewModel.reviews.data![index]),
-                  //       ),
-                  //     )
-                  // )
+              child: viewModel.reviews.data!.length>0? Column(
+                  children: List<ReviewCard>.generate(viewModel.reviews.data!.length, (index) => ReviewCard(review: viewModel.reviews.data![index]))
+              ): GestureDetector(
+                onTap:() async {
+                  final value = await Navigator.pushNamed(context, "/crearReview", arguments: CrearReviewArgs(viewModel.eventSelected.data!.id!));
+                  setState(() {
+                    viewModel.getReviews();
+                  });
+                  },
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom:8.0),
+                  child: Center(
+                    child: Material(
+                      elevation: 20,
+                      shadowColor: Colors.black.withAlpha(70),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      child: SizedBox(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: Center(child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Encara no hi ha reviews...🥲\nvols deixar una?", style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
+                            Text("CLIC AQUÍ", style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
+                          ],
+                        )),
+                      ),
+                    ),
+                  ),
+                )
               ),
             ) : Text(viewModel.reviews.message!),
-
+            SizedBox(height: 50, width: 0,),
 
           ],
         ));
@@ -527,10 +659,12 @@ class _CustomIcon extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.text,
+    required this.onTap,
   }) : super(key: key);
 
   final IconData icon;
   final String text;
+  final VoidCallback onTap;
 
   String cutText(String t){
     String result = t;
@@ -546,26 +680,30 @@ class _CustomIcon extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color: Colors.grey,
-          size: 45,
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width/2 -5,
-          child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.clip,
-              style: const TextStyle( color: Colors.grey),
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: Colors.grey,
+            size: 45,
           ),
-        )
-      ],
-    );
+          SizedBox(
+            width: MediaQuery.of(context).size.width/2 -5,
+            child: Center(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
+                style: const TextStyle( color: Colors.grey),
+              ),
+            ),
+          )
+        ],
+      ),
+    )
+    ;
   }
 }
 
@@ -680,7 +818,7 @@ class CoverPhoto extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Image.network(
           imgUrl,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -1022,234 +1160,3 @@ class DataCutRectangle extends StatelessWidget {
 // //         }));
 // //   }
 // // }
-@immutable
-class ExpandableFab extends StatefulWidget {
-  const ExpandableFab({
-    super.key,
-    this.initialOpen,
-    required this.distance,
-    required this.children,
-  });
-
-  final bool? initialOpen;
-  final double distance;
-  final List<Widget> children;
-
-  @override
-  State<ExpandableFab> createState() => _ExpandableFabState();
-}
-
-class _ExpandableFabState extends State<ExpandableFab>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _expandAnimation;
-  bool _open = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _open = widget.initialOpen ?? false;
-    _controller = AnimationController(
-      value: _open ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 250),
-      vsync: this,
-    );
-    _expandAnimation = CurvedAnimation(
-      curve: Curves.fastOutSlowIn,
-      reverseCurve: Curves.easeOutQuad,
-      parent: _controller,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _toggle() {
-    setState(() {
-      _open = !_open;
-      if (_open) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        clipBehavior: Clip.none,
-        children: [
-          _buildTapToCloseFab(),
-          ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTapToCloseFab() {
-    return SizedBox(
-      width: 56.0,
-      height: 56.0,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          child: InkWell(
-            onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildExpandingActionButtons() {
-    final children = <Widget>[];
-    final count = widget.children.length;
-    final step = 90.0 / (count - 1);
-    for (var i = 0, angleInDegrees = 0.0;
-    i < count;
-    i++, angleInDegrees += step) {
-      children.add(
-        _ExpandingActionButton(
-          directionInDegrees: angleInDegrees,
-          maxDistance: widget.distance,
-          progress: _expandAnimation,
-          child: widget.children[i],
-        ),
-      );
-    }
-    return children;
-  }
-
-  Widget _buildTapToOpenFab() {
-    return IgnorePointer(
-      ignoring: _open,
-      child: AnimatedContainer(
-        transformAlignment: Alignment.center,
-        transform: Matrix4.diagonal3Values(
-          _open ? 0.7 : 1.0,
-          _open ? 0.7 : 1.0,
-          1.0,
-        ),
-        duration: const Duration(milliseconds: 250),
-        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
-        child: AnimatedOpacity(
-          opacity: _open ? 0.0 : 1.0,
-          curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
-          duration: const Duration(milliseconds: 250),
-          child: FloatingActionButton(
-            onPressed: _toggle,
-            child: const Icon(Icons.more_horiz),
-            backgroundColor: Colors.red,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-@immutable
-class _ExpandingActionButton extends StatelessWidget {
-  const _ExpandingActionButton({
-    required this.directionInDegrees,
-    required this.maxDistance,
-    required this.progress,
-    required this.child,
-  });
-
-  final double directionInDegrees;
-  final double maxDistance;
-  final Animation<double> progress;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: progress,
-      builder: (context, child) {
-        final offset = Offset.fromDirection(
-          directionInDegrees * (math.pi / 180.0),
-          progress.value * maxDistance,
-        );
-        return Positioned(
-          right: 4.0 + offset.dx,
-          bottom: 4.0 + offset.dy,
-          child: Transform.rotate(
-            angle: (1.0 - progress.value) * math.pi / 2,
-            child: child!,
-          ),
-        );
-      },
-      child: FadeTransition(
-        opacity: progress,
-        child: child,
-      ),
-    );
-  }
-}
-
-@immutable
-class ActionButton extends StatelessWidget {
-  const ActionButton({
-    super.key,
-    this.onPressed,
-    required this.icon,
-  });
-
-  final VoidCallback? onPressed;
-  final Widget icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Material(
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      color: Colors.red,
-      elevation: 4.0,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-        color: theme.colorScheme.onSecondary,
-
-      ),
-    );
-  }
-}
-
-@immutable
-class FakeItem extends StatelessWidget {
-  const FakeItem({
-    super.key,
-    required this.isBig,
-  });
-
-  final bool isBig;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-      height: isBig ? 128.0 : 36.0,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-        color: Colors.grey.shade300,
-      ),
-    );
-  }
-}

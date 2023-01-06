@@ -1,6 +1,7 @@
 //import 'dart:io';
 
 import 'package:CatCultura/main.dart';
+import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
@@ -159,7 +160,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
             child: Center(child: CircularProgressIndicator()),
           )
               : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
-              : viewModel.mainUser.status == Status.COMPLETED? A(): Text("d")
+              : viewModel.mainUser.status == Status.COMPLETED? A()
+              : Text("d")
         )
     );
         }));
@@ -170,7 +172,11 @@ class A extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.microtask(() => Navigator.popAndPushNamed(context, '/home'));
+    ChatRepository().connect();
+    Future.microtask(() =>
+        Navigator.pushReplacementNamed(context, '/home')
+    )
+    ;
     return Container();
   }
 }

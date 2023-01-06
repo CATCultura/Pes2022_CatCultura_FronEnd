@@ -1,9 +1,17 @@
+import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 
 class EventUnicArgs {
   final String eventId;
   EventUnicArgs(this.eventId);
+}
+
+class OrganizerArgs {
+  final int orgId;
+  final String orgName;
+  OrganizerArgs(this.orgId, this.orgName);
+
 }
 
 class ReviewUnicaArgs {
@@ -20,4 +28,17 @@ class AnotherProfileArgs{
   final String selectedUser;
   final String selectedId;
   AnotherProfileArgs(this.selectedUser, this.selectedId);
+}
+
+class EventArgs {
+  final EventResult e;
+  EventArgs(this.e);
+}
+
+class CrearUserArgs{
+  final String name;
+  final String user;
+  final String email;
+  final String password;
+  CrearUserArgs(this.name, this.user, this.email, this.password);
 }

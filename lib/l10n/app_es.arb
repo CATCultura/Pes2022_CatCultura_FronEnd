@@ -15,5 +15,35 @@
 
     "signUpButton": "Registrarse",
 
-    "guestMode": "Entrar como invitado"
+    "guestMode": "Entrar como invitado",
+
+    "homeScreenTitle": "Página de inicio",
+
+    "interestingEventsSection": "Eventos interesantes",
+
+    "tagEventsSection": "Porque te interesa",
+
+    "agendaTitle": "Agenda",
+
+    "favouritesTitle": "Favoritos",
+
+    "anonymousUser": "Anónimo",
+
+    "missingEmail": "Falta el correo",
+
+    "eventScreenTitle": "Eventos",
+
+    "culturalRouteTitle": "Ruta cultural",
+
+    "logoutButton": "Cerrar sesión",
+
+    "searchByQueryPrompt": "Buscar un evento...",
+
+    "orgInfoCardTitle": "Información del organizador",
+
+    "seeMoreEventsByOrgButton": "Ver más",
+
+    "okButton": "Entendido",
+
+    "orgEventsScreenTitle": "Eventos organizados por"
 }

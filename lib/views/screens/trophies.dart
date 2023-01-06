@@ -41,14 +41,14 @@ class Trophies extends StatelessWidget {
         ),
         backgroundColor: MyColors.bgColorScreen,
         // key: _scaffoldKey,
-        drawer: const MyDrawer("Profile",
+        drawer: MyDrawer("Profile", Session(),
             username: "Superjuane", email: "juaneolivan@gmail.com"),
         body: Container(
           child: viewModel.trophies.status == Status.LOADING ? const SizedBox(child: Center(child: CircularProgressIndicator()),) :
           viewModel.trophies.status == Status.ERROR ? Text(viewModel.trophies.toString()) :
           viewModel.trophies.status == Status.COMPLETED ? ListView.builder(
             itemCount: viewModel.trophies.data!.length,
-            shrinkWrap: true,
+            shrinkWrap: false,
             itemBuilder: (BuildContext context, int index) =>
                 Container(
                   width: MediaQuery
@@ -69,42 +69,47 @@ class Trophies extends StatelessWidget {
                           .width,
                       padding: EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                width: 55.0,
-                                height: 55.0,
-                                child: const CircleAvatar(
-                                  backgroundColor: Colors.green,
-                                  foregroundColor: Colors.green,
-                                  backgroundImage: NetworkImage(
-                                      'https://media.istockphoto.com/id/1168757141/vector/gold-trophy-with-the-name-plate-of-the-winner-of-the-competition.jpg?s=612x612&w=0&k=20&c=ljsP4p0yuJnh4f5jE2VwXfjs96CC0x4zj8CHUoMo39E='),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: 55.0,
+                                  height: 55.0,
+                                  child: const CircleAvatar(
+                                    backgroundColor: Colors.green,
+                                    foregroundColor: Colors.green,
+                                    backgroundImage: NetworkImage(
+                                        'https://media.istockphoto.com/id/1168757141/vector/gold-trophy-with-the-name-plate-of-the-winner-of-the-competition.jpg?s=612x612&w=0&k=20&c=ljsP4p0yuJnh4f5jE2VwXfjs96CC0x4zj8CHUoMo39E='),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 6.0,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  FittedBox(
-                                    child: Text(viewModel.trophies.data![index].name!,
-                                        style: TextStyle(color: Colors.black,
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.bold),),),
-                                  SizedBox(height: 5.0),
-                                  sessio.data!.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? Text(
-                                      'ACONSEGUIT',
-                                      style: TextStyle(color: Colors.green)): Text("No aconseguit", style: TextStyle(color: Colors.grey)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                SizedBox(width: 6.0,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    FittedBox(
+                                      child: Text(viewModel.trophies.data![index].name!,
+                                          softWrap: true,
+                                          style: TextStyle(color: Colors.black,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold,
+                                          overflow: TextOverflow.clip),),),
+                                    SizedBox(height: 5.0),
+                                    sessio.data!.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? Text(
+                                        'ACONSEGUIT',
+                                        style: TextStyle(color: Colors.green)): Text("No aconseguit", style: TextStyle(color: Colors.grey)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -2,16 +2,20 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:CatCultura/models/EventResult.dart';
 
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
+import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../widgets/events/eventInfoShort.dart';
 
 
 class opcionsEsdeveniment extends StatelessWidget {
-  opcionsEsdeveniment({super.key, required this.eventId});
-  String eventId;
+  opcionsEsdeveniment({super.key, required this.event});
+  EventResult event;
 
   /*+@override
   State<opcionsEsdeveniment> createState() => _opcionsState(); **/
@@ -20,12 +24,35 @@ class opcionsEsdeveniment extends StatelessWidget {
 
 //class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
-  //late String eventId;
+  String fecha = '';
+  TextEditingController CodiController = TextEditingController();
+  TextEditingController InitialDateController = TextEditingController();
+  TextEditingController FinalDateController = TextEditingController();
+  TextEditingController DenominacioController = TextEditingController();
+  TextEditingController UbicacioController = TextEditingController();
+  TextEditingController AdrecaController = TextEditingController();
+  TextEditingController EspaiController = TextEditingController();
+  TextEditingController CanceladoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    print("estas a l'apartat opcions");
-    print(eventId);
+    print("inicialitzacio correcta ");
+    CodiController.text = event.codi!;
+    InitialDateController.text = event.dataInici!;
+    FinalDateController.text = event.dataFi!;
+    DenominacioController.text = event.denominacio!;
+    UbicacioController.text = event.ubicacio!;
+    AdrecaController.text = event.adreca!;
+    EspaiController.text = event.espai!;
+
+    print(event.id!);
+    print(CodiController.text);
+    print(InitialDateController.text);
+    print(FinalDateController.text);
+    print(DenominacioController.text);
+    print(UbicacioController.text);
+    print(AdrecaController.text);
+    print(EspaiController.text);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
@@ -38,113 +65,167 @@ class opcionsEsdeveniment extends StatelessWidget {
                 child:
                 viewModel.waiting? Scaffold(
                   appBar: AppBar(
-                    title: const Text('Opcions'),
+                    title: const Text('Que vols fer?'),
                     backgroundColor: Colors.blue,
                   ),
                   body: Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              iconSize: 40,
+                              icon: Icon(Icons.delete),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      AlertDialog(
+                                          title: Text("Eliminar Esdeveniment"),
+                                          content: Text(
+                                              "Estas segur que vols eliminar aquest esdeveniment?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                child: Text("Si"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.blue,
+                                                ),
+                                                onPressed: () {
+                                                  viewModel.deleteEventById("3233");
+                                                  Navigator.popAndPushNamed(
+                                                      context, '/home');
+                                                }
+                                            ),
 
-                        Container(
-                          height: 70,
-                          width: 150,
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                                MyColorsPalette.blue)),
-                            child: const Text('Modificar Esdeveniment'),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/modificar-Esdeveniment');
-                            },
-                          ),
+                                            TextButton(
+                                                child: Text("No"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }
+                                            ),
+                                          ]
+                                      ),
+                                );
+                              },
+                            ),
+
+                            IconButton(
+                              iconSize: 40,
+                              icon: Icon(Icons.cancel),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      AlertDialog(
+                                          title: Text("Cancel·lar Esdeveniment"),
+                                          content: Text(
+                                              "Estas segur que vols cancel·lar aquest esdeveniment?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                child: Text("Si"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.blue,
+                                                ),
+                                                onPressed: () {
+                                                  EventResult? e = EventResult();
+                                                  e.id = event.id;
+                                                  e.cancelado = true;
+                                                  e.denominacio = DenominacioController.text;
+                                                  e.codi = CodiController.text;
+                                                  e.dataFi = FinalDateController.text;
+                                                  e.dataInici = InitialDateController.text;
+                                                  e.adreca = AdrecaController.text;
+                                                  e.espai = EspaiController.text;
+                                                  e.ubicacio = UbicacioController.text;
+                                                  viewModel.putEventById(e);
+                                                  Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
+                                                }
+                                            ),
+
+                                            TextButton(
+                                                child: Text("No"),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }
+                                            ),
+                                          ]
+                                      ),
+                                );
+                              },
+                            ),
+                          ],
                         ),
 
                         Container(
-                          height: 70,
-                          width: 150,
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                                MyColorsPalette.blue)),
-                            child: const Text('Eliminar Esdeveniment'),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    AlertDialog(
-                                        title: Text("Eliminar Esdeveniment"),
-                                        content: Text(
-                                            "Estas segur que vols eliminar aquest esdeveniment?"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              child: Text("Si"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.blue,
-                                              ),
-                                              onPressed: () {
-                                                viewModel.deleteEventById(eventId);
-                                                Navigator.popAndPushNamed(
-                                                    context, '/home');
-                                              }
-                                          ),
-
-                                          TextButton(
-                                              child: Text("No"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.red,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }
-                                          ),
-                                        ]
-                                    ),
-                              );
-                            },
+                          child: TextField(
+                            controller: DenominacioController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Nom Esdeveniment',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 3
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+
+                        /** Container(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: TextField(
+                            enableInteractiveSelection: false,
+                            controller: FinalDateController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Data Fi",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 3
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              FocusScope.of(context).requestFocus(
+                                  new FocusNode());
+                              selectFinalDate(context);
+                            },
+                          ),
+                        ), **/
 
                         Container(
                           height: 70,
                           width: 150,
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: ElevatedButton(
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(
-                                MyColorsPalette.blue)),
-                            child: const Text('Cancel·lar Esdeveniment'),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  MyColorsPalette.orange)),
+                            child: const Text('Modificar'),
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    AlertDialog(
-                                        title: Text("Cancel·lar Esdeveniment"),
-                                        content: Text(
-                                            "Estas segur que vols cancel·lar aquest esdeveniment?"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              child: Text("Si"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.blue,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.popAndPushNamed(
-                                                    context, '/home');
-                                              }
-                                          ),
-
-                                          TextButton(
-                                              child: Text("No"),
-                                              style: TextButton.styleFrom(
-                                                foregroundColor: Colors.red,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }
-                                          ),
-                                        ]
-                                    ),
-                              );
+                              EventResult? e = EventResult();
+                              e.id = event.id;
+                              e.denominacio = DenominacioController.text;
+                              e.codi = CodiController.text;
+                              e.dataFi = FinalDateController.text;
+                              e.dataInici = InitialDateController.text;
+                              e.adreca = AdrecaController.text;
+                              e.espai = EspaiController.text;
+                              e.ubicacio = UbicacioController.text;
+                              viewModel.putEventById(e);
+                              Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                             },
                           ),
                         ),
@@ -161,4 +242,21 @@ class opcionsEsdeveniment extends StatelessWidget {
           );
     }));
   }
+
+  /** selectFinalDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2999),
+    );
+    if (picked != null) {
+      var date = DateFormat('yyyy-MM-dd').format(picked);
+      setState(() {
+        fecha = date;
+        FinalDateController.text = fecha;
+      });
+    }
+  } **/
+
 }

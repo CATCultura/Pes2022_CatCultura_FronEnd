@@ -3,6 +3,8 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import 'package:CatCultura/repository/UsersRepository.dart';
 
+import '../utils/Session.dart';
+
 class RequestsUserViewModel with ChangeNotifier{
   final _usersRepo = UsersRepository();
 
@@ -13,6 +15,7 @@ class RequestsUserViewModel with ChangeNotifier{
   bool afegit = false;
   bool requested = false;
   String id = '';
+  final Session sessio = Session();
 
   setUsersSelected(ApiResponse<UserResult> response){
     mainUser = response;
@@ -28,6 +31,12 @@ class RequestsUserViewModel with ChangeNotifier{
     print("before userslist = response (with exit)");
     debugPrint(response.toString());
     usersReceived = response;
+    List<int> aux = [];
+    for (int i = 0; i < usersReceived.data!.length; ++i){
+      var auxiliar = int.parse(response.data!.elementAt(i).id!);
+      aux.add(auxiliar);
+    }
+    sessio.data.receivedRequestsIds = aux;
     notifyListeners();
 
     /*

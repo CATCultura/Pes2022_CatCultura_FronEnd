@@ -50,7 +50,7 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   setEventSelected(ApiResponse<EventResult> response){
-    debugPrint("event selected with status: ${response.status} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
+    debugPrint("event selected with status: ${response.status}, id: ${response.data!.id} and title: ${response.data!.denominacio}\n and espai: ${response.data!.espai}");
     eventSelected = response;
     notifyListeners();
   }
@@ -61,17 +61,17 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   setReviews(ApiResponse<List<ReviewResult>> response) {
-    for (var e in response.data!) {
-      debugPrint(e.title);
-    }
+    // for (var e in response.data!) {
+    //   debugPrint(e.title);
+    // }
     reviews = response;
     notifyListeners();
   }
 
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
-    favorit = session.data.favouritesId!.contains(int.parse(id));
-    agenda = session.data.attendanceId!.contains(int.parse(id));
+    if(sessio.data.favouritesId != null)favorit = session.data.favouritesId!.contains(int.parse(id));
+    if(sessio.data.attendanceId != null)agenda = session.data.attendanceId!.contains(int.parse(id));
     debugPrint(favorit? "si en favorit": "no en favorit");
     debugPrint(agenda? "si en agenda": "no en agenda");
     await _eventsRepo.getEventById(id).then((value){
@@ -80,7 +80,15 @@ class EventUnicViewModel with ChangeNotifier {
         setEventSelected(ApiResponse.error(error.toString())));
     await _eventsRepo.getEventReviewsById(id).then((value){
       setReviews(ApiResponse.completed(value));
-    })  ;
+    });
+  }
+
+  Future<void> getReviews() async {
+    reviews.status = Status.LOADING;
+    notifyListeners();
+    await _eventsRepo.getEventReviewsById(eventSelected.data!.id!).then((value){
+      setReviews(ApiResponse.completed(value));
+    });
   }
 
   setFavouriteResult(ApiResponse<String> response){
@@ -251,13 +259,11 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
 
-  /** Future<void> putEventById(String? id, String? d) async {
-    EventResult? e = EventResult();
-    e.denominacio = d;
-    await _eventsRepo.addEventById(id, e); /** .then((value) {
+  Future<void> putEventById(EventResult e) async {
+    await _eventsRepo.addEventById(e); /** .then((value) {
       setEventSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
-  } **/
+  }
 }

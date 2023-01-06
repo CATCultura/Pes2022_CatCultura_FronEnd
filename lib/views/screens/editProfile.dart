@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../utils/Session.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
 class EditProfile extends StatelessWidget {
@@ -132,29 +134,30 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                 const SizedBox(
                   height: 5,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left:16, top: 30, right:16),
-                  child: TextField(
+                Padding(
+                  padding: const EdgeInsets.only(left:16, top: 30, right:16),
+                  child: TextFormField (
+                    initialValue: Session().data.nameAndSurname,
                     decoration: InputDecoration (
                       contentPadding: EdgeInsets.only(bottom: 3),
                       labelText: "Nom i cognoms",
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintText: "Juan Emilio Olivan",
-                      hintStyle: TextStyle(
+                      // hintText: Session().data.nameAndSurname,
+                      hintStyle: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold,
                         color: Colors.black,
                       )
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left:16, top: 30, right:16),
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: Session().data.username,
                     decoration: InputDecoration (
                         contentPadding: EdgeInsets.only(bottom: 3),
                         labelText: "Nom d'usuari",
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hintText: "superjuane",
                         hintStyle: TextStyle(
                           fontSize: 16, fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -162,14 +165,14 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left:16, top: 30, right:16),
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: Session().data.email,
                     decoration: InputDecoration (
                         contentPadding: EdgeInsets.only(bottom: 3),
                         labelText: "Correu electrònic",
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hintText: "juaneolivan@gmail.com",
                         hintStyle: TextStyle(
                           fontSize: 16, fontWeight: FontWeight.bold,
                           color: Colors.black,

@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class ParametersRutaCultural extends StatefulWidget {
   const ParametersRutaCultural({super.key});
@@ -16,7 +17,20 @@ class ParametersRutaCultural extends StatefulWidget {
 
 class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
   double _currentSliderValue = 0;
+  TextEditingController dateController = TextEditingController(text:DateFormat('dd-MM-yyyy').format(DateTime(2022, 12, 26))); //"2022-10-07T00:00:00.000" //DateFormat('dd-MM-yyyy').format(DateTime.now())
+  /*TextField(
+        controller: dateController, //editing controller of this TextField
+          decoration: const InputDecoration(
+                    icon: Icon(Icons.calendar_today), //icon of text field
+                   labelText: "Enter Date" //label text of field
+            ),
+           readOnly: true,  // when true user cannot edit text
+           onTap: () async {
+                  //when click we have to show the datepicker
+            }
+  )*/
   @override
+
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -68,11 +82,12 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                 ),
                               ),
                               componentText(
-                                Icons.question_mark,
-                                'OPTION 1',
+                                Icons.calendar_today,
+                                'Data',
                                 false,
                                 false,
-                                size
+                                size,
+                                  dateController
                               ),
                               const Padding(padding: EdgeInsets.only(top: 8.0),),
                               componentSlider(
@@ -83,20 +98,21 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                 size
                               ),
                               const Padding(padding: EdgeInsets.only(top: 8.0),),
-                              componentText(
-                                Icons.question_mark,
-                                'OPTION 2',
-                                true,
-                                false,
-                                size
-                              ),
+                              // componentText(
+                              //   Icons.question_mark,
+                              //   'OPTION 2',
+                              //   true,
+                              //   false,
+                              //   size,
+                              //   ''
+                              // ),
 
                               SizedBox(height: size.width * .1),
                               InkWell(
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  Navigator.pop(context, RutaCulturalArgs(1.0, 2.0, 3.0));
+                                  Navigator.pop(context, RutaCulturalArgs(1.0, 2.0,20000, privateDateFormat(dateController.text)));
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(
@@ -140,7 +156,7 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
   }
 
   Widget componentText(
-      IconData icon, String hintText, bool isPassword, bool isEmail, Size size) {
+      IconData icon, String hintText, bool isPassword, bool isEmail, Size size, TextEditingController controller) {
     return Container(
       height: size.width / 8,
       width: size.width / 1.25,
@@ -151,6 +167,7 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
+        controller: controller,
         style: TextStyle(
           color: Colors.white.withOpacity(.9),
         ),
@@ -169,9 +186,33 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
             color: Colors.white.withOpacity(.5),
           ),
         ),
+          readOnly: true,  // when true user cannot edit text
+          onTap: () async {
+            //when click we have to show the datepicker
+            DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(), //get today's date
+                firstDate:DateTime.now(),//DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                lastDate: DateTime(2101)
+            );
+            if(pickedDate != null ){
+              //print(pickedDate);  //get the picked date in the format => 2022-07-04 00:00:00.000
+              String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
+              //print(formattedDate); //formatted date output using intl package =>  2022-07-04
+              //You can format date as per your need
+
+              setState(() {
+                controller.text = formattedDate; //set foratted date to TextField value.
+              });
+            }else{
+              print("Date is not selected");
+            }
+          }
       ),
     );
   }
+
+
 
   Widget componentSlider(IconData icon, String hintText, bool isPassword, bool isEmail, Size size){
     final List<double> values = [1.0, 2.0, 3.0, 4.0, 5.0, 10.0, 15.0];
@@ -201,17 +242,29 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
           ),
           Expanded(
               flex: 5,
-              child: Slider(
-                value: _currentSliderValue,
+              child:
+              Slider(
+                value: values[selectedIndex],
                 max: 300,
                 divisions: 5,
-                label: _currentSliderValue == 300? "+∞" : _currentSliderValue.toString(),
+                label: values[selectedIndex] == 300? "+∞" : values[selectedIndex].toString(),
                 onChanged: (double value) {
                   setState(() {
-                    _currentSliderValue = value;
+                    selectedIndex = values.indexOf(value);
                   });
                 },
               )
+              // Slider(
+              //   value: _currentSliderValue,
+              //   max: 300,
+              //   divisions: 5,
+              //   label: _currentSliderValue == 300? "+∞" : _currentSliderValue.toString(),
+              //   onChanged: (double value) {
+              //     setState(() {
+              //       _currentSliderValue = value;
+              //     });
+              //   },
+              // )
             // Slider(
               //   value: 4,//2,//_currentSliderValue,
               //   min: 0,
@@ -229,6 +282,16 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
         ],
       ),
     );
+  }
+
+  //2022-10-07T00:00:00.000
+  String privateDateFormat(String ogDate) {
+    String day = ogDate[0]+ogDate[1];
+    String month = ogDate[3]+ogDate[4];
+    String year = ogDate[6]+ogDate[7]+ogDate[8]+ogDate[9];
+    String result = "$year-$month-${day}T00:00:00.000";
+    debugPrint(result);
+    return result;
   }
 }
 

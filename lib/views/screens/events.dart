@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:googleapis/appengine/v1.dart' as appengine;
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
@@ -14,8 +15,9 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
-import '../../models/EventResult.dart';
+
 import '../../models/Place.dart';
+import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
 /*class MainPage extends StatefulWidget{
@@ -36,7 +38,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   late TabController _tabController;
   bool findedSomething = false;
-  String message = "Search by name...";
+  String message = "";
   var searchResult;
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
@@ -45,12 +47,14 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
       const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
 
   _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      setState(() {
-        viewModel.addNewPage();
-        //_manager.setItems(viewModel.eventsListMap.data!);
-      });
+    if(viewModel.eventsSimilars.status != Status.COMPLETED){
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          viewModel.addNewPage();
+          //_manager.setItems(viewModel.eventsListMap.data!);
+        });
+      }
     }
   }
 
@@ -140,7 +144,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                       left: 8.0, top: 5, bottom: 5, right: 5),
                                   child: Text(
-                                    message,
+                                    AppLocalizations.of(context)!.searchByQueryPrompt,
                                     style: const TextStyle(
                                         color:
                                             Color.fromRGBO(105, 105, 105, 0.6),
@@ -176,7 +180,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                     } else if (searchQueryResult != null &&
                         searchQueryResult != '') {
                       message = searchQueryResult;
-                      findedSomething = true;
+                      viewModel.userUsedFilter = true;
                       debugPrint(searchQueryResult);
                       viewModel.setLoading();
                       viewModel.redrawWithFilter(searchQueryResult);
@@ -185,12 +189,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                   }),
               backgroundColor: MyColorsPalette.red,
               actions: [
-                findedSomething == true
+                viewModel.userUsedFilter == true
                     ? IconButton(
                         onPressed: () {
                           setState(() {
-                            message = "Search by name...";
-                            findedSomething = false;
+                            message = AppLocalizations.of(context)!.searchByQueryPrompt;
+                            viewModel.userUsedFilter = false;
                           });
                           viewModel.refresh();
                           viewModel.fetchEvents();
@@ -209,7 +213,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: const MyDrawer("Events",
+            drawer: MyDrawer("Events",  Session(),
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             /**/
             body: DefaultTabController(
@@ -245,36 +249,77 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                       ? Text(viewModel.eventsList.toString())
                                       : viewModel.eventsList.status ==
                                               Status.COMPLETED
-                                          ? Column(
-                                              children: [
-                                                Expanded(
-                                                  child: ListView.builder(
-                                                      controller:
-                                                          _scrollController,
-                                                      itemCount: viewModel
-                                                          .eventsList
-                                                          .data!
-                                                          .length,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                              int i) {
-                                                        return EventInfoTile(
-                                                          event: viewModel
+                                          ? !viewModel.userUsedFilter
+                                              ? Column(
+                                                  children: [
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                          controller:
+                                                              _scrollController,
+                                                          itemCount: viewModel
                                                               .eventsList
-                                                              .data![i],
-                                                          index: i,
-                                                        );
-                                                      }),
-                                                ),
-                                                viewModel.chargingNextPage
-                                                    ? const SizedBox(
-                                                        child: Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                      )
-                                                    : const SizedBox.shrink(),
-                                              ],
-                                            )
+                                                              .data!
+                                                              .length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int i) {
+                                                            return EventInfoTile(
+                                                              event: viewModel
+                                                                  .eventsList
+                                                                  .data![i],
+                                                              index: i,
+                                                            );
+                                                          }),
+                                                    ),
+                                                    viewModel.chargingNextPage
+                                                        ? const SizedBox(
+                                                            child: Center(
+                                                                child:
+                                                                    CircularProgressIndicator()),
+                                                          )
+                                                        : const SizedBox
+                                                            .shrink(),
+                                                  ],
+                                                )
+                                              : Column(
+                                                  children: [
+                                                    viewModel.eventsSimilars.data!.length != 0 ? Expanded(
+                                                      child: ListView.builder(
+                                                          controller: _scrollController,
+                                                          itemCount: viewModel.eventsSimilars.data!.length,
+                                                          itemBuilder: (BuildContextcontext, int i) {
+                                                            return EventInfoTile(
+                                                              event: viewModel.eventsList.data![i],
+                                                              index: i,
+                                                            );
+                                                          }),
+                                                    ):SizedBox(width: 0, height: 0,),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top:12.0),
+                                                      child: Center(
+                                                        child:Column(
+                                                          children: [
+                                                            Divider(thickness: 2,),
+                                                            Text("EVENTS SIMILARS", style:TextStyle(color: Colors.grey, fontSize: 20,)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                          controller: _scrollController,
+                                                          itemCount: viewModel.eventsNoSimilars.data!.length,
+                                                          itemBuilder: (BuildContextcontext, int i) {
+                                                            return EventInfoTile(
+                                                              event: viewModel.eventsList.data![i],
+                                                              index: i,
+                                                              mode: "noSimilar",
+                                                            );
+                                                          }),
+                                                    ),
+                                                  ],
+                                                )
                                           : const Text("asdfasdf"),
                             ),
                             Center(
@@ -287,11 +332,13 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                       onMapCreated:
                                           (GoogleMapController controller) {
                                         if (!_controller.isCompleted) {
-                                          _manager.setItems(viewModel.eventsListMap.data!);
+                                          _manager.setItems(
+                                              viewModel.eventsListMap.data!);
                                           _controller.complete(controller);
                                           _manager.setMapId(controller.mapId);
                                         } else {
-                                          _manager.setItems(viewModel.eventsListMap.data!);
+                                          _manager.setItems(
+                                              viewModel.eventsListMap.data!);
                                           _manager.setMapId(controller.mapId);
                                         }
                                       },

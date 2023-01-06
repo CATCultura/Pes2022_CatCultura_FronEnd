@@ -4,6 +4,12 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import '../../views/screens/xat.dart';
+
+
+import '../../views/screens/organizerEvents.dart';
+import '../../views/widgets/errorWidget.dart';
+import '../Session.dart';
 
 
 
@@ -45,20 +51,30 @@ class RouteGenerator{
       case '/crearReview':
         final argsCrearReview = settings.arguments as CrearReviewArgs;
         return MaterialPageRoute(builder:(_)=>CrearReview(eventId: argsCrearReview.eventId));
-      case '/modificar-Esdeveniment':
+      //case '/modificar-Esdeveniment':
         return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
-        final argsEventUnic = settings.arguments as EventUnicArgs;
-        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(eventId: argsEventUnic.eventId));
+        final argsEvent = settings.arguments as EventArgs;
+        return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(event: argsEvent.e));
       case '/userTags':
-        return MaterialPageRoute(builder:(_)=>UserTags());
+        final argsCreateUser = settings.arguments as CrearUserArgs;
+        return MaterialPageRoute(builder:(_)=>UserTags(name: argsCreateUser.name, user: argsCreateUser.user, email: argsCreateUser.email, password: argsCreateUser.password));
       case '/friendRequests':
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/organizer':
+        final argsOrganizerId = settings.arguments as OrganizerArgs;
+        return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
+      case '/allUsers':
+        return MaterialPageRoute(builder:(_)=>AllUsers());
+      case '/xat':
+         final argsEventUnic = settings.arguments as EventUnicArgs;
+        return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
 
       default:
-        return _errorRoute();
+        //return _errorRoute();
+        return MaterialPageRoute(builder:(_)=>Home());
     }
   }
 
@@ -66,9 +82,10 @@ class RouteGenerator{
     return MaterialPageRoute(builder: (_){
       return Scaffold(
         appBar: AppBar(title:Text("ERROR")),
-        body: Center(child:Text("ERROR")),
-        drawer: MyDrawer(""),
+        body: const CustomErrorWidget(),
+        drawer: MyDrawer("", Session()),
       );
     });
   }
 }
+

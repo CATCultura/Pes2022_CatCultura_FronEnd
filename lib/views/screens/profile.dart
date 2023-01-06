@@ -57,29 +57,40 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           ),
           backgroundColor: MyColors.bgColorScreen,
           // key: _scaffoldKey,
-          drawer: const MyDrawer("Profile",
+          drawer: MyDrawer("Profile", Session(),
               username: "Superjuane", email: "juaneolivan@gmail.com"),
           body: Container(
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 buildTop(),
 
                 Column(
                   children: [
                     Text(
-                      'SuperJuane',
+                      sessio.data.nameAndSurname!,
                       style: TextStyle(
                         color: Color.fromRGBO(230, 192, 2, 1),
                         fontFamily: 'Nunito',
-                        fontSize: 30,
+                        fontSize: 35,
                         ),
                       ),
                       SizedBox(
                         height: 5,
                       ),
+                    Text(
+                      sessio.data.username.toString(),
+                      style: TextStyle(
+                        color: Color.fromRGBO(230, 192, 2, 1),
+                        fontFamily: 'Nunito',
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                       Row(
                           mainAxisAlignment:
                           MainAxisAlignment.center,
@@ -95,7 +106,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                   ),
                                 ),
                                 Text(
-                                  sessio.data!.points.toString(),
+                                  sessio.data.points.toString(),
                                   style: TextStyle(
                                     color: Color.fromRGBO(
                                         140, 123, 35,1),
@@ -156,7 +167,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   children: [
                     Container(
                       height: 40,
-                      padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
@@ -172,32 +184,38 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 const SizedBox(height: 16),
                 Container(
                   height: 40,
-                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
                     child: const Text('Veure peticions amistat'),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/friendRequests');
+                      Navigator.pushNamed(context, '/allUsers');
+                      //Navigator.pushNamed(context, '/friendRequests');
                     },
                   ),
                 ),
                 const SizedBox(height: 16),
-                viewModel.usersList.status == Status.LOADING? const SizedBox(
+                /*viewModel.usersList.status == Status.LOADING? const SizedBox(
                   child: Center(child: CircularProgressIndicator()),
                 ):
                 viewModel.usersList.status == Status.ERROR? Text(viewModel.usersList.toString()):
-                viewModel.usersList.status == Status.COMPLETED? Container(
+                viewModel.usersList.status == Status.COMPLETED?
+
+                 */
+                Container(
                   height: 40,
-                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
                           MaterialStateProperty.all(Colors.amberAccent)),
                       child: const Text ('Buscar Usuaris'),
                       onPressed: ()async{
-
+                          /*
                           for (var i = 0; i < 20; i++) {
                             usersList.add(viewModel.usersList.data![i].username!);
                             usersSuggList.add(viewModel.usersList.data![i].username!);
@@ -219,9 +237,11 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             selectedUser = viewModel.usersList.data![pos].nameAndSurname!;
                             selectedId = viewModel.usersList.data![pos].id!;
                           });
+                           */
                           // ignore: use_build_context_synchronously
-                          if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
-                        },
+                          //if (selectedUser != '') Navigator.pushNamed(context, '/another-user-profile', arguments: AnotherProfileArgs(selectedUser, selectedId));
+                          Navigator.pushNamed(context, '/allUsers');
+                      },
 
                     ),
                   /*icon: const Icon(Icons.search), label: const Text("Search users"),
@@ -231,7 +251,31 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   ),*/
 
                   // onPressed: (){},
-                ): Text("res"),
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Icon(Icons.calendar_month_rounded, color: Colors.amber),
+                        Text(sessio.data.creationDate.toString()),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Icon(Icons.alternate_email, color: Colors.amber),
+                        Text(sessio.data.email.toString()),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Icon(Icons.workspace_premium, color: Colors.amber),
+                        Text(sessio.data.role.toString()),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -242,7 +286,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
 
   Widget buildTop() {
-    final bottom = profileHeight/4;
+    final bottom = profileHeight/8;
     return Stack (
       clipBehavior: Clip.none,
       alignment: Alignment.center,

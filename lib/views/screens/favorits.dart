@@ -7,6 +7,7 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
+import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
 class Favorits extends StatelessWidget {
@@ -34,7 +35,7 @@ class Favorits extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: const MyDrawer("Favorits",
+            drawer: MyDrawer("Favorits",  Session(),
                 username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: Center(
               child: viewModel.favouritesList.status == Status.LOADING? const SizedBox(
