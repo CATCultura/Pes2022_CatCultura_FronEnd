@@ -18,6 +18,7 @@ class SavedRutesCulturalsViewModel with ChangeNotifier {
 
   Future<void> getSavedRoutes() async{
     await _eventsRepo.getSavedRoutes(session.data.id.toString()).then((value) {
+      for (var e in value){debugPrint("rutas guardadas!!!"+e.id!);}
       setRoutesList(ApiResponse.completed(value));
     });
         // .onError((error, stackTrace) =>

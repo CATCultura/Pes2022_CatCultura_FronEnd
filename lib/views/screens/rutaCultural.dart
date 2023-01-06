@@ -52,9 +52,10 @@ class RutaCulturalState extends State<RutaCultural> {
 
   @override
   void initState() {
+    debugPrint("-------- on ruta Cultural initState()");
     _manager = _initClusterManager();
     GLOBAL_OPEN = false;
-    //getPos();
+    viewModel.iniDeepLinkRoute(_manager);
     super.initState();
   }
 
@@ -73,12 +74,12 @@ class RutaCulturalState extends State<RutaCultural> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("-------- on ruta Cultural build()");
     return ChangeNotifierProvider<RutaCulturalViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
-
             appBar: AppBar(
                   title: const Text('RUTA CULTURAL'),
                 ),
@@ -152,6 +153,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             //onCameraMove: _manager.onCameraMove,
                             onCameraIdle: _manager.updateMap,
                           ),
+
                 floatingActionButton: ExpandableFab(
                   distance: 112.0,
                   children: [
@@ -325,14 +327,14 @@ class RutaCulturalState extends State<RutaCultural> {
                         });
                       },
                       label: Text('Guardar Ruta Actual'),
-                    ): SizedBox(width: 0, height: 0,),
-                    FloatingActionButton.extended(
+                    ): const SizedBox(width: 0, height: 0,),
+                    /*viewModel.session.data.id == -1 ?*/ FloatingActionButton.extended(
                       heroTag: 'bSavedRoutes',
                       onPressed: () {
                         _navigateAndDisplaySavedRoutes(context);
                       },
                       label: Text('Obrir Rutes Guardades'),
-                    ),
+                    ) /*: const SizedBox(width: 0, height: 0,)*/,
                   ],
                 ),
               );

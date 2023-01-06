@@ -13,6 +13,7 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/notifications/notificationService.dart';
+import 'package:CatCultura/utils/routes/deepLinkParams.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
@@ -48,7 +49,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   Uri? _initialUri;
-  Uri? _latestUri;
+  Uri? _latestUri = $LatestUri;
   Object? _err;
   StreamSubscription? _sub;
 
@@ -58,9 +59,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
       // the foreground or in the background.
       _sub = uriLinkStream.listen((Uri? uri) {
         if (!mounted) return;
-        print('got uri: $uri');
+        print('got uri not initial: $uri');
         setState(() {
           _latestUri = uri;
+          $LatestUri = uri;
           _err = null;
         });
       }, onError: (Object err) {
@@ -118,8 +120,15 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    final queryParams = _latestUri?.queryParametersAll.entries.toList();
+    if(queryParams != null){
+      debugPrint("queryParams"+queryParams.toString());
+      $Params = queryParams[0].value.first;
+    }
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown

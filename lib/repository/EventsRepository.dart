@@ -392,4 +392,16 @@ class EventsRepository {
     // }
 
   }
+
+  Future<RouteResult>getRouteById(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}routes/$id"); //40.113.160.200:8081
+      RouteResult res = RouteResult.fromJson(response);
+      //dynamic res = RouteResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+
+  }
 }
