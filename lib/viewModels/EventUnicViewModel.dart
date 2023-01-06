@@ -6,6 +6,7 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../utils/Session.dart';
+
 //imports per compartir esdeveniment
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
@@ -15,9 +16,10 @@ import 'dart:io';
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
-//import 'package:googleapis_auth/googleapis_auth.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:url_launcher/url_launcher.dart' as URLLauncher;
 import 'package:intl/intl.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
@@ -136,6 +138,29 @@ class EventUnicViewModel with ChangeNotifier {
     await Share.shareFiles([path], text: titol);
   }
 
+  Future<AccessCredentials> obtainCredentials(var _scopes) async {
+    final client = http.Client();
+    print(_scopes);
+
+    print("allo era el scope");
+    try {
+      return await obtainAccessCredentialsViaUserConsent(
+        ClientId('612365228212-mscjcj8d8m8ga4hosroetl32lklgm208.apps.googleusercontent.com', ''),
+        _scopes,
+        client,
+        _prompt,
+      );
+    } finally {
+      client.close();
+    }
+  }
+
+  void _prompt(String url) {
+    print('Please go to the following URL and grant access:');
+    print('  => $url');
+    print('');
+  }
+
   Future<void> addEventToGoogleCalendar(var _scopes, var titolEvent, var startTime)async{
     var _credentials;
     if(Platform.isAndroid){
@@ -145,8 +170,16 @@ class EventUnicViewModel with ChangeNotifier {
       _credentials = new ClientId("612365228212-tigv3ubogsu0fnmscboqtuofp5feqq0m.apps.googleusercontent.com","");
     }
 
+    /*final GoogleSignIn _googleSignIn = GoogleSignIn(
+      clientId:
+      'OAuth Client ID',
+      scopes: <String>[
+        _scopes,
+      ],
+    );*/
     DateTime dateTime = DateFormat("d-M-yyyy").parse(startTime);
     GCalendar.Event event = GCalendar.Event();
+    event.description = titolEvent;
     GCalendar.EventDateTime eventStartTime = new GCalendar.EventDateTime();
     eventStartTime.date = dateTime;
     //eventStartTime.date = startTime;
@@ -157,8 +190,9 @@ class EventUnicViewModel with ChangeNotifier {
 
   }
 
+
   Future<void> insertarEvent(var event, var _credentials, var _scopes) async {
-    clientViaUserConsent(_credentials, _scopes, prompt).then((AuthClient client){
+    clientViaUserConsent(_credentials, _scopes, prompt).then((AuthClient client) async {
       var calendar = GCalendar.CalendarApi(client);
       String calendarId = "primary";
       calendar.events.insert(event, calendarId).then((value){

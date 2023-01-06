@@ -48,6 +48,8 @@ dependencies:
 
   #packages per exportar event a Google Calendar
   googleapis: ^9.2.0
+  oauth2_client: ^3.0.0
+  google_sign_in: ^5.4.2
   googleapis_auth: ^1.3.1
   url_launcher: ^6.1.7
 

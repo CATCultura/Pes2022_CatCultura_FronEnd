@@ -13,9 +13,12 @@ import 'package:CatCultura/views/widgets/events/reviewCard.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+
 //imports per notificacions
 import 'package:CatCultura/notifications/notificationService.dart';
+
 //imports per google calendar
+import 'package:CatCultura/googleCalendar/googleCalendarService.dart' as googleCService;
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';

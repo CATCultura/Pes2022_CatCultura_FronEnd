@@ -19,8 +19,6 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
-
-
       // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
@@ -48,12 +46,9 @@ class NetworkApiServices extends BaseApiServices {
         ).timeout(const Duration(seconds: 60));
       }
       responseJson = returnResponse(response);
-
       //debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
       //responseJsonMock = jsonDecode(jsonMock);
-
-
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
@@ -61,15 +56,10 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
-
-
-
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
-
     try {
-
       http.Response response = await http.post(
         Uri.parse(url),
         body: jsonEncode(data.toJson()),
@@ -81,7 +71,6 @@ class NetworkApiServices extends BaseApiServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-
     return responseJson;
   }
 
@@ -90,22 +79,6 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
     var httpClient = http.Client();
     try {
-
-      /*
-        Uri url = Uri.tryParse("https://ptsv2.com/t/umt4a-1569012506/post");
-        http.Request request = new http.Request("post", url);
-        request.headers.clear();
-        request.headers.addAll({"content-type":"application/json; charset=utf-8"});
-        request.body = '{mediaItemID: 04b568fa, uri: https://www.google.com}';
-        var letsGo = await request.send();
-       */
-      // http.Request request = new http.Request("put", Uri.parse(url));
-      // request.body = jsonEncode(data);
-      // request.headers.clear();
-      // request.headers.addAll({'Content-Type': 'application/json'});
-      // if (session.get('authorization') != null) {
-      //   request.headers.addAll({'Authorization': session.get('authorization')});
-      // }
       http.Response response;
       if (session.get('authorization') != null) {
         response = await http.put(
@@ -146,7 +119,6 @@ class NetworkApiServices extends BaseApiServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-
     return responseJson;
   }
 
