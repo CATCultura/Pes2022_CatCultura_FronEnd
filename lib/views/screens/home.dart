@@ -1,8 +1,6 @@
 
 import 'package:CatCultura/views/widgets/interestingEventsWidget.dart';
 import 'package:flutter/material.dart';
-
-
 import 'package:CatCultura/constants/theme.dart';
 
 import 'package:CatCultura/views/widgets/myDrawer.dart';
@@ -33,7 +31,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     viewModel.fetchEvents();
-
     super.initState();
 
   }

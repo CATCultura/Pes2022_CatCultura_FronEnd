@@ -35,7 +35,7 @@ class NetworkApiServices extends BaseApiServices {
           headers: {'Content-Type': 'application/json',
             // 'Authorization': session.get('authorization'),},
             'Authorization': session.get('authorization'),},
-        ).timeout(const Duration(seconds: 60));
+        ).timeout(const Duration(seconds: 10));
 
       }
       else{
@@ -43,7 +43,7 @@ class NetworkApiServices extends BaseApiServices {
         response = await http.get(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
-        ).timeout(const Duration(seconds: 60));
+        ).timeout(const Duration(seconds: 10));
       }
       responseJson = returnResponse(response);
 
@@ -78,7 +78,7 @@ class NetworkApiServices extends BaseApiServices {
 
             'Authorization': session.get('authorization')
           ?? ""},
-        ).timeout(const Duration(seconds: 60));
+        ).timeout(const Duration(seconds: 10));
       }
       else {
         debugPrint("not authorized");
@@ -96,7 +96,7 @@ class NetworkApiServices extends BaseApiServices {
                 .length
                 .toString(),
           },
-        ).timeout(const Duration(seconds: 60));
+        ).timeout(const Duration(seconds: 10));
       }
       responseJson = returnResponse(response);
     } on SocketException {
@@ -127,7 +127,7 @@ class NetworkApiServices extends BaseApiServices {
       // if (session.get('authorization') != null) {
       //   request.headers.addAll({'Authorization': session.get('authorization')});
       // }
-      http.Response response;
+      final response;
       if (session.get('authorization') != null) {
         response = await http.put(
           Uri.parse(url),
@@ -207,7 +207,7 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json',
           'Authorization': session.get('authorization'),},
-      ).timeout(const Duration(seconds: 60));
+      ).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
