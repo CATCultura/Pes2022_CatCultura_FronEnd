@@ -95,7 +95,7 @@ class EventResult {
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    if(jsonResponse['descripcio'] != null) {
+    if(jsonResponse['descripcio'] != null && jsonResponse['descripcio'] != "") {
       descripcio = formatText(jsonResponse['descripcio']);
     } else {
       descripcio = "No descripcio";
