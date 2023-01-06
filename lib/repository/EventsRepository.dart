@@ -392,4 +392,27 @@ class EventsRepository {
     // }
 
   }
+
+  Future<RouteResult>getRouteById(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}routes/$id"); //40.113.160.200:8081
+      RouteResult res = RouteResult.fromJson(response);
+      //dynamic res = RouteResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+
+  }
+
+  /*Future<void>*/ deleteRouteById(String routeId, String userId) {
+      try {
+        dynamic response = _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/routes/$routeId", "");
+        //RouteResult res = RouteResult.fromJson(response);
+        //dynamic res = RouteResult.fromJson(response);
+        return response;
+      } catch (e) {
+        rethrow;
+      }
+  }
 }
