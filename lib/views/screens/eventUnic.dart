@@ -15,6 +15,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 //imports per notificacions
+import 'package:flutter/cupertino.dart';
+
 import 'package:CatCultura/notifications/notificationService.dart';
 
 //imports per google calendar
@@ -402,6 +404,32 @@ class _BodyState extends State<Body> {
   late String descripcio = widget.descripcio;
   late EventUnicViewModel viewModel = widget.viewModel;
   late String loggedUserId = widget.loggedUserId;
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  var _scopes = [GCalendar.CalendarApi.calendarScope];
+
+  Future<void> _selectedDate(BuildContext context) async{
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2015,8),
+      lastDate: DateTime(2101),
+    );
+    if(picked != null && picked != selectedDate) setState(() {
+      selectedDate = picked;
+    });
+
+    final TimeOfDay? pickedTime = await showTimePicker(context: context, initialTime: selectedTime);
+    if(pickedTime != null && pickedTime != selectedTime) setState(() {
+      selectedTime = pickedTime;
+    });
+    print(selectedTime);
+    print(selectedDate);
+    String titolEv = viewModel.eventSelected.data!.denominacio as String;
+    NotificationService().showScheduledNotifications( viewModel.eventSelected.data!.id, "CATCultura", titolEv, selectedDate, selectedTime); //widget.callback!("addAttendance");
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -438,25 +466,27 @@ class _BodyState extends State<Body> {
               // padding: const EdgeInsets.only(bottom: 5.0),
               iconSize: 40,
               icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
-              onPressed: (){
+              onPressed: () {
+                _selectedDate(context);
                 if(viewModel.agenda == true) {
                   viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   //widget.callback!("deleteAttendance");
                   NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
                 }
                 else {
+
                   viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   // widget.callback!("addAttendance");
-                  NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
-                }
+                  }
               },
             ),
             IconButton(
               iconSize: 40,
               icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
               onPressed: () {
-                viewModel.addEventToGoogleCalendar(_scopes, viewModel.eventSelected.data!.denominacio, viewModel.eventSelected.data!.dataInici);
-              },
+                googleCService.googleCalendarService().obtainCredentials();
+                //viewModel.addEventToGoogleCalendar(_scopes, viewModel.eventSelected.data!.denominacio, viewModel.eventSelected.data!.dataInici);
+                },
             ),
             IconButton(
               iconSize: 40,

@@ -177,7 +177,6 @@ class EventUnicViewModel with ChangeNotifier {
     else if(Platform.isIOS){
       _credentials = new ClientId("612365228212-tigv3ubogsu0fnmscboqtuofp5feqq0m.apps.googleusercontent.com","");
     }
-
     /*final GoogleSignIn _googleSignIn = GoogleSignIn(
       clientId:
       'OAuth Client ID',
@@ -193,9 +192,7 @@ class EventUnicViewModel with ChangeNotifier {
     //eventStartTime.date = startTime;
     eventStartTime.timeZone = "UTC+01:00";
     event.start = eventStartTime;
-
     insertarEvent(event, _credentials, _scopes);
-
   }
 
 
