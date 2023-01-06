@@ -1,3 +1,4 @@
+import 'package:CatCultura/providers/xat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:CatCultura/utils/routes/RouteGenerator.dart';
@@ -126,6 +127,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => EventsViewModel()),
+        ChangeNotifierProvider(create: (_) => XatProvider()),
       ],
       child: MaterialApp(
           title: 'catcultura',
