@@ -625,8 +625,12 @@ class _BodyState extends State<Body> {
               padding: EdgeInsets.all(15.0),
               child: SingleChildScrollView(child:Text(descripcio, textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),),
             ),
-            if (event != null) SizedBox(
-              width: MediaQuery.of(context).size.width/2,
+            Padding(
+              padding: EdgeInsets.only(left: 15.0),
+              child: Text("Etiquetes", textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height/12,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -636,13 +640,26 @@ class _BodyState extends State<Body> {
                   itemCount: event.getTags().length,
                     itemBuilder: (BuildContext context, int i) {
                       return Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Card(
-                          child: GestureDetector(
-                            onTap: () => {
-                              Navigator.pushNamed(context, '/tagEvents', arguments: TagArgs(event.getTags()[i]))
-                            },
-                            child: Text(event.getTags()[i], textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),)
+                          shape: StadiumBorder(),
+                          child: Card(
+                            elevation: 0.0,
+                            borderOnForeground: false,
+                            child: GestureDetector(
+                              onTap: () => {
+                                Navigator.pushNamed(context, '/tagEvents', arguments: TagArgs(event.getTags()[i]))
+                              },
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(event.getTags()[i],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 15, ),
+                                    )
+                                  ]
+                              )
+                            ),
                           ),
                         )
                       );

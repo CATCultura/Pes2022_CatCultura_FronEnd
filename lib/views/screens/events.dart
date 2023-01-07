@@ -290,7 +290,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                                           itemCount: viewModel.eventsSimilars.data!.length,
                                                           itemBuilder: (BuildContextcontext, int i) {
                                                             return EventInfoTile(
-                                                              event: viewModel.eventsList.data![i],
+                                                              event: viewModel.eventsSimilars.data![i],
                                                               index: i,
                                                             );
                                                           }),
@@ -312,7 +312,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                                           itemCount: viewModel.eventsNoSimilars.data!.length,
                                                           itemBuilder: (BuildContextcontext, int i) {
                                                             return EventInfoTile(
-                                                              event: viewModel.eventsList.data![i],
+                                                              event: viewModel.eventsNoSimilars.data![i],
                                                               index: i,
                                                               mode: "noSimilar",
                                                             );

@@ -96,7 +96,7 @@ class EventResult {
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
     if(jsonResponse['descripcio'] != null && jsonResponse['descripcio'] != "") {
-      descripcio = formatText(jsonResponse['descripcio']);
+      descripcio = formatText(jsonResponse['descripcio']).split("NOTA DE L'AGENDA")[0];
     } else {
       descripcio = "No descripcio";
     }
@@ -174,7 +174,7 @@ String formatText(String s) {
   String aux = s.replaceAll ("&nbsp;", " ");
   aux = aux.replaceAll ("nbsp;", "");
   aux = aux.replaceAll ("&amp;", "&");
-  aux = aux.replaceAll ("amp;", "&");
+  aux = aux.replaceAll ("amp;", "");
 
   return aux;
 }
