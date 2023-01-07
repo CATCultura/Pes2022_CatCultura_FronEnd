@@ -1,24 +1,34 @@
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:CatCultura/utils/Session.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsReturnParametersRutaCultural.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_cluster_manager/src/cluster_item.dart';
+import 'package:google_maps_cluster_manager/src/cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/Place.dart';
+import '../models/RouteResult.dart';
+import 'package:CatCultura/utils/routes/deepLinkParams.dart';
+
 
 class RutaCulturalViewModel with ChangeNotifier {
 
   //INI
   // final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
-  final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
+  late CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
+  late Position realPosition;
+
 
 
   //VARIABLES
   final _eventsRepo = EventsRepository();
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();
+  final Session session = Session();
 
   //MAP {markers, lines...}
   Set<Marker> markers = {};
@@ -32,10 +42,21 @@ class RutaCulturalViewModel with ChangeNotifier {
   bool rutaGenerada = false;
   bool savingRuta = false;
   String savingRutaMsg = "--";
+  var code;
+  bool urlParamsToUse = false;
+
+  void iniDeepLinkRoute(ClusterManager<ClusterItem> manager) {
+    if($Params != null){
+      code = $Params; //![0].value.first;
+      urlParamsToUse = true;
+      loadSingleRoute(manager);
+    }
+    debugPrint("code arribes: $code");
+  }
 
   void mantaintEventsListToMap() {
     List<Place> aux = [];
-    aux.add(Place(event: EventResult(id: "1", denominacio: "harcoded marker", descripcio: "sustituto de User Loc", latitud: 41.3745183, longitud: 2.1695461), color: Colors.red));
+    aux.add(Place(event: EventResult(id: "1", denominacio: "YOU", descripcio: "You are here", latitud:realPosition.latitude , longitud: realPosition.longitude), color: Colors.red));
     eventsList.data!.forEach((e) {aux.add(Place(event: e, color: Colors.blue));});
     eventsListMap = ApiResponse.completed(aux);
   }
@@ -59,6 +80,7 @@ class RutaCulturalViewModel with ChangeNotifier {
       savingRutaMsg = "tot ok";
       notifyListeners();
     }).onError((error, stackTrace) {
+      //debugPrintStack()
       savingRutaMsg=error.toString();
       notifyListeners();
     });
@@ -75,6 +97,19 @@ class RutaCulturalViewModel with ChangeNotifier {
       });
     }).onError((error, stackTrace) =>
         setEventsList(ApiResponse.error(error.toString())));
+  }
+
+  Future<bool> loadRutaCultural(RutaCulturalLoadArgs result) async {
+    polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+    if(result.events != null && result.events != []){
+      setEventsList(ApiResponse.completed(result.events));
+      await paintRoute().then((value){
+        polylines.status = value;
+        notifyListeners();
+      });
+      return true;
+    }
+    return false;
   }
 
   _createPolylines(
@@ -132,5 +167,30 @@ class RutaCulturalViewModel with ChangeNotifier {
     }
     return Status.COMPLETED;
   }
+
+  Future<void> loadSingleRoute(ClusterManager<ClusterItem> manager) async{
+    debugPrint("loading shared route");
+    await _eventsRepo.getRouteById(code).then((value) async {
+      if(value != null){
+        //rutaGenerada = false;
+        eventsListMap.status = Status.LOADING;
+        notifyListeners();
+        polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+        if(value.events != null && value.events != []){
+          setEventsList(ApiResponse.completed(value.events));
+          manager.setItems(eventsListMap.data!);
+          await paintRoute().then((value){
+            polylines.status = value;
+            notifyListeners();
+          });
+        }
+      }
+    }
+    ).onError((error, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace, label: error.toString());
+      //setEventsList(ApiResponse.error(error.toString()));
+    });
+  }
+
 
 }

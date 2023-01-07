@@ -7,6 +7,13 @@ class EventUnicArgs {
   EventUnicArgs(this.eventId);
 }
 
+class OrganizerArgs {
+  final int orgId;
+  final String orgName;
+  OrganizerArgs(this.orgId, this.orgName);
+
+}
+
 class ReviewUnicaArgs {
   final ReviewResult review;
   ReviewUnicaArgs(this.review);
@@ -26,4 +33,12 @@ class AnotherProfileArgs{
 class EventArgs {
   final EventResult e;
   EventArgs(this.e);
+}
+
+class CrearUserArgs{
+  final String name;
+  final String user;
+  final String email;
+  final String password;
+  CrearUserArgs(this.name, this.user, this.email, this.password);
 }

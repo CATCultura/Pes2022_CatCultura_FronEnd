@@ -1,6 +1,7 @@
 //import 'dart:io';
 
 import 'package:CatCultura/main.dart';
+import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
@@ -88,9 +89,9 @@ class _StatefulLoginState extends State<StatefulLogin> {
                           showPassword = ! showPassword;
                         });
                       },
-                      icon: const Icon (
+                      icon: Icon (
                         Icons.remove_red_eye,
-                        color: Colors.grey,
+                        color: showPassword ? Colors.deepOrangeAccent : Colors.grey,
                       ),
                     ),
                     contentPadding: const EdgeInsets.only(bottom: 3),
@@ -159,7 +160,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
             child: Center(child: CircularProgressIndicator()),
           )
               : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
-              : viewModel.mainUser.status == Status.COMPLETED? A(): Text("d")
+              : viewModel.mainUser.status == Status.COMPLETED? A()
+              : Text("d")
         )
     );
         }));
@@ -170,7 +172,11 @@ class A extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.microtask(() => Navigator.popAndPushNamed(context, '/home'));
+    ChatRepository().connect();
+    Future.microtask(() =>
+        Navigator.pushReplacementNamed(context, '/home')
+    )
+    ;
     return Container();
   }
 }

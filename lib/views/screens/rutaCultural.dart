@@ -6,6 +6,9 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/Place.dart';
 import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
 import 'package:CatCultura/views/screens/parametersRutaCultural.dart';
+// import 'package:CatCultura/views/screens/savedRutesCulturals.darts';
+import '../../utils/Session.dart';
+import './savedRutesCulturals.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,16 +31,31 @@ class RutaCultural extends StatefulWidget {
 
 class RutaCulturalState extends State<RutaCultural> {
   late ClusterManager _manager;
+  GoogleMapController? mapController;
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _saveNameController = TextEditingController();
   TextEditingController _saveDescController = TextEditingController();
 
   final RutaCulturalViewModel viewModel = RutaCulturalViewModel();
 
+  void getPos() async{
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value){
+      viewModel.realPosition = value;
+      debugPrint("you are in "+viewModel.realPosition.longitude.toString()+" "+viewModel.realPosition.latitude.toString());
+      //viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 7.0);
+      setState(() {
+        viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 15.0);
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+      });
+    });
+  }
+
   @override
   void initState() {
+    debugPrint("-------- on ruta Cultural initState()");
     _manager = _initClusterManager();
     GLOBAL_OPEN = false;
+    viewModel.iniDeepLinkRoute(_manager);
     super.initState();
   }
 
@@ -54,34 +72,18 @@ class RutaCulturalState extends State<RutaCultural> {
     });
   }
 
-  final _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
-  void _showAction(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    debugPrint("-------- on ruta Cultural build()");
     return ChangeNotifierProvider<RutaCulturalViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
-                appBar: AppBar(
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+            appBar: AppBar(
                   title: const Text('RUTA CULTURAL'),
                 ),
-                drawer: const MyDrawer("rutaCultural",
+                drawer: MyDrawer("rutaCultural",  Session(),
                     username: "Superjuane", email: "juaneolivan@gmail.com"),
                 body: viewModel.eventsListMap.status == Status.LOADING &&
                         viewModel.rutaGenerada
@@ -103,46 +105,67 @@ class RutaCulturalState extends State<RutaCultural> {
                     : viewModel.eventsListMap.status == Status.COMPLETED &&
                             viewModel.polylines.status == Status.COMPLETED
                         ? GoogleMap(
-                            zoomControlsEnabled: false,
+                            //zoomControlsEnabled: false,
                             myLocationEnabled: false,
                             mapType: MapType.normal,
                             initialCameraPosition: viewModel.iniCameraPosition,
                             markers: viewModel.markers,
                             polylines:
                                 Set<Polyline>.of(viewModel.polylines.data!.values),
-                            onMapCreated: (GoogleMapController controller) {
+                            onMapCreated: (GoogleMapController controller) async {
+                              debugPrint("rutaCultutal - no breakpoint available - Creating routed google map");
                               //for(Place p in viewModel.eventsListMap.data!) debugPrint("   Event: ${p.event.id}");
                               if (!_controller.isCompleted)
                                 _controller.complete(controller);
                               _manager.setMapId(controller.mapId);
                               _manager.setItems(viewModel.eventsListMap.data!);
                               _manager.updateMap();
+                              //doesnt work to paint lines at map creation...
+                              // await viewModel.paintRoute().then((_){
+                              //   debugPrint("rutaCultutal - no breakpoint available - painted ruta, let's update map");
+                              //   setState(() {
+                              //     _manager.updateMap();
+                              //     mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+                              //   });
+                              // });
+                              debugPrint("currentLocation = ${viewModel.realPosition.latitude}, ${viewModel.realPosition.longitude}");
                             },
                             onCameraMove: _manager.onCameraMove,
                             onCameraIdle: _manager.updateMap)
                         : GoogleMap(
                             zoomControlsEnabled: false,
-                            myLocationEnabled: false,
+                            myLocationEnabled: true,
                             mapType: MapType.normal,
                             initialCameraPosition: viewModel.iniCameraPosition,
                             markers: viewModel.markers,
                             onMapCreated: (GoogleMapController controller) {
-                              _controller.complete(controller);
-                              //_manager.setMapId(controller.mapId);
+                              debugPrint("rutaCultutal - no breakpoint available - Creating basic empty google map");
+                              setState(() {
+                                mapController = controller;
+                              });
+                              _controller.complete(mapController);
+                              setState(() {
+                                getPos();
+                              });
+                              _manager.setMapId(controller.mapId);
+                              //debugPrint("currentLocation = ${viewModel.realPosition.latitude}, ${viewModel.realPosition.longitude}");
                             },
                             //onCameraMove: _manager.onCameraMove,
-                            //onCameraIdle: _manager.updateMap),
+                            onCameraIdle: _manager.updateMap,
                           ),
+
                 floatingActionButton: ExpandableFab(
                   distance: 112.0,
                   children: [
                     FloatingActionButton.extended(
+                      heroTag: 'bGenerateRoute',
                       onPressed: () {
                         _navigateAndDisplayRouteGeneratorSelector(context);
                       },
                       label: Text('Generar Ruta Cultural'),
                     ),
                     viewModel.rutaGenerada? FloatingActionButton.extended(
+                      heroTag: 'bSaveroute',
                       onPressed: () {
                         RutaCulturalSaveArgs args =
                             RutaCulturalSaveArgs(null, null, true);
@@ -285,7 +308,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                 builder: (context) {
                                   return AlertDialog(
                                     title: Text('SE HA GUARDADO LA RUTA'),
-                                    content: Text(viewModel.savingRutaMsg),
+                                    // content: Text(viewModel.savingRutaMsg),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
@@ -304,13 +327,14 @@ class RutaCulturalState extends State<RutaCultural> {
                         });
                       },
                       label: Text('Guardar Ruta Actual'),
-                    ): SizedBox(width: 0, height: 0,),
-                    FloatingActionButton.extended(
+                    ): const SizedBox(width: 0, height: 0,),
+                    /*viewModel.session.data.id == -1 ?*/ FloatingActionButton.extended(
+                      heroTag: 'bSavedRoutes',
                       onPressed: () {
-                        _showAction(context, 0);
+                        _navigateAndDisplaySavedRoutes(context);
                       },
                       label: Text('Obrir Rutes Guardades'),
-                    ),
+                    ) /*: const SizedBox(width: 0, height: 0,)*/,
                   ],
                 ),
               );
@@ -333,11 +357,55 @@ class RutaCulturalState extends State<RutaCultural> {
     });
     viewModel.polylines =
         ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
-    await viewModel.generateRutaCultural(result).then((value) => {});
+    await viewModel.generateRutaCultural(RutaCulturalArgs(viewModel.realPosition.longitude, viewModel.realPosition.latitude, result!.radio, result!.data)).then((value) => {});
     //viewModel.paintRoute();
     // setState(() {
     //
     // });
+  }
+
+
+  Future<void> _navigateAndDisplaySavedRoutes(BuildContext context) async {
+    var rutaGeneradaStatus = viewModel.rutaGenerada;
+    var eventsListMapStatus = viewModel.eventsListMap.status;
+    var polylinesStatus = viewModel.polylines.status;
+
+    setState(() {
+      viewModel.rutaGenerada = false;
+      viewModel.eventsListMap.status = Status.LOADING;
+    });
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute<RutaCulturalLoadArgs>(
+          builder: (context) => const SavedRutesCulturals()),
+    );
+    if (!mounted) return;
+    setState(() {
+      viewModel.rutaGenerada = true;
+    });
+    viewModel.polylines.status = Status.LOADING; // = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+    if(result != null) {
+      bool b = await viewModel.loadRutaCultural(result);
+      if(b) {
+        //viewModel.paintRoute();
+        debugPrint(viewModel.eventsListMap.data!.toString());
+        _manager.setItems(viewModel.eventsListMap.data!);
+        //_manager.updateMap();
+      }
+      else{
+        setState(() {
+          //viewModel.eventsListMap.status = Status.COMPLETED;
+        });
+      }
+    }
+    else{
+      setState(() {
+        //viewModel.eventsListMap.status = Status.COMPLETED;
+        viewModel.rutaGenerada = rutaGeneradaStatus;
+        viewModel.eventsListMap.status = eventsListMapStatus;
+        viewModel.polylines.status = polylinesStatus;
+      });
+    }
   }
 
   Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
@@ -599,6 +667,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
+            backgroundColor: Colors.blue,
             onPressed: _toggle,
             child: const Icon(Icons.add),
           ),

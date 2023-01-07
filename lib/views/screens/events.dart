@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:geolocator/geolocator.dart';
+
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:googleapis/appengine/v1.dart' as appengine;
 import 'package:provider/provider.dart';
 
 import 'package:CatCultura/constants/theme.dart';
@@ -14,8 +16,9 @@ import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../data/response/apiResponse.dart';
-import '../../models/EventResult.dart';
+
 import '../../models/Place.dart';
+import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
 /*class MainPage extends StatefulWidget{
@@ -35,22 +38,38 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
   final EventsViewModel viewModel = EventsViewModel();
   late ScrollController _scrollController;
   late TabController _tabController;
+  GoogleMapController? mapController;
+
   bool findedSomething = false;
-  String message = "Search by name...";
+  String message = "";
   var searchResult;
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
   Set<Marker> markers = Set();
-  final CameraPosition _iniCameraPosition =
-      const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
+
+  void getPos() async{
+    debugPrint("--------getting ubi------------------");
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value){
+      viewModel.realPosition = value;
+      debugPrint("you are in "+viewModel.realPosition.longitude.toString()+" "+viewModel.realPosition.latitude.toString());
+      //viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 7.0);
+      setState(() {
+        viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 13);
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+      });
+      viewModel.located = true;
+    });
+  }
 
   _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      setState(() {
-        viewModel.addNewPage();
-        //_manager.setItems(viewModel.eventsListMap.data!);
-      });
+    if(viewModel.eventsSimilars.status != Status.COMPLETED){
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          viewModel.addNewPage();
+          //_manager.setItems(viewModel.eventsListMap.data!);
+        });
+      }
     }
   }
 
@@ -58,8 +77,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
     List<Place> a = [];
     return ClusterManager<Place>(a, _updateMarkers,
         markerBuilder: _markerBuilder,
-        stopClusteringZoom: 17.0,
-        levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0]);
+        stopClusteringZoom: 14,
+      levels:[1, 5, 10, 12, 13, 13.5, 14, 14.5, 15, 15.5, 17]
+      // levels: [1, 1.5, 2, 2.5, 6, 6.5, 7, 7.5, 8, 8.5, 9],
+      //   levels: [1, 4.25, 6.75, 8.25, 11.33, 11.5, 12.04,12.89, 13.37, 13.76, 14.5, 14.85, 15.23, 15.89, 16.0, 16.25, 16.5, 16.75, 17.0, 17.37, 18.48, 20.0]
+      // levels: [1, 4.25, 6.75, 8.25, 11.33798, 11.5, 11.75, 12.0, 12.25, 12.5, 12.75, 13.0, 13.25, 13.5, 13.75, 14.0, 14.25, 14.5, 14.75, 15.0, 15.25, 15.5, 15.75, 16.0, 16.25, 16.5, 16.75, 17.0, 17.25, 17.5, 17.75, 18.0, 18.25, 18.5, 18.75, 20.0]
+    );
   }
 
   void _updateMarkers(Set<Marker> markers) {
@@ -140,7 +163,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                       left: 8.0, top: 5, bottom: 5, right: 5),
                                   child: Text(
-                                    message,
+                                    AppLocalizations.of(context)!.searchByQueryPrompt,
                                     style: const TextStyle(
                                         color:
                                             Color.fromRGBO(105, 105, 105, 0.6),
@@ -176,7 +199,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                     } else if (searchQueryResult != null &&
                         searchQueryResult != '') {
                       message = searchQueryResult;
-                      findedSomething = true;
+                      viewModel.userUsedFilter = true;
                       debugPrint(searchQueryResult);
                       viewModel.setLoading();
                       viewModel.redrawWithFilter(searchQueryResult);
@@ -185,12 +208,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                   }),
               backgroundColor: MyColorsPalette.red,
               actions: [
-                findedSomething == true
+                viewModel.userUsedFilter == true
                     ? IconButton(
                         onPressed: () {
                           setState(() {
-                            message = "Search by name...";
-                            findedSomething = false;
+                            message = AppLocalizations.of(context)!.searchByQueryPrompt;
+                            viewModel.userUsedFilter = false;
                           });
                           viewModel.refresh();
                           viewModel.fetchEvents();
@@ -209,9 +232,21 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: const MyDrawer("Events",
-                username: "Superjuane", email: "juaneolivan@gmail.com"),
-            /**/
+            drawer: MyDrawer("Events",  Session(), username: "Superjuane", email: "juaneolivan@gmail.com"),
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+            floatingActionButton: viewModel.located ? FloatingActionButton.extended(
+              heroTag: 'eventosCerca',
+              onPressed: () async {
+                await viewModel.getEventsNearMe().then((_){
+                  // _manager.updateMap();
+                  _manager.setItems(viewModel.eventsListMap.data!);
+                  mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+
+                });
+              },
+             backgroundColor: MyColorsPalette.red.withOpacity(0.5),
+              label: Text('Buscar eventos cerca', style: TextStyle(fontSize: 10),),
+            ): SizedBox.shrink(),
             body: DefaultTabController(
                 length: 2, // length of tabs
                 initialIndex: 0,
@@ -245,55 +280,112 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                       ? Text(viewModel.eventsList.toString())
                                       : viewModel.eventsList.status ==
                                               Status.COMPLETED
-                                          ? Column(
-                                              children: [
-                                                Expanded(
-                                                  child: ListView.builder(
-                                                      controller:
-                                                          _scrollController,
-                                                      itemCount: viewModel
-                                                          .eventsList
-                                                          .data!
-                                                          .length,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                              int i) {
-                                                        return EventInfoTile(
-                                                          event: viewModel
+                                          ? !viewModel.userUsedFilter
+                                              ? Column(
+                                                  children: [
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                          controller:
+                                                              _scrollController,
+                                                          itemCount: viewModel
                                                               .eventsList
-                                                              .data![i],
-                                                          index: i,
-                                                        );
-                                                      }),
-                                                ),
-                                                viewModel.chargingNextPage
-                                                    ? const SizedBox(
-                                                        child: Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                      )
-                                                    : const SizedBox.shrink(),
-                                              ],
-                                            )
+                                                              .data!
+                                                              .length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int i) {
+                                                            return EventInfoTile(
+                                                              event: viewModel
+                                                                  .eventsList
+                                                                  .data![i],
+                                                              index: i,
+                                                            );
+                                                          }),
+                                                    ),
+                                                    viewModel.chargingNextPage
+                                                        ? const SizedBox(
+                                                            child: Center(
+                                                                child:
+                                                                    CircularProgressIndicator()),
+                                                          )
+                                                        : const SizedBox
+                                                            .shrink(),
+                                                  ],
+                                                )
+                                              : Column(
+                                                  children: [
+                                                    viewModel.eventsSimilars.data!.length != 0 ? Expanded(
+                                                      child: ListView.builder(
+                                                          controller: _scrollController,
+                                                          itemCount: viewModel.eventsSimilars.data!.length,
+                                                          itemBuilder: (BuildContextcontext, int i) {
+                                                            return EventInfoTile(
+                                                              event: viewModel.eventsSimilars.data![i],
+                                                              index: i,
+                                                            );
+                                                          }),
+                                                    ):SizedBox(width: 0, height: 0,),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top:12.0),
+                                                      child: Center(
+                                                        child:Column(
+                                                          children: [
+                                                            Divider(thickness: 2,),
+                                                            Text("EVENTS SIMILARS", style:TextStyle(color: Colors.grey, fontSize: 20,)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                          controller: _scrollController,
+                                                          itemCount: viewModel.eventsNoSimilars.data!.length,
+                                                          itemBuilder: (BuildContextcontext, int i) {
+                                                            return EventInfoTile(
+                                                              event: viewModel.eventsNoSimilars.data![i],
+                                                              index: i,
+                                                              mode: "noSimilar",
+                                                            );
+                                                          }),
+                                                    ),
+                                                  ],
+                                                )
                                           : const Text("asdfasdf"),
                             ),
                             Center(
                               child: viewModel.eventsListMap.status ==
                                       Status.COMPLETED
                                   ? GoogleMap(
+                                      zoomControlsEnabled: false,
+                                      myLocationEnabled: true,
                                       mapType: MapType.normal,
-                                      initialCameraPosition: _iniCameraPosition,
+                                      initialCameraPosition: viewModel.iniCameraPosition,
                                       markers: markers,
                                       onMapCreated:
                                           (GoogleMapController controller) {
                                         if (!_controller.isCompleted) {
+                                          // setState(() {
+                                            mapController = controller;
+                                          // });
+                                          _controller.complete(mapController);
                                           _manager.setItems(viewModel.eventsListMap.data!);
-                                          _controller.complete(controller);
                                           _manager.setMapId(controller.mapId);
                                         } else {
                                           _manager.setItems(viewModel.eventsListMap.data!);
                                           _manager.setMapId(controller.mapId);
                                         }
+                                        // setState(() {
+                                        //   mapController = controller;
+                                        // });
+                                        // _controller.complete(mapController);
+                                        // if(viewModel.realPosition != null){
+                                        //   setState(() {
+                                        getPos();
+                                          // });
+                                        // }
+
+                                        // _manager.setMapId(controller.mapId);
                                       },
                                       onCameraMove: _manager.onCameraMove,
                                       onCameraIdle: _manager.updateMap)

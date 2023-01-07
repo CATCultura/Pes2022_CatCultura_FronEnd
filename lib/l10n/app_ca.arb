@@ -62,4 +62,35 @@
     "imageApp": "Imatge App",
 
     "createEvent": "Crear"
+
+    "homeScreenTitle": "Pàgina d'inici",
+
+    "interestingEventsSection": "Esdeveniments interessants",
+
+    "tagEventsSection": "Perquè t'interessa",
+
+    "agendaTitle": "Agenda",
+
+    "favouritesTitle": "Preferits",
+
+    "anonymousUser": "Anònim",
+
+    "missingEmail": "Falta el correu",
+
+    "eventScreenTitle": "Esdeveniments",
+
+    "culturalRouteTitle": "Ruta cultural",
+
+    "logoutButton": "Tanca la sessió",
+
+    "searchByQueryPrompt": "Cerca un esdeveniment...",
+
+    "orgInfoCardTitle": "Informació de l'organitzador",
+
+    "seeMoreEventsByOrgButton": "Veure'n més",
+
+    "okButton": "D'acord",
+
+    "orgEventsScreenTitle": "Esdeveniments organitzats per"
+
 }
