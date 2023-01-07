@@ -332,7 +332,34 @@ class RutaCulturalState extends State<RutaCultural> {
                     /*viewModel.session.data.id == -1 ?*/ FloatingActionButton.extended(
                       heroTag: 'bSavedRoutes',
                       onPressed: () {
-                        _navigateAndDisplaySavedRoutes(context);
+                        if(viewModel.session.data.id == -1) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('ERROR'),
+                                content: Text('No has iniciat sessió'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).popAndPushNamed('/login');
+                                    },
+                                    child: Text('INICIAR SESSIÓ'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                        else {
+                          _navigateAndDisplaySavedRoutes(context);
+                        }
                       },
                       label: Text('Obrir Rutes Guardades'),
                     ) /*: const SizedBox(width: 0, height: 0,)*/,
