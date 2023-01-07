@@ -448,5 +448,16 @@ class EventsRepository {
     }
   }
 
+  Future<List<EventResult>> getEventsNearMe(double longitude, double latitude) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/closeToMe?lat=$latitude&lon=$longitude");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      debugPrint("res desde eventRepo getEventsNearMe(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
 }
