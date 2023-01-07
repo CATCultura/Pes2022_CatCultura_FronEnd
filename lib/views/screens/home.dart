@@ -1,8 +1,6 @@
 
 import 'package:CatCultura/views/widgets/interestingEventsWidget.dart';
 import 'package:flutter/material.dart';
-
-
 import 'package:CatCultura/constants/theme.dart';
 
 import 'package:CatCultura/views/widgets/myDrawer.dart';
@@ -33,7 +31,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     viewModel.fetchEvents();
-
     super.initState();
 
   }
@@ -53,7 +50,7 @@ class _HomeState extends State<Home> {
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                AppLocalizations.of(context)!.homeScreenTitle,
+                AppLocalizations.of(context)!.homeScreenTitle,  Session(),
                 username: session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
                 email: session.data.email == "missing email" || session.data.email == null ? AppLocalizations.of(context)!.missingEmail : session.data.email!),
             body: Container(

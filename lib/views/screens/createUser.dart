@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:tryproject2/constants/theme.dart';
-import 'package:CatCultura/viewModels/UsersViewModel.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/response/apiResponse.dart';
 import '../../viewModels/LoginViewModel.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';
@@ -37,6 +35,18 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
   TextEditingController passwordController = TextEditingController();
 
   bool showPassword = false;
+
+  bool initial = true;
+
+  String? filltext(String param) {
+    if (param.length == 0 && !initial) {
+      return "Camp requerit";
+    }
+    else if (param.length < 6 && !initial) {
+      return "Mínim 6 caràcters";
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +91,11 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
               child: TextField(
                 controller: nameController,
-                decoration: const InputDecoration (
+                decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
                     labelText: "Nom i cognoms",
-                    hintStyle: TextStyle(
+                    errorText: filltext(nameController.text),
+                    hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )
@@ -95,10 +106,12 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: TextField(
                 controller: userController,
-                decoration: const InputDecoration (
+                maxLength: 12,
+                decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
                     labelText: "Nom d'usuari",
-                    hintStyle: TextStyle(
+                    errorText: filltext(userController.text),
+                    hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )
@@ -109,10 +122,11 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
               child: TextField(
                 controller: emailController,
-                decoration: const InputDecoration (
+                decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
                     labelText: "Correu electrònic",
-                    hintStyle: TextStyle(
+                    errorText: filltext(emailController.text),
+                    hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )
@@ -131,12 +145,13 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                         showPassword = !showPassword;
                       });
                     },
-                    icon: const Icon (
+                    icon: Icon (
                       Icons.remove_red_eye,
-                      color: Colors.grey,
+                      color: showPassword ? Colors.deepOrangeAccent : Colors.grey,
                     )
                   ),
-                    labelText: 'Contrasenya'
+                    labelText: 'Contrasenya',
+                    errorText: filltext(nameController.text),
                 ),
               ),
             ),
@@ -147,9 +162,17 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                   style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
                   child: const Text('Crea compte'),
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, '/userTags', arguments: CrearUserArgs(nameController.text, userController.text, emailController.text, passwordController.text));
-                    //viewModel.crearcompte(nameController.text, userController.text, emailController.text, passwordController.text);
-                  },
+                    initial = false;
+                    viewModel.notifyListeners();
+
+                    if (nameController.text.length != 0 && userController.text.length != 0 &&
+                    emailController.text.length != 0 && passwordController.text.length != 0) {
+                      Navigator.popAndPushNamed(context, '/userTags',
+                          arguments: CrearUserArgs(
+                              nameController.text, userController.text,
+                              emailController.text, passwordController.text));
+                    }
+                  }
                 ),
             ),
             TextButton(

@@ -35,7 +35,7 @@ class CardHorizontal extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(6.0))),
             child: Row(
               children: [
-                Flexible(
+                event.imatges!.isNotEmpty ? Flexible(
                   flex: 1,
                   child: Container(
                       decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class CardHorizontal extends StatelessWidget {
                             fit: BoxFit.cover,
                             alignment: Alignment.center
                           ))),
-                ),
+                ) : SizedBox(width: 0,height: 0,),
                 Flexible(
                     flex: 4,
                     child: Padding(

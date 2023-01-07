@@ -23,7 +23,7 @@ class HorizontalScrollingRow extends StatelessWidget {
 
   List<Widget> buildTagList(List<EventResult> list) {
     return [
-      for (int i = 0; i < 20; i+=1) FixedCardSmall(list[i]),
+      for (int i = 0; i < list.length; i+=1) FixedCardSmall(list[i]),
     ];
   }
 

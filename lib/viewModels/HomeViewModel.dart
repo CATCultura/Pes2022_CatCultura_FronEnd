@@ -62,7 +62,6 @@ class HomeViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  List<String> auxTags = ["arts-visuals", "espectacles", "concerts", "gastronomia", "llibres-i-lletres"];
 
 
   Future<void> fetchEvents() async {
@@ -87,30 +86,6 @@ class HomeViewModel with ChangeNotifier{
     }
     }
 
-
-  Future<void> redrawWithFilter(String filter) async{
-    await _eventsRepo.getEventsWithFilter(filter).then((value) {
-      debugPrint("---------------LIST WITH FILTER---------------------");
-      for(EventResult e in value) debugPrint("  -${e.denominacio!}");
-      setEventsList(ApiResponse.completed(value));
-    }).onError((error, stackTrace) =>
-        setEventsList(ApiResponse.error(error.toString())));
-    debugPrint("EvViewModel, accesed from filter redraw");
-  }
-
-  int lastPage(){
-    int result = 0;
-    final List<int> list = loadedPages.toList();
-    if(list.isNotEmpty) result = list.reduce(max);
-    return result;
-  }
-
-  void addNewPage() {
-    loadedPages.add(lastPage()+1);
-    chargingNextPage = true;
-    notifyListeners();
-    fetchEvents();
-  }
 
   @override
   void dispose(){

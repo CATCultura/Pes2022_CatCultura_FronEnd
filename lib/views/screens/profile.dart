@@ -58,7 +58,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           ),
           backgroundColor: MyColors.bgColorScreen,
           // key: _scaffoldKey,
-          drawer: MyDrawer("Profile",
+          drawer: MyDrawer("Profile", Session(),
               username: "Superjuane", email: "juaneolivan@gmail.com"),
           body: Container(
             color: Colors.white,
@@ -71,7 +71,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 Column(
                   children: [
                     Text(
-                      sessio.data.nameAndSurname.toString(),
+                      sessio.data.nameAndSurname!,
                       style: TextStyle(
                         color: Color.fromRGBO(230, 192, 2, 1),
                         fontFamily: 'Nunito',
@@ -173,7 +173,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   children: [
                     Container(
                       height: 40,
-                      //padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
@@ -189,7 +190,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 const SizedBox(height: 16),
                 Container(
                   height: 40,
-                  //padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
@@ -210,7 +212,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                  */
                 Container(
                   height: 40,
-                  //padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:

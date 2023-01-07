@@ -1,6 +1,7 @@
 //import 'dart:io';
 
 import 'package:CatCultura/main.dart';
+import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
@@ -38,6 +39,14 @@ class _StatefulLoginState extends State<StatefulLogin> {
   TextEditingController nameController = TextEditingController(/*text: "admin"*/);
   TextEditingController passwordController = TextEditingController(/*text: "admin"*/);
   bool showPassword = false;
+  bool initial = true;
+
+  String? filltext(String param) {
+    if (param.length == 0 && !initial) {
+      return "Camp requerit";
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +79,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   decoration: InputDecoration (
                       contentPadding: EdgeInsets.only(bottom: 3),
                       labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
+                      errorText: filltext(nameController.text),
+
                   ),
                 ),
               ),
@@ -78,19 +89,19 @@ class _StatefulLoginState extends State<StatefulLogin> {
               Container(
                 padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 child: TextField(
-
                   controller: passwordController,
                   obscureText: !showPassword,
                   decoration: InputDecoration (
+                    errorText: filltext(passwordController.text),
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
                           showPassword = ! showPassword;
                         });
                       },
-                      icon: const Icon (
+                      icon: Icon (
                         Icons.remove_red_eye,
-                        color: Colors.grey,
+                        color: showPassword ? Colors.deepOrangeAccent : Colors.grey,
                       ),
                     ),
                     contentPadding: const EdgeInsets.only(bottom: 3),
@@ -121,7 +132,11 @@ class _StatefulLoginState extends State<StatefulLogin> {
                       ),
                     ),
                     onPressed: ()  {
-                      viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
+                      initial = false;
+                      if (nameController.text.length != 0 && passwordController.text.length != 0) {
+                        viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
+                      }
+                      viewModel.notifyListeners();
                     },
                   )
               ),
@@ -159,7 +174,8 @@ class _StatefulLoginState extends State<StatefulLogin> {
             child: Center(child: CircularProgressIndicator()),
           )
               : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
-              : viewModel.mainUser.status == Status.COMPLETED? A(): Text("d")
+              : viewModel.mainUser.status == Status.COMPLETED? A()
+              : Text("d")
         )
     );
         }));
@@ -170,7 +186,11 @@ class A extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.microtask(() => Navigator.popAndPushNamed(context, '/home'));
+    ChatRepository().connect();
+    Future.microtask(() =>
+        Navigator.pushReplacementNamed(context, '/home')
+    )
+    ;
     return Container();
   }
 }

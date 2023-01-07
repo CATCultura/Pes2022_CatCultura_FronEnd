@@ -7,6 +7,13 @@ class EventUnicArgs {
   EventUnicArgs(this.eventId);
 }
 
+class OrganizerArgs {
+  final int orgId;
+  final String orgName;
+  OrganizerArgs(this.orgId, this.orgName);
+
+}
+
 class ReviewUnicaArgs {
   final ReviewResult review;
   ReviewUnicaArgs(this.review);
