@@ -91,6 +91,30 @@
 
     "okButton": "D'acord",
 
-    "orgEventsScreenTitle": "Esdeveniments organitzats per"
+    "orgEventsScreenTitle": "Esdeveniments organitzats per",
+
+    "searchName": "Buscar per nom...",
+
+    "userProfile": "Perfil Usuari",
+
+    "addFriend": "Enviar sol·licitud",
+
+    "points": "Punts",
+
+    "friendRequests": "Peticions d'amistat",
+
+    "trophies": "Trofeus",
+
+    "config": "Configuració",
+
+    "findUsers": "Buscar Usuaris",
+
+    "myProfile": "El meu Perfil",
+
+    "ranking": "Classificació",
+
+    "achieved": "ACONSEGUIT",
+
+    "notAchieved": "No Aconseguit"
 
 }
