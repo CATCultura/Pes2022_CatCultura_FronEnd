@@ -25,5 +25,6 @@ class Session {
 
   void deleteSession() {
     data = SessionResult(id: -1, username: "Anonymous", role: "x", hash: "x");
+    sessionData = {};
   }
 }
