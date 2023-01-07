@@ -29,60 +29,59 @@ class MyDrawer extends Drawer {
         // padding: EdgeInsets.zero,
         children: [
           // DrawerHeader(
-            // decoration: const BoxDecoration(
-            //   color: MyColorsPalette.blue,
-            // ),
-            // child:
-            GestureDetector(
-              onTap: () {
-                if (session.data.id != -1) {
-                  if (actualPage == "Profile") {
-                    Navigator.pop(context);
-                  } else {
-                    Navigator.pushReplacementNamed(context, '/profile');
-                  }
+          // decoration: const BoxDecoration(
+          //   color: MyColorsPalette.blue,
+          // ),
+          // child:
+          GestureDetector(
+            onTap: () {
+              if (session.data.id != -1) {
+                if (actualPage == "Profile") {
+                  Navigator.pop(context);
                 } else {
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushReplacementNamed(context, '/profile');
                 }
-              },
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: MyColorsPalette.blue,
-                ),
-                padding: const EdgeInsets.fromLTRB(5, 25, 5, 15),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const CircleAvatar(
-                          radius: 36.0,
-                          backgroundColor: MyColorsPalette.white,
-                          backgroundImage:
-                              AssetImage('resources/img/logo.png')),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                          session.data.username == "Anonymous"
-                              ? AppLocalizations.of(context)!.anonymousUser
-                              : session.data.username,
-                          style: const TextStyle(
-                              fontSize: 25, color: MyColorsPalette.white)),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        session.data.email ??
-                            AppLocalizations.of(context)!.missingEmail,
-                        style: const TextStyle(
-                            fontSize: 12, color: MyColorsPalette.white),
-                      ),
-                    ]),
+              } else {
+                Navigator.pushReplacementNamed(context, '/login');
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: MyColorsPalette.blue,
               ),
+              padding: const EdgeInsets.fromLTRB(5, 25, 5, 15),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  verticalDirection: VerticalDirection.down,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const CircleAvatar(
+                        radius: 36.0,
+                        backgroundColor: MyColorsPalette.white,
+                        backgroundImage: AssetImage('resources/img/logo.png')),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                        session.data.username == "Anonymous"
+                            ? AppLocalizations.of(context)!.anonymousUser
+                            : session.data.username,
+                        style: const TextStyle(
+                            fontSize: 25, color: MyColorsPalette.white)),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      session.data.email ??
+                          AppLocalizations.of(context)!.missingEmail,
+                      style: const TextStyle(
+                          fontSize: 12, color: MyColorsPalette.white),
+                    ),
+                  ]),
             ),
+          ),
           // ),
 
           ListTile(
@@ -165,6 +164,21 @@ class MyDrawer extends Drawer {
                 }
               },
             ),
+          if (session.data.role == "ADMIN")
+            ListTile(
+              horizontalTitleGap: 0,
+              leading: const Icon(Icons.block, size: 28),
+              title: const Text('Reports',
+                  style: TextStyle(fontSize: 18)),
+              onTap: () {
+                if (actualPage == "Blocks") {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pushReplacementNamed(
+                      context, '/blocks');
+                }
+              },
+            ),
 
           // ListTile(
           //     horizontalTitleGap: 0,
@@ -179,7 +193,6 @@ class MyDrawer extends Drawer {
           //       }
           //     }
           // ),
-
 
           Expanded(
             child: Align(
@@ -196,8 +209,8 @@ class MyDrawer extends Drawer {
                   Navigator.pushReplacementNamed(context, '/login');
                 },
               ),
-    ),
-    ),
+            ),
+          ),
         ],
       ),
     );

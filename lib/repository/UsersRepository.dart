@@ -255,4 +255,15 @@ class UsersRepository {
       rethrow;
     }
   }
+
+  Future<List<UserResult>>getUsersReports() async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/reported");
+      List<UserResult> res = List.from(response.map((r) => UserResult.fromJson(r)).toList());
+      debugPrint("res desde usersRepo getUsersReports(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

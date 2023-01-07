@@ -2,7 +2,6 @@ import 'package:CatCultura/utils/routes/deepLinkParams.dart';
 import 'package:CatCultura/views/screens/favorits.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
-import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../views/screens/xat.dart';
@@ -81,7 +80,8 @@ class RouteGenerator{
       case '/xat':
          final argsEventUnic = settings.arguments as EventUnicArgs;
         return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
-
+      case '/blocks':
+        return MaterialPageRoute(builder:(_)=>Blocks());
       default:
         // return _errorRoute();
         return MaterialPageRoute(builder:(_)=>Home());

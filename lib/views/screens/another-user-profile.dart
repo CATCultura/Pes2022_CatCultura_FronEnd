@@ -206,7 +206,8 @@ class AnotherProfile extends StatelessWidget {
       children: [
       SizedBox(height: 12),
       Text (
-        viewModel.mainUser.data!.username!,
+        //viewModel.mainUser.data!.username!,
+        selectedUser,
         style: TextStyle(fontSize: 20, height: 1.4, color: Colors.grey),
       ),
     ],

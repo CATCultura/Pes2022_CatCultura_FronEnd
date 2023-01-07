@@ -416,4 +416,37 @@ class EventsRepository {
         rethrow;
       }
   }
+
+  Future<List<ReviewResult>> getReviewsReports() async{
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}reviews/reported");
+      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      debugPrint("res desde eventRepo getReports(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> blockReview(String reviewId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}reviews/$reviewId/block", "");
+      debugPrint("response desde eventRepo blockReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> unblockReview(String reviewId, String userId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId/reports", "");
+      debugPrint("response desde eventRepo unblockReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
 }
