@@ -133,7 +133,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                                                   }
                                                                 },
                                                                 title: Text(
-                                                                  viewModel.tagsList.data![i],
+                                                                  viewModel.tagsList.data![i].replaceAll('-', ' '),
                                                                   style: const TextStyle(
                                                                       color: Colors.black38,
                                                                       fontWeight: FontWeight.bold
@@ -181,7 +181,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                   style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all(
                                           Colors.blueAccent)),
-                                  child: const Text('DESA',
+                                  child: const Text('DESAR',
                                     style: TextStyle(
                                         fontSize: 12,
                                         letterSpacing: 2.2,

@@ -17,6 +17,52 @@
 
     "guestMode": "Entra com a convidat",
 
+    "createEventDrawer": "Crear esdeveniment",
+
+    "codeEvent": "Codi (Obligatori)",
+
+    "startDateEvent": "Data Inici (Obligatori)",
+
+    "finalDateEvent": "Data Fi (Obligatori)",
+
+    "nameEvent": "Nom Esdeveniment (Obligatori)",
+
+    "locationEvent": "Localizació (Obligatori)",
+
+    "addressEvent": "Adreça (Obligatori)",
+
+    "spaceEvent": "Espai (Obligatori)",
+
+    "descriptionEvent": "Descripció (Obligatori)",
+
+    "latitudeEvent": "Latitud (Obligatori)",
+
+    "longitudeEvent": "Longitud (Obligatori)",
+
+    "approximateEndDate": "Data Aproximada de Fin",
+
+    "ticket": "Entrades",
+
+    "schedule": "Horari",
+
+    "subtitle": "Subtítul",
+
+    "documents": "Documents",
+
+    "video": "Video",
+
+    "postalCode": "Codi Postal",
+
+    "email": "Email",
+
+    "telephone": "Telefon",
+
+    "url": "Url",
+
+    "imageApp": "Imatge App",
+
+    "createEvent": "Crear",
+
     "homeScreenTitle": "Pàgina d'inici",
 
     "interestingEventsSection": "Esdeveniments interessants",
