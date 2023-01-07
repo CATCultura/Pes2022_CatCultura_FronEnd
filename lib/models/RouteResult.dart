@@ -3,6 +3,7 @@ import 'package:CatCultura/models/EventResult.dart';
 import 'package:flutter/cupertino.dart';
 
 class RouteResult {
+  String? id = "-1";
   String? name = "NO_NAME";
   String? description = "NO_DESCRIPTION";
   String? date = "NO_DATE";
@@ -10,6 +11,7 @@ class RouteResult {
   List<EventResult>? events = [];
 
   RouteResult({
+    this.id,
     this.name,
     this.description,
     this.date,
@@ -18,6 +20,7 @@ class RouteResult {
   });
 
   RouteResult.fromJson(Map<String, dynamic> jsonResponse) {
+    id = jsonResponse['routeId'].toString();
     name = jsonResponse['name'];
     description = jsonResponse['description'];
     date = jsonResponse['createdAt'];

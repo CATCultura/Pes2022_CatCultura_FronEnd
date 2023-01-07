@@ -62,7 +62,6 @@ class HomeViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  List<String> auxTags = ["arts-visuals", "espectacles", "concerts", "gastronomia", "llibres-i-lletres"];
 
 
   Future<void> fetchEvents() async {

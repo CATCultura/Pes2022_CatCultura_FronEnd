@@ -221,6 +221,7 @@ class EventsRepository {
 
     try {
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
+      debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data");
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.3723235&lon=2.1398554&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
       //debugPrint(response.toString());
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
@@ -391,5 +392,28 @@ class EventsRepository {
     //   rethrow;
     // }
 
+  }
+
+  Future<RouteResult>getRouteById(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}routes/$id"); //40.113.160.200:8081
+      RouteResult res = RouteResult.fromJson(response);
+      //dynamic res = RouteResult.fromJson(response);
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+
+  }
+
+  /*Future<void>*/ deleteRouteById(String routeId, String userId) {
+      try {
+        dynamic response = _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/routes/$routeId", "");
+        //RouteResult res = RouteResult.fromJson(response);
+        //dynamic res = RouteResult.fromJson(response);
+        return response;
+      } catch (e) {
+        rethrow;
+      }
   }
 }

@@ -52,9 +52,10 @@ class RutaCulturalState extends State<RutaCultural> {
 
   @override
   void initState() {
+    debugPrint("-------- on ruta Cultural initState()");
     _manager = _initClusterManager();
     GLOBAL_OPEN = false;
-    //getPos();
+    viewModel.iniDeepLinkRoute(_manager);
     super.initState();
   }
 
@@ -73,12 +74,12 @@ class RutaCulturalState extends State<RutaCultural> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("-------- on ruta Cultural build()");
     return ChangeNotifierProvider<RutaCulturalViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
-
             appBar: AppBar(
                   title: const Text('RUTA CULTURAL'),
                 ),
@@ -152,6 +153,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             //onCameraMove: _manager.onCameraMove,
                             onCameraIdle: _manager.updateMap,
                           ),
+
                 floatingActionButton: ExpandableFab(
                   distance: 112.0,
                   children: [
@@ -306,7 +308,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                 builder: (context) {
                                   return AlertDialog(
                                     title: Text('SE HA GUARDADO LA RUTA'),
-                                    content: Text(viewModel.savingRutaMsg),
+                                    // content: Text(viewModel.savingRutaMsg),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
@@ -325,14 +327,14 @@ class RutaCulturalState extends State<RutaCultural> {
                         });
                       },
                       label: Text('Guardar Ruta Actual'),
-                    ): SizedBox(width: 0, height: 0,),
-                    FloatingActionButton.extended(
+                    ): const SizedBox(width: 0, height: 0,),
+                    /*viewModel.session.data.id == -1 ?*/ FloatingActionButton.extended(
                       heroTag: 'bSavedRoutes',
                       onPressed: () {
                         _navigateAndDisplaySavedRoutes(context);
                       },
                       label: Text('Obrir Rutes Guardades'),
-                    ),
+                    ) /*: const SizedBox(width: 0, height: 0,)*/,
                   ],
                 ),
               );
@@ -355,7 +357,7 @@ class RutaCulturalState extends State<RutaCultural> {
     });
     viewModel.polylines =
         ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
-    await viewModel.generateRutaCultural(result).then((value) => {});
+    await viewModel.generateRutaCultural(RutaCulturalArgs(viewModel.realPosition.longitude, viewModel.realPosition.latitude, result!.radio, result!.data)).then((value) => {});
     //viewModel.paintRoute();
     // setState(() {
     //
@@ -364,6 +366,10 @@ class RutaCulturalState extends State<RutaCultural> {
 
 
   Future<void> _navigateAndDisplaySavedRoutes(BuildContext context) async {
+    var rutaGeneradaStatus = viewModel.rutaGenerada;
+    var eventsListMapStatus = viewModel.eventsListMap.status;
+    var polylinesStatus = viewModel.polylines.status;
+
     setState(() {
       viewModel.rutaGenerada = false;
       viewModel.eventsListMap.status = Status.LOADING;
@@ -377,7 +383,7 @@ class RutaCulturalState extends State<RutaCultural> {
     setState(() {
       viewModel.rutaGenerada = true;
     });
-    viewModel.polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+    viewModel.polylines.status = Status.LOADING; // = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
     if(result != null) {
       bool b = await viewModel.loadRutaCultural(result);
       if(b) {
@@ -388,9 +394,17 @@ class RutaCulturalState extends State<RutaCultural> {
       }
       else{
         setState(() {
-          //viewModel.
+          //viewModel.eventsListMap.status = Status.COMPLETED;
         });
       }
+    }
+    else{
+      setState(() {
+        //viewModel.eventsListMap.status = Status.COMPLETED;
+        viewModel.rutaGenerada = rutaGeneradaStatus;
+        viewModel.eventsListMap.status = eventsListMapStatus;
+        viewModel.polylines.status = polylinesStatus;
+      });
     }
   }
 

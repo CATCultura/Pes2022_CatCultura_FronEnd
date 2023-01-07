@@ -1,6 +1,7 @@
 //import 'dart:io';
 
 import 'package:CatCultura/main.dart';
+import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
@@ -171,8 +172,9 @@ class A extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ChatRepository().connect();
     Future.microtask(() =>
-        Navigator.popAndPushNamed(context, '/home')
+        Navigator.pushReplacementNamed(context, '/home')
     )
     ;
     return Container();

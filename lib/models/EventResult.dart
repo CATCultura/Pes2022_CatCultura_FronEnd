@@ -95,7 +95,7 @@ class EventResult {
     dataFi = dataAdapt(jsonResponse['dataFi']);
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
-    if(jsonResponse['descripcio'] != null) {
+    if(jsonResponse['descripcio'] != null && jsonResponse['descripcio'] != "") {
       descripcio = formatText(jsonResponse['descripcio']);
     } else {
       descripcio = "No descripcio";
@@ -151,7 +151,12 @@ class EventResult {
   List<Map<String, dynamic>> toJson() {
     final List<Map<String, dynamic>> result = [
       {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
-      'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado}
+      'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
+        'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
+        'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
+        'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
+        'videos': videos, 'codiPostal': codiPostal, 'email': email, 'telf': telf, 'URL': URL, 'imgApp': imgApp,
+        'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges }
     ];
     return result;
   }

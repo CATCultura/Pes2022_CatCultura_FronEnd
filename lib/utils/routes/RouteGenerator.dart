@@ -1,9 +1,11 @@
+import 'package:CatCultura/utils/routes/deepLinkParams.dart';
 import 'package:CatCultura/views/screens/favorits.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import '../../views/screens/xat.dart';
 
 
 import '../../views/screens/organizerEvents.dart';
@@ -15,6 +17,13 @@ import '../Session.dart';
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
+    if($LatestUri != null){
+      print("LatestUri: " + $LatestUri.toString());
+      if($LatestUri!.path == "/rutaCultural"){
+        $LatestUri = null;
+        return MaterialPageRoute(builder: (_) => RutaCultural());
+      }
+    }
     switch(settings.name){
       case '/login':
         return MaterialPageRoute(builder:(_)=>Login());
@@ -69,9 +78,12 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
       case '/allUsers':
         return MaterialPageRoute(builder:(_)=>AllUsers());
+      case '/xat':
+         final argsEventUnic = settings.arguments as EventUnicArgs;
+        return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
 
       default:
-        //return _errorRoute();
+        // return _errorRoute();
         return MaterialPageRoute(builder:(_)=>Home());
     }
   }
