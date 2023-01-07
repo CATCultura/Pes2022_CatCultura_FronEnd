@@ -29,5 +29,14 @@
 
     "anonymousUser": "Anònim",
 
-    "missingEmail": "Falta el correu"
+    "missingEmail": "Falta el correu",
+
+    "searchName": "Buscar per nom...",
+
+    "userProfile": "Perfil Usuari",
+
+    "addFriend": "Afegir amic",
+
+    "points": "Punts"
+
 }

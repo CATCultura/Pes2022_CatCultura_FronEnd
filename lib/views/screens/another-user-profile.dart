@@ -154,7 +154,7 @@ class AnotherProfile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!}'),
+                      Text('     ${viewModel.mainUser.data!.points!} points'),
                     ],
                   ),
 

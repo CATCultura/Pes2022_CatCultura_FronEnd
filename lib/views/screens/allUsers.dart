@@ -13,7 +13,7 @@ import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
 import '../../models/Place.dart';
 
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllUsers extends StatefulWidget {
   AllUsers({super.key});
@@ -25,7 +25,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
   late ScrollController _scrollController;
   //late TabController _tabController;
   bool findedSomething = false;
-  String message = "Search by name...";
+  String message = "";
   var searchResult;
   final Session sessio = Session();
   //late ClusterManager _manager;
@@ -52,11 +52,13 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
     //_manager = _initClusterManager();
     //_tabController = TabController(length: 2, vsync: this);
     //_tabController.addListener(_handleTabSelection);
+    //message = AppLocalizations.of(context)!.searchName;
     super.initState();
   }
 
     @override
     Widget build(BuildContext context) {
+      message = AppLocalizations.of(context)!.searchName;
       return ChangeNotifierProvider<AllUsersViewModel>(
           create: (BuildContext context) => viewModel,
           child: Consumer<AllUsersViewModel>(builder: (context, value, _) {
@@ -97,7 +99,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                         left: 8.0, top: 5, bottom: 5, right: 5),
                                     child: Text(
                                       message,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           color:
                                           Color.fromRGBO(105, 105, 105, 0.6),
                                           fontStyle: FontStyle.italic),
@@ -144,7 +146,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                       ? IconButton(
                     onPressed: () {
                       setState(() {
-                        message = "Search by name...";
+                        message = AppLocalizations.of(context)!.searchName;
                         findedSomething = false;
                       });
                       viewModel.refresh();

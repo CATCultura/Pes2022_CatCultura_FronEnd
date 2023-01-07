@@ -76,7 +76,26 @@
     "missingEmail": "Email not provided",
     "@missingEmail": {
       "description": "Description for user without email"
-    }
+    },
 
+    "searchName": "Search by name...",
+    "@searchName": {
+      "description": "Search user by name"
+    },
+
+    "userProfile": "User Profile",
+    "@userProfile": {
+      "description": "Shows text User Profile"
+    },
+
+    "addFriend": "Add Friend",
+    "@addFriend": {
+      "description": "Shows text Add Friend"
+    },
+
+    "points": "Points",
+    "@points": {
+      "description": "Shows text Points that indicates the variable points"
+    }
 
 }

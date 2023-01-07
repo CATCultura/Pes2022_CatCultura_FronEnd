@@ -29,5 +29,13 @@
 
     "anonymousUser": "Anónimo",
 
-    "missingEmail": "Falta el correo"
+    "missingEmail": "Falta el correo",
+
+    "searchName": "Buscar por nombre...",
+
+    "userProfile": "Perfil Usuario",
+
+    "addFriend": "Añadir amigo",
+
+    "points": "Puntos"
 }
