@@ -26,12 +26,16 @@ class TagsViewModel with ChangeNotifier {
     debugPrint(response.toString());
     userTagsList = response;
     checkedTags = userTagsList.data!;
-
     notifyListeners();
   }
 
-  setTags(ApiResponse<String> response){
+  setTags(ApiResponse<String> response, List<String> unCheckedTags){
     //debugPrint(response.toString());
+    notifyListeners();
+    deleteUserTags(unCheckedTags);
+  }
+
+  setDeleteTags(ApiResponse<String> response){
     notifyListeners();
   }
 
@@ -49,18 +53,18 @@ class TagsViewModel with ChangeNotifier {
         setUserTagsList(ApiResponse.error(error.toString())));
   }
 
-  Future<void> editUserTags(List<String> tags) async {
+  Future<void> editUserTags(List<String> tags, List<String> unCheckedTags) async {
     await _usersRepo.postCreaTags(Session().data.id.toString(), tags).then((value) {
-      setTags(ApiResponse.completed(value));
+      setTags(ApiResponse.completed(value), unCheckedTags);
     }).onError((error, stackTrace) =>
-        setTags(ApiResponse.error(error.toString())));
+        setTags(ApiResponse.error(error.toString()), unCheckedTags));
   }
 
   Future<void> deleteUserTags(List<String> tags) async {
     await _usersRepo.deleteUserTags(Session().data.id.toString(), tags).then((value) {
-      setTags(ApiResponse.completed(value));
+      setDeleteTags(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
-        setTags(ApiResponse.error(error.toString())));
+        setDeleteTags(ApiResponse.error(error.toString())));
   }
 
   void dispose() {}

@@ -31,8 +31,6 @@ class StatefulEditProfile extends StatefulWidget {
 class _StatefulEditProfileState extends State<StatefulEditProfile> {
   final UsersViewModel viewModel = UsersViewModel();
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool showPasswordNew = false;
 
@@ -130,15 +128,15 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                   Padding(
                     padding: EdgeInsets.only(left: 16, top: 35, right: 16),
                     child: TextField(
-                      controller: nameController,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 3),
                           labelText: "Nom i cognoms",
+                          enabled: false,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintText: session.data.nameAndSurname,
                           hintStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.black38,
                           )
                       ),
                     ),
@@ -162,15 +160,15 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                   Padding(
                     padding: const EdgeInsets.only(left: 16, top: 30, right: 16),
                     child: TextField(
-                      controller: emailController,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 3),
                           labelText: "Correu electrònic",
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintText: session.data.email,
+                          enabled: false,
                           hintStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.black38,
                           )
                       ),
                     ),
@@ -257,8 +255,8 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                                 ),
                               ),
                               onPressed: () {
-                                viewModel.editarcompte(nameController.text, emailController.text, passwordController.text);
-                                viewModel.notifyListeners();
+                               // viewModel.editarcompte(passwordController.text);
+                               // viewModel.notifyListeners();
                                 Navigator.popAndPushNamed(context, '/editProfile');
                               },
                             ),

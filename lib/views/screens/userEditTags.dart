@@ -190,9 +190,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                   ),
                                   onPressed: () {
                                     Navigator.popAndPushNamed(context, '/editProfile');
-                                    viewModel.editUserTags(checkedTags);
-                                    viewModel.deleteUserTags(unCheckedTags);
-                                    viewModel.notifyListeners();
+                                    viewModel.editUserTags(checkedTags, unCheckedTags);
                                   },
                                 ),
                               ),
