@@ -152,7 +152,7 @@ class EventsViewModel with ChangeNotifier{
 
   Future<void> crearEvent(EventResult e) async {
     await _eventsRepo.postCreaEvent(e).then((value) {
-      setEvents(ApiResponse.completed(value));
+      setEventsList(ApiResponse.completed(value));
     }); /**.onError((error, stackTrace) =>
         setEvents(ApiResponse.error(error.toString()))); **/
     waiting = false;
