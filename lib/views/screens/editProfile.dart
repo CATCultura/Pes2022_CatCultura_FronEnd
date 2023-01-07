@@ -256,7 +256,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                               ),
                               onPressed: () {
                                 viewModel.editarcompte(passwordController.text);
-                               pepi viewModel.notifyListeners();
+                                viewModel.notifyListeners();
                                 Navigator.popAndPushNamed(context, '/editProfile');
                               },
                             ),

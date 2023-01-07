@@ -26,6 +26,11 @@ class UsersViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  setUsers(ApiResponse<String> response, String? auth){
+    notifyListeners();
+  }
+
+
   Future<void> fetchUsersListApi() async {
     await _usersRepo.getUsers().then((value) {
       setUsersList(ApiResponse.completed(value));
@@ -35,17 +40,15 @@ class UsersViewModel with ChangeNotifier{
 
   Future<void> editarcompte(String password) async {
     String user = Session().data.username;
-    late String encoded = stringToBase64.encode("$user:$password");
+    late String encoded = stringToBase64.encode("$user er:$password");
     late String auth = "Basic $encoded";
 
 
     await _usersRepo.putEditUser(password, Session().data.id.toString()).then((value) {
-      setUsersSelected(ApiResponse.completed(value), auth);
+      setUsers(ApiResponse.completed(value), auth);
     }).onError((error, stackTrace) =>
-        setUsersSelected(ApiResponse.error(error.toString()), null));
-    //} else errorN = 1;
+        setUsers(ApiResponse.error(error.toString()), null));
     waiting = false;
-    // notifyListeners();
   }
 
   setUsersSelected(ApiResponse<SessionResult> response, String? auth){
@@ -53,5 +56,7 @@ class UsersViewModel with ChangeNotifier{
     if(response.status == Status.COMPLETED)sessio.data = response.data!;
     notifyListeners();
   }
+
+  void dispose() {}
 }
 
