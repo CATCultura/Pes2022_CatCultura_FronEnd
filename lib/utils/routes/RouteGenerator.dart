@@ -70,6 +70,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/userEditTags':
+        return MaterialPageRoute(builder:(_)=>UserEditTags());
       case '/organizer':
         final argsOrganizerId = settings.arguments as OrganizerArgs;
         return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
