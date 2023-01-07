@@ -295,6 +295,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             );
                           },
                         ).then((val) async {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("asdf"),));
                           debugPrint(
                               "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
                           if (!val.canceled){
