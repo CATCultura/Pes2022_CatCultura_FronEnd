@@ -45,6 +45,8 @@
 
     "okButton": "D'acord",
 
-    "orgEventsScreenTitle": "Esdeveniments organitzats per"
+    "orgEventsScreenTitle": "Esdeveniments organitzats per",
+
+    "tagEventsScreenTitle": "Esdeveniments amb l'etiqueta"
 
 }

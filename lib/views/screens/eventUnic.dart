@@ -28,6 +28,7 @@ import 'dart:math' as math;
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/ReviewResult.dart';
+import '../../utils/Session.dart';
 import '../widgets/cards/organizerCard.dart';
 
 const backgroundcolor = Color(0xffFBFBFB);
@@ -570,7 +571,7 @@ class _BodyState extends State<Body> {
                             }
                         ),
                   ),
-                  _CustomIcon(
+                  if (Session().data.id != -1) _CustomIcon(
                     icon: Icons.chat_bubble,
                     text: "Xat",
                     onTap: () => {
@@ -623,6 +624,31 @@ class _BodyState extends State<Body> {
             Padding(
               padding: EdgeInsets.all(15.0),
               child: SingleChildScrollView(child:Text(descripcio, textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),),
+            ),
+            if (event != null) SizedBox(
+              width: MediaQuery.of(context).size.width/2,
+              height: MediaQuery.of(context).size.height/12,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: event.getTags().length,
+                    itemBuilder: (BuildContext context, int i) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          child: GestureDetector(
+                            onTap: () => {
+                              Navigator.pushNamed(context, '/tagEvents', arguments: TagArgs(event.getTags()[i]))
+                            },
+                            child: Text(event.getTags()[i], textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),)
+                          ),
+                        )
+                      );
+                    }
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(left: 15.0, bottom: 10, right: 15.0),

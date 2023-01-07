@@ -160,6 +160,14 @@ class EventResult {
     ];
     return result;
   }
+
+  List<String> getTags() {
+    List<String> res = [];
+    res.addAll(tagsAmbits ?? []);
+    res.addAll(tagsCateg ?? []);
+    res.addAll(tagsAltresCateg ?? []);
+    return res;
+  }
 }
 
 String formatText(String s) {
@@ -170,6 +178,8 @@ String formatText(String s) {
 
   return aux;
 }
+
+
 
 
 String? comarcaIMunicipiAdapt(String s) {

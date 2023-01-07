@@ -45,5 +45,7 @@
 
     "okButton": "Entendido",
 
-    "orgEventsScreenTitle": "Eventos organizados por"
+    "orgEventsScreenTitle": "Eventos organizados por",
+
+    "tagEventsScreenTitle": "Eventos con la etiqueta"
 }

@@ -116,6 +116,11 @@
     "orgEventsScreenTitle": "Events by",
     "@orgEventsScreenTitle": {
       "description": "Title for org events screen."
+    },
+
+    "tagEventsScreenTitle": "Events with tag",
+    "@orgEventsScreenTitle": {
+      "description": "Title for tag events screen."
     }
 
 
