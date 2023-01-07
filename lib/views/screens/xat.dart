@@ -1,5 +1,6 @@
 //import 'dart:html';
 
+import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:CatCultura/views/widgets/errorWidget.dart';
 import  'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +29,7 @@ class Xat extends StatefulWidget {
 
 class _xatState extends State<Xat> {
   late String eventId = widget.eventId;
-  late ChatViewModel viewModel = ChatViewModel(eventId);
+  late ChatViewModel viewModel;
 
 
 
@@ -38,6 +39,7 @@ class _xatState extends State<Xat> {
   @override
   void initState() {
     super.initState();
+    viewModel = ChatRepository().getSubscriber(eventId) ?? ChatViewModel(eventId);
     viewModel.fetchMessages();
   }
 
