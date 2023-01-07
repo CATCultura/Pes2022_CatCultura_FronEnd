@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/views/screens/singleEventMap.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/services.dart';
@@ -469,7 +470,7 @@ class _BodyState extends State<Body> {
                 ],
               ),
 
-              Row(
+              viewModel.isUser ? Row(
                 children: [
                   Column(
                     children: [
@@ -514,7 +515,7 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ],
-              ),
+              ) : nothing(),
 
             ],
             ),
@@ -559,7 +560,9 @@ class _BodyState extends State<Body> {
                               return AlertDialog(
                                 actions: [
                                   ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
-                                  ElevatedButton(onPressed: () => {}, child: Text("Veure al mapa"))
+                                  ElevatedButton(onPressed: () => {
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SingleEventMap(event: event)))
+                                  }, child: Text("Veure al mapa"))
                                 ],
                                 title: Text("Info ubicacio"),
                                 content: Text(
@@ -643,7 +646,39 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            viewModel.reviews.status == Status.LOADING?
+            !viewModel.isUser ?
+                GestureDetector(
+                  child: SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom:8.0),
+                        child: Center(
+                          child: Material(
+                            elevation: 20,
+                            shadowColor: Colors.black.withAlpha(70),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                            child: SizedBox(
+                              height: 300,
+                              width: MediaQuery.of(context).size.width*0.8,
+                              child: Center(child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Encara no has inciat sessió", style:
+                                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
+                                  Text("CLIC AQUÍ", style:
+                                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
+                                ],
+                              )),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                  onTap: () => {
+                    Navigator.pushNamed(context, "/login")
+                  },
+                )
+            : viewModel.reviews.status == Status.LOADING?
             const SizedBox(
               child: Center(
                   child: CircularProgressIndicator()),
