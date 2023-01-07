@@ -6,7 +6,7 @@ import 'package:CatCultura/viewModels/RankingViewModel.dart';
 import '../../data/response/apiResponse.dart';
 import 'package:CatCultura/models/UserResult.dart';
 import '../../utils/Session.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Ranking extends StatelessWidget {
   const Ranking({Key? key}) : super(key: key);
@@ -48,12 +48,12 @@ class _StatefulRankingState extends State<StatefulRanking>  {
             return Scaffold(
               appBar: AppBar(
                 toolbarHeight: 70,
-                title: const Text("Ranking"),
+                title: Text(AppLocalizations.of(context).ranking),
                 backgroundColor: MyColorsPalette.lightBlue,
               ),
               backgroundColor: MyColors.bgColorScreen,
               // key: _scaffoldKey,
-              drawer: MyDrawer("Ranking Friends",
+              drawer: MyDrawer("Profile",
                   username: "Superjuane", email: "juaneolivan@gmail.com"),
               body: Container(
                   child: viewModel.finish? ListView.builder(
@@ -150,7 +150,7 @@ class _StatefulRankingState extends State<StatefulRanking>  {
                                                   fontWeight: FontWeight.bold),),),
                                           const SizedBox(height: 5.0),
                                           Text(
-                                              'Punts: ${viewModel.users[index].points!
+                                              '${AppLocalizations.of(context).points}: ${viewModel.users[index].points!
                                                   .toString()}',
                                               style: TextStyle(
                                                   color: Colors.green)),

@@ -35,8 +35,24 @@
 
     "userProfile": "Perfil Usuari",
 
-    "addFriend": "Afegir amic",
+    "addFriend": "Enviar sol·licitud",
 
-    "points": "Punts"
+    "points": "Punts",
+
+    "friendRequests": "Peticions d'amistat",
+
+    "trophies": "Trofeus",
+
+    "config": "Configuració",
+
+    "findUsers": "Buscar Usuaris",
+
+    "myProfile": "El meu Perfil",
+
+    "ranking": "Classificació",
+
+    "achieved": "ACONSEGUIT",
+
+    "notAchieved": "No Aconseguit"
 
 }

@@ -88,7 +88,7 @@
       "description": "Shows text User Profile"
     },
 
-    "addFriend": "Add Friend",
+    "addFriend": "Friend request",
     "@addFriend": {
       "description": "Shows text Add Friend"
     },
@@ -96,6 +96,46 @@
     "points": "Points",
     "@points": {
       "description": "Shows text Points that indicates the variable points"
+    },
+
+    "friendRequests": "Friend Requests",
+    "@friendRequests": {
+      "description": "Shows text Friend Requests"
+    },
+
+    "trophies": "Trophies",
+    "@trophies": {
+      "description": "Shows text Trophies that indicates the variable trophies"
+    },
+
+    "config": "Configuration",
+    "@config": {
+      "description": "Shows text for button Configuration"
+    },
+
+    "findUsers": "Find Users",
+    "@findUsers": {
+      "description": "Shows text for button Find Users"
+    },
+
+    "myProfile": "My Profile",
+    "@myProfile": {
+      "description": "Shows text My Profile"
+    },
+
+    "ranking": "Ranking",
+    "@ranking": {
+      "description": "Shows text Ranking"
+    },
+
+    "achieved": "ACHIEVED",
+    "@achieved": {
+      "description": "Shows text ACHIEVED for trophies achieved"
+    },
+
+    "notAchieved": "Not Achieved",
+    "@notAchieved": {
+      "description": "Shows text Not Achieved for trophies not achieved"
     }
 
 }

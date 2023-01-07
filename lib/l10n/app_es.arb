@@ -35,7 +35,25 @@
 
     "userProfile": "Perfil Usuario",
 
-    "addFriend": "Añadir amigo",
+    "addFriend": "Enviar solicitud",
 
-    "points": "Puntos"
+    "points": "Puntos",
+
+    "friendRequests": "Solicitudes amistad",
+
+    "trophies": "Trofeos",
+
+    "config": "Configuración",
+
+    "findUsers": "Buscar Usuarios",
+
+    "myProfile": "Mi Perfil",
+
+    "ranking": "Clasificación",
+
+    "achieved": "CONSEGUIDO",
+
+    "notAchieved": "No Conseguido"
+
+
 }

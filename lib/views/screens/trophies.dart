@@ -6,7 +6,7 @@ import 'package:CatCultura/viewModels/TrophyViewModel.dart';
 import '../../data/response/apiResponse.dart';
 
 import '../../utils/Session.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Trophies extends StatelessWidget {
   final Session sessio = Session();
@@ -32,7 +32,7 @@ class Trophies extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
-          title: const Text("Trofeus"),
+          title: Text(AppLocalizations.of(context).trophies),
           backgroundColor: MyColorsPalette.lightBlue,
         ),
         backgroundColor: MyColors.bgColorScreen,
@@ -95,9 +95,9 @@ class Trophies extends StatelessWidget {
                                               fontSize: 18.0,
                                               fontWeight: FontWeight.bold),),),
                                     const SizedBox(height: 5.0),
-                                    sessio.data.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? const Text(
-                                        'ACONSEGUIT',
-                                        style: TextStyle(color: Colors.green)): const Text("No aconseguit", style: TextStyle(color: Colors.grey)),
+                                    sessio.data.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? Text(
+                                        AppLocalizations.of(context).achieved,
+                                        style: TextStyle(color: Colors.green)): Text(AppLocalizations.of(context).notAchieved, style: TextStyle(color: Colors.grey)),
                                   ],
                                 ),
                               ],

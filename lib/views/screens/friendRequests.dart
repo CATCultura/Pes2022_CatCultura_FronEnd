@@ -5,7 +5,7 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/viewModels/RequestsUserViewModel.dart';
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FriendRequests extends StatelessWidget {
 
@@ -34,7 +34,7 @@ class FriendRequests extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 70,
-              title: const Text("Peticions d'amistat"),
+              title: Text(AppLocalizations.of(context).friendRequests),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: MyColors.bgColorScreen,
@@ -81,7 +81,7 @@ class FriendRequests extends StatelessWidget {
                                 children: <Widget>[
                                   Text(viewModel.usersReceived.data![index].username!, style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
                                   SizedBox(height:5.0),
-                                  Text('CATCultura', style: TextStyle(color: Colors.grey)),
+                                  Text(viewModel.usersReceived.data![index].nameAndSurname!, style: TextStyle(color: Colors.grey)),
 
                                 ],
                               ),

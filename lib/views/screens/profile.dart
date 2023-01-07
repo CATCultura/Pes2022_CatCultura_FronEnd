@@ -9,7 +9,7 @@ import '../widgets/search_locations.dart';
 import '../../data/response/apiResponse.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
 //import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -53,7 +53,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
          return Scaffold(
           appBar: AppBar(
             toolbarHeight: 70,
-            title: const Text("My Profile"),
+            title: Text(AppLocalizations.of(context).myProfile),
             backgroundColor: MyColorsPalette.lightBlue,
           ),
           backgroundColor: MyColors.bgColorScreen,
@@ -103,7 +103,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               child: Column(
                                 children: [
                                   Text(
-                                    'Puntuació',
+                                    AppLocalizations.of(context).points,
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontFamily: 'Nunito',
@@ -144,7 +144,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               child: Column(
                                 children: [
                                   Text(
-                                    'Trofeus',
+                                    AppLocalizations.of(context).trophies,
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontFamily: 'Nunito',
@@ -178,7 +178,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all(Colors.amberAccent)),
-                        child: const Text('Configuració'),
+                        child: Text(AppLocalizations.of(context).config),
                         onPressed: () {
                           Navigator.pushNamed(context, '/editProfile');
                         },
@@ -194,7 +194,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
-                    child: const Text('Veure peticions amistat'),
+                    child: Text(AppLocalizations.of(context).friendRequests),
                     onPressed: () {
                       Navigator.pushNamed(context, '/friendRequests');
                     },
@@ -215,7 +215,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       style: ButtonStyle(
                           backgroundColor:
                           MaterialStateProperty.all(Colors.amberAccent)),
-                      child: const Text ('Buscar Usuaris'),
+                      child: Text (AppLocalizations.of(context).findUsers),
                       onPressed: ()async{
                           /*
                           for (var i = 0; i < 20; i++) {
