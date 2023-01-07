@@ -40,7 +40,6 @@ class UserResult {
       "username": this.username,
       "email": this.email,
       "creationDate": this.creationDate,
-      "role": this.role,
       "password": this.password,
       "points": this.points,
       "tags": this.tags,
