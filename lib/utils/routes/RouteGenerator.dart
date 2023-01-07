@@ -5,6 +5,7 @@ import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import '../../views/screens/qrScanning.dart';
 import '../../views/screens/tagEvents.dart';
 import '../../views/screens/xat.dart';
 
@@ -83,6 +84,9 @@ class RouteGenerator{
       case '/xat':
          final argsEventUnic = settings.arguments as EventUnicArgs;
         return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
+      case '/qrScanner':
+        final event = settings.arguments as String;
+        return MaterialPageRoute(builder:(_)=>QRScanning(event));
 
       default:
         // return _errorRoute();

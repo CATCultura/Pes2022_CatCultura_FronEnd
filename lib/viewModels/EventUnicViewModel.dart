@@ -1,3 +1,4 @@
+//import 'dart:html';
 import 'dart:io';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
@@ -10,6 +11,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+
+
 
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
@@ -23,6 +27,9 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
   ApiResponse<EventResult> event = ApiResponse.loading();
   bool favorit = false, agenda = false;
+
+  late PermissionStatus camera;
+  bool cameraActivated = false;
 
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<String> addAttendanceResult = ApiResponse.loading();
@@ -184,5 +191,35 @@ class EventUnicViewModel with ChangeNotifier {
     }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
+  }
+
+  bool wrongCode = false;
+
+  confirmAttendance(String text, String? eventId) async {
+  debugPrint("here");
+    await _eventsRepo.confirmAttendance(text,Session().data.id,eventId!).then((value) {
+      if (value == "Bad code") {
+        wrongCode = true;
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) => null);
+
+  }
+
+  setWrongCode(bool code) {
+    wrongCode=code;
+    notifyListeners();
+  }
+
+  requestPermission() async {
+    if (await Permission.camera.isGranted) {
+      cameraActivated=true;
+      notifyListeners();
+    }
+
+  }
+
+  setPermission(bool p) {
+    notifyListeners();
   }
 }
