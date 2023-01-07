@@ -89,9 +89,9 @@ class _StatefulLoginState extends State<StatefulLogin> {
                           showPassword = ! showPassword;
                         });
                       },
-                      icon: const Icon (
+                      icon: Icon (
                         Icons.remove_red_eye,
-                        color: Colors.grey,
+                        color: showPassword ? Colors.deepOrangeAccent : Colors.grey,
                       ),
                     ),
                     contentPadding: const EdgeInsets.only(bottom: 3),
