@@ -33,18 +33,20 @@ class UsersViewModel with ChangeNotifier{
         setUsersList(ApiResponse.error(error.toString())));
   }
 
- /* Future<void> editarcompte(String password) async {
-   // late String encoded = stringToBase64.encode("$user:$password");
+  Future<void> editarcompte(String password) async {
+    String user = Session().data.username;
+    late String encoded = stringToBase64.encode("$user:$password");
     late String auth = "Basic $encoded";
 
-    await _usersRepo.putEditUser(user).then((value) {
+
+    await _usersRepo.putEditUser(password, Session().data.id.toString()).then((value) {
       setUsersSelected(ApiResponse.completed(value), auth);
     }).onError((error, stackTrace) =>
         setUsersSelected(ApiResponse.error(error.toString()), null));
     //} else errorN = 1;
     waiting = false;
     // notifyListeners();
-  }*/
+  }
 
   setUsersSelected(ApiResponse<SessionResult> response, String? auth){
     mainUser = response;

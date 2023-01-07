@@ -146,7 +146,6 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                   child: const Text('Crea compte'),
                   onPressed: () {
                     Navigator.popAndPushNamed(context, '/userTags', arguments: CrearUserArgs(nameController.text, userController.text, emailController.text, passwordController.text));
-                    //viewModel.crearcompte(nameController.text, userController.text, emailController.text, passwordController.text);
                   },
                 ),
             ),

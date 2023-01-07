@@ -200,10 +200,10 @@ class UsersRepository {
     }
   }
 
-  Future<SessionResult> putEditUser(UserResult data) async {
+  Future<SessionResult> putEditUser(String password, String id) async {
     try {
       dynamic response = await _apiServices.getPutApiResponse(
-          "${baseUrl}users", data.toJson());
+          "${baseUrl}users/$id/password", {"new_password":password});
       return response;
     } catch (e) {
       rethrow;

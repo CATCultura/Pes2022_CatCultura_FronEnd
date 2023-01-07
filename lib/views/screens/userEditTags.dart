@@ -133,7 +133,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                                                   }
                                                                 },
                                                                 title: Text(
-                                                                  viewModel.tagsList.data![i],
+                                                                  viewModel.tagsList.data![i].replaceAll('-', ' '),
                                                                   style: const TextStyle(
                                                                       color: Colors.black38,
                                                                       fontWeight: FontWeight.bold
