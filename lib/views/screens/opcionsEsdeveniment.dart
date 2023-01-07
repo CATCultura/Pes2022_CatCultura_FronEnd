@@ -83,15 +83,6 @@ class opcionsEsdeveniment extends StatelessWidget {
     //List<String>? tagsAltresCateg = event.tagsAltresCateg!;
     //List<String>? imatges = event.imatges!;
 
-    print(event.id!);
-    print(CodiController.text);
-    print("DATES:");
-    print(InitialDateController.text);
-    print(FinalDateController.text);
-    print(DenominacioController.text);
-    print(UbicacioController.text);
-    print(AdrecaController.text);
-    print(EspaiController.text);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
@@ -173,7 +164,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                     foregroundColor: Colors.blue,
                                                   ),
                                                   onPressed: () {
-                                                    viewModel.putCancelledEventById("3233");
+                                                    viewModel.putCancelledEventById(event.id!);
                                                     Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                                                   }
                                               ),
@@ -231,28 +222,6 @@ class opcionsEsdeveniment extends StatelessWidget {
 
                           dataIni(),
                           dataFi(),
-                          /** Container(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: TextField(
-                              enableInteractiveSelection: false,
-                              controller: FinalDateController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Data Fi",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                FocusScope.of(context).requestFocus(
-                                    new FocusNode());
-                                selectFinalDate(context);
-                              },
-                            ),
-                          ), **/
 
                           Container(
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -345,7 +314,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                               controller: LongitudController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'Longitud (Obligatori)',
+                                labelText: 'Longitud',
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
@@ -366,18 +335,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                                     MyColorsPalette.orange)),
                               child: const Text('Modificar'),
                               onPressed: () {
-                                print(event.id!);
-                                print(CodiController.text);
-                                print("DATES:");
-                                print(InitialDateController.text);
-                                print(FinalDateController.text);
-                                print(DenominacioController.text);
-                                print(UbicacioController.text);
-                                print(AdrecaController.text);
-                                print(EspaiController.text);
-                                print(event.horari);
-
-                                event.id = "3522"; //event.id;
+                                event.id = event.id;
                                 event.denominacio = DenominacioController.text;
                                 event.codi = CodiController.text;
                                 event.dataFi = FinalDateController.text;
@@ -426,25 +384,6 @@ class opcionsEsdeveniment extends StatelessWidget {
           );
     }));
   }
-
-  selectFinalDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2999),
-    );
-    if (picked != null) {
-      var date = DateFormat('yyyy-MM-dd').format(picked);
-      setState(() {
-        fecha = date;
-        FinalDateController.text = fecha;
-      });
-    }
-  }
-
-  void setState(Null Function() param0) {}
-
 }
 
 class dataIni extends StatefulWidget {
