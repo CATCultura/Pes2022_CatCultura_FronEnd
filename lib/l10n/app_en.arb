@@ -222,7 +222,6 @@
     "@url": {
             "description": "Text for input box"
         },
-    },
 
     "searchName": "Search by name...",
     "@searchName": {
@@ -282,7 +281,7 @@
     "notAchieved": "Not Achieved",
     "@notAchieved": {
       "description": "Shows text Not Achieved for trophies not achieved"
-    }
+    },
     "imageApp": "Image App",
     "@imageApp": {
             "description": "Text for input box"
