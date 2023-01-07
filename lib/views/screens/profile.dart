@@ -41,6 +41,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
   final double profileHeight = 144;
   final Session sessio = Session();
 
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -95,26 +96,31 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                           mainAxisAlignment:
                           MainAxisAlignment.center,
                           children: [
-                            Column(
-                              children: [
-                                Text(
-                                  'Puntuació',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontFamily: 'Nunito',
-                                    fontSize: 20,
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pushNamed(context, '/ranking');
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Puntuació',
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontFamily: 'Nunito',
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  sessio.data.points.toString(),
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(
-                                        140, 123, 35,1),
-                                    fontFamily: 'Nunito',
-                                    fontSize: 20,
+                                  Text(
+                                    sessio.data.points.toString(),
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(
+                                          140, 123, 35,1),
+                                      fontFamily: 'Nunito',
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -167,7 +173,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   children: [
                     Container(
                       height: 40,
-                      padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                      //padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
@@ -183,15 +189,14 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                 const SizedBox(height: 16),
                 Container(
                   height: 40,
-                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  //padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
                     child: const Text('Veure peticions amistat'),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/allUsers');
-                      //Navigator.pushNamed(context, '/friendRequests');
+                      Navigator.pushNamed(context, '/friendRequests');
                     },
                   ),
                 ),
@@ -205,7 +210,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                  */
                 Container(
                   height: 40,
-                  padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
+                  //padding: const EdgeInsets.fromLTRB(140, 0, 0, 0),
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
@@ -249,8 +254,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
                   // onPressed: (){},
                 ),
-                const SizedBox(height: 30),
-                Row(
+                //const SizedBox(height: 30),
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
@@ -272,7 +277,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       ],
                     ),
                   ],
-                ),
+                ),*/
               ],
             ),
           ),

@@ -61,6 +61,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Trophies());
       case '/allUsers':
         return MaterialPageRoute(builder:(_)=>AllUsers());
+      case '/ranking':
+        return MaterialPageRoute(builder:(_)=>Ranking());
 
       default:
         return _errorRoute();
