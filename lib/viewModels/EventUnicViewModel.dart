@@ -30,7 +30,9 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<List<ReviewResult>> reviews = ApiResponse.loading();
 
   final sessio = Session();
-
+  var isUser = false;
+  var isAdmin = false;
+  var isOrganizer = false;
 
   bool waiting = true;
 
@@ -43,6 +45,14 @@ class EventUnicViewModel with ChangeNotifier {
   String passwordSessio() {
     if(sessio.get("password") == null) return "2";
     return sessio.get("password");
+  }
+
+  void ini(){
+    if(sessio.data.id != -1){
+      isUser = true;
+      if(sessio.data.role == "ADMIN") isAdmin = true;
+      if(sessio.data.role == "ORGANIZER") isOrganizer = true;
+    }
   }
 
   setEventSelected(ApiResponse<EventResult> response){

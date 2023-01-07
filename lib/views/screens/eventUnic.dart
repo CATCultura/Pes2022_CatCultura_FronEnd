@@ -65,6 +65,7 @@ class _EventUnicState extends State<EventUnic> {
 
   @override
   void initState() {
+    viewModel.ini();
     viewModel.selectEventById(eventId);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
@@ -400,6 +401,10 @@ class _BodyState extends State<Body> {
   late EventUnicViewModel viewModel = widget.viewModel;
   late String loggedUserId = widget.loggedUserId;
 
+  Widget nothing() {
+    return const SizedBox(width: 0, height: 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -408,79 +413,116 @@ class _BodyState extends State<Body> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children:  [
-            /*
-            void treatCallback(String value){
-              if(value== "addAttendance") {viewModel.putAttendanceById(loggedUserId, eventId);}
-              else if(value == "deleteAttendance") viewModel.deleteAttendanceById(loggedUserId, eventId);
-              else if(value == "addFavourite"){ viewModel.putFavouriteById(loggedUserId, eventId);
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6.0, 5.0, 6.0, 12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children:  [
+              /*
+              void treatCallback(String value){
+                if(value== "addAttendance") {viewModel.putAttendanceById(loggedUserId, eventId);}
+                else if(value == "deleteAttendance") viewModel.deleteAttendanceById(loggedUserId, eventId);
+                else if(value == "addFavourite"){ viewModel.putFavouriteById(loggedUserId, eventId);
+                }
+                else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
               }
-              else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
-            }
-             */
-            IconButton(
-              iconSize: 40,
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.popAndPushNamed(
-                    context, '/opcions-Esdeveniment',
-                    arguments: EventArgs(viewModel.eventSelected.data!));
-                },
-            ),
+               */
+              Row(
+                children: [
+                  !viewModel.isOrganizer ? IconButton(
+                    iconSize: 40,
+                    icon: Icon(Icons.settings),
+                    onPressed: () {
+                      Navigator.popAndPushNamed(
+                          context, '/opcions-Esdeveniment',
+                          arguments: EventArgs(viewModel.eventSelected.data!));
+                      },
+                  ) : nothing(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
+                        onPressed: () {
+                          // viewModel.addEventToGoogleCalendar(_scopes);
+                        },
+                      ),
+                      Text("Calendari", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
+                        onPressed: () async {
+                          final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
+                          final titol = event.denominacio;
+                          viewModel.shareEvent(imgUrl, titol);
+                        },
+                      ),
+                      Text("Share", style: TextStyle(fontSize: 12, color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                ],
+              ),
 
-            IconButton(
-              // padding: const EdgeInsets.only(bottom: 5.0),
-              iconSize: 40,
-              icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
-              onPressed: (){
-                if(viewModel.agenda == true) {
-                  viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
-                  //widget.callback!("deleteAttendance");
-                  NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
-                }
-                else {
-                  viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
-                  // widget.callback!("addAttendance");
-                  NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
-                }
-              },
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        // padding: const EdgeInsets.only(bottom: 5.0),
+                        iconSize: 40,
+                        icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
+                        onPressed: (){
+                          if(viewModel.agenda == true) {
+                            viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
+                            //widget.callback!("deleteAttendance");
+                            NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
+                          }
+                          else {
+                            viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
+                            // widget.callback!("addAttendance");
+                            NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
+                          }
+                        },
+                      ),
+                      Text("Agendar", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      IconButton(
+                        // padding: const EdgeInsets.only(bottom: 5.0),
+                        iconSize: 40,
+                        icon: Icon((viewModel.favorit == false) ? Icons.star_border_outlined : Icons.star,color: Color(0xF4C20606)),
+                        onPressed: (){
+                          if(viewModel.favorit == true){
+                            viewModel.deleteFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
+                            // widget.callback!("deleteFavourite");
+                          }
+                          else{
+                            viewModel.putFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
+                            // widget.callback!("addFavourite");
+                          }
+                        },
+                      ),
+                      Text("Favorit", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                ],
+              ),
+
+            ],
             ),
-            IconButton(
-              iconSize: 40,
-              icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
-              onPressed: () {
-              // viewModel.addEventToGoogleCalendar(_scopes);
-              },
-            ),
-            IconButton(
-              iconSize: 40,
-              icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
-              onPressed: () async {
-                final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
-                final titol = event.denominacio;
-                viewModel.shareEvent(imgUrl, titol);
-                },
-            ),
-            IconButton(
-              // padding: const EdgeInsets.only(bottom: 5.0),
-              iconSize: 40,
-              icon: Icon((viewModel.favorit == false) ? Icons.star_border_outlined : Icons.star,color: Color(0xF4C20606)),
-              onPressed: (){
-                if(viewModel.favorit == true){
-                  viewModel.deleteFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
-                  // widget.callback!("deleteFavourite");
-                }
-                else{
-                  viewModel.putFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
-                  // widget.callback!("addFavourite");
-                }
-              },
-            ),
-          ],
           ),
+            Padding(
+              padding: const EdgeInsets.only(left:22.0, right: 22.0),
+              child: Divider(thickness: 2,),
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
