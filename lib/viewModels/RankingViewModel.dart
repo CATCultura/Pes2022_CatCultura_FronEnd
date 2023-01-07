@@ -29,6 +29,8 @@ class RankingViewModel with ChangeNotifier {
   }
 
   Future<void> iniRanking()async {
+    await selectUserById(sessio.data.id.toString());
+    await mainUser.status == Status.COMPLETED ? users.add(mainUser.data!):Text("a");
     for (var i = 0; i < sessio.data.friendsId!.length; ++i){
       await selectUserById(sessio.data.friendsId![i].toString());
       await mainUser.status == Status.COMPLETED ? users.add(mainUser.data!):Text("a");

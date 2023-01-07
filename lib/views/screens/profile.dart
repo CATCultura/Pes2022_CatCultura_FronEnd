@@ -254,10 +254,11 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
                   // onPressed: (){},
                 ),
-                //const SizedBox(height: 30),
-                /*Row(
+                const SizedBox(height: 30),
+                sessio.data.role.toString() == "ADMIN" ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    /*
                     Column(
                       children: [
                         Icon(Icons.calendar_month_rounded, color: Colors.amber),
@@ -270,6 +271,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         Text(sessio.data.email.toString()),
                       ],
                     ),
+                    */
                     Column(
                       children: [
                         Icon(Icons.workspace_premium, color: Colors.amber),
@@ -277,7 +279,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       ],
                     ),
                   ],
-                ),*/
+                ):Text("")
               ],
             ),
           ),

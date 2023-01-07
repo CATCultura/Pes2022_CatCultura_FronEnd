@@ -56,7 +56,7 @@ class _StatefulRankingState extends State<StatefulRanking>  {
               drawer: MyDrawer("Ranking Friends",
                   username: "Superjuane", email: "juaneolivan@gmail.com"),
               body: Container(
-                child: viewModel.finish? ListView.builder(
+                  child: viewModel.finish? ListView.builder(
                   itemCount: viewModel.users.length,
                   shrinkWrap: false,
                   itemBuilder: (BuildContext context, index) =>
@@ -67,7 +67,14 @@ class _StatefulRankingState extends State<StatefulRanking>  {
                             .width,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 5.0),
-                        child: Card(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+
+                            Card(
                           elevation: 5.0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0.0),
@@ -89,14 +96,43 @@ class _StatefulRankingState extends State<StatefulRanking>  {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      const SizedBox(
+                                      index == 0 ? const SizedBox(
                                         width: 55.0,
                                         height: 55.0,
+
+                                         child: CircleAvatar(
+                                          backgroundColor: Colors.green,
+                                          foregroundColor: Colors.green,
+                                           backgroundImage: NetworkImage('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.es%2Ffotos-vectores-gratis%2Ftrofeo-oro&psig=AOvVaw2fw1Ta9S_-aru_NlT0Szm3&ust=1673180857051000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCPie78i6tfwCFQAAAAAdAAAAABAD'),
+                                         ),
+                                      ): index == 1 ? const SizedBox(
+                                        width: 55.0,
+                                        height: 55.0,
+
                                         child: CircleAvatar(
                                           backgroundColor: Colors.green,
                                           foregroundColor: Colors.green,
-                                          backgroundImage: NetworkImage(
-                                              'https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+                                          backgroundImage: NetworkImage('https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.123rf.com%2Fphoto_91752771_ilustraci%25C3%25B3n-del-icono-de-la-taza-del-trofeo-plata-x28-2do-lugar-x29-.html&psig=AOvVaw2tMgrUNRaL9HjDeUMHZ8Oa&ust=1673180943630000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCODr-pC7tfwCFQAAAAAdAAAAABAD'),
+                                        ),
+                                      ):
+                                      index == 2 ? const SizedBox(
+                                        width: 55.0,
+                                        height: 55.0,
+
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          foregroundColor: Colors.white,
+                                          backgroundImage: NetworkImage('https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.pngtree.com%2Ffreepng%2Fbronze-trophy_22561.html&psig=AOvVaw19ztsmi9hTQgaIlQMK5ZWu&ust=1673181133276000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCPj2lsu7tfwCFQAAAAAdAAAAABAD'),
+                                        ),
+                                      ):
+                                      const SizedBox(
+                                        width: 55.0,
+                                        height: 55.0,
+
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          foregroundColor: Colors.white,
+                                          backgroundImage: AssetImage('resources/img/logo2.png'),
                                         ),
                                       ),
                                       const SizedBox(width: 6.0,),
@@ -127,9 +163,12 @@ class _StatefulRankingState extends State<StatefulRanking>  {
                             ),
                           ),
                         ),
+                            ]
+                          ),
                       ),
-
+                    ),
                 ): const SizedBox(child: Center(child: CircularProgressIndicator()),),
+
               ),
             );
           }
