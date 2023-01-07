@@ -31,7 +31,6 @@ class _StatefulRankingState extends State<StatefulRanking>  {
   final RankingViewModel viewModel = RankingViewModel();
   var index = 1;
   //final List<UserResult> friends = [];
-
   //friendsList.sort((a, b) => a.);
 
   @override
