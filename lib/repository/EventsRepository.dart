@@ -300,6 +300,16 @@ class EventsRepository {
     }
   }
 
+  /*
+  * Future<List<EventResult>> getEventsWithTagFilter(String filter) async {
+    try {
+      dynamic response = _apiServices.getGetApiResponse("${baseUrl}events?tag=$filter");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }*/
   Future<List<EventResult>> getEventsByTag(String s) async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(
@@ -472,6 +482,5 @@ class EventsRepository {
       rethrow;
     }
   }
-
 
 }
