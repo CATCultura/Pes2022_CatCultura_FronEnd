@@ -33,6 +33,20 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
 
   TextEditingController passwordController = TextEditingController();
   bool showPasswordNew = false;
+  bool correctText = false;
+
+  String? filltext(String param) {
+    if (param.length == 0) {
+      return "Camp buit";
+    }
+    else if (param.length < 6) {
+      return "Mínim 6 caràcters";
+    }
+    else {
+      correctText = true;
+    }
+    return null;
+  }
 
   final Session session = Session();
 
@@ -79,7 +93,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
             ],
           ),
           body: Container(
-            padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
+            padding: const EdgeInsets.only(left: 16, top: 5, right: 16),
             /*
                 si està el teclat obert, al clicar a qualsevol punt
                 de la pantalla, desapareix
@@ -179,6 +193,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                       controller: passwordController,
                       obscureText: !showPasswordNew,
                       decoration: InputDecoration(
+                          errorText: filltext(passwordController.text),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -255,8 +270,10 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                                 ),
                               ),
                               onPressed: () {
-                                viewModel.editarcompte(passwordController.text);
                                 viewModel.notifyListeners();
+                                if (correctText) {
+                                  viewModel.editarcompte(passwordController.text);
+                                }
                                 Navigator.popAndPushNamed(context, '/editProfile');
                               },
                             ),
