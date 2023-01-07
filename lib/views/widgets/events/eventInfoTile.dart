@@ -53,7 +53,9 @@ class EventInfoTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             tileColor: color,
-            title: Column(children: [
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
               Text(event.denominacio!,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20)),
