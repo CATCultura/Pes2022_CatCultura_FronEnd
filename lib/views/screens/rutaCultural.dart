@@ -357,7 +357,7 @@ class RutaCulturalState extends State<RutaCultural> {
     });
     viewModel.polylines =
         ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
-    await viewModel.generateRutaCultural(result).then((value) => {});
+    await viewModel.generateRutaCultural(RutaCulturalArgs(viewModel.realPosition.longitude, viewModel.realPosition.latitude, result!.radio, result!.data)).then((value) => {});
     //viewModel.paintRoute();
     // setState(() {
     //
