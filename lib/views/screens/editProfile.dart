@@ -262,7 +262,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Colors.blueAccent)),
-                              child: const Text('ACCEPTAR',
+                              child: const Text('DESAR',
                                 style: TextStyle(
                                     fontSize: 12,
                                     letterSpacing: 2.2,
