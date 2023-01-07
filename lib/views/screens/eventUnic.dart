@@ -595,7 +595,7 @@ class _BodyState extends State<Body> {
                                   {
                                     if (event.idOrganitzador != null)
                                       {
-                                              Navigator.pushNamed(
+                                              Navigator.popAndPushNamed(
                                                       context, "/organizer",
                                                       arguments: OrganizerArgs(
                                                           event.idOrganitzador!, event.nomOrganitzador!))

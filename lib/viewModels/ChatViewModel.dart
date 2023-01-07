@@ -67,8 +67,8 @@ class ChatViewModel with ChangeNotifier {
 
   @override
   void dispose() {
-    _chatRepo.unsubscribe(currentEvent!, this);
-    super.dispose();
+    // _chatRepo.unsubscribe(currentEvent!, this);
+    // super.dispose();
   }
 
 }
