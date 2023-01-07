@@ -132,7 +132,7 @@ class _UserTagsState extends State<UserTags> {
                                                   }
                                                 },
                                                 title: Text(
-                                                  viewModel.tagsList.data![i],
+                                                  viewModel.tagsList.data![i].replaceAll('-', ' '),
                                                   style: TextStyle(
                                                     color: Colors.black38,
                                                     fontWeight: FontWeight.bold

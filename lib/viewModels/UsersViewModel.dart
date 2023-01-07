@@ -26,6 +26,11 @@ class UsersViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  setUsers(ApiResponse<String> response, String? auth){
+    notifyListeners();
+  }
+
+
   Future<void> fetchUsersListApi() async {
     await _usersRepo.getUsers().then((value) {
       setUsersList(ApiResponse.completed(value));
@@ -33,23 +38,25 @@ class UsersViewModel with ChangeNotifier{
         setUsersList(ApiResponse.error(error.toString())));
   }
 
- /* Future<void> editarcompte(String password) async {
-   // late String encoded = stringToBase64.encode("$user:$password");
+  Future<void> editarcompte(String password) async {
+    String user = Session().data.username;
+    late String encoded = stringToBase64.encode("$user er:$password");
     late String auth = "Basic $encoded";
 
-    await _usersRepo.putEditUser(user).then((value) {
-      setUsersSelected(ApiResponse.completed(value), auth);
+
+    await _usersRepo.putEditUser(password, Session().data.id.toString()).then((value) {
+      setUsers(ApiResponse.completed(value), auth);
     }).onError((error, stackTrace) =>
-        setUsersSelected(ApiResponse.error(error.toString()), null));
-    //} else errorN = 1;
+        setUsers(ApiResponse.error(error.toString()), null));
     waiting = false;
-    // notifyListeners();
-  }*/
+  }
 
   setUsersSelected(ApiResponse<SessionResult> response, String? auth){
     mainUser = response;
     if(response.status == Status.COMPLETED)sessio.data = response.data!;
     notifyListeners();
   }
+
+  void dispose() {}
 }
 
