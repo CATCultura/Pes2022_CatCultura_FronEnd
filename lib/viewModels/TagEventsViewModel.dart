@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import '../models/Place.dart';
 import '../utils/Session.dart';
 
-class OrganizerEventsViewModel with ChangeNotifier{
-  final _userRepo = UsersRepository();
+class TagEventsViewModel with ChangeNotifier{
+  final _eventRepo = EventsRepository();
   final session = Session();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
@@ -32,9 +32,8 @@ class OrganizerEventsViewModel with ChangeNotifier{
   }
 
 
-  Future<void> fetchEvents(int id) async {
-    //FOR NOW TO MAKE IT THE CUTREST
-    await _userRepo.getEventsById(id).then((value) {
+  Future<void> fetchEvents(String tag) async {
+    await _eventRepo.getEventsByTag(tag).then((value) {
       setEventsList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setEventsList(ApiResponse.error(error.toString())));
