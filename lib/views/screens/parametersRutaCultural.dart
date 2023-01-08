@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-double _currentSliderValue = 1000;
+double _currentSliderValue = 15000;
 
 class ParametersRutaCultural extends StatefulWidget {
   const ParametersRutaCultural({super.key});
@@ -20,8 +20,7 @@ class ParametersRutaCultural extends StatefulWidget {
 class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
   // double _currentSliderValue = 0;
   TextEditingController dateController = TextEditingController(
-      text: DateFormat('dd-MM-yyyy').format(DateTime(2022, 12,
-          26))); //"2022-10-07T00:00:00.000" //DateFormat('dd-MM-yyyy').format(DateTime.now())
+      text: DateFormat('dd-MM-yyyy').format(DateTime.now())); //"2022-10-07T00:00:00.000" DateTime(2022, 12, 26) //DateFormat('dd-MM-yyyy').format(DateTime.now())
   /*TextField(
         controller: dateController, //editing controller of this TextField
           decoration: const InputDecoration(

@@ -232,12 +232,15 @@ class EventsRepository {
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
-
     try {
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
       debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data");
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.3723235&lon=2.1398554&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
-      //debugPrint(response.toString());
+      dynamic response;
+      if(session.data.id != -1)
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
+      else
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&radius=$radio&discardedEvents=841");
+
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
 
@@ -478,6 +481,22 @@ class EventsRepository {
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       debugPrint("res desde eventRepo getEventsNearMe(): ${res.toString()}");
       return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<EventResult>> modifyRoute(double longitud, double latitud, int radio, String data, String eventId) async {
+    try {
+      dynamic response;
+      if(session.data.id != -1)
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=$eventId");
+      else
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&radius=$radio&discardedEvents=$eventId");
+
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+
     } catch (e) {
       rethrow;
     }

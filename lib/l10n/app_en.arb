@@ -402,6 +402,11 @@
             "description": "Text for button to generate cultural route"
         },
 
+  "modifyRouteText": "Modify route",
+    "@modifyRouteText": {
+                "description": "Text for button to modify cultural route"
+            },
+
   "saveRouteNameHint": "Route name",
   "@saveRouteNameHint": {
             "description": "Text for input box"
@@ -459,7 +464,7 @@
             },
   "blockButton" : "Block",
     "@blockButton": {
-                "description": "Text for button to block"
+                "description": "TegenerateRouteTextxt for button to block"
             },
     "unblockButton" : "Unblock",
     "@unblockButton": {

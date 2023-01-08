@@ -1,4 +1,5 @@
 import 'package:CatCultura/models/EventResult.dart';
+import 'dart:math';
 import 'package:CatCultura/utils/Session.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
@@ -112,6 +113,14 @@ class RutaCulturalViewModel with ChangeNotifier {
     return false;
   }
 
+  double _calculateDistance(lat1, lon1, lat2, lon2){
+    var p = 0.017453292519943295;
+    var a = 0.5 - cos((lat2 - lat1) * p)/2 +
+        cos(lat1 * p) * cos(lat2 * p) *
+            (1 - cos((lon2 - lon1) * p))/2;
+    return 12742 * asin(sqrt(a));
+  }
+
   _createPolylines(
       double startLatitude,
       double startLongitude,
@@ -125,12 +134,59 @@ class RutaCulturalViewModel with ChangeNotifier {
 
     // Generating the list of coordinates to be used for
     // drawing the polylines
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleAPiKey, // Google Maps API Key
-      PointLatLng(startLatitude, startLongitude),
-      PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.transit,
-    );
+    PolylineResult result;
+    double distance = _calculateDistance(startLatitude, startLongitude, destinationLatitude, destinationLongitude);
+    if(distance < 1.0){
+      debugPrint("distance < 1 : $distance");
+      result = await polylinePoints.getRouteBetweenCoordinates(
+        googleAPiKey,
+        PointLatLng(startLatitude, startLongitude),
+        PointLatLng(destinationLatitude, destinationLongitude),
+        travelMode: TravelMode.walking,
+      );
+    } else /*if(distance < 2.5)*/{
+      result = await polylinePoints.getRouteBetweenCoordinates(
+        googleAPiKey, // Google Maps API Key
+        PointLatLng(startLatitude, startLongitude),
+        PointLatLng(destinationLatitude, destinationLongitude),
+        travelMode: TravelMode.transit,
+      );
+    }
+    // else{
+    //   PolylineResult rAux = await polylinePoints.getRouteBetweenCoordinates(
+    //     googleAPiKey, // Google Maps API Key
+    //     PointLatLng(startLatitude, startLongitude),
+    //     PointLatLng(destinationLatitude, destinationLongitude),
+    //     travelMode: TravelMode.transit,
+    //   );
+    //   var points = rAux.points;
+    //   int step = points.length ~/ 10; // Calculate the step size
+    //   result = await polylinePoints.getRouteBetweenCoordinates(
+    //     googleAPiKey, // Google Maps API Key
+    //     PointLatLng(startLatitude, startLongitude),
+    //     points[step], // Make the first API call with the first middle point
+    //     travelMode: TravelMode.transit,
+    //   );
+    //   for (int i = 1; i < 10; i++) {
+    //     // Make the remaining API calls with the middle points
+    //     PolylineResult r = await polylinePoints.getRouteBetweenCoordinates(
+    //       googleAPiKey, // Google Maps API Key
+    //       points[step * (i - 1)],
+    //       points[step * i],
+    //       travelMode: TravelMode.transit,
+    //     );
+    //     result.points.addAll(r.points);
+    //   }
+    //   // Make the final API call with the last middle point
+    //   PolylineResult r = await polylinePoints.getRouteBetweenCoordinates(
+    //     googleAPiKey, // Google Maps API Key
+    //     points[step * 9],
+    //     PointLatLng(destinationLatitude, destinationLongitude),
+    //     travelMode: TravelMode.transit,
+    //   );
+    //   result.points.addAll(r.points);
+    // }
+
 
     // Adding the coordinates to the list
     List<LatLng> polylineCoordinates = [];
@@ -191,6 +247,27 @@ class RutaCulturalViewModel with ChangeNotifier {
       //setEventsList(ApiResponse.error(error.toString()));
     });
   }
+
+  Future<void> modifyRoute(ClusterManager<ClusterItem> manager, String id) async {
+    eventsListMap.status = Status.LOADING;
+    rutaGenerada = false;
+    notifyListeners();
+    await _eventsRepo.modifyRoute(1.1, 2.2, 3, "a", id).then((value) async {
+      if(value != null){
+        polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+        setEventsList(ApiResponse.completed(value));
+        manager.setItems(eventsListMap.data!);
+        await paintRoute().then((value){
+          polylines.status = value;
+          notifyListeners();
+        });
+      }
+    }
+    ).onError((error, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace, label: error.toString());
+      //setEventsList(ApiResponse.error(error.toString()));
+    });
+}
 
 
 }
