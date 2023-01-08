@@ -1,7 +1,9 @@
 //import 'dart:html';
 import 'dart:io';
+import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:CatCultura/views/screens/qrScanning.dart';
+import 'package:flutter/rendering.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
@@ -71,6 +73,7 @@ class _EventUnicState extends State<EventUnic> {
   void initState() {
     viewModel.ini();
     viewModel.selectEventById(eventId);
+    if (Session().data.role=="ADMIN") viewModel.getAttendanceCode(eventId);
   }
 
   @override
@@ -404,6 +407,7 @@ class _BodyState extends State<Body> {
   late String descripcio = widget.descripcio;
   late EventUnicViewModel viewModel = widget.viewModel;
   late String loggedUserId = widget.loggedUserId;
+  final GlobalKey _globalKey = GlobalKey();
 
   Widget nothing() {
     return const SizedBox(width: 0, height: 0);
@@ -490,11 +494,29 @@ class _BodyState extends State<Body> {
         ],
         title: Text("Ja n'has confirmat l'assistència"),
       );
-
     }
-
-
   }
+
+  Future<void> captureWidget() async {
+    // (context.findRenderObject()! as OffsetLayer).to
+    RenderRepaintBoundary boundary = _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+
+    // boundary = (boundary.child as RenderPadding).;
+
+    final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+
+    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    final Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+    setState(() {
+
+    });
+    await viewModel.shareQrImage("QR", pngBytes);
+
+    // return pngBytes;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -541,7 +563,7 @@ class _BodyState extends State<Body> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      if (Session().data.role == "ADMIN") Column(
+                      if (Session().data.role == "ADMIN" && viewModel.attendanceCode.status == Status.COMPLETED) Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           IconButton(
@@ -551,12 +573,28 @@ class _BodyState extends State<Body> {
                               showDialog(context: context,
                               barrierDismissible: true,
                               builder: (BuildContext) {
-                                return AlertDialog(
-                                content: QrImage(
-                                  data: "1234567890",
-                                  version: QrVersions.auto,
-                                  size: 200.0,
-                                ),
+                                return RepaintBoundary(
+                                  key: _globalKey,
+                                  child: AlertDialog(
+                                  content: GestureDetector(
+                                    onLongPress: () => {
+                                      debugPrint("hola"),
+                                      captureWidget()
+                                    },
+                                    child: FittedBox(
+                                      child: Column(
+                                        children: [
+                                          QrImage(
+                                            data: viewModel.attendanceCode.data!,
+                                            version: QrVersions.auto,
+                                            size: 350.0,
+                                          ),
+                                          Card(child: Text("Escaneja'm", style: TextStyle(fontSize: 15),))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  ),
                                 );
                               }
                               );
