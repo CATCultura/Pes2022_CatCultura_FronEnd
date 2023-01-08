@@ -16,6 +16,8 @@ import '../models/Place.dart';
 import '../models/RouteResult.dart';
 import 'package:CatCultura/utils/routes/deepLinkParams.dart';
 
+import '../repository/stationRepository.dart';
+
 
 class RutaCulturalViewModel with ChangeNotifier {
 
@@ -50,7 +52,7 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   void iniDeepLinkRoute(ClusterManager<ClusterItem> manager) {
     if($Params != null){
-      code = $Params; //![0].value.first;
+      code = $Params![0]; //![0].value.first;
       urlParamsToUse = true;
       loadSingleRoute(manager);
     }

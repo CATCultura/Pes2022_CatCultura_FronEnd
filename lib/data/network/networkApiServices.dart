@@ -226,6 +226,8 @@ class NetworkApiServices extends BaseApiServices {
         dynamic res = jsonDecode(text);
         debugPrint("from networkApiServices printing response on code 201:\n$res\n");
         return res;
+      case 204:
+        return [];
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:

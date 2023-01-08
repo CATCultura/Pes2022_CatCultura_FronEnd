@@ -130,7 +130,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     if(queryParams != null){
       debugPrint("queryParams"+queryParams.toString());
       // debugPrint(query);
-      $Params = queryParams[0].value.first;
+      $Params = queryParams[0].value;
     }
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     SystemChrome.setPreferredOrientations([
