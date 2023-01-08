@@ -9,7 +9,7 @@ import '../widgets/search_locations.dart';
 import '../../data/response/apiResponse.dart';
 import 'package:CatCultura/viewModels/UsersViewModel.dart';
 //import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -41,6 +41,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
   final double profileHeight = 144;
   final Session sessio = Session();
 
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -52,7 +53,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
          return Scaffold(
           appBar: AppBar(
             toolbarHeight: 70,
-            title: const Text("My Profile"),
+            title: Text(AppLocalizations.of(context).myProfile),
             backgroundColor: MyColorsPalette.lightBlue,
           ),
           backgroundColor: MyColors.bgColorScreen,
@@ -94,26 +95,31 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                           mainAxisAlignment:
                           MainAxisAlignment.center,
                           children: [
-                            Column(
-                              children: [
-                                Text(
-                                  'Puntuació',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontFamily: 'Nunito',
-                                    fontSize: 20,
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pushNamed(context, '/ranking');
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context).points,
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontFamily: 'Nunito',
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  sessio.data.points.toString(),
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(
-                                        140, 123, 35,1),
-                                    fontFamily: 'Nunito',
-                                    fontSize: 20,
+                                  Text(
+                                    sessio.data.points.toString(),
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(
+                                          140, 123, 35,1),
+                                      fontFamily: 'Nunito',
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -137,7 +143,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               child: Column(
                                 children: [
                                   Text(
-                                    'Trofeus',
+                                    AppLocalizations.of(context).trophies,
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontFamily: 'Nunito',
@@ -172,7 +178,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all(Colors.amberAccent)),
-                        child: const Text('Configuració'),
+                        child: Text(AppLocalizations.of(context).config),
                         onPressed: () {
                           Navigator.pushNamed(context, '/editProfile');
                         },
@@ -189,10 +195,9 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
-                    child: const Text('Veure peticions amistat'),
+                    child: Text(AppLocalizations.of(context).friendRequests),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/allUsers');
-                      //Navigator.pushNamed(context, '/friendRequests');
+                      Navigator.pushNamed(context, '/friendRequests');
                     },
                   ),
                 ),
@@ -212,7 +217,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       style: ButtonStyle(
                           backgroundColor:
                           MaterialStateProperty.all(Colors.amberAccent)),
-                      child: const Text ('Buscar Usuaris'),
+                      child: Text (AppLocalizations.of(context).findUsers),
                       onPressed: ()async{
                           /*
                           for (var i = 0; i < 20; i++) {
@@ -252,9 +257,10 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   // onPressed: (){},
                 ),
                 const SizedBox(height: 30),
-                Row(
+                sessio.data.role.toString() == "ADMIN" ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    /*
                     Column(
                       children: [
                         Icon(Icons.calendar_month_rounded, color: Colors.amber),
@@ -267,6 +273,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         Text(sessio.data.email.toString()),
                       ],
                     ),
+                    */
                     Column(
                       children: [
                         Icon(Icons.workspace_premium, color: Colors.amber),
@@ -274,7 +281,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       ],
                     ),
                   ],
-                ),
+                ):Text("")
               ],
             ),
           ),
@@ -319,3 +326,4 @@ child: const Text(
 "body",
 style: TextStyle(fontSize: 30, color: Colors.white),
 ),*/
+

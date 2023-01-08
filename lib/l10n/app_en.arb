@@ -98,7 +98,7 @@
            "description": "Text for input box"
         },
 
-    "approximateEndDate": "ApproximateEndDate",
+    "approximateEndDate": "Approximate end date",
     "@approximateEndDate": {
            "description": "Text for input box"
         },
@@ -193,6 +193,11 @@
       "description": "Title for org events screen."
     },
 
+    "links": "Documents",
+    "@links": {
+       "description": "Text for input box"
+    },
+
     "documents": "Documents",
     "@documents": {
            "description": "Text for input box"
@@ -223,6 +228,65 @@
             "description": "Text for input box"
         },
 
+    "searchName": "Search by name...",
+    "@searchName": {
+      "description": "Search user by name"
+    },
+
+    "userProfile": "User Profile",
+    "@userProfile": {
+      "description": "Shows text User Profile"
+    },
+
+    "addFriend": "Friend request",
+    "@addFriend": {
+      "description": "Shows text Add Friend"
+    },
+
+    "points": "Points",
+    "@points": {
+      "description": "Shows text Points that indicates the variable points"
+    },
+
+    "friendRequests": "Friend Requests",
+    "@friendRequests": {
+      "description": "Shows text Friend Requests"
+    },
+
+    "trophies": "Trophies",
+    "@trophies": {
+      "description": "Shows text Trophies that indicates the variable trophies"
+    },
+
+    "config": "Configuration",
+    "@config": {
+      "description": "Shows text for button Configuration"
+    },
+
+    "findUsers": "Find Users",
+    "@findUsers": {
+      "description": "Shows text for button Find Users"
+    },
+
+    "myProfile": "My Profile",
+    "@myProfile": {
+      "description": "Shows text My Profile"
+    },
+
+    "ranking": "Ranking",
+    "@ranking": {
+      "description": "Shows text Ranking"
+    },
+
+    "achieved": "ACHIEVED",
+    "@achieved": {
+      "description": "Shows text ACHIEVED for trophies achieved"
+    },
+
+    "notAchieved": "Not Achieved",
+    "@notAchieved": {
+      "description": "Shows text Not Achieved for trophies not achieved"
+    },
     "imageApp": "Image App",
     "@imageApp": {
             "description": "Text for input box"
@@ -231,6 +295,96 @@
     "createEvent": "Create",
     "@createEvent": {
             "description": "Text of button for create events"
+        },
+
+    "code": "Code",
+    "@code": {
+            "description": "Text for input box"
+        },
+
+    "startDate": "Start Date",
+    "@startDate": {
+            "description": "Text for input box"
+        },
+
+    "finalDate": "Final Date",
+    "@finalDate": {
+            "description": "Text for input box"
+        },
+
+    "nameEventM": "Event Name",
+    "@nameEventM": {
+            "description": "Text for input box"
+        },
+
+    "location": "Location",
+    "@location": {
+            "description": "Text for input box"
+        },
+
+    "address": "Address",
+    "@address": {
+           "description": "Text for input box"
+        },
+
+    "space": "Space",
+    "@space": {
+            "description": "Text for input box"
+        },
+
+    "description": "Description",
+    "@description": {
+            "description": "Text for input box"
+        },
+
+    "latitude": "Latitude",
+    "@latitude": {
+            "description": "Text for input box"
+        },
+
+    "longitude": "Longitude",
+    "@longitude": {
+            "description": "Text for input box"
+        },
+
+    "yes": "Yes",
+    "@yes": {
+            "description": "Text for input box"
+        },
+
+    "no": "No",
+    "@no": {
+            "description": "Text for input box"
+        },
+
+    "whatDoYouWant": "What do you want to do?",
+    "@whatDoYouWant": {
+            "description": "Text for input box"
+        },
+
+    "deleteEvent": "Delete Event",
+    "@deleteEvent": {
+            "description": "Text for input box"
+        },
+
+    "cancelEvent": "Cancel Event",
+    "@cancelEvent": {
+            "description": "Text for input box"
+        },
+
+    "cancelQuestion": "Are you sure you want to cancel this event?",
+    "@cancelQuestion": {
+            "description": "Text for input box"
+        },
+
+    "deleteQuestion": "Are you sure you want to delete this event?",
+    "@deleteQuestion": {
+            "description": "Text for input box"
+        },
+
+    "modify": "Modify",
+    "@modify": {
+            "description": "Text for input box"
         },
 
     "rutaCulturalMainTitle": "Cultural route",

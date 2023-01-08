@@ -7,6 +7,7 @@ import 'package:googleapis/shared.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
@@ -18,14 +19,7 @@ class opcionsEsdeveniment extends StatelessWidget {
   opcionsEsdeveniment({super.key, required this.event});
   EventResult event;
 
-  /*+@override
-  State<opcionsEsdeveniment> createState() => _opcionsState(); **/
-
-//}
-
-//class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
-  String fecha = '';
   TextEditingController CodiController = TextEditingController();//
   TextEditingController InitialDateController = TextEditingController();//
   TextEditingController FinalDateController = TextEditingController();//
@@ -95,7 +89,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                 child:
                 viewModel.waiting? Scaffold(
                   appBar: AppBar(
-                    title: const Text('Que vols fer?'),
+                    title: Text(AppLocalizations.of(context)!.whatDoYouWant),
                     backgroundColor: Colors.blue,
                   ),
                   body: SingleChildScrollView(
@@ -109,18 +103,16 @@ class opcionsEsdeveniment extends StatelessWidget {
                             children: [
                               IconButton(
                                 iconSize: 40,
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   showDialog(
                                     context: context,
                                     builder: (context) =>
                                         AlertDialog(
-                                            title: Text("Eliminar Esdeveniment"),
-                                            content: Text(
-                                                "Estas segur que vols eliminar aquest esdeveniment?"),
+                                            title: Text(AppLocalizations.of(context)!.deleteEvent),
+                                            content: Text(AppLocalizations.of(context)!.deleteQuestion),
                                             actions: <Widget>[
                                               TextButton(
-                                                  child: Text("Si"),
                                                   style: TextButton.styleFrom(
                                                     foregroundColor: Colors.blue,
                                                   ),
@@ -128,17 +120,18 @@ class opcionsEsdeveniment extends StatelessWidget {
                                                     viewModel.deleteEventById(event.id!);
                                                     Navigator.pushNamed(
                                                         context, '/home');
-                                                  }
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.yes)
                                               ),
 
                                               TextButton(
-                                                  child: Text("No"),
                                                   style: TextButton.styleFrom(
                                                     foregroundColor: Colors.red,
                                                   ),
                                                   onPressed: () {
                                                     Navigator.pop(context);
-                                                  }
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.no)
                                               ),
                                             ]
                                         ),
@@ -148,35 +141,34 @@ class opcionsEsdeveniment extends StatelessWidget {
 
                               IconButton(
                                 iconSize: 40,
-                                icon: Icon(Icons.cancel),
+                                icon: const Icon(Icons.cancel),
                                 onPressed: () {
                                   showDialog(
                                     context: context,
                                     builder: (context) =>
                                         AlertDialog(
-                                            title: Text("Cancel·lar Esdeveniment"),
-                                            content: Text(
-                                                "Estas segur que vols cancel·lar aquest esdeveniment?"),
+                                            title: Text(AppLocalizations.of(context)!.cancelEvent),
+                                            content: Text(AppLocalizations.of(context)!.cancelQuestion),
                                             actions: <Widget>[
                                               TextButton(
-                                                  child: Text("Si"),
                                                   style: TextButton.styleFrom(
                                                     foregroundColor: Colors.blue,
                                                   ),
                                                   onPressed: () {
                                                     viewModel.putCancelledEventById(event.id!);
                                                     Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
-                                                  }
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.yes)
                                               ),
 
                                               TextButton(
-                                                  child: Text("No"),
                                                   style: TextButton.styleFrom(
                                                     foregroundColor: Colors.red,
                                                   ),
                                                   onPressed: () {
                                                     Navigator.pop(context);
-                                                  }
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.no)
                                               ),
                                             ]
                                         ),
@@ -190,10 +182,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: CodiController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Codi',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.code,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -207,10 +199,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextField(
                               controller: DenominacioController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Nom Esdeveniment',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.nameEventM,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -227,10 +219,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: UbicacioController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Ubicació',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.location,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -244,10 +236,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: AdrecaController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Adreça',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.address,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -261,10 +253,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: EspaiController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Espai',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.space,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -278,10 +270,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: DescripcioController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Descripció',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.description,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -295,10 +287,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: LatitudController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Latitud',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.latitude,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -312,10 +304,10 @@ class opcionsEsdeveniment extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextFormField(
                               controller: LongitudController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Longitud',
-                                enabledBorder: OutlineInputBorder(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.longitude,
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.orange,
                                       width: 3
@@ -333,7 +325,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                     MyColorsPalette.orange)),
-                              child: const Text('Modificar'),
+                              child: Text(AppLocalizations.of(context)!.modify),
                               onPressed: () {
                                 event.id = event.id;
                                 event.denominacio = DenominacioController.text;
@@ -405,10 +397,10 @@ class _dataIniState extends State<dataIni> {
       child: TextFormField(
         enableInteractiveSelection: false,
         controller: InitialDateController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Data Inici",
-          enabledBorder: OutlineInputBorder(
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: AppLocalizations.of(context)?.startDate,
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
                 color: Colors.orange,
                 width: 3
@@ -459,10 +451,10 @@ class _dataFiState extends State<dataFi> {
       child: TextField(
         enableInteractiveSelection: false,
         controller: FinalDateController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Data Fi",
-          enabledBorder: OutlineInputBorder(
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: AppLocalizations.of(context)?.finalDate,
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
                 color: Colors.orange,
                 width: 3

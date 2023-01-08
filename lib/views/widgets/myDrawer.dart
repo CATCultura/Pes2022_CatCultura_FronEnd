@@ -155,7 +155,7 @@ class MyDrawer extends Drawer {
             ListTile(
               horizontalTitleGap: 0,
               leading: const Icon(Icons.create, size: 28),
-              title: const Text('Crear Esdeveniment',
+              title: Text(AppLocalizations.of(context)!.createEventDrawer,
                   style: TextStyle(fontSize: 18)),
               onTap: () {
                 if (actualPage == "CrearEsdeveniment") {
