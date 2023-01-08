@@ -46,8 +46,7 @@ class AnotherProfile extends StatelessWidget {
             backgroundColor: Colors.grey[200],
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                "AnotherProfile",  Session(), username: "SuperJuane",
-                email: "juaneolivan@gmail.com"),
+                "AnotherProfile",  Session(),),
             body: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[

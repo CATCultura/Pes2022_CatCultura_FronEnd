@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'dart:math' as math;
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/models/Place.dart';
 import 'package:CatCultura/viewModels/RutaCulturalViewModel.dart';
@@ -81,21 +82,20 @@ class RutaCulturalState extends State<RutaCultural> {
           return Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
             appBar: AppBar(
-                  title: const Text('RUTA CULTURAL'),
+                  title: Text(AppLocalizations.of(context)!.rutaCulturalMainTitle),
                 ),
-                drawer: MyDrawer("rutaCultural",  Session(),
-                    username: "Superjuane", email: "juaneolivan@gmail.com"),
+                drawer: MyDrawer("rutaCultural",  Session(),),
                 body: viewModel.eventsListMap.status == Status.LOADING &&
                         viewModel.rutaGenerada
                     ? SizedBox(
                         child: Center(
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             CircularProgressIndicator(),
                             Padding(padding: EdgeInsets.only(top: 20)),
                             Text(
-                              "Estem generant la teva ruta...",
+                              AppLocalizations.of(context)!.generatingRouteText,
                               style: TextStyle(
                                   fontSize: 20, fontStyle: FontStyle.italic),
                             )
@@ -162,7 +162,7 @@ class RutaCulturalState extends State<RutaCultural> {
                       onPressed: () {
                         _navigateAndDisplayRouteGeneratorSelector(context);
                       },
-                      label: Text('Generar Ruta Cultural'),
+                      label: Text(AppLocalizations.of(context)!.generateRouteText),
                     ),
                     viewModel.rutaGenerada? FloatingActionButton.extended(
                       heroTag: 'bSaveroute',
@@ -189,7 +189,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                       },
                                       controller: _saveNameController,
                                       decoration:
-                                          InputDecoration(hintText: "Nom"),
+                                          InputDecoration(hintText: AppLocalizations.of(context)!.saveRouteNameHint),
                                     ),
                                   ),
                                   SizedBox(height: 15.0,),
@@ -202,7 +202,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                         args.description = value;
                                       },
                                       controller: _saveDescController,
-                                      decoration: InputDecoration(hintText: "Descripció"),
+                                      decoration: InputDecoration(hintText: AppLocalizations.of(context)!.saveRouteDescriptionHint),
                                     ),
                                   ),
                                   SizedBox(height: 15.0,),
@@ -274,7 +274,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                           MaterialStateProperty.all(Colors.red),
                                       foregroundColor:
                                           MaterialStateProperty.all(Colors.white)),
-                                  child: Text('CANCEL'),
+                                  child: Text(AppLocalizations.of(context)!.cancelTextCulturalRoute),
                                   onPressed: () {
                                     Navigator.pop(context, args);
                                   },
@@ -285,7 +285,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                           MaterialStateProperty.all(Colors.green),
                                       foregroundColor:
                                           MaterialStateProperty.all(Colors.white)),
-                                  child: Text('SAVE'),
+                                  child: Text(AppLocalizations.of(context)!.saveTextCulturalRoute),
                                   onPressed: () {
                                     args.canceled = false;
                                     Navigator.pop(context, args);
@@ -295,7 +295,7 @@ class RutaCulturalState extends State<RutaCultural> {
                             );
                           },
                         ).then((val) async {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("asdf"),));
+                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("asdf"),));
                           debugPrint(
                               "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
                           if (!val.canceled){
@@ -308,7 +308,7 @@ class RutaCulturalState extends State<RutaCultural> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text('SE HA GUARDADO LA RUTA'),
+                                    title: Text(AppLocalizations.of(context)!.saveRouteSuccessTitle),
                                     // content: Text(viewModel.savingRutaMsg),
                                     actions: [
                                       TextButton(
@@ -327,7 +327,7 @@ class RutaCulturalState extends State<RutaCultural> {
                           }
                         });
                       },
-                      label: Text('Guardar Ruta Actual'),
+                      label: Text(AppLocalizations.of(context)!.saveRouteButtonText),
                     ): const SizedBox(width: 0, height: 0,),
                     /*viewModel.session.data.id == -1 ?*/ FloatingActionButton.extended(
                       heroTag: 'bSavedRoutes',
@@ -338,13 +338,13 @@ class RutaCulturalState extends State<RutaCultural> {
                             builder: (context) {
                               return AlertDialog(
                                 title: Text('ERROR'),
-                                content: Text('No has iniciat sessió'),
+                                content: Text(AppLocalizations.of(context)!.saveRouteErrorNotLoggedIn),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context).popAndPushNamed('/login');
                                     },
-                                    child: Text('INICIAR SESSIÓ'),
+                                    child: Text(AppLocalizations.of(context)!.loginTextErrorSaveCulturalRoute),
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -361,7 +361,7 @@ class RutaCulturalState extends State<RutaCultural> {
                           _navigateAndDisplaySavedRoutes(context);
                         }
                       },
-                      label: Text('Obrir Rutes Guardades'),
+                      label: Text(AppLocalizations.of(context)!.savedRoutesButtonText),
                     ) /*: const SizedBox(width: 0, height: 0,)*/,
                   ],
                 ),
