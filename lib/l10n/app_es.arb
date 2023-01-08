@@ -155,6 +155,31 @@
 
     "achieved": "CONSEGUIDO",
 
-    "notAchieved": "No Conseguido"
+    "notAchieved": "No conseguido",
+
+    "scanQRCodeScreenTitle" : "Ecanea un QR",
+
+    "cameraNotAllowedWarning" : "Para escanear un QR, permite el acceso a la cámara.",
+
+    "sendAttendanceCodeButton" : "Enviar",
+
+    "scanCodePrompt" : "Escanea un código de asistencia",
+
+    "exitButton" : "Salir",
+
+    "explanationForAttendanceCodeInput" : "Introduce el código de asistencia o escanea QR oportuno.",
+
+    "enterCodeHintText" : "Introduce un código",
+
+    "attendanceAlreadyConfirmed" : "Ya has confirmado que has asistido.",
+
+    "confirmAttendanceDialogTitle": "Confirma la asistencia",
+
+    "wrongAttendanceCode": "Código incorrecto",
+
+    "scanQRCodeButton" : "QR",
+
+    "confirmAttendanceMenuOption": "Confirmar asistencia"
+
 
 }

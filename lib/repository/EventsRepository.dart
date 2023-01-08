@@ -444,13 +444,7 @@ class EventsRepository {
     try {
       //todo change this ugly backend route
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$userId/attended/$eventId?code=$code", "");
-      debugPrint("****************************");
-      debugPrint(response.toString());
-      debugPrint("****************************");
       session.data.attendedId = List<int>.from(response);
-      debugPrint("****************************");
-      debugPrint(session.data.attendedId.toString());
-      debugPrint("****************************");
       return response.toString();
     } on ConflictException {
       return "Bad code";
