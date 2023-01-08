@@ -50,7 +50,6 @@ class _QRScanningState extends State<QRScanning> {
     }
   }
 
-
   @override
   void initState() {
     viewModel.requestPermission();
@@ -80,9 +79,14 @@ class _QRScanningState extends State<QRScanning> {
             drawer: MyDrawer("qrScan",Session()),
             body: Column(
               children: [
-                Expanded(
+                viewModel.cameraActivated ? Expanded(
                   flex: 5,
-                    child: _buildQrView(context)),
+                    child: _buildQrView(context)) : Column(
+                      children: [
+                        CustomErrorWidget(),
+                        Text("ACTIVA LA PUTA CÀMERA"),
+                      ],
+                    ),
                 //UNKNOWN TERRAIN
                 Expanded(
                 flex: 1,

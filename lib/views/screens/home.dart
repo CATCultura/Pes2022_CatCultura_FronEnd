@@ -45,6 +45,21 @@ class _HomeState extends State<Home> {
         return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.homeScreenTitle),
+              actions: [
+                Column(
+                  children: [
+                    IconButton(
+                        onPressed: () => {
+                          Navigator.pushNamed(context, '/events')
+                        },
+                        icon: const Icon(
+                            Icons.search,
+                            color: Colors.black
+                        ),
+                    )
+                  ],
+                ),
+              ],
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: MyColors.bgColorScreen,
