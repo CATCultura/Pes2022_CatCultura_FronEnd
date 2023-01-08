@@ -25,7 +25,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/notifications/notificationService.dart';
 
 //imports per google calendar
-import 'package:CatCultura/googleCalendar/googleCalendarService.dart' as googleCService;
+//import 'package:CatCultura/googleCalendar/googleCalendarService.dart' as googleCService;
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';
