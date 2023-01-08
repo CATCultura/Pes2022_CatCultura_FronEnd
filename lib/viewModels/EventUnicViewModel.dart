@@ -1,3 +1,5 @@
+import 'dart:ffi';
+//import 'dart:html';
 import 'dart:io';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
@@ -12,6 +14,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+
+
 
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
@@ -28,6 +33,9 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<EventResult> event = ApiResponse.loading();
   bool favorit = false, agenda = false;
 
+  late PermissionStatus camera;
+  bool cameraActivated = false;
+
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<List<EventResult>> favouritesList = ApiResponse.loading();
   ApiResponse<List<EventResult>> attendanceList = ApiResponse.loading();
@@ -36,7 +44,9 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<List<ReviewResult>> reviews = ApiResponse.loading();
 
   final sessio = Session();
-
+  var isUser = false;
+  var isAdmin = false;
+  var isOrganizer = false;
 
   bool waiting = true;
 
@@ -49,6 +59,14 @@ class EventUnicViewModel with ChangeNotifier {
   String passwordSessio() {
     if(sessio.get("password") == null) return "2";
     return sessio.get("password");
+  }
+
+  void ini(){
+    if(sessio.data.id != -1){
+      isUser = true;
+      if(sessio.data.role == "ADMIN") isAdmin = true;
+      if(sessio.data.role == "ORGANIZER") isOrganizer = true;
+    }
   }
 
   setEventSelected(ApiResponse<EventResult> response){
@@ -297,5 +315,43 @@ class EventUnicViewModel with ChangeNotifier {
     }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
+  }
+
+  Future<void> putCancelledEventById(String? eventId) async {
+    await _eventsRepo.cancelledEventById(eventId); /** .then((value) {
+        setEventSelected(ApiResponse.completed(value));
+        }).onError((error, stackTrace) =>
+        setEventSelected(ApiResponse.error(error.toString()))); **/
+    waiting = false;
+  }
+
+  bool wrongCode = false;
+
+  confirmAttendance(String text, String? eventId) async {
+  debugPrint("here");
+    await _eventsRepo.confirmAttendance(text,Session().data.id,eventId!).then((value) {
+      if (value == "Bad code") {
+        wrongCode = true;
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) => null);
+
+  }
+
+  setWrongCode(bool code) {
+    wrongCode=code;
+    notifyListeners();
+  }
+
+  requestPermission() async {
+    if (await Permission.camera.isGranted) {
+      cameraActivated=true;
+      notifyListeners();
+    }
+
+  }
+
+  setPermission(bool p) {
+    notifyListeners();
   }
 }

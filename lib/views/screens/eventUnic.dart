@@ -1,8 +1,11 @@
 //import 'dart:html';
 import 'dart:io';
 import 'dart:math';
+import 'package:CatCultura/views/screens/qrScanning.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import 'package:CatCultura/views/screens/singleEventMap.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +36,7 @@ import 'dart:math' as math;
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/ReviewResult.dart';
+import '../../utils/Session.dart';
 import '../widgets/cards/organizerCard.dart';
 
 const backgroundcolor = Color(0xffFBFBFB);
@@ -70,8 +74,8 @@ class _EventUnicState extends State<EventUnic> {
 
   @override
   void initState() {
+    viewModel.ini();
     viewModel.selectEventById(eventId);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -116,6 +120,7 @@ class _EventUnicState extends State<EventUnic> {
             //     ),
             //   ],
             // ),
+
             body: CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
@@ -459,88 +464,280 @@ class _BodyState extends State<Body> {
     );
   }
 
+  Widget nothing() {
+    return const SizedBox(width: 0, height: 0);
+  }
+
+  Widget showWrongCodeDialog() {
+    return AlertDialog(
+      actions: [
+        ElevatedButton(onPressed: () =>
+        {viewModel.setWrongCode(false)}, child: Text("OK")),
+      ],
+        title: Text ("Wrong coce modo"),
+    );
+  }
+
+  Widget showWrongCodeSnackBar() {
+    return const SnackBar(content: Text("Wrong Code"));
+  }
+
+  Future<void> _navigateAndCaptureQR(
+      BuildContext context) async {
+    setState(() {
+      viewModel.wrongCode = false;
+    });
+    Navigator.pop(context);
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute<QrCodeArgs>(
+          builder: (context) => QRScanning(event.id!)),
+    );
+    viewModel.confirmAttendance(result!.code, event.id!);
+
+
+
+    //viewModel.paintRoute();
+    // setState(() {
+    //
+    // });
+  }
+
+
+
+  Widget showAttendanceDialog(bool attended) {
+    if (!attended) {
+      TextEditingController controller = TextEditingController();
+      return AlertDialog(
+        actions: [
+          ElevatedButton(
+              onPressed: () => Navigator.pop(context), child: Text("Sortir")),
+          ElevatedButton(onPressed: () =>
+          {
+            viewModel.confirmAttendance(controller.text, event.id),
+
+          }, child: Text("Enviar")),
+          ElevatedButton(onPressed: () =>
+          {
+            _navigateAndCaptureQR(context),
+          }, child: Text("QR")),
+        ],
+        title: Text("Info ubicacio"),
+        content: SizedBox(
+          height: MediaQuery
+              .of(context)
+              .size
+              .height / 6,
+          child: Column(
+            children: [
+              Text(
+                  "Introdueix mogudes"),
+              TextFormField(
+                controller: controller,
+
+              )
+            ],
+          ),
+        ),
+      );
+    }
+      else {
+      return AlertDialog(
+        actions: [
+          ElevatedButton(
+              onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context)!.okButton)),
+        ],
+        title: Text("Ja n'has confirmat l'assistència"),
+      );
+
+    }
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
+    // if (viewModel.wrongCode) {
+    //   showDialog(context: context, builder: (BuildContext context)
+    //   {
+    //     return showWrongCodeDialog();
+    //   });
+    //
+    // }
     return Container(
         padding: const EdgeInsets.only(top: 10),
         color: backgroundcolor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children:  [
-            /*
-            void treatCallback(String value){
-              if(value== "addAttendance") {viewModel.putAttendanceById(loggedUserId, eventId);}
-              else if(value == "deleteAttendance") viewModel.deleteAttendanceById(loggedUserId, eventId);
-              else if(value == "addFavourite"){ viewModel.putFavouriteById(loggedUserId, eventId);
-              }
-              else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
-            }
-             */
-            IconButton(
-              iconSize: 40,
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.popAndPushNamed(
-                    context, '/opcions-Esdeveniment',
-                    arguments: EventArgs(viewModel.eventSelected.data!));
-                },
+          if (viewModel.wrongCode) Card(
+            color: Colors.white38,
+            elevation: 5.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Wrong code", style: TextStyle(color: Colors.red),),
+                TextButton(onPressed: () => viewModel.setWrongCode(false), child: Text("ok"))],
             ),
-
-            IconButton(
-              // padding: const EdgeInsets.only(bottom: 5.0),
-              iconSize: 40,
-              icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
-              onPressed: () {
-                if(viewModel.agenda == true) {
-                  viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
-                  //widget.callback!("deleteAttendance");
-                  NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
-                }
-                else {
-                  _selectedDate(context);
-                  viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
-                  // widget.callback!("addAttendance");
-                  }
-              },
-            ),
-            IconButton(
-              iconSize: 40,
-              icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
-              onPressed: () {
-                googleCService.googleCalendarService().obtainCredentials();
-                //viewModel.addEventToGoogleCalendar(_scopes, viewModel.eventSelected.data!.denominacio, viewModel.eventSelected.data!.dataInici);
-                },
-            ),
-            IconButton(
-              iconSize: 40,
-              icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
-              onPressed: () async {
-                final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
-                final titol = event.denominacio;
-                viewModel.shareEvent(imgUrl, titol);
-                },
-            ),
-            IconButton(
-              // padding: const EdgeInsets.only(bottom: 5.0),
-              iconSize: 40,
-              icon: Icon((viewModel.favorit == false) ? Icons.star_border_outlined : Icons.star,color: Color(0xF4C20606)),
-              onPressed: (){
-                if(viewModel.favorit == true){
-                  viewModel.deleteFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
-                  // widget.callback!("deleteFavourite");
-                }
-                else{
-                  viewModel.putFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
-                  // widget.callback!("addFavourite");
-                }
-              },
-            ),
-          ],
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6.0, 5.0, 6.0, 12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children:  [
+              /*
+              void treatCallback(String value){
+                if(value== "addAttendance") {viewModel.putAttendanceById(loggedUserId, eventId);}
+                else if(value == "deleteAttendance") viewModel.deleteAttendanceById(loggedUserId, eventId);
+                else if(value == "addFavourite"){ viewModel.putFavouriteById(loggedUserId, eventId);
+                }
+                else if(value == "deleteFavourite") viewModel.deleteFavouriteById(loggedUserId, eventId);
+              }
+               */
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      if (Session().data.role == "ADMIN") Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            iconSize: 40,
+                            icon: Icon(Icons.qr_code), color: Color(0xF4C20606),
+                            onPressed: () {
+                              showDialog(context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext) {
+                                return AlertDialog(
+                                content: QrImage(
+                                  data: "1234567890",
+                                  version: QrVersions.auto,
+                                  size: 200.0,
+                                ),
+                                );
+                              }
+                              );
+                            },
+                          ),
+                          Text("GenerarQR", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                        ],
+                      ),
+                      !viewModel.isOrganizer ? IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.settings),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(
+                              context, '/opcions-Esdeveniment',
+                              arguments: EventArgs(viewModel.eventSelected.data!));
+                          },
+                      ) : nothing(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            iconSize: 40,
+                            icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
+                            onPressed: () {
+                              // viewModel.addEventToGoogleCalendar(_scopes);
+                            },
+                          ),
+                          Text("Calendari", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          IconButton(
+                            iconSize: 40,
+                            icon: Icon(Icons.share_rounded), color: Color(0xF4C20606),
+                            onPressed: () async {
+                              final imgUrl = "https://agenda.cultura.gencat.cat/"+event.imatges![0];
+                              final titol = event.denominacio;
+                              viewModel.shareEvent(imgUrl, titol);
+                            },
+                          ),
+                          Text("Share", style: TextStyle(fontSize: 12, color: Color(0xF4C20606)),),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              viewModel.isUser ? Row(
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        // padding: const EdgeInsets.only(bottom: 5.0),
+                        iconSize: 40,
+                        icon: Icon(Session().data.attendedId!.contains(int.parse(event.id!))
+                            ? Icons.confirmation_number
+                            : Icons.confirmation_num_outlined, color: Color(0xF4C20606)),
+                        onPressed: () {
+                          showDialog(context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext) {
+                              return showAttendanceDialog(Session().data.attendedId!.contains(int.parse(event.id!)));
+                            }
+                        );
+                        },
+                      ),
+                      Text("Conf. ass.", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      IconButton(
+                        // padding: const EdgeInsets.only(bottom: 5.0),
+                        iconSize: 40,
+                        icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
+                        onPressed: (){
+                          if(viewModel.agenda == true) {
+                            viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
+                            //widget.callback!("deleteAttendance");
+                            NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
+                          }
+                          else {
+                            _selectedDate(context);
+                            viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
+                          }
+                        },
+                      ),
+                      Text("Agendar", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      IconButton(
+                        // padding: const EdgeInsets.only(bottom: 5.0),
+                        iconSize: 40,
+                        icon: Icon((viewModel.favorit == false) ? Icons.star_border_outlined : Icons.star,color: Color(0xF4C20606)),
+                        onPressed: (){
+                          if(viewModel.favorit == true){
+                            viewModel.deleteFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
+                            // widget.callback!("deleteFavourite");
+                          }
+                          else{
+                            viewModel.putFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
+                            // widget.callback!("addFavourite");
+                          }
+                        },
+                      ),
+                      Text("Favorit", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                    ],
+                  ),
+                ],
+              ) : nothing(),
+
+            ],
+            ),
+          ),
+            Padding(
+              padding: const EdgeInsets.only(left:22.0, right: 22.0),
+              child: Divider(thickness: 2,),
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -577,7 +774,9 @@ class _BodyState extends State<Body> {
                               return AlertDialog(
                                 actions: [
                                   ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
-                                  ElevatedButton(onPressed: () => {}, child: Text("Veure al mapa"))
+                                  ElevatedButton(onPressed: () => {
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SingleEventMap(event: event)))
+                                  }, child: Text("Veure al mapa"))
                                 ],
                                 title: Text("Info ubicacio"),
                                 content: Text(
@@ -588,7 +787,7 @@ class _BodyState extends State<Body> {
                             }
                         ),
                   ),
-                  _CustomIcon(
+                  if (Session().data.id != -1) _CustomIcon(
                     icon: Icons.chat_bubble,
                     text: "Xat",
                     onTap: () => {
@@ -613,7 +812,7 @@ class _BodyState extends State<Body> {
                                   {
                                     if (event.idOrganitzador != null)
                                       {
-                                              Navigator.pushNamed(
+                                              Navigator.popAndPushNamed(
                                                       context, "/organizer",
                                                       arguments: OrganizerArgs(
                                                           event.idOrganitzador!, event.nomOrganitzador!))
@@ -643,6 +842,48 @@ class _BodyState extends State<Body> {
               child: SingleChildScrollView(child:Text(descripcio, textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),),
             ),
             Padding(
+              padding: EdgeInsets.only(left: 15.0),
+              child: Text("Etiquetes", textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height/12,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: event.getTags().length,
+                    itemBuilder: (BuildContext context, int i) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Card(
+                          shape: StadiumBorder(),
+                          child: Card(
+                            elevation: 0.0,
+                            borderOnForeground: false,
+                            child: GestureDetector(
+                              onTap: () => {
+                                Navigator.pushNamed(context, '/tagEvents', arguments: TagArgs(event.getTags()[i]))
+                              },
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(event.getTags()[i],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 15, ),
+                                    )
+                                  ]
+                              )
+                            ),
+                          ),
+                        )
+                      );
+                    }
+                ),
+              ),
+            ),
+            Padding(
               padding: EdgeInsets.only(left: 15.0, bottom: 10, right: 15.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -661,7 +902,39 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            viewModel.reviews.status == Status.LOADING?
+            !viewModel.isUser ?
+                GestureDetector(
+                  child: SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom:8.0),
+                        child: Center(
+                          child: Material(
+                            elevation: 20,
+                            shadowColor: Colors.black.withAlpha(70),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                            child: SizedBox(
+                              height: 300,
+                              width: MediaQuery.of(context).size.width*0.8,
+                              child: Center(child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Encara no has inciat sessió", style:
+                                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
+                                  Text("CLIC AQUÍ", style:
+                                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
+                                ],
+                              )),
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
+                  onTap: () => {
+                    Navigator.pushNamed(context, "/login")
+                  },
+                )
+            : viewModel.reviews.status == Status.LOADING?
             const SizedBox(
               child: Center(
                   child: CircularProgressIndicator()),

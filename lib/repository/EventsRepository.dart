@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 
+import '../models/EventResult.dart';
 import '../utils/Session.dart';
 
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
@@ -187,10 +188,12 @@ class EventsRepository {
     }
   }
 
-  Future<EventResult> postCreaEvent(EventResult data) async {
+  Future<List<EventResult>> postCreaEvent(EventResult data) async {
     try {
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
-      return response;
+      debugPrint(data.toJson().toString());
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data.toJson());
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
     } catch (e) {
       rethrow;
     }
@@ -206,10 +209,21 @@ class EventsRepository {
     }
   }
 
-  Future<String> addEventById(EventResult data) async {
+  Future<EventResult> addEventById(EventResult data) async {
     try{
       dynamic response = await _apiServices.getPutEventApiResponse("${baseUrl}events", data);
-      String res = response;
+      EventResult res = response;
+      return res;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<EventResult> cancelledEventById(String? eventId) async {
+    try{
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}events/$eventId/cancelled", "");
+      EventResult res = response;
       return res;
     }
     catch(e){
@@ -222,6 +236,7 @@ class EventsRepository {
 
     try {
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
+      debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data");
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.3723235&lon=2.1398554&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
       //debugPrint(response.toString());
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
@@ -286,6 +301,16 @@ class EventsRepository {
     }
   }
 
+  /*
+  * Future<List<EventResult>> getEventsWithTagFilter(String filter) async {
+    try {
+      dynamic response = _apiServices.getGetApiResponse("${baseUrl}events?tag=$filter");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }*/
   Future<List<EventResult>> getEventsByTag(String s) async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(
@@ -416,4 +441,47 @@ class EventsRepository {
         rethrow;
       }
   }
+
+  Future<List<ReviewResult>> getReviewsReports() async{
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}reviews/reported");
+      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+      debugPrint("res desde eventRepo getReports(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> blockReview(String reviewId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}reviews/$reviewId/block", "");
+      debugPrint("response desde eventRepo blockReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> unblockReview(String reviewId, String userId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId/reports", "");
+      debugPrint("response desde eventRepo unblockReview(): ${response.toString()}");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<EventResult>> getEventsNearMe(double longitude, double latitude) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/closeToMe?lat=$latitude&lon=$longitude");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      debugPrint("res desde eventRepo getEventsNearMe(): ${res.toString()}");
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

@@ -4,17 +4,32 @@ import 'dart:math';
 import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import '../models/Place.dart';
+import '../utils/Session.dart';
 
 class EventsViewModel with ChangeNotifier{
   final _eventsRepo = EventsRepository();
+  final Session session = Session();
 
   ApiResponse<List<EventResult>> eventsList = ApiResponse.loading();
   ApiResponse<EventResult> events = ApiResponse.loading();
   ApiResponse<List<Place>> eventsListMap = ApiResponse.loading();//= ApiResponse.completed([
   ApiResponse<List<EventResult>> eventsSimilars = ApiResponse.loading();
   ApiResponse<List<EventResult>> eventsNoSimilars = ApiResponse.loading();
+  ApiResponse<List<String>> tags = ApiResponse.loading();
+  late List<String> tagsUsuari;
+
+  late CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
+  late Position realPosition;
+  late bool located = false;
+  late bool locatedButton = false;
+  late String message = "";
+
 
   void mantaintEventsListToMap(){
     List<Place> aux = [];
@@ -37,14 +52,16 @@ class EventsViewModel with ChangeNotifier{
  void refresh(){
    eventsList.status = Status.LOADING;
    eventsSimilars.status = Status.LOADING;
-    eventsNoSimilars.status = Status.LOADING;
+   eventsNoSimilars.status = Status.LOADING;
    loadedPages = {};
+   userUsedFilter = false;
+   located = false;
    notifyListeners();
  }
 
   setEventsList(ApiResponse<List<EventResult>> response){
     eventsList = response;
-    if(response.status == Status.COMPLETED)mantaintEventsListToMap();
+    if(response.status == Status.COMPLETED) mantaintEventsListToMap();
     loadedPages.add(0);
     notifyListeners();
   }
@@ -63,6 +80,18 @@ class EventsViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  setTags(ApiResponse<List<String>> response){
+    tags = response;
+    tags.data!.sort();
+    if(session.data.id != -1){
+      tagsUsuari = session.data.tags!;
+    }
+    else {
+      tagsUsuari = [];
+    }
+    //notifyListeners();
+  }
+
   void addToEventsList(ApiResponse<List<EventResult>> apiResponse) {
     if(apiResponse.status == Status.COMPLETED && eventsList.status == Status.COMPLETED){
       chargingNextPage = false;
@@ -77,6 +106,7 @@ class EventsViewModel with ChangeNotifier{
 
 
   Future<void> fetchEvents() async {
+    fetchTagsListApi();
    if(loadedPages.isEmpty) {
      loadedPages.add(0);
      await _eventsRepo.getEvents().then((value) {
@@ -96,10 +126,21 @@ class EventsViewModel with ChangeNotifier{
    }
   }
 
+  Future<void> fetchTagsListApi() async {
+    await _eventsRepo.getTags().then((value) {
+      setTags(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setTags(ApiResponse.error(error.toString())));
+  }
+
   Future<void> redrawWithFilter(String filter) async{
     await _eventsRepo.getEventsWithFilter2(filter).then((value) {
       debugPrint("---------------LISTS WITH FILTER---------------------");
-      debugPrint(value[0].toString());
+      value[0].forEach((element) {debugPrint(element.denominacio!);});
+      debugPrint("-------------------------------------");
+
+      value[1].forEach((element) {debugPrint(element.denominacio!);});
+      message = filter;
       setEventsList(ApiResponse.completed(value[0]+value[1]));
       setEventsSimilars(ApiResponse.completed(value[0]));
       setEventsNoSimilars(ApiResponse.completed(value[1]));
@@ -139,10 +180,47 @@ class EventsViewModel with ChangeNotifier{
 
   Future<void> crearEvent(EventResult e) async {
     await _eventsRepo.postCreaEvent(e).then((value) {
-      setEvents(ApiResponse.completed(value));
+      setEventsList(ApiResponse.completed([value]));
     }); /**.onError((error, stackTrace) =>
         setEvents(ApiResponse.error(error.toString()))); **/
     waiting = false;
     notifyListeners();
     }
+
+  Future<void> getEventsNearMe() async {
+    await _eventsRepo.getEventsNearMe(realPosition.longitude, realPosition.latitude).then((value) {
+      setEventsList(ApiResponse.completed(value));
+    }).onError((error, stackTrace){
+        debugPrintStack(label: "Error en getEventsNearMe", stackTrace: stackTrace);
+        setEventsList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  Future<void> redrawWithTagFilter(String filter) async {
+    await _eventsRepo.getEventsByTag(filter).then((value) {
+      setEventsList(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setEventsList(ApiResponse.error(error.toString())));
+    debugPrint("EvViewModel, accesed from tag filter redraw");
+  }
+
+  void orderByAlphabetUp() {
+    eventsList.data!.sort((a, b) => a.denominacio!.compareTo(b.denominacio!));
+    notifyListeners();
+  }
+
+  void orderByAlphabetDown() {
+    eventsList.data!.sort((a, b) => b.denominacio!.compareTo(a.denominacio!));
+    notifyListeners();
+  }
+
+  void orderByDateUp() {
+    eventsList.data!.sort((a, b) => a.dataFi!.compareTo(b.dataFi!));
+    notifyListeners();
+  }
+
+  void orderByDateDown() {
+    eventsList.data!.sort((a, b) => b.dataFi!.compareTo(a.dataFi!));
+    notifyListeners();
+  }
 }

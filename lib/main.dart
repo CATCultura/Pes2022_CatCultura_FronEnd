@@ -24,9 +24,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 //import 'utils/routes/routes.dart';
+late PermissionStatus cameraStatus;
 
 void setPermissions() async{
   final locStatus = await Permission.location.request();
+  cameraStatus = await Permission.camera.request();
   final notStatus = await Permission.notification.request();
 }
 
@@ -87,7 +89,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     // was a weidget that will be disposed of (ex. a navigation route change).
     if (!_initialUriIsHandled) {
       _initialUriIsHandled = true;
-      _showSnackBar('_handleInitialUri called');
       try {
         final uri = await getInitialUri();
         if (uri == null) {
@@ -130,6 +131,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
       debugPrint("queryParams"+queryParams.toString());
       $Params = queryParams[0].value.first;
     }
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown
@@ -157,15 +159,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
           onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
-  }
-  void _showSnackBar(String msg) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (context != null) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(msg),
-        ));
-      }
-    });
   }
 }
 

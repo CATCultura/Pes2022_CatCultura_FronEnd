@@ -51,7 +51,11 @@ class ChatRepository {
 
   void subscribe(String eventId, ChatViewModel viewModel) {
     observers[eventId]=viewModel;
+  }
 
+  ChatViewModel? getSubscriber(String eventId) {
+    if (observers.containsKey(eventId)) return observers[eventId];
+    return null;
   }
 
   void unsubscribe(String eventId, ChatViewModel viewModel) {
@@ -62,21 +66,21 @@ class ChatRepository {
   }
 
   void returnMessage(StompFrame frame) {
-    final codeUnits = frame.body?.codeUnits;
-    String text = const Utf8Decoder().convert(codeUnits!);
-    dynamic res = jsonDecode(text);
+    // final codeUnits = frame.body?.codeUnits;
+    // String text = const Utf8Decoder().convert(codeUnits!);
+    dynamic res = jsonDecode(frame.body!);
     ChatMessage message = ChatMessage.fromJson(res);
+    debugPrint("Received message ${message.content}");
     notifyObservers(message.eventId.toString(), message);
     //mostrar notificació
   }
 
   void subscribeToEvent(String eventId) {
     if (client.connected) {
-      if (remoteSubscriptions.containsKey(eventId)) {
-        remoteSubscriptions[eventId]();
-      }
+      debugPrint("Connected and subscribing to event $eventId");
       remoteSubscriptions[eventId] = client.subscribe(destination: '/topic/messages/$eventId', callback: returnMessage);
     }
+    debugPrint("not connected");
   }
 
   void notifyObservers(String string, ChatMessage message) {

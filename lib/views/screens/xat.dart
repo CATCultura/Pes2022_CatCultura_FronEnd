@@ -1,5 +1,6 @@
 //import 'dart:html';
 
+import 'package:CatCultura/repository/ChatRepository.dart';
 import 'package:CatCultura/views/widgets/errorWidget.dart';
 import  'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +29,7 @@ class Xat extends StatefulWidget {
 
 class _xatState extends State<Xat> {
   late String eventId = widget.eventId;
-  late ChatViewModel viewModel = ChatViewModel(eventId);
+  late ChatViewModel viewModel;
 
 
 
@@ -38,6 +39,7 @@ class _xatState extends State<Xat> {
   @override
   void initState() {
     super.initState();
+    viewModel = ChatRepository().getSubscriber(eventId) ?? ChatViewModel(eventId);
     viewModel.fetchMessages();
   }
 
@@ -49,7 +51,10 @@ class _xatState extends State<Xat> {
 
   @override
   Widget build(BuildContext context) {
-
+    print(eventId);
+    print("L'usuari te de id: ");
+    print(Session().data.id.toString());
+    print("Esta agafant l'id: ");
     return ChangeNotifierProvider<ChatViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<ChatViewModel>(builder: (context, value, _) {
@@ -78,10 +83,11 @@ class _xatState extends State<Xat> {
                       itemBuilder:
                           (BuildContext context,
                           int i) {
+                            print(viewModel.eventChatMessages.data![i].userId);
                         return Wrap(
                           crossAxisAlignment: viewModel.eventChatMessages.data![i].userId == Session().data.id.toString()
                             ? WrapCrossAlignment.end
-                          : WrapCrossAlignment.start,
+                            : WrapCrossAlignment.start,
                           alignment: viewModel.eventChatMessages.data![i].userId == Session().data.id.toString()
                               ? WrapAlignment.end
                               : WrapAlignment.start,
@@ -99,11 +105,24 @@ class _xatState extends State<Xat> {
                                         ? CrossAxisAlignment.end
                                         : CrossAxisAlignment.start,
                                     children: [
-                                      Text(viewModel.eventChatMessages.data![i].username),
-                                      Text(viewModel.eventChatMessages.data![i].content),
+                                      Text(
+                                        viewModel.eventChatMessages.data![i].username,
+                                        style: const TextStyle(
+                                            fontSize: 10
+                                        ),
+                                      ),
+                                      Text(
+                                        viewModel.eventChatMessages.data![i].content,
+                                        style: const TextStyle(
+                                            fontSize: 16
+                                        ),
+                                      ),
                                       Text(
                                         viewModel.eventChatMessages.data![i].timeSent,
-                                        style: Theme.of(context).textTheme.caption,
+                                        //style: Theme.of(context).textTheme.caption,
+                                        style: const TextStyle(
+                                            fontSize: 10
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -143,102 +162,5 @@ class _xatState extends State<Xat> {
         },
         )
     );
-
-    // return ChangeNotifierProvider<ChatViewModel>(
-    //   create: (BuildContext context) => viewModel,
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       title: const Text("Xat"),
-    //       backgroundColor: MyColorsPalette.orange,
-    //     ),
-    //     drawer: MyDrawer("Xat", Session(), username: "Superjuane",
-    //         email: "juaneolivan@gmail.com"),
-    //     body:
-    //     viewModel.eventChatMessages.status ==
-    //         Status.LOADING
-    //         ? const SizedBox(
-    //       child: Center(
-    //           child: CircularProgressIndicator()),
-    //     )
-    //         : viewModel.eventChatMessages.status == Status.ERROR
-    //         ? Text(viewModel.eventChatMessages.toString())
-    //         : viewModel.eventChatMessages.status ==
-    //         Status.COMPLETED ? Column(
-    //       children: [
-    //         Expanded(
-    //           child: Consumer<ChatViewModel>(
-    //             builder: (_, provider, __) => ListView.builder(
-    //               padding: const EdgeInsets.all(16),
-    //                 itemCount: viewModel
-    //                     .eventChatMessages
-    //                     .data!
-    //                     .length,
-    //
-    //               itemBuilder: (context, index) {
-    //                 return  Wrap(
-    //                   children: [
-    //                     Card(
-    //                       // color: message.senderUsername == "admin"
-    //                       //     ? Theme.of(context).primaryColorLight
-    //                       //     : Colors.white,
-    //                       child: Padding(
-    //                         padding: const EdgeInsets.all(8.0),
-    //                         child: Column(
-    //                           mainAxisSize: MainAxisSize.min,
-    //                           // crossAxisAlignment:
-    //                           //   message.senderUsername == "admin"
-    //                           //     ? CrossAxisAlignment.end
-    //                           //     : CrossAxisAlignment.start,
-    //                           children: [
-    //                             Text(viewModel.eventChatMessages.data![index].content),
-    //                             Text(
-    //                               viewModel.eventChatMessages.data![index].timeSent,
-    //                               style: Theme.of(context).textTheme.caption,
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       ),
-    //                     )
-    //                   ],
-    //                 );
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //         Container(
-    //           decoration: BoxDecoration(
-    //             color: Colors.grey.shade200,
-    //           ),
-    //           padding: const EdgeInsets.symmetric(
-    //             horizontal: 16,
-    //           ),
-    //           child: SafeArea(
-    //             child: Row(
-    //               children: [
-    //                 Expanded(
-    //                   child: TextField(
-    //                     controller: _messageInputController,
-    //                     decoration: const InputDecoration(
-    //                       hintText: 'Escriu el missatge aqui',
-    //                       border: InputBorder.none,
-    //                     ),
-    //                   ),
-    //                 ),
-    //                 IconButton(
-    //                   onPressed: () {
-    //                     if (_messageInputController.text.trim().isNotEmpty) {
-    //                       _sendMessage();
-    //                     }
-    //                   },
-    //                   icon: const Icon(Icons.send),
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         )
-    //       ],
-    //     ) : const CustomErrorWidget(),
-    //   ),
-    // );
   }
 }

@@ -17,9 +17,9 @@ class EventResult {
   String? entrades = "";
   String? horari = "";
   String? subtitol = "";
-  List<String>? tagsAmbits;
-  List<String>? tagsCateg;
-  List<String>? tagsAltresCateg;
+  List<String>? tagsAmbits = [];
+  List<String>? tagsCateg = [];
+  List<String>? tagsAltresCateg = [];
   String? links = "";
   String? documents = "";
   List<String>? imatges = [];
@@ -37,12 +37,12 @@ class EventResult {
   String? ubicacio = "ubicacio: no info";
   String? imgApp = "";
   bool? cancelado = false;
+  bool? outdated = false;
   String? nomOrganitzador;
   int? idOrganitzador;
   String? urlOrganitzador;
   String? telefonOrganitzador;
   String? emailOrganitzador;
-
 
 
   EventResult({
@@ -96,7 +96,7 @@ class EventResult {
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
     if(jsonResponse['descripcio'] != null && jsonResponse['descripcio'] != "") {
-      descripcio = formatText(jsonResponse['descripcio']);
+      descripcio = formatText(jsonResponse['descripcio']).split("NOTA DE L'AGENDA")[0];
     } else {
       descripcio = "No descripcio";
     }
@@ -139,12 +139,12 @@ class EventResult {
     adreca = jsonResponse['adreca'];
     //if(jsonResponse['espai'] == null || jsonResponse['espai'] == "") espai = "espai";
     cancelado = jsonResponse['cancelado'];
+    outdated = jsonResponse['outdated'];
     nomOrganitzador = jsonResponse['nomOrganitzador'] ?? "Organitzador anònim";
     idOrganitzador = jsonResponse['idOrganitzador'] ?? -1;
     urlOrganitzador = jsonResponse['urlOrganitzador'] ?? "";
     telefonOrganitzador = jsonResponse['telefonOrganitzador'] ?? "";
     emailOrganitzador = jsonResponse['emailOrganitzador'] ?? "";
-
 
   }
 
@@ -152,13 +152,21 @@ class EventResult {
     final List<Map<String, dynamic>> result = [
       {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
       'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
-        'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
-        'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
-        'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
-        'videos': videos, 'codiPostal': codiPostal, 'email': email, 'telf': telf, 'URL': URL, 'imgApp': imgApp,
-        'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges }
+      'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
+      'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
+      'videos': videos, 'codiPostal': codiPostal, 'email': email, 'telf': telf, 'URL': URL, 'imgApp': imgApp,
+        'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges,
+      }
     ];
     return result;
+  }
+
+  List<String> getTags() {
+    List<String> res = [];
+    res.addAll(tagsAmbits ?? []);
+    res.addAll(tagsCateg ?? []);
+    res.addAll(tagsAltresCateg ?? []);
+    return res;
   }
 }
 
@@ -166,10 +174,12 @@ String formatText(String s) {
   String aux = s.replaceAll ("&nbsp;", " ");
   aux = aux.replaceAll ("nbsp;", "");
   aux = aux.replaceAll ("&amp;", "&");
-  aux = aux.replaceAll ("amp;", "&");
+  aux = aux.replaceAll ("amp;", "");
 
   return aux;
 }
+
+
 
 
 String? comarcaIMunicipiAdapt(String s) {
