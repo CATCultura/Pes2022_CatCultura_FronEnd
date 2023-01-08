@@ -37,7 +37,7 @@ class _QRScanningState extends State<QRScanning> {
   late EventUnicViewModel viewModel = widget.viewModel;
   late String eventId = widget.eventId;
   Barcode? result;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  final GlobalKey qrKey = GlobalKey();
   QRViewController? controller;
 
   @override
@@ -70,7 +70,7 @@ class _QRScanningState extends State<QRScanning> {
                 child: Flex(
                     direction: Axis.horizontal,
                     children: [
-                      Text("Escaneja el QR")
+                      Text(AppLocalizations.of(context)!.scanQRCodeScreenTitle)
                     ]
                 ),
               )
@@ -84,7 +84,7 @@ class _QRScanningState extends State<QRScanning> {
                     child: _buildQrView(context)) : Column(
                       children: [
                         CustomErrorWidget(),
-                        Text("ACTIVA LA PUTA CÀMERA"),
+                        Text(AppLocalizations.of(context)!.cameraNotAllowedWarning),
                       ],
                     ),
                 //UNKNOWN TERRAIN
@@ -98,18 +98,17 @@ class _QRScanningState extends State<QRScanning> {
                         if (result != null)
                           Row(
                             children: [
-                              Text("Capturat. Codi ${result!.code!}"),
                               ElevatedButton(onPressed: () => {
                                               Navigator.pop(context,
                                               QrCodeArgs(result!.code!)
                                               )
-                                            }, child: Text("Confirmar"))
+                                            }, child: Text(AppLocalizations.of(context)!.sendAttendanceCodeButton))
                             ],
                           )
                           // Text(
                           //   'Barcode Type: ${result!.format}   Data: ${result!.code}')
                         else
-                          const Text('Scan a code'),
+                          Text(AppLocalizations.of(context)!.scanCodePrompt),
                           
               ],
             )
