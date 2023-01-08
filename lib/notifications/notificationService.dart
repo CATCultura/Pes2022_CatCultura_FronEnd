@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart';
 import 'package:timezone/data/latest.dart';
@@ -32,7 +33,42 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotifications(String? notiId, int segons, String title, String body,) async {
+  Future<void> showNotifications(String? notiId, String title, String body,) async {
+    initializeTimeZones();
+    var timeZone = getLocation('Europe/Madrid');
+    setLocalLocation(timeZone);
+    if(notiId != null) {
+      scheduledNotifications.add(notiId);
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          int.parse(notiId), title, body,
+          TZDateTime.now(local).add(Duration(seconds: 1)),
+          const NotificationDetails(
+              android: AndroidNotificationDetails('main_channel',
+                  'Main Channel',
+                  channelDescription: 'Main Channel Notificaions',
+                  importance: Importance.max,
+                  priority: Priority.max,
+                  icon: '@mipmap/ic_launcher'),
+              iOS: IOSNotificationDetails(sound: 'default.wav',
+                  presentAlert: true,
+                  presentBadge: true,
+                  presentSound: true)
+          ),
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+              .absoluteTime,
+          androidAllowWhileIdle: true);
+    }
+  }
+
+  Future<void> showScheduledNotifications(String? notiId, String title, String body, DateTime selectedDate, TimeOfDay selectedTime) async {
+    DateTime newDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+    int segons= newDateTime.difference(DateTime.now()).inSeconds;
     initializeTimeZones();
     var timeZone = getLocation('Europe/Madrid');
     setLocalLocation(timeZone);

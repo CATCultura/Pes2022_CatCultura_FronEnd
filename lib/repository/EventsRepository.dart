@@ -143,10 +143,11 @@ class EventsRepository {
     }
   }
 
-  Future<String> addFavouriteByUserId(String id, int eventId) async {
+  Future<List<EventResult>> addFavouriteByUserId(String id, int eventId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/favourites/$eventId", "" );
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      //List<EventResult> resu = <EventResult>[];
       return res;
     }
     catch(e){
@@ -154,10 +155,10 @@ class EventsRepository {
     }
   }
 
-  Future<String> deleteFavouriteByUserId(String id, int eventId) async{
+  Future<List<EventResult>> deleteFavouriteByUserId(String id, int eventId) async{
     try{
       dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/favourites/$eventId", "");
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     }
     catch(e){
@@ -165,10 +166,10 @@ class EventsRepository {
     }
   }
 
-  Future<String> addAttendanceByUserId(String id, int eventId) async {
+  Future<List<EventResult>> addAttendanceByUserId(String id, int eventId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     }
     catch(e){
@@ -177,10 +178,10 @@ class EventsRepository {
 
   }
 
-  Future<String> deleteAttendanceByUserId(String id, int eventId) async{
+  Future<List<EventResult>> deleteAttendanceByUserId(String id, int eventId) async{
     try{
       dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     }
     catch(e){
@@ -452,13 +453,7 @@ class EventsRepository {
     try {
       //todo change this ugly backend route
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$userId/attended/$eventId?code=$code", "");
-      debugPrint("****************************");
-      debugPrint(response.toString());
-      debugPrint("****************************");
       session.data.attendedId = List<int>.from(response);
-      debugPrint("****************************");
-      debugPrint(session.data.attendedId.toString());
-      debugPrint("****************************");
       return response.toString();
     } on ConflictException {
       return "Bad code";

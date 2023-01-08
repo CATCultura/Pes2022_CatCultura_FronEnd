@@ -21,7 +21,6 @@ class EventInfoTabs extends StatefulWidget {
 class _EventInfoTabsState extends State<EventInfoTabs> {
   late EventResult? event =  widget.event;
   bool Favorit = false;
-  String loggedUserId = "5850";
   bool assistire = false;
 
   @override
@@ -59,7 +58,7 @@ class _EventInfoTabsState extends State<EventInfoTabs> {
               }
               else {
                   widget.callback!("addAttendance");
-                  NotificationService().showNotifications( event!.id, 8, "title", "body"); //widget.callback!("addAttendance");
+                  NotificationService().showNotifications( event!.id, "title", "body"); //widget.callback!("addAttendance");
               }
               setState(() {
                 assistire = !assistire;

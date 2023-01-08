@@ -29,6 +29,7 @@ late PermissionStatus cameraStatus;
 void setPermissions() async{
   final locStatus = await Permission.location.request();
   cameraStatus = await Permission.camera.request();
+  final notStatus = await Permission.notification.request();
 }
 
 bool _initialUriIsHandled = false;

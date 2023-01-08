@@ -463,6 +463,65 @@
                 "description": "Title for reported reviews"
             },
 
+    "scanQRCodeScreenTitle" : "Scan a QR code",
+    "@scanQRCodeScreenTitle": {
+        "description": "Text for scanning a qr code screen"
+    },
+
+    "cameraNotAllowedWarning" : "To scan a QR Code, allow camera access.",
+    "@cameraNotAllowedWarning": {
+        "description": "Hint allow camera permissions"
+        },
+
+    "sendAttendanceCodeButton" : "Send",
+    "@sendAttendanceCodeButton": {
+        "description": "Button for confirming attendance."
+        },
+
+    "scanCodePrompt" : "Scan an attendance code",
+    "@scanCodePrompt": {
+        "description": "Prompt for user to scan a qr code."
+        },
+
+    "exitButton" : "Exit",
+    "@exitButton": {
+        "description": "Button to exit dialog."
+    },
+
+    "scanQRCodeButton" : "Scan QR",
+    "@scanQRCodeButton": {
+        "description": "Button to go to scan qr screen."
+    },
+
+    "explanationForAttendanceCodeInput" : "Enter attendance code or scan an attendance QR code",
+    "@explanationForAttendanceCodeInput": {
+        "description": "Help text for user to input attendance code."
+        },
+
+    "enterCodeHintText" : "Enter an attendance code",
+    "@enterCodeHintText": {
+        "description": "Hint text for user to input attendance code."
+        },
+
+    "attendanceAlreadyConfirmed" : "You have already confirmed attendance",
+    "@attendanceAlreadyConfirmed": {
+        "description": "Hint text for user to input attendance code."
+        },
+
+    "confirmAttendanceDialogTitle": "Confirm attendance",
+    "@confirmAttendanceDialogTitle": {
+        "description": "Dialog title for confirming attendance."
+        },
+
+    "wrongAttendanceCode": "Wrong code",
+    "@wrongAttendanceCode": {
+        "description": "Wrong attendance code."
+        },
+
+    "confirmAttendanceMenuOption": "Confirm attendance",
+    "@confirmAttendanceMenuOption": {
+        "description": "Name for option to confirm attendance."
+        },
     "reportedUsersTitle" : "Reported users",
     "@reportedUsersTitle": {
                 "description": "Title for reported users"

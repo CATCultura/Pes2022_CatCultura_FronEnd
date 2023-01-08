@@ -155,5 +155,30 @@
 
     "notAchieved": "No Aconseguit",
 
-    "modify": "Modificar"
+    "modify": "Modificar",
+
+    "scanQRCodeButton" : "QR",
+
+    "scanQRCodeScreenTitle" : "Escaneja un QR",
+
+    "cameraNotAllowedWarning" : "Per escanejar un codi QR, permet l'accés a la càmera.",
+
+    "sendAttendanceCodeButton" : "Envia",
+
+    "scanCodePrompt" : "Escaneja un codi d'assistència",
+
+    "exitButton" : "Surt",
+
+    "explanationForAttendanceCodeInput" : "Introdueix el codi d'assistència o escaneja el QR corresponent.",
+
+    "enterCodeHintText" : "Introdueix un codi",
+
+    "attendanceAlreadyConfirmed" : "Ja has confirmat que hi has assistit.",
+
+    "confirmAttendanceDialogTitle": "Confirma l'assistència",
+
+    "wrongAttendanceCode": "Codi incorrecte",
+
+    "confirmAttendanceMenuOption": "Confirma l'assistència"
+
 }
