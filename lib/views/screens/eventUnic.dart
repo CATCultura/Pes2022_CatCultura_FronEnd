@@ -18,9 +18,14 @@ import 'package:CatCultura/views/widgets/events/reviewCard.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+
 //imports per notificacions
+import 'package:flutter/cupertino.dart';
+
 import 'package:CatCultura/notifications/notificationService.dart';
+
 //imports per google calendar
+import 'package:CatCultura/googleCalendar/googleCalendarService.dart' as googleCService;
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart' as GCalendar;
 //import 'package:googleapis_auth/googleapis_auth.dart';
@@ -408,6 +413,60 @@ class _BodyState extends State<Body> {
   late EventUnicViewModel viewModel = widget.viewModel;
   late String loggedUserId = widget.loggedUserId;
   final GlobalKey _globalKey = GlobalKey();
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  var _scopes = [GCalendar.CalendarApi.calendarScope];
+
+  Future<void> _selectedDate(BuildContext context) async{
+    DateTime currentTime = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2015,8),
+      lastDate: DateTime(2101),
+    );
+    if(picked != null && picked != selectedDate) setState(() {
+      selectedDate = picked;
+    });
+
+    final TimeOfDay? pickedTime = await showTimePicker(context: context, initialTime: selectedTime);
+    if(pickedTime != null && pickedTime != selectedTime) setState(() {
+      selectedTime = pickedTime;
+    });
+    DateTime newDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+    if(newDateTime.isBefore(currentTime)){
+      _showErrorDialog(context, "Date && time are not valid");
+    }
+
+    String titolEv = viewModel.eventSelected.data!.denominacio as String;
+    NotificationService().showScheduledNotifications( viewModel.eventSelected.data!.id, "CATCultura", titolEv, selectedDate, selectedTime); //widget.callback!("addAttendance");
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            CupertinoButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget nothing() {
     return const SizedBox(width: 0, height: 0);
@@ -679,9 +738,8 @@ class _BodyState extends State<Body> {
                             NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
                           }
                           else {
+                            _selectedDate(context);
                             viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
-                            // widget.callback!("addAttendance");
-                            NotificationService().showNotifications( viewModel.eventSelected.data!.id, 2, "title", "body"); //widget.callback!("addAttendance");
                           }
                         },
                       ),

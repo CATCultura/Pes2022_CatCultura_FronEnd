@@ -142,10 +142,11 @@ class EventsRepository {
     }
   }
 
-  Future<String> addFavouriteByUserId(String id, int eventId) async {
+  Future<List<EventResult>> addFavouriteByUserId(String id, int eventId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/favourites/$eventId", "" );
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      //List<EventResult> resu = <EventResult>[];
       return res;
     }
     catch(e){
@@ -153,10 +154,10 @@ class EventsRepository {
     }
   }
 
-  Future<String> deleteFavouriteByUserId(String id, int eventId) async{
+  Future<List<EventResult>> deleteFavouriteByUserId(String id, int eventId) async{
     try{
       dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/favourites/$eventId", "");
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     }
     catch(e){
@@ -164,10 +165,10 @@ class EventsRepository {
     }
   }
 
-  Future<String> addAttendanceByUserId(String id, int eventId) async {
+  Future<List<EventResult>> addAttendanceByUserId(String id, int eventId) async {
     try{
       dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     }
     catch(e){
@@ -176,10 +177,10 @@ class EventsRepository {
 
   }
 
-  Future<String> deleteAttendanceByUserId(String id, int eventId) async{
+  Future<List<EventResult>> deleteAttendanceByUserId(String id, int eventId) async{
     try{
       dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$id/attendance/$eventId", "");
-      String res = response;
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       return res;
     }
     catch(e){

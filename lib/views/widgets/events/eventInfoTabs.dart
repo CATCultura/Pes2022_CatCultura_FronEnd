@@ -21,7 +21,6 @@ class EventInfoTabs extends StatefulWidget {
 class _EventInfoTabsState extends State<EventInfoTabs> {
   late EventResult? event =  widget.event;
   bool Favorit = false;
-  String loggedUserId = "5850";
   bool assistire = false;
 
   @override

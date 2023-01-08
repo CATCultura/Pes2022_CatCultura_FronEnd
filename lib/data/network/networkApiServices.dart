@@ -19,6 +19,8 @@ class NetworkApiServices extends BaseApiServices {
     //String url = "http://10.4.41.41:8081/event/id=8";
 
     try {
+
+
       // final pass = Session().get("auth") == null ? "hola" : Session().get("auth");
       //final response = await http.get(Uri.parse(url), headers: {"Authorization":pass});
       //responseJson = returnResponse(response);
@@ -48,19 +50,15 @@ class NetworkApiServices extends BaseApiServices {
       responseJson = returnResponse(response);
 
       // debugPrint(responseJson.toString());
+      //debugPrint(responseJson.toString());
       //const jsonMock = '''{"results":[{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName1", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName9", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName10", "dataInici": "01/01/9999", "dataFi":"01/01/9999"},{ "id": "mockedName11", "dataInici": "01/01/9999", "dataFi":"01/01/9999"}]}''';
       //responseJsonMock = jsonDecode(jsonMock);
-
-
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
     //debugPrint("response json desde network api: $responseJson");
     return responseJson;
   }
-
-
-
 
   @override
   Future getPostApiResponse(String url, dynamic data) async {
@@ -212,7 +210,6 @@ class NetworkApiServices extends BaseApiServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-
     return responseJson;
   }
 

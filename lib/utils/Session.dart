@@ -15,6 +15,11 @@ class Session {
     sessionData[key] = value;
   }
 
+  bool has(String key){
+    if(sessionData.containsKey(key)) return true;
+    return false;
+  }
+
   dynamic get(String key) {
     if (sessionData.containsKey(key)) {
       return sessionData[key];
