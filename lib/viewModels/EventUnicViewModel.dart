@@ -213,7 +213,7 @@ class EventUnicViewModel with ChangeNotifier {
 
   bool wrongCode = false;
 
-  confirmAttendance(String text, String? eventId) async {
+  Future<void> confirmAttendance(String text, String? eventId) async {
   debugPrint("here");
     await _eventsRepo.confirmAttendance(text,Session().data.id,eventId!).then((value) {
       if (value == "Bad code") {
