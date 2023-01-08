@@ -19,7 +19,7 @@
 
     "createEventDrawer": "Crear evento",
 
-    "codeEvent": "Codigo (Obligatorio)",
+    "codeEvent": "Código (Obligatorio)",
 
     "startDateEvent": "Fecha Inicio (Obligatorio)",
 
@@ -27,7 +27,7 @@
 
     "nameEvent": "Nombre Evento (Obligatorio)",
 
-    "locationEvent": "Localizacion (Obligatorio)",
+    "locationEvent": "Localización (Obligatorio)",
 
     "addressEvent": "Dirección (Obligatorio)",
 
@@ -46,6 +46,8 @@
     "schedule": "Horario",
 
     "subtitle": "Subtítulo",
+
+    "links": "Enlaces",
 
     "documents": "Documentos",
 
@@ -93,6 +95,42 @@
 
     "orgEventsScreenTitle": "Eventos organizados por",
 
+    "code": "Código)",
+
+    "startDate": "Fecha Inicio",
+
+    "finalDate": "Fecha Final",
+
+    "nameEventM": "Nombre Evento",
+
+    "location": "Localización",
+
+    "address": "Dirección",
+
+    "space": "Sitio",
+
+    "description": "Descripción",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "¿Qué quieres hacer?",
+
+    "deleteEvent": "Eliminar Evento",
+
+    "cancelEvent": "Cancelar Evento",
+
+    "cancelQuestion": "¿Estás seguro de que quieres cancelar este evento?",
+
+    "deleteQuestion": "¿Estás seguro de que quieres eliminar este evento?",
+
+    "modify": "Modificar",
+    
     "searchName": "Buscar por nombre...",
 
     "userProfile": "Perfil Usuario",
@@ -116,6 +154,5 @@
     "achieved": "CONSEGUIDO",
 
     "notAchieved": "No Conseguido"
-
 
 }

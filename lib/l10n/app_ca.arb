@@ -47,6 +47,8 @@
 
     "subtitle": "Subtítul",
 
+    "links": "Enllaços",
+
     "documents": "Documents",
 
     "video": "Video",
@@ -93,6 +95,40 @@
 
     "orgEventsScreenTitle": "Esdeveniments organitzats per",
 
+    "code": "Codi",
+
+    "startDate": "Data Inici",
+
+    "finalDate": "Data Fi",
+
+    "nameEventM": "Nom Esdeveniment",
+
+    "location": "Localizació",
+
+    "address": "Adreça",
+
+    "space": "Espai",
+
+    "description": "Descripció",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "¿Què vols fer?",
+
+    "deleteEvent": "Eliminar Esdeveniment",
+
+    "cancelEvent": "Cancel·lar Esdeveniment",
+
+    "cancelQuestion": "Estàs segur que vols cancel·lar aquest esdeveniment?",
+
+    "deleteQuestion": "Estàs segur que vols eliminar aquest esdeveniment?",
+
     "searchName": "Buscar per nom...",
 
     "userProfile": "Perfil Usuari",
@@ -115,6 +151,7 @@
 
     "achieved": "ACONSEGUIT",
 
-    "notAchieved": "No Aconseguit"
+    "notAchieved": "No Aconseguit",
 
+    "modify": "Modificar"
 }
