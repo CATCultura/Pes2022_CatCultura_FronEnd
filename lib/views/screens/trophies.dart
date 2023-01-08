@@ -35,7 +35,7 @@ class Trophies extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
-          title: Text(AppLocalizations.of(context).trophies),
+          title: Text(AppLocalizations.of(context)!.trophies),
           backgroundColor: MyColorsPalette.lightBlue,
         ),
         backgroundColor: MyColors.bgColorScreen,
@@ -98,8 +98,8 @@ class Trophies extends StatelessWidget {
                                               fontWeight: FontWeight.bold),),),
                                     const SizedBox(height: 5.0),
                                     sessio.data.trophiesId!.toString().contains(viewModel.trophies.data![index].id.toString())? Text(
-                                        AppLocalizations.of(context).achieved,
-                                        style: TextStyle(color: Colors.green)): Text(AppLocalizations.of(context).notAchieved, style: TextStyle(color: Colors.grey)),
+                                        AppLocalizations.of(context)!.achieved,
+                                        style: TextStyle(color: Colors.green)): Text(AppLocalizations.of(context)!.notAchieved, style: TextStyle(color: Colors.grey)),
                                   ],
                                 ),
                               ],

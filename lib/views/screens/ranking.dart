@@ -48,13 +48,12 @@ class _StatefulRankingState extends State<StatefulRanking>  {
             return Scaffold(
               appBar: AppBar(
                 toolbarHeight: 70,
-                title: Text(AppLocalizations.of(context).ranking),
+                title: Text(AppLocalizations.of(context)!.ranking),
                 backgroundColor: MyColorsPalette.lightBlue,
               ),
               backgroundColor: MyColors.bgColorScreen,
               // key: _scaffoldKey,
-              drawer: MyDrawer("Profile", Session(),
-                  username: sessio.data.username, email: sessio.data.email!),
+              drawer: MyDrawer("Profile", Session(),),
               body: Container(
                   child: viewModel.finish? ListView.builder(
                   itemCount: viewModel.users.length,
@@ -150,7 +149,7 @@ class _StatefulRankingState extends State<StatefulRanking>  {
                                                   fontWeight: FontWeight.bold),),),
                                           const SizedBox(height: 5.0),
                                           Text(
-                                              '${AppLocalizations.of(context).points}: ${viewModel.users[index].points!
+                                              '${AppLocalizations.of(context)!.points}: ${viewModel.users[index].points!
                                                   .toString()}',
                                               style: TextStyle(
                                                   color: Colors.green)),
