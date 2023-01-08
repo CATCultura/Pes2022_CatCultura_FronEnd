@@ -34,7 +34,7 @@ class FriendRequests extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 70,
-              title: Text(AppLocalizations.of(context).friendRequests),
+              title: Text(AppLocalizations.of(context)!.friendRequests),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: MyColors.bgColorScreen,

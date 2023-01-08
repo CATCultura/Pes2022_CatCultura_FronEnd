@@ -41,7 +41,7 @@ class AnotherProfile extends StatelessWidget {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title:  Text(AppLocalizations.of(context).userProfile),
+              title:  Text(AppLocalizations.of(context)!.userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
@@ -72,7 +72,7 @@ class AnotherProfile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: viewModel.friend==false? <Widget>[
                     Text (
-                      '${AppLocalizations.of(context).addFriend}    ',
+                      '${AppLocalizations.of(context)!.addFriend}    ',
                       style: TextStyle(
                           fontSize: 18, height: 1.4, color: Colors.black54),
                     ),
@@ -154,7 +154,7 @@ class AnotherProfile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context).points}'),
+                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}'),
                     ],
                   ),
 
