@@ -359,7 +359,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Events",  Session(), username: "Superjuane", email: "juaneolivan@gmail.com"),
+            drawer: MyDrawer("Events",  Session(), ),
             floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
             floatingActionButton: viewModel.located && viewModel.locatedButton ? FloatingActionButton.extended(
               heroTag: 'eventosCerca',

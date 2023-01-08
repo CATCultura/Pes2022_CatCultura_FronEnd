@@ -11,12 +11,14 @@ import '../../utils/Session.dart';
 
 class MyDrawer extends Drawer {
   const MyDrawer(this.actualPage, this.session,
-      {this.username = "", this.email = "", super.key});
+      {/*this.username = "", this.email = "",*/ super.key});
   final String actualPage;
-  final String username;
-  final String email;
+  //final String username;
+  //final String email;
   final Session session;
-
+/*username: session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
+                email: session.data.email == "missing email" || session.data.email == null ? AppLocalizations.of(context)!.missingEmail : session.data.email!
+*/
   @override
   Widget build(BuildContext context) {
     return Drawer(

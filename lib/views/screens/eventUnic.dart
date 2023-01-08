@@ -68,7 +68,6 @@ class _EventUnicState extends State<EventUnic> {
   void initState() {
     viewModel.ini();
     viewModel.selectEventById(eventId);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override

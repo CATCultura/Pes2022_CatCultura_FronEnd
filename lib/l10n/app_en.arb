@@ -385,5 +385,63 @@
     "modify": "Modify",
     "@modify": {
             "description": "Text for input box"
-        }
+        },
+
+    "rutaCulturalMainTitle": "Cultural route",
+    "@rutaCulturalMainTitle": {
+            "description": "Title for cultural route"
+        },
+
+  "generatingRouteText": "We are generating  your route...",
+  "@generatingRouteText": {
+            "description": "Text for waiting screen of cultural route"
+        },
+
+  "generateRouteText": "Generate route",
+  "@generateRouteText": {
+            "description": "Text for button to generate cultural route"
+        },
+
+  "saveRouteNameHint": "Route name",
+  "@saveRouteNameHint": {
+            "description": "Text for input box"
+        },
+
+    "saveRouteDescriptionHint": "Route description",
+    "@saveRouteDescriptionHint": {
+            "description": "Text for input box"
+        },
+
+  "cancelTextCulturalRoute" : "Cancel",
+    "@cancelTextCulturalRoute": {
+                "description": "Text for button to cancel save cultural route"
+            },
+
+  "saveTextCulturalRoute" : "Save",
+    "@saveTextCulturalRoute": {
+                "description": "Text for button to save cultural route"
+            },
+  "saveRouteSuccessTitle": "Route saved successfully",
+    "@saveRouteSuccessTitle": {
+                "description": "Title for dialog of save cultural route"
+            },
+  "saveRouteButtonText" : "Save route",
+    "@saveRouteButtonText": {
+                "description": "Text for button to save cultural route"
+            },
+
+  "saveRouteErrorNotLoggedIn" : "You must be logged in to save a route",
+    "@saveRouteErrorNotLoggedIn": {
+                "description": "Text for error of save cultural route"
+            },
+  "loginTextErrorSaveCulturalRoute" : "Login",
+    "@loginTextErrorSaveCulturalRoute": {
+                "description": "Text for button to login in error of save cultural route"
+            },
+    "savedRoutesButtonText" : "Open saved routes",
+    "@savedRoutesButtonText": {
+                "description": "Text for button to open saved routes"
+            }
+
+
 }

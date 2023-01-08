@@ -40,8 +40,7 @@ class Trophies extends StatelessWidget {
         ),
         backgroundColor: MyColors.bgColorScreen,
         // key: _scaffoldKey,
-        drawer: MyDrawer("Profile", Session(),
-            username: "Superjuane", email: "juaneolivan@gmail.com"),
+        drawer: MyDrawer("Profile", Session(),),
         body: Container(
           child: viewModel.trophies.status == Status.LOADING ? const SizedBox(child: Center(child: CircularProgressIndicator()),) :
           viewModel.trophies.status == Status.ERROR ? Text(viewModel.trophies.toString()) :

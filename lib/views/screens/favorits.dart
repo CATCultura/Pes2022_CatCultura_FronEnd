@@ -35,8 +35,7 @@ class Favorits extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Favorits",  Session(),
-                username: "Superjuane", email: "juaneolivan@gmail.com"),
+            drawer: MyDrawer("Favorits",  Session(),),
             body: Center(
               child: viewModel.favouritesList.status == Status.LOADING? const SizedBox(
                 child: Center(child: CircularProgressIndicator()),

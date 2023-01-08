@@ -58,8 +58,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           ),
           backgroundColor: MyColors.bgColorScreen,
           // key: _scaffoldKey,
-          drawer: MyDrawer("Profile", Session(),
-              username: "Superjuane", email: "juaneolivan@gmail.com"),
+          drawer: MyDrawer("Profile", Session(),),
           body: Container(
             color: Colors.white,
             child: Column(

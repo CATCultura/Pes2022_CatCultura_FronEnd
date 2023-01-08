@@ -51,8 +51,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
               appBar: AppBar(
                 title: const Text("Bloqueos"),
               ),
-              drawer: MyDrawer("Blocks", Session(),
-                  username: "Superjuane", email: "juaneolivan@gmail.com"),
+              drawer: MyDrawer("Blocks", Session(),),
               body: DefaultTabController(
                   length: 2, // length of tabs
                   initialIndex: 0,

@@ -68,8 +68,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                   title: Text(AppLocalizations.of(context)!.createEventDrawer),
                   backgroundColor: MyColorsPalette.orange,
                 ),
-                drawer: MyDrawer(AppLocalizations.of(context)!.createEventDrawer,  Session(), username: "Superjuane",
-                  email: "juaneolivan@gmail.com"),
+                drawer: MyDrawer(AppLocalizations.of(context)!.createEventDrawer,  Session(),),
                 body: SingleChildScrollView(
                   child: SizedBox(
                     child: Center(
