@@ -17,6 +17,54 @@
 
     "guestMode": "Entrar como invitado",
 
+    "createEventDrawer": "Crear evento",
+
+    "codeEvent": "Código (Obligatorio)",
+
+    "startDateEvent": "Fecha Inicio (Obligatorio)",
+
+    "finalDateEvent": "Fecha Final (Obligatorio)",
+
+    "nameEvent": "Nombre Evento (Obligatorio)",
+
+    "locationEvent": "Localización (Obligatorio)",
+
+    "addressEvent": "Dirección (Obligatorio)",
+
+    "spaceEvent": "Sitio (Obligatorio)",
+
+    "descriptionEvent": "Descripción (Obligatorio)",
+
+    "latitudeEvent": "Latitud (Obligatorio)",
+
+    "longitudeEvent": "Longitud (Obligatorio)",
+
+    "approximateEndDate": "Fecha aproximada de fin",
+
+    "ticket": "Entradas",
+
+    "schedule": "Horario",
+
+    "subtitle": "Subtítulo",
+
+    "links": "Enlaces",
+
+    "documents": "Documentos",
+
+    "video": "Video",
+
+    "postalCode": "Código Postal",
+
+    "email": "Email",
+
+    "telephone": "Teléfono",
+
+    "url": "Url",
+
+    "imageApp": "Imagen App",
+
+    "createEvent": "Crear",
+
     "homeScreenTitle": "Página de inicio",
 
     "interestingEventsSection": "Eventos interesantes",
@@ -47,5 +95,66 @@
 
     "orgEventsScreenTitle": "Eventos organizados por",
 
-    "tagEventsScreenTitle": "Eventos con la etiqueta"
+    "tagEventsScreenTitle": "Eventos con la etiqueta",
+
+    "code": "Código)",
+
+    "startDate": "Fecha Inicio",
+
+    "finalDate": "Fecha Final",
+
+    "nameEventM": "Nombre Evento",
+
+    "location": "Localización",
+
+    "address": "Dirección",
+
+    "space": "Sitio",
+
+    "description": "Descripción",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "¿Qué quieres hacer?",
+
+    "deleteEvent": "Eliminar Evento",
+
+    "cancelEvent": "Cancelar Evento",
+
+    "cancelQuestion": "¿Estás seguro de que quieres cancelar este evento?",
+
+    "deleteQuestion": "¿Estás seguro de que quieres eliminar este evento?",
+
+    "modify": "Modificar",
+
+    "searchName": "Buscar por nombre...",
+
+    "userProfile": "Perfil Usuario",
+
+    "addFriend": "Enviar solicitud",
+
+    "points": "Puntos",
+
+    "friendRequests": "Solicitudes amistad",
+
+    "trophies": "Trofeos",
+
+    "config": "Configuración",
+
+    "findUsers": "Buscar Usuarios",
+
+    "myProfile": "Mi Perfil",
+
+    "ranking": "Clasificación",
+
+    "achieved": "CONSEGUIDO",
+
+    "notAchieved": "No Conseguido"
+
 }

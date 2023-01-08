@@ -1,3 +1,4 @@
+import 'dart:ffi';
 //import 'dart:html';
 import 'dart:io';
 import 'package:CatCultura/models/EventResult.dart';
@@ -189,6 +190,14 @@ class EventUnicViewModel with ChangeNotifier {
     await _eventsRepo.addEventById(e); /** .then((value) {
       setEventSelected(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
+        setEventSelected(ApiResponse.error(error.toString()))); **/
+    waiting = false;
+  }
+
+  Future<void> putCancelledEventById(String? eventId) async {
+    await _eventsRepo.cancelledEventById(eventId); /** .then((value) {
+        setEventSelected(ApiResponse.completed(value));
+        }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
   }

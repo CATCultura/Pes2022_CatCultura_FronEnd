@@ -38,8 +38,7 @@ class Agenda extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Agenda",  Session(),
-                username: "Superjuane", email: "juaneolivan@gmail.com"),
+            drawer: MyDrawer("Agenda",  Session(),),
             body: Center(
               child: viewModel.attendanceList.status == Status.LOADING? const SizedBox(
                 child: Center(child: CircularProgressIndicator()),

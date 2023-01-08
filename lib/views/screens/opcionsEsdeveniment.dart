@@ -3,9 +3,11 @@ import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:googleapis/shared.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:CatCultura/models/EventResult.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants/theme.dart';
 import '../../data/response/apiResponse.dart';
@@ -17,22 +19,31 @@ class opcionsEsdeveniment extends StatelessWidget {
   opcionsEsdeveniment({super.key, required this.event});
   EventResult event;
 
-  /*+@override
-  State<opcionsEsdeveniment> createState() => _opcionsState(); **/
-
-//}
-
-//class _opcionsState extends State<opcionsEsdeveniment> {
   final EventUnicViewModel viewModel = EventUnicViewModel();
-  String fecha = '';
-  TextEditingController CodiController = TextEditingController();
-  TextEditingController InitialDateController = TextEditingController();
-  TextEditingController FinalDateController = TextEditingController();
-  TextEditingController DenominacioController = TextEditingController();
-  TextEditingController UbicacioController = TextEditingController();
-  TextEditingController AdrecaController = TextEditingController();
-  TextEditingController EspaiController = TextEditingController();
-  TextEditingController CanceladoController = TextEditingController();
+  TextEditingController CodiController = TextEditingController();//
+  TextEditingController InitialDateController = TextEditingController();//
+  TextEditingController FinalDateController = TextEditingController();//
+  TextEditingController DenominacioController = TextEditingController();//
+  TextEditingController UbicacioController = TextEditingController();//
+  TextEditingController AdrecaController = TextEditingController();//
+  TextEditingController EspaiController = TextEditingController();//
+  TextEditingController DescripcioController = TextEditingController();//
+  TextEditingController LatitudController = TextEditingController();//
+  TextEditingController LongitudController = TextEditingController();//
+  /** TextEditingController DataFiAproxController = TextEditingController();//
+  TextEditingController EntradesController = TextEditingController();//
+  TextEditingController HorariController = TextEditingController();//
+  TextEditingController SubtitolController = TextEditingController();//
+  TextEditingController LinkController = TextEditingController();//
+  TextEditingController DocumentsController = TextEditingController();//
+  TextEditingController VideoController = TextEditingController();//
+  TextEditingController CodiPostalController = TextEditingController();//
+  //TextEditingController ComarcaController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();//
+  //TextEditingController LocalitatController = TextEditingController();
+  TextEditingController TelefonController = TextEditingController();//
+  TextEditingController URLController = TextEditingController();//
+  TextEditingController AppImgController = TextEditingController();// **/
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +55,28 @@ class opcionsEsdeveniment extends StatelessWidget {
     UbicacioController.text = event.ubicacio!;
     AdrecaController.text = event.adreca!;
     EspaiController.text = event.espai!;
+    DescripcioController.text = event.descripcio!;
+    LatitudController.text = (event.latitud!).toString();
+    LongitudController.text = (event.longitud!).toString();
+    //DataFiAproxController.text = event.dataFiAprox!;
+    //EntradesController.text = event.entrades!;
+    //HorariController.text = event.horari!;
+    //SubtitolController.text = event.subtitol!;
+    //LinkController.text = event.links!;
+    //DocumentsController.text = event.documents!;
+    //VideoController.text = event.videos!;
+    //CodiPostalController.text = event.codiPostal!;
+    //ComarcaController.text = event.comarcaIMunicipi!;
+    //EmailController.text = event.email!;
+    //LocalitatController.text = event.localitat!;
+    //TelefonController.text = event.telf!;
+    //URLController.text = event.URL!;
+    //AppImgController.text = event.imgApp!;
+    //List<String>? tagsAmbits = event.tagsAmbits!;
+    //List<String>? tagsCateg = event.tagsCateg!;
+    //List<String>? tagsAltresCateg = event.tagsAltresCateg!;
+    //List<String>? imatges = event.imatges!;
 
-    print(event.id!);
-    print(CodiController.text);
-    print(InitialDateController.text);
-    print(FinalDateController.text);
-    print(DenominacioController.text);
-    print(UbicacioController.text);
-    print(AdrecaController.text);
-    print(EspaiController.text);
     return ChangeNotifierProvider<EventUnicViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<EventUnicViewModel>(builder: (context, value, _) {
@@ -65,171 +89,281 @@ class opcionsEsdeveniment extends StatelessWidget {
                 child:
                 viewModel.waiting? Scaffold(
                   appBar: AppBar(
-                    title: const Text('Que vols fer?'),
+                    title: Text(AppLocalizations.of(context)!.whatDoYouWant),
                     backgroundColor: Colors.blue,
                   ),
-                  body: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              iconSize: 40,
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      AlertDialog(
-                                          title: Text("Eliminar Esdeveniment"),
-                                          content: Text(
-                                              "Estas segur que vols eliminar aquest esdeveniment?"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                                child: Text("Si"),
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: Colors.blue,
-                                                ),
-                                                onPressed: () {
-                                                  viewModel.deleteEventById("3233");
-                                                  Navigator.popAndPushNamed(
-                                                      context, '/home');
-                                                }
-                                            ),
+                  body: SingleChildScrollView(
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                iconSize: 40,
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        AlertDialog(
+                                            title: Text(AppLocalizations.of(context)!.deleteEvent),
+                                            content: Text(AppLocalizations.of(context)!.deleteQuestion),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    foregroundColor: Colors.blue,
+                                                  ),
+                                                  onPressed: () {
+                                                    viewModel.deleteEventById(event.id!);
+                                                    Navigator.pushNamed(
+                                                        context, '/home');
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.yes)
+                                              ),
 
-                                            TextButton(
-                                                child: Text("No"),
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: Colors.red,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                }
-                                            ),
-                                          ]
-                                      ),
-                                );
-                              },
-                            ),
+                                              TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    foregroundColor: Colors.red,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.no)
+                                              ),
+                                            ]
+                                        ),
+                                  );
+                                },
+                              ),
 
-                            IconButton(
-                              iconSize: 40,
-                              icon: Icon(Icons.cancel),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      AlertDialog(
-                                          title: Text("Cancel·lar Esdeveniment"),
-                                          content: Text(
-                                              "Estas segur que vols cancel·lar aquest esdeveniment?"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                                child: Text("Si"),
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: Colors.blue,
-                                                ),
-                                                onPressed: () {
-                                                  EventResult? e = EventResult();
-                                                  e.id = event.id;
-                                                  e.cancelado = true;
-                                                  e.denominacio = DenominacioController.text;
-                                                  e.codi = CodiController.text;
-                                                  e.dataFi = FinalDateController.text;
-                                                  e.dataInici = InitialDateController.text;
-                                                  e.adreca = AdrecaController.text;
-                                                  e.espai = EspaiController.text;
-                                                  e.ubicacio = UbicacioController.text;
-                                                  viewModel.putEventById(e);
-                                                  Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
-                                                }
-                                            ),
+                              IconButton(
+                                iconSize: 40,
+                                icon: const Icon(Icons.cancel),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        AlertDialog(
+                                            title: Text(AppLocalizations.of(context)!.cancelEvent),
+                                            content: Text(AppLocalizations.of(context)!.cancelQuestion),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    foregroundColor: Colors.blue,
+                                                  ),
+                                                  onPressed: () {
+                                                    viewModel.putCancelledEventById(event.id!);
+                                                    Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.yes)
+                                              ),
 
-                                            TextButton(
-                                                child: Text("No"),
-                                                style: TextButton.styleFrom(
-                                                  foregroundColor: Colors.red,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                }
-                                            ),
-                                          ]
-                                      ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                                              TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    foregroundColor: Colors.red,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(AppLocalizations.of(context)!.no)
+                                              ),
+                                            ]
+                                        ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
 
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: TextField(
-                            controller: DenominacioController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Nom Esdeveniment',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange,
-                                    width: 3
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: CodiController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.code,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
 
-                        /** Container(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: TextField(
-                            enableInteractiveSelection: false,
-                            controller: FinalDateController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Data Fi",
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange,
-                                    width: 3
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextField(
+                              controller: DenominacioController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.nameEventM,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
                                 ),
                               ),
                             ),
-                            onTap: () {
-                              FocusScope.of(context).requestFocus(
-                                  new FocusNode());
-                              selectFinalDate(context);
-                            },
                           ),
-                        ), **/
 
-                        Container(
-                          height: 70,
-                          width: 150,
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                  MyColorsPalette.orange)),
-                            child: const Text('Modificar'),
-                            onPressed: () {
-                              EventResult? e = EventResult();
-                              e.id = event.id;
-                              e.denominacio = DenominacioController.text;
-                              e.codi = CodiController.text;
-                              e.dataFi = FinalDateController.text;
-                              e.dataInici = InitialDateController.text;
-                              e.adreca = AdrecaController.text;
-                              e.espai = EspaiController.text;
-                              e.ubicacio = UbicacioController.text;
-                              viewModel.putEventById(e);
-                              Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
-                            },
+                          dataIni(),
+                          dataFi(),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: UbicacioController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.location,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: AdrecaController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.address,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: EspaiController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.space,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: DescripcioController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.description,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: LatitudController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.latitude,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              controller: LongitudController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: AppLocalizations.of(context)?.longitude,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 3
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            height: 70,
+                            width: 150,
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                    MyColorsPalette.orange)),
+                              child: Text(AppLocalizations.of(context)!.modify),
+                              onPressed: () {
+                                event.id = event.id;
+                                event.denominacio = DenominacioController.text;
+                                event.codi = CodiController.text;
+                                event.dataFi = FinalDateController.text;
+                                event.dataInici = InitialDateController.text;
+                                event.adreca = AdrecaController.text;
+                                event.espai = EspaiController.text;
+                                event.ubicacio = UbicacioController.text;
+                                event.descripcio = DescripcioController.text;
+                                event.latitud = double.parse(LatitudController.text);
+                                event.longitud = double.parse(LongitudController.text);
+                                /** event.dataFiAprox = "dema"; //DataFiAproxController.text;
+                                event.entrades = EntradesController.text;
+                                event.horari = HorariController.text;
+                                event.subtitol = SubtitolController.text;
+                                event.links = LinkController.text;
+                                event.documents = DocumentsController.text;
+                                event.videos = VideoController.text;
+                                event.codiPostal = CodiPostalController.text;
+                                //e.comarcaIMunicipi = ComarcaController.text;
+                                event.email = EmailController.text;
+                                //e.localitat = LocalitatController.text;
+                                event.telf = TelefonController.text;
+                                event.URL = URLController.text;
+                                event.imgApp = AppImgController.text;
+                                event.cancelado = false;
+                                //e.tagsCateg = tagsAmbits;
+                                //e.tagsCateg = tagsCateg;
+                                //e.tagsAltresCateg = tagsAltresCateg;
+                                //e.imatges = imatges; **/
+                                viewModel.putEventById(event);
+                                Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 )
@@ -242,8 +376,101 @@ class opcionsEsdeveniment extends StatelessWidget {
           );
     }));
   }
+}
 
-  /** selectFinalDate(BuildContext context) async {
+class dataIni extends StatefulWidget {
+
+  dataIni({super.key});
+
+  @override
+  State<dataIni> createState() => _dataIniState();
+}
+
+class _dataIniState extends State<dataIni> {
+  String fecha = '';
+  TextEditingController InitialDateController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: TextFormField(
+        enableInteractiveSelection: false,
+        controller: InitialDateController,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: AppLocalizations.of(context)?.startDate,
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.orange,
+                width: 3
+            ),
+          ),
+        ),
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+          selectInitialDate(context);
+        },
+      ),
+    );
+  }
+
+  selectInitialDate(BuildContext context) async{
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2999),
+    );
+    if (picked != null) {
+      var date = DateFormat('yyyy-MM-dd').format(picked);
+      setState(() {
+        fecha = date;
+        InitialDateController.text = fecha;
+      });
+    }
+  }
+}
+
+class dataFi extends StatefulWidget {
+
+  dataFi({super.key});
+
+  @override
+  State<dataFi> createState() => _dataFiState();
+}
+
+class _dataFiState extends State<dataFi> {
+  String fecha = '';
+  TextEditingController FinalDateController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: TextField(
+        enableInteractiveSelection: false,
+        controller: FinalDateController,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: AppLocalizations.of(context)?.finalDate,
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.orange,
+                width: 3
+            ),
+          ),
+        ),
+        onTap: () {
+          FocusScope.of(context).requestFocus(
+              new FocusNode());
+          selectFinalDate(context);
+        },
+      ),
+    );
+  }
+
+  selectFinalDate(BuildContext context) async{
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -257,6 +484,5 @@ class opcionsEsdeveniment extends StatelessWidget {
         FinalDateController.text = fecha;
       });
     }
-  } **/
-
+  }
 }

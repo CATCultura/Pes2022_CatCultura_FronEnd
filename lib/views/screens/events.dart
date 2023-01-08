@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -37,14 +38,28 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
   final EventsViewModel viewModel = EventsViewModel();
   late ScrollController _scrollController;
   late TabController _tabController;
+  GoogleMapController? mapController;
+
   bool findedSomething = false;
-  String message = "";
+
   var searchResult;
   late ClusterManager _manager;
   Completer<GoogleMapController> _controller = Completer();
   Set<Marker> markers = Set();
-  final CameraPosition _iniCameraPosition =
-      const CameraPosition(target: LatLng(41.3874, 2.1686), zoom: 11.0);
+
+  void getPos() async{
+    debugPrint("--------getting ubi------------------");
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value){
+      viewModel.realPosition = value;
+      debugPrint("you are in "+viewModel.realPosition.longitude.toString()+" "+viewModel.realPosition.latitude.toString());
+      //viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 7.0);
+      setState(() {
+        viewModel.iniCameraPosition = CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 13);
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+      });
+      viewModel.located = true;
+    });
+  }
 
   _scrollListener() {
     if(viewModel.eventsSimilars.status != Status.COMPLETED){
@@ -62,8 +77,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
     List<Place> a = [];
     return ClusterManager<Place>(a, _updateMarkers,
         markerBuilder: _markerBuilder,
-        stopClusteringZoom: 17.0,
-        levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0]);
+        stopClusteringZoom: 14,
+      levels:[1, 5, 10, 12, 13, 13.5, 14, 14.5, 15, 15.5, 17]
+      // levels: [1, 1.5, 2, 2.5, 6, 6.5, 7, 7.5, 8, 8.5, 9],
+      //   levels: [1, 4.25, 6.75, 8.25, 11.33, 11.5, 12.04,12.89, 13.37, 13.76, 14.5, 14.85, 15.23, 15.89, 16.0, 16.25, 16.5, 16.75, 17.0, 17.37, 18.48, 20.0]
+      // levels: [1, 4.25, 6.75, 8.25, 11.33798, 11.5, 11.75, 12.0, 12.25, 12.5, 12.75, 13.0, 13.25, 13.5, 13.75, 14.0, 14.25, 14.5, 14.75, 15.0, 15.25, 15.5, 15.75, 16.0, 16.25, 16.5, 16.75, 17.0, 17.25, 17.5, 17.75, 18.0, 18.25, 18.5, 18.75, 20.0]
+    );
   }
 
   void _updateMarkers(Set<Marker> markers) {
@@ -88,10 +107,14 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
     if (_tabController.indexIsChanging) {
       switch (_tabController.index) {
         case 0:
-          debugPrint("lista!!!!!!!!!!!");
+          setState(() {
+            viewModel.locatedButton = false;
+          });
           break;
         case 1:
-          debugPrint("mapa!!!!!!!!!!!");
+          setState(() {
+            viewModel.locatedButton = true;
+          });
           // _manager = _initClusterManager();
           // (GoogleMapController controller) {
           //   _manager.setItems(viewModel.eventsListMap.data!);
@@ -142,10 +165,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                 fit: BoxFit.contain,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 8.0, top: 5, bottom: 5, right: 5),
+                                      left: 0, top: 5, bottom: 5, right: 5),
                                   child: Text(
-                                    AppLocalizations.of(context)!.searchByQueryPrompt,
+                                    viewModel.userUsedFilter ? viewModel.message : AppLocalizations.of(context)!.searchByQueryPrompt,
+                                    textAlign: TextAlign.start,
                                     style: const TextStyle(
+                                      fontSize: 14,
                                         color:
                                             Color.fromRGBO(105, 105, 105, 0.6),
                                         fontStyle: FontStyle.italic),
@@ -179,7 +204,9 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                           arguments: EventUnicArgs(searchQueryResult!));
                     } else if (searchQueryResult != null &&
                         searchQueryResult != '') {
-                      message = searchQueryResult;
+                      // setState(() {
+                        //viewModel.message = searchQueryResult;
+                      // });
                       viewModel.userUsedFilter = true;
                       debugPrint(searchQueryResult);
                       viewModel.setLoading();
@@ -193,7 +220,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                     ? IconButton(
                         onPressed: () {
                           setState(() {
-                            message = AppLocalizations.of(context)!.searchByQueryPrompt;
+                            viewModel.message = AppLocalizations.of(context)!.searchByQueryPrompt;
                             viewModel.userUsedFilter = false;
                           });
                           viewModel.refresh();
@@ -201,7 +228,126 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                         },
                         icon: const Icon(Icons.close),
                       )
-                    : const SizedBox.shrink(),
+                    : Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showDialog(context: context, builder: (BuildContext context){
+                              return AlertDialog(
+                                title: Text("OrderBy"),
+                                content: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text("Alphabetically (asc.)"),
+                                      onTap: (){
+                                        viewModel.orderByAlphabetUp();
+                                        _scrollController.animateTo(
+                                          0.0,
+                                          curve: Curves.easeInOut,
+                                          duration: const Duration(seconds: 2),
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text("Alphabetically (desc.)"),
+                                      onTap: (){
+                                        viewModel.orderByAlphabetDown();
+                                        _scrollController.animateTo(
+                                          0.0,
+                                          curve: Curves.easeInOut,
+                                          duration: const Duration(seconds: 2),
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    // ListTile(
+                                    //   title: Text("Falta (asc.)"),
+                                    //   onTap: (){
+                                    //     viewModel.orderByDateUp();
+                                    //     Navigator.pop(context);
+                                    //   },
+                                    // ),
+                                    ListTile(
+                                      title: Text("Pròximament... (desc.)"),
+                                      onTap: (){
+                                        viewModel.orderByDateDown();
+                                        _scrollController.animateTo(
+                                          0.0,
+                                          curve: Curves.easeInOut,
+                                          duration: const Duration(seconds: 2),
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+
+                              );
+                            });
+
+                          },
+                          icon: const Icon(Icons.sort_by_alpha),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              showDialog(context: context, builder: (BuildContext context){
+                                return AlertDialog(
+                                  backgroundColor: Colors.red.shade800,
+                                  iconColor: MyColorsPalette.white,
+                                  icon: const Icon(Icons.filter_alt_outlined),
+                                  title: Text("Filter by", style: TextStyle(color: MyColorsPalette.white),),
+                                  content: viewModel.tags.status == Status.COMPLETED ?
+                                   Container(
+                                     decoration: BoxDecoration(
+                                       color: MyColorsPalette.white,
+                                       borderRadius: BorderRadius.circular(10)
+                                     ),
+                                     child: ListView.builder(
+                                       itemCount: viewModel.tags.data!.length,
+                                       itemBuilder: (context, index){
+                                         return ListTile(
+                                            title: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(viewModel.tags.data![index]),
+                                                viewModel.tagsUsuari.contains(viewModel.tags.data![index]) ? Icon(Icons.star, color: Colors.yellowAccent,) : SizedBox.shrink(),
+                                              ],
+                                            ),
+                                            onTap: (){
+                                              viewModel.setLoading();
+                                              viewModel.redrawWithTagFilter(viewModel.tags.data![index]);
+                                              Navigator.pop(context);
+                                            },
+                                          );
+
+                                           },
+
+                                     ),
+                                   )
+                                      : const Center(child: CircularProgressIndicator(color: MyColorsPalette.white,)),
+                                  // actions: [
+                                  //   TextButton(
+                                  //     onPressed: () {
+                                  //       Navigator.pop(context);
+                                  //     },
+                                  //     child: Text("AppLocalizations.of(context)!.filterDialogCancel"),
+                                  //   ),
+                                  //   TextButton(
+                                  //     onPressed: () {
+                                  //       Navigator.pop(context);
+                                  //       // viewModel.redrawWithTagFilter(filter);
+                                  //     },
+                                  //     child: Text("AppLocalizations.of(context)!.filterDialogOk"),
+                                  //   ),
+                                  // ],
+                                );
+                              });
+                            },
+                            icon: const Icon(Icons.filter_alt_outlined),
+                          ),
+                      ],
+                    ),
                 IconButton(
                   onPressed: () {
                     viewModel.refresh();
@@ -213,9 +359,21 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Events",  Session(),
-                username: "Superjuane", email: "juaneolivan@gmail.com"),
-            /**/
+            drawer: MyDrawer("Events",  Session(), ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+            floatingActionButton: viewModel.located && viewModel.locatedButton ? FloatingActionButton.extended(
+              heroTag: 'eventosCerca',
+              onPressed: () async {
+                await viewModel.getEventsNearMe().then((_){
+                  // _manager.updateMap();
+                  _manager.setItems(viewModel.eventsListMap.data!);
+                  mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+
+                });
+              },
+             backgroundColor: MyColorsPalette.red.withOpacity(0.5),
+              label: Text('Buscar eventos cerca', style: TextStyle(fontSize: 10),),
+            ): SizedBox.shrink(),
             body: DefaultTabController(
                 length: 2, // length of tabs
                 initialIndex: 0,
@@ -326,21 +484,35 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                               child: viewModel.eventsListMap.status ==
                                       Status.COMPLETED
                                   ? GoogleMap(
+                                      zoomControlsEnabled: false,
+                                      myLocationEnabled: true,
                                       mapType: MapType.normal,
-                                      initialCameraPosition: _iniCameraPosition,
+                                      initialCameraPosition: viewModel.iniCameraPosition,
                                       markers: markers,
                                       onMapCreated:
                                           (GoogleMapController controller) {
                                         if (!_controller.isCompleted) {
-                                          _manager.setItems(
-                                              viewModel.eventsListMap.data!);
-                                          _controller.complete(controller);
+                                          // setState(() {
+                                            mapController = controller;
+                                          // });
+                                          _controller.complete(mapController);
+                                          _manager.setItems(viewModel.eventsListMap.data!);
                                           _manager.setMapId(controller.mapId);
                                         } else {
-                                          _manager.setItems(
-                                              viewModel.eventsListMap.data!);
+                                          _manager.setItems(viewModel.eventsListMap.data!);
                                           _manager.setMapId(controller.mapId);
                                         }
+                                        // setState(() {
+                                        //   mapController = controller;
+                                        // });
+                                        // _controller.complete(mapController);
+                                        // if(viewModel.realPosition != null){
+                                        //   setState(() {
+                                        getPos();
+                                          // });
+                                        // }
+
+                                        // _manager.setMapId(controller.mapId);
                                       },
                                       onCameraMove: _manager.onCameraMove,
                                       onCameraIdle: _manager.updateMap)

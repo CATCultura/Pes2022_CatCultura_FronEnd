@@ -17,6 +17,54 @@
 
     "guestMode": "Entra com a convidat",
 
+    "createEventDrawer": "Crear esdeveniment",
+
+    "codeEvent": "Codi (Obligatori)",
+
+    "startDateEvent": "Data Inici (Obligatori)",
+
+    "finalDateEvent": "Data Fi (Obligatori)",
+
+    "nameEvent": "Nom Esdeveniment (Obligatori)",
+
+    "locationEvent": "Localizació (Obligatori)",
+
+    "addressEvent": "Adreça (Obligatori)",
+
+    "spaceEvent": "Espai (Obligatori)",
+
+    "descriptionEvent": "Descripció (Obligatori)",
+
+    "latitudeEvent": "Latitud (Obligatori)",
+
+    "longitudeEvent": "Longitud (Obligatori)",
+
+    "approximateEndDate": "Data Aproximada de Fin",
+
+    "ticket": "Entrades",
+
+    "schedule": "Horari",
+
+    "subtitle": "Subtítul",
+
+    "links": "Enllaços",
+
+    "documents": "Documents",
+
+    "video": "Video",
+
+    "postalCode": "Codi Postal",
+
+    "email": "Email",
+
+    "telephone": "Telefon",
+
+    "url": "Url",
+
+    "imageApp": "Imatge App",
+
+    "createEvent": "Crear",
+
     "homeScreenTitle": "Pàgina d'inici",
 
     "interestingEventsSection": "Esdeveniments interessants",
@@ -47,6 +95,65 @@
 
     "orgEventsScreenTitle": "Esdeveniments organitzats per",
 
+    "code": "Codi",
+
+    "startDate": "Data Inici",
+
+    "finalDate": "Data Fi",
+
+    "nameEventM": "Nom Esdeveniment",
+
+    "location": "Localizació",
+
+    "address": "Adreça",
+
+    "space": "Espai",
+
     "tagEventsScreenTitle": "Esdeveniments amb l'etiqueta"
 
+    "description": "Descripció",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "¿Què vols fer?",
+
+    "deleteEvent": "Eliminar Esdeveniment",
+
+    "cancelEvent": "Cancel·lar Esdeveniment",
+
+    "cancelQuestion": "Estàs segur que vols cancel·lar aquest esdeveniment?",
+
+    "deleteQuestion": "Estàs segur que vols eliminar aquest esdeveniment?",
+
+    "searchName": "Buscar per nom...",
+
+    "userProfile": "Perfil Usuari",
+
+    "addFriend": "Enviar sol·licitud",
+
+    "points": "Punts",
+
+    "friendRequests": "Peticions d'amistat",
+
+    "trophies": "Trofeus",
+
+    "config": "Configuració",
+
+    "findUsers": "Buscar Usuaris",
+
+    "myProfile": "El meu Perfil",
+
+    "ranking": "Classificació",
+
+    "achieved": "ACONSEGUIT",
+
+    "notAchieved": "No Aconseguit",
+
+    "modify": "Modificar"
 }

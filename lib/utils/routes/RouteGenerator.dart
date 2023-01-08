@@ -2,7 +2,6 @@ import 'package:CatCultura/utils/routes/deepLinkParams.dart';
 import 'package:CatCultura/views/screens/favorits.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
-import 'package:CatCultura/viewModels/EventsViewModel.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import '../../views/screens/qrScanning.dart';
@@ -61,8 +60,6 @@ class RouteGenerator{
       case '/crearReview':
         final argsCrearReview = settings.arguments as CrearReviewArgs;
         return MaterialPageRoute(builder:(_)=>CrearReview(eventId: argsCrearReview.eventId));
-      //case '/modificar-Esdeveniment':
-        return MaterialPageRoute(builder:(_)=>modificarEsdeveniment());
       case '/opcions-Esdeveniment':
         final argsEvent = settings.arguments as EventArgs;
         return MaterialPageRoute(builder:(_)=>opcionsEsdeveniment(event: argsEvent.e));
@@ -73,6 +70,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>FriendRequests());
       case '/trophies':
         return MaterialPageRoute(builder:(_)=>Trophies());
+      case '/userEditTags':
+        return MaterialPageRoute(builder:(_)=>UserEditTags());
       case '/organizer':
         final argsOrganizerId = settings.arguments as OrganizerArgs;
         return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
@@ -84,6 +83,10 @@ class RouteGenerator{
       case '/xat':
          final argsEventUnic = settings.arguments as EventUnicArgs;
         return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
+      case '/blocks':
+        return MaterialPageRoute(builder:(_)=>Blocks());
+      case '/ranking':
+        return MaterialPageRoute(builder:(_)=>Ranking());
       case '/qrScanner':
         final event = settings.arguments as String;
         return MaterialPageRoute(builder:(_)=>QRScanning(event));

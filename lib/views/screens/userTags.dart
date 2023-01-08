@@ -27,7 +27,6 @@ class _UserTagsState extends State<UserTags> {
   final TagsViewModel viewModel = TagsViewModel();
   final LoginViewModel viewModelLogin = LoginViewModel();
 
-  late List <String>? tagsList = [];
   List<String> checkedTags = [];
 
   void _onSelected(bool selected, String category) {
@@ -45,7 +44,6 @@ class _UserTagsState extends State<UserTags> {
   @override
   Widget build(BuildContext context) {
     viewModel.fetchTagsListApi();
-    tagsList = viewModel.tagsList.data;
     return ChangeNotifierProvider<TagsViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
@@ -134,7 +132,7 @@ class _UserTagsState extends State<UserTags> {
                                                   }
                                                 },
                                                 title: Text(
-                                                  viewModel.tagsList.data![i],
+                                                  viewModel.tagsList.data![i].replaceAll('-', ' '),
                                                   style: TextStyle(
                                                     color: Colors.black38,
                                                     fontWeight: FontWeight.bold
