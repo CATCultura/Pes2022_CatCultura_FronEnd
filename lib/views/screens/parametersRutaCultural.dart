@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 double _currentSliderValue = 1000;
 
@@ -75,7 +76,7 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                       bottom: size.width * .1,
                                     ),
                                     child: Text(
-                                      'OPCIONS',
+                                      AppLocalizations.of(context)!.parametersCulturalRouteMainTitle,
                                       style: TextStyle(
                                         fontSize: 35,
                                         fontWeight: FontWeight.bold,
@@ -83,7 +84,7 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                       ),
                                     ),
                                   ),
-                                  componentText(Icons.calendar_today, 'Data',
+                                  componentText(Icons.calendar_today, AppLocalizations.of(context)!.parametersCulturalRouteDate,
                                       false, false, size, dateController),
                                   const Padding(
                                     padding: EdgeInsets.only(top: 8.0),
@@ -127,8 +128,8 @@ class ParametersRutaCulturalState extends State<ParametersRutaCultural> {
                                         color: Colors.black.withOpacity(.1),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: const Text(
-                                        'GENERAR RUTA',
+                                      child:  Text(
+                                        AppLocalizations.of(context)!.parametersCulturalRouteGenerateButton,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
@@ -316,7 +317,7 @@ class _componentSliderState extends State<componentSlider> {
             child: Padding(
               padding: const EdgeInsets.only(top: 18.0, left: 15.0),
               child: Text(
-                "SELECCIONA UN RADIO: ( ${_currentSliderValue.round()/1000} Km)",
+                "${AppLocalizations.of(context)!.parametersCulturalRouteSelectRadius} ( ${_currentSliderValue.round()/1000} Km)",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.white.withOpacity(.5),

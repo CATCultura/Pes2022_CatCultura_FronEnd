@@ -441,7 +441,45 @@
     "savedRoutesButtonText" : "Open saved routes",
     "@savedRoutesButtonText": {
                 "description": "Text for button to open saved routes"
+            },
+
+    "blocksMainTitle": "Reports",
+    "@blocksMainTitle": {
+                "description": "Title for blocks"
+            },
+
+    "reportedReviewsTitle" : "Reported reviews",
+    "@reportedReviewsTitle": {
+                "description": "Title for reported reviews"
+            },
+
+    "reportedUsersTitle" : "Reported users",
+    "@reportedUsersTitle": {
+                "description": "Title for reported users"
+            },
+  "blockButton" : "Block",
+    "@blockButton": {
+                "description": "Text for button to block"
+            },
+    "unblockButton" : "Unblock",
+    "@unblockButton": {
+                "description": "Text for button to unblock"
+            },
+
+  "parametersCulturalRouteMainTitle" : "PARAMETERS",
+    "@parametersCulturalRouteMainTitle": {
+                "description": "Title for parameters of cultural route"
+            },
+  "parametersCulturalRouteDate" : "Date",
+    "@parametersCulturalRouteTitle": {
+                "description": "Date of parameters of cultural route"
+            },
+    "parametersCulturalRouteSelectRadius" : "Select radius",
+    "@parametersCulturalRouteSelectRadius": {
+                "description": "Text for select radius of parameters of cultural route"
+            },
+  "parametersCulturalRouteGenerateButton": "GENERATE ROUTE",
+    "@parametersCulturalRouteGenerateButton": {
+                "description": "Text for button to generate cultural route"
             }
-
-
 }

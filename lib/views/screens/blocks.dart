@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/viewModels/BlocksViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
@@ -49,7 +50,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
         child: Consumer<BlocksViewModel>(builder: (context, value, _) {
           return Scaffold(
               appBar: AppBar(
-                title: const Text("Bloqueos"),
+                title: Text(AppLocalizations.of(context)!.blocksMainTitle),
               ),
               drawer: MyDrawer("Blocks", Session(),),
               body: DefaultTabController(
@@ -66,10 +67,10 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                           tabs: [
                             Tab(
                                 icon: Icon(Icons.reviews),
-                                text: "Reviews Reportades"),
+                                text: AppLocalizations.of(context)!.reportedReviewsTitle),
                             Tab(
                                 icon: Icon(Icons.person),
-                                text: "Usuaris Reportats"),
+                                text: AppLocalizations.of(context)!.reportedUsersTitle),
                           ],
                         ),
                       ),
@@ -191,7 +192,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                                   .reviewId!);
                                                         },
                                                         child:
-                                                            Text("Bloquear")),
+                                                            Text(AppLocalizations.of(context)!.blockButton)),
                                                     SizedBox(
                                                       width: 10,
                                                     ),
@@ -213,7 +214,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                                   .userId!);
                                                         },
                                                         child:
-                                                            Text("Desbloquear"))
+                                                            Text(AppLocalizations.of(context)!.unblockButton)),
                                                   ],
                                                 ),
                                               ],
@@ -295,7 +296,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                           //         .reviewId!);
                                                         },
                                                         child:
-                                                            Text("Bloquear")),
+                                                            Text(AppLocalizations.of(context)!.blockButton)),
                                                     SizedBox(
                                                       width: 10,
                                                     ),
@@ -317,7 +318,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                         //           .userId!);
                                                         },
                                                         child:
-                                                            Text("Desbloquear"))
+                                                            Text(AppLocalizations.of(context)!.unblockButton)),
                                                   ],
                                                 ),
                                               ],
