@@ -153,6 +153,58 @@
 
     "achieved": "CONSEGUIDO",
 
-    "notAchieved": "No Conseguido"
+    "notAchieved": "No Conseguido",
+
+    "rutaCulturalMainTitle": "Ruta Cultural",
+
+    "generatingRouteText": "Estamos generando tu ruta...",
+
+
+    "generateRouteText": "Generar Ruta",
+
+
+    "saveRouteNameHint": "Nombre de la ruta",
+
+
+    "saveRouteDescriptionHint": "Descripcion",
+
+
+    "cancelTextCulturalRoute" : "Cancelar",
+
+
+    "saveTextCulturalRoute" : "Guardar",
+
+    "saveRouteSuccessTitle": "Routa guardada",
+
+    "saveRouteButtonText" : "Guardar ruta",
+
+
+    "saveRouteErrorNotLoggedIn" : "Tienes que haver iniciado sesion para guardar la ruta",
+
+    "loginTextErrorSaveCulturalRoute" : " Iniciar sesión",
+
+    "savedRoutesButtonText" : "Abrir rutas guardadas",
+
+
+    "blocksMainTitle": "Reports",
+
+
+    "reportedReviewsTitle" : "Reviews reportadas",
+
+
+    "reportedUsersTitle" : "Usuarios reportados",
+
+    "blockButton" : "Bloquear",
+
+    "unblockButton" : "Desbloquear",
+
+    "parametersCulturalRouteMainTitle" : "PARAMETROS",
+
+    "parametersCulturalRouteDate" : "Fecha",
+
+    "parametersCulturalRouteSelectRadius" : "Selecciona un radio",
+
+    "parametersCulturalRouteGenerateButton": "GENERAR RUTA"
+
 
 }

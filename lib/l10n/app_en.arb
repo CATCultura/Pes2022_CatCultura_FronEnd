@@ -481,5 +481,13 @@
   "parametersCulturalRouteGenerateButton": "GENERATE ROUTE",
     "@parametersCulturalRouteGenerateButton": {
                 "description": "Text for button to generate cultural route"
+            },
+  "noUsersToBlock": "There are no users to block",
+    "@noUsersToBlock": {
+                "description": "Text for no users to block"
+            },
+  "noReviewsToBlock": "There are no reviews to block",
+    "@noReviewsToBlock": {
+                "description": "Text for no reviews to block"
             }
 }

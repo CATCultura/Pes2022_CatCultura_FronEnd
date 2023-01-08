@@ -462,9 +462,9 @@ class EventsRepository {
     }
   }
 
-  Future<void> unblockReview(String reviewId, String userId) async {
+  Future<void> unblockReview(String reviewId) async {
     try {
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId/reports", "");
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}reviews/$reviewId/reports", "");
       debugPrint("response desde eventRepo unblockReview(): ${response.toString()}");
       //return response;
     } catch (e) {

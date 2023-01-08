@@ -45,9 +45,27 @@ class BlocksViewModel with ChangeNotifier {
     });
   }
 
-  Future<void> unblockReview(int reviewId, int userId) async {
-    await _eventsRepo.unblockReview(reviewId.toString(), userId.toString()).then((_) {
+  Future<void> unblockReview(int reviewId) async {
+    await _eventsRepo.unblockReview(reviewId.toString()).then((_) {
       fetchReviewsReports();
+    }).onError((error, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace, label: error.toString());
+      notifyListeners();
+    });
+  }
+
+  Future<void> blockUser(String userId) async {
+    await _usersRepo.blockUser(userId).then((_) {
+      fetchUsersReports();
+    }).onError((error, stackTrace) {
+      debugPrintStack(stackTrace: stackTrace, label: error.toString());
+      notifyListeners();
+    });
+  }
+
+  Future<void> unblockUser(String userId) async {
+    await _usersRepo.unblockUser(userId).then((_) {
+      fetchUsersReports();
     }).onError((error, stackTrace) {
       debugPrintStack(stackTrace: stackTrace, label: error.toString());
       notifyListeners();
