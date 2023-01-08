@@ -8,6 +8,7 @@ import '../../models/UserResult.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../utils/Session.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AnotherProfile extends StatelessWidget {
   AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
@@ -40,7 +41,7 @@ class AnotherProfile extends StatelessWidget {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("User Profile"),
+              title:  Text(AppLocalizations.of(context).userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
@@ -71,8 +72,8 @@ class AnotherProfile extends StatelessWidget {
                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: viewModel.friend==false? <Widget>[
-                    const Text (
-                      'Afegir amic:  ',
+                    Text (
+                      '${AppLocalizations.of(context).addFriend}    ',
                       style: TextStyle(
                           fontSize: 18, height: 1.4, color: Colors.black54),
                     ),
@@ -154,7 +155,7 @@ class AnotherProfile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!}'),
+                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context).points}'),
                     ],
                   ),
 

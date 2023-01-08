@@ -129,5 +129,29 @@
 
     "deleteQuestion": "Estàs segur que vols eliminar aquest esdeveniment?",
 
+    "searchName": "Buscar per nom...",
+
+    "userProfile": "Perfil Usuari",
+
+    "addFriend": "Enviar sol·licitud",
+
+    "points": "Punts",
+
+    "friendRequests": "Peticions d'amistat",
+
+    "trophies": "Trofeus",
+
+    "config": "Configuració",
+
+    "findUsers": "Buscar Usuaris",
+
+    "myProfile": "El meu Perfil",
+
+    "ranking": "Classificació",
+
+    "achieved": "ACONSEGUIT",
+
+    "notAchieved": "No Aconseguit",
+
     "modify": "Modificar"
 }

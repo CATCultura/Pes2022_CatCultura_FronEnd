@@ -80,6 +80,9 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Xat(argsEventUnic.eventId));
       case '/blocks':
         return MaterialPageRoute(builder:(_)=>Blocks());
+      case '/ranking':
+        return MaterialPageRoute(builder:(_)=>Ranking());
+
       default:
         // return _errorRoute();
         return MaterialPageRoute(builder:(_)=>Home());

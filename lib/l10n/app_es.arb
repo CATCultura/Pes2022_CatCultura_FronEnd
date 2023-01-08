@@ -129,5 +129,30 @@
 
     "deleteQuestion": "¿Estás seguro de que quieres eliminar este evento?",
 
-    "modify": "Modificar"
+    "modify": "Modificar",
+    
+    "searchName": "Buscar por nombre...",
+
+    "userProfile": "Perfil Usuario",
+
+    "addFriend": "Enviar solicitud",
+
+    "points": "Puntos",
+
+    "friendRequests": "Solicitudes amistad",
+
+    "trophies": "Trofeos",
+
+    "config": "Configuración",
+
+    "findUsers": "Buscar Usuarios",
+
+    "myProfile": "Mi Perfil",
+
+    "ranking": "Clasificación",
+
+    "achieved": "CONSEGUIDO",
+
+    "notAchieved": "No Conseguido"
+
 }
