@@ -15,18 +15,13 @@ class FriendRequests extends StatelessWidget {
 
   @override
   void initState() {
-
+    viewModel.receivedUsersById(sessio.data.id.toString());
+    viewModel.notifyListeners();
   }
 
   @override
   Widget build(BuildContext context) {
-    List names = ["Juanito Perez", "Agustí Gàllego", "SuperJuane"];
     viewModel.receivedUsersById(sessio.data.id.toString());
-    //if (viewModel.usersReceived.status == Status.COMPLETED) {
-   /*   for (var i = 0; i < 1; i++) {
-        usersList.add(viewModel.usersReceived.data![i].username);
-      }*/
-    //}
     viewModel.notifyListeners();
     return ChangeNotifierProvider<RequestsUserViewModel>(
         create: (BuildContext context) => viewModel,
@@ -45,7 +40,7 @@ class FriendRequests extends StatelessWidget {
               child: viewModel.usersReceived.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
               viewModel.usersReceived.status == Status.ERROR? Text(viewModel.usersReceived.toString()):
               viewModel.usersReceived.status == Status.COMPLETED? ListView.builder(
-                itemCount: viewModel.usersReceived.data!.length,
+                itemCount: sessio.data.receivedRequestsIds!.length,
                 shrinkWrap:true,
                 itemBuilder:(BuildContext context, int index) => Container(
                   width: MediaQuery.of(context).size.width,
@@ -99,8 +94,10 @@ class FriendRequests extends StatelessWidget {
                               onPressed: () {
                                viewModel.putFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
                                var aux = int.parse(viewModel.usersReceived.data![index].id!);
+                               viewModel.usersReceived.data!.remove(aux);
                                sessio.data.receivedRequestsIds!.remove(aux);
                                sessio.data.friendsId!.add(aux);
+                               viewModel.notifyListeners();
                               },
                             ),
                           ),
@@ -117,7 +114,9 @@ class FriendRequests extends StatelessWidget {
                               onPressed: () {
                                 viewModel.deleteFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
                                 var aux = int.parse(viewModel.usersReceived.data![index].id!);
+                                viewModel.usersReceived.data!.remove(aux);
                                 sessio.data.receivedRequestsIds!.remove(aux);
+                                viewModel.notifyListeners();
                               },
                             ),
                           ),

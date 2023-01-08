@@ -51,8 +51,16 @@ class SessionResult {
   SessionResult.fromJson(Map<String, dynamic> jsonResponse) {
     debugPrint(jsonResponse.toString());
     id = jsonResponse['id'];
-    username = jsonResponse['username'];
-    nameAndSurname = jsonResponse['nameAndSurname'];
+    if (jsonResponse['username'] != null) {
+      username = jsonResponse['username'];
+    } else {
+      username = "No username";
+    }
+    if (jsonResponse['nameAndSurname'] != null){
+      nameAndSurname = jsonResponse['nameAndSurname'];
+    } else {
+      nameAndSurname = "No name";
+    }
     email = jsonResponse['email'];
     creationDate = jsonResponse['creationDate'];
     role = jsonResponse['role'];

@@ -200,6 +200,18 @@ class UsersRepository {
     }
   }
 
+  Future<String> addUserReport(String id, int reportedUserId) async {
+    try {
+      dynamic response = await _apiServices.getPutApiResponse(
+          "${baseUrl}users/$id/users/$reportedUserId/reports", "");
+      String res = response;
+      return res;
+    }
+    catch (e) {
+      rethrow;
+    }
+  }
+
   Future<String> putEditUser(String password, String id) async {
     try {
       dynamic response = await _apiServices.getPutApiResponse(

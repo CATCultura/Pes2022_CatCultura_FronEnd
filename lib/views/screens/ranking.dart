@@ -54,7 +54,7 @@ class _StatefulRankingState extends State<StatefulRanking>  {
               backgroundColor: MyColors.bgColorScreen,
               // key: _scaffoldKey,
               drawer: MyDrawer("Profile", Session(),
-                  username: sessio.data.username, email: sessio.data.email!),
+                  username: "Superjuane", email: "juaneolivan@gmail.com"),
               body: Container(
                   child: viewModel.finish? ListView.builder(
                   itemCount: viewModel.users.length,

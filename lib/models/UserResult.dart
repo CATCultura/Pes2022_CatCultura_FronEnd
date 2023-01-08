@@ -25,8 +25,16 @@ class UserResult {
 
   UserResult.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
-    username = json['username'].toString();
-    nameAndSurname = json['nameAndSurname'].toString();
+    if (json['username'].toString() != null) {
+      username = json['username'].toString();
+    } else {
+      username = "No username";
+    }
+    if (json['nameAndSurname'].toString() != null) {
+      nameAndSurname = json['nameAndSurname'].toString();
+    } else {
+      nameAndSurname = "No name";
+    }
     email = json['email'].toString();
     creationDate = json['creationDate'].toString();
     role = json['role'].toString();

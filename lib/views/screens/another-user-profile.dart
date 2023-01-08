@@ -47,8 +47,7 @@ class AnotherProfile extends StatelessWidget {
             backgroundColor: Colors.grey[200],
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                "AnotherProfile",  Session(), username: "SuperJuane",
-                email: "juaneolivan@gmail.com"),
+                "AnotherProfile",  Session(), username: "Superjuane", email: "juaneolivan@gmail.com"),
             body: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
@@ -58,8 +57,22 @@ class AnotherProfile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        selectedUser,
+                        viewModel.mainUser.data!.nameAndSurname.toString(),
                         style: TextStyle(fontSize: 28, color: Colors.teal),
+                      ),
+                      SizedBox(width: 10),
+                      IconButton(
+                        iconSize: 30,
+                        icon: Icon(
+                          Icons.report_problem_outlined,
+                          color: Colors.redAccent,
+                        ),
+                        onPressed: () {
+                          viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                          var aux = int.parse(selectedId);
+                          //sessio.data..add(aux);
+                        },
+
                       ),
                     ]
                 ),
@@ -229,6 +242,7 @@ class AnotherProfile extends StatelessWidget {
           top: top,
           child: buildProfilePicture(),
         ),
+
       ],
     );
   }

@@ -54,7 +54,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
           appBar: AppBar(
             toolbarHeight: 70,
             title: Text(AppLocalizations.of(context).myProfile),
-            backgroundColor: MyColorsPalette.lightBlue,
+            backgroundColor: MyColorsPalette.lightPurple,
           ),
           backgroundColor: MyColors.bgColorScreen,
           // key: _scaffoldKey,
@@ -310,8 +310,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
   Widget buildProfilePicture() => CircleAvatar(
     radius: profileHeight/2,
-    backgroundColor: Colors.grey.shade800,
-    backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+    backgroundColor: Colors.white,
+    backgroundImage: AssetImage('resources/img/logo2.png'),
   );
 
 
