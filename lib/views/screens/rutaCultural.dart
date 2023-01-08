@@ -195,9 +195,15 @@ class RutaCulturalState extends State<RutaCultural> {
                                                 shadowColor: Colors.black.withAlpha(70),
                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                                 child: ListTile(
-                                                    onTap: () {
-                                                      viewModel.modifyRoute(_manager, viewModel.eventsList.data![i].id!);
-                                                      Navigator.pop(context);
+                                                    onTap: () async {
+                                                      await viewModel.modifyRoute(_manager, viewModel.eventsList.data![i].id!).then((_){
+                                                        setState(() {
+                                                          viewModel.rutaGenerada = true;
+                                                          _manager.updateMap();
+                                                          mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+                                                        });
+                                                        Navigator.pop(context);
+                                                      });
                                                     },
                                                     shape: RoundedRectangleBorder(
                                                       side: const BorderSide(color: Color(0xFF818181), width: 1),
@@ -228,20 +234,21 @@ class RutaCulturalState extends State<RutaCultural> {
                               ),
                             );
                           },
-                        ).then((val) async {
-                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("asdf"),));
-                          debugPrint(
-                              "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
-                          if (!val.canceled){
-                            debugPrint("NOT CANCELED");
-                            setState(() {
-                              viewModel.savingRuta = true;
-                            });
-                            await viewModel.saveRutaCultural(args).then((_){
-                              //procesar result
-                            });
-                          }
-                        });
+                        );
+                        //     .then((val) async {
+                        //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("asdf"),));
+                        //   debugPrint(
+                        //       "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
+                        //   if (!val.canceled){
+                        //     debugPrint("NOT CANCELED");
+                        //     setState(() {
+                        //       viewModel.savingRuta = true;
+                        //     });
+                        //     await viewModel.saveRutaCultural(args).then((_){
+                        //       //procesar result
+                        //     });
+                        //   }
+                        // });
                       },
                       label: Text(AppLocalizations.of(context)!.modifyRouteText),
                     ),

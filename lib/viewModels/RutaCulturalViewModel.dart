@@ -11,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_cluster_manager/src/cluster_item.dart';
 import 'package:google_maps_cluster_manager/src/cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:googleapis/shared.dart';
 import '../models/Place.dart';
 import '../models/RouteResult.dart';
 import 'package:CatCultura/utils/routes/deepLinkParams.dart';
@@ -22,7 +23,8 @@ class RutaCulturalViewModel with ChangeNotifier {
   // final CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(42.0, 1.6), zoom: 7.2);
   late CameraPosition iniCameraPosition = const CameraPosition(target: LatLng(41.37, 2.16), zoom: 12.0);
   late Position realPosition;
-
+  late int generatedRouteRadius = -1;
+  late String generatedRouteDate = "";
 
 
   //VARIABLES
@@ -90,7 +92,12 @@ class RutaCulturalViewModel with ChangeNotifier {
   Future<void> generateRutaCultural(RutaCulturalArgs? args) async {
     eventsListMap.status = Status.LOADING;
     notifyListeners();
+    if(args != null){
+      generatedRouteRadius = args.radio;
+      generatedRouteDate = args.data;
+    }
     await _eventsRepo.getRutaCultural(args!.longitud,args.latitud,args.radio, args.data).then ((value) async {
+      polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
       setEventsList(ApiResponse.completed(value));
       await paintRoute().then((value){
         polylines.status = value;
@@ -101,6 +108,8 @@ class RutaCulturalViewModel with ChangeNotifier {
   }
 
   Future<bool> loadRutaCultural(RutaCulturalLoadArgs result) async {
+    generatedRouteRadius = -1;
+    generatedRouteDate = "";
     polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
     if(result.events != null && result.events != []){
       setEventsList(ApiResponse.completed(result.events));
@@ -144,7 +153,7 @@ class RutaCulturalViewModel with ChangeNotifier {
         PointLatLng(destinationLatitude, destinationLongitude),
         travelMode: TravelMode.walking,
       );
-    } else /*if(distance < 2.5)*/{
+    } else {
       result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey, // Google Maps API Key
         PointLatLng(startLatitude, startLongitude),
@@ -152,43 +161,7 @@ class RutaCulturalViewModel with ChangeNotifier {
         travelMode: TravelMode.transit,
       );
     }
-    // else{
-    //   PolylineResult rAux = await polylinePoints.getRouteBetweenCoordinates(
-    //     googleAPiKey, // Google Maps API Key
-    //     PointLatLng(startLatitude, startLongitude),
-    //     PointLatLng(destinationLatitude, destinationLongitude),
-    //     travelMode: TravelMode.transit,
-    //   );
-    //   var points = rAux.points;
-    //   int step = points.length ~/ 10; // Calculate the step size
-    //   result = await polylinePoints.getRouteBetweenCoordinates(
-    //     googleAPiKey, // Google Maps API Key
-    //     PointLatLng(startLatitude, startLongitude),
-    //     points[step], // Make the first API call with the first middle point
-    //     travelMode: TravelMode.transit,
-    //   );
-    //   for (int i = 1; i < 10; i++) {
-    //     // Make the remaining API calls with the middle points
-    //     PolylineResult r = await polylinePoints.getRouteBetweenCoordinates(
-    //       googleAPiKey, // Google Maps API Key
-    //       points[step * (i - 1)],
-    //       points[step * i],
-    //       travelMode: TravelMode.transit,
-    //     );
-    //     result.points.addAll(r.points);
-    //   }
-    //   // Make the final API call with the last middle point
-    //   PolylineResult r = await polylinePoints.getRouteBetweenCoordinates(
-    //     googleAPiKey, // Google Maps API Key
-    //     points[step * 9],
-    //     PointLatLng(destinationLatitude, destinationLongitude),
-    //     travelMode: TravelMode.transit,
-    //   );
-    //   result.points.addAll(r.points);
-    // }
 
-
-    // Adding the coordinates to the list
     List<LatLng> polylineCoordinates = [];
 
     if (result.points.isNotEmpty) {
@@ -226,6 +199,8 @@ class RutaCulturalViewModel with ChangeNotifier {
 
   Future<void> loadSingleRoute(ClusterManager<ClusterItem> manager) async{
     debugPrint("loading shared route");
+    generatedRouteRadius = -1;
+    generatedRouteDate = "";
     await _eventsRepo.getRouteById(code).then((value) async {
       if(value != null){
         //rutaGenerada = false;
@@ -249,23 +224,23 @@ class RutaCulturalViewModel with ChangeNotifier {
   }
 
   Future<void> modifyRoute(ClusterManager<ClusterItem> manager, String id) async {
+    // debugPrint("****************************************** $id *******************************");
+    // eventsListMap.status = Status.LOADING;
+    // rutaGenerada = false;
+    // notifyListeners();
     eventsListMap.status = Status.LOADING;
-    rutaGenerada = false;
     notifyListeners();
-    await _eventsRepo.modifyRoute(1.1, 2.2, 3, "a", id).then((value) async {
-      if(value != null){
-        polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
-        setEventsList(ApiResponse.completed(value));
-        manager.setItems(eventsListMap.data!);
-        await paintRoute().then((value){
-          polylines.status = value;
-          notifyListeners();
-        });
-      }
-    }
-    ).onError((error, stackTrace) {
+    await _eventsRepo.modifyRoute(realPosition.longitude, realPosition.latitude, generatedRouteRadius, generatedRouteDate, id).then((value) async {
+    // await _eventsRepo.getRutaCultural(realPosition.longitude, realPosition.latitude, 15000, "2023-01-08T00:00:00.000").then((value) async {
+      polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+      setEventsList(ApiResponse.completed(value));
+      await paintRoute().then((value){
+        polylines.status = value;
+        notifyListeners();
+      });
+    }).onError((error, stackTrace) {
       debugPrintStack(stackTrace: stackTrace, label: error.toString());
-      //setEventsList(ApiResponse.error(error.toString()));
+      setEventsList(ApiResponse.error(error.toString()));
     });
 }
 
