@@ -62,6 +62,16 @@ class HomeViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> fetchEventsByTag() async {
+    if (session.data.id != -1 && session.data.tags != null) {
+      for (int i = 0; i < session.data.tags!.length; ++i) {
+        await _eventsRepo.getEventsByTag(session.data.tags![i]).then((value) {
+          setEventTagList(ApiResponse.completed(value), session.data.tags![i]);
+        }).onError((error, stackTrace) =>
+            setEventsList(ApiResponse.error(error.toString())));
+      }
+    }
+  }
 
 
   Future<void> fetchEvents() async {
@@ -76,18 +86,17 @@ class HomeViewModel with ChangeNotifier{
       setEventsList(ApiResponse.completed(value));
   }).onError((error, stackTrace) =>
         setEventsList(ApiResponse.error(error.toString())));
-    if (session.data.id != -1 && session.data.tags != null) {
-      for (int i = 0; i < session.data.tags!.length; ++i) {
-        await _eventsRepo.getEventsByTag(session.data.tags![i]).then((value) {
-          setEventTagList(ApiResponse.completed(value), session.data.tags![i]);
-        }).onError((error, stackTrace) =>
-            setEventsList(ApiResponse.error(error.toString())));
-      }
-    }
     }
 
 
   @override
   void dispose(){
+  }
+
+  Future<void> fetchEventsByTagListPosition(int i) async {
+    await _eventsRepo.getEventsByTag(session.data.tags![i]).then((value) {
+      setEventTagList(ApiResponse.completed(value), session.data.tags![i]);
+    }).onError((error, stackTrace) =>
+        setEventsList(ApiResponse.error(error.toString())));
   }
 }
