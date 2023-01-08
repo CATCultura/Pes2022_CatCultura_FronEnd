@@ -96,7 +96,7 @@ class EventResult {
     denominacio = jsonResponse['denominacio'];
     dataFiAprox = jsonResponse['dataFiAprox'];
     if(jsonResponse['descripcio'] != null && jsonResponse['descripcio'] != "") {
-      descripcio = formatText(jsonResponse['descripcio']);
+      descripcio = formatText(jsonResponse['descripcio']).split("NOTA DE L'AGENDA")[0];
     } else {
       descripcio = "No descripcio";
     }
@@ -160,16 +160,26 @@ class EventResult {
     ];
     return result;
   }
+
+  List<String> getTags() {
+    List<String> res = [];
+    res.addAll(tagsAmbits ?? []);
+    res.addAll(tagsCateg ?? []);
+    res.addAll(tagsAltresCateg ?? []);
+    return res;
+  }
 }
 
 String formatText(String s) {
   String aux = s.replaceAll ("&nbsp;", " ");
   aux = aux.replaceAll ("nbsp;", "");
   aux = aux.replaceAll ("&amp;", "&");
-  aux = aux.replaceAll ("amp;", "&");
+  aux = aux.replaceAll ("amp;", "");
 
   return aux;
 }
+
+
 
 
 String? comarcaIMunicipiAdapt(String s) {

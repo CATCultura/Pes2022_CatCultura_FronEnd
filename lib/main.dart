@@ -24,9 +24,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 //import 'utils/routes/routes.dart';
+late PermissionStatus cameraStatus;
 
 void setPermissions() async{
   final locStatus = await Permission.location.request();
+  cameraStatus = await Permission.camera.request();
 }
 
 bool _initialUriIsHandled = false;

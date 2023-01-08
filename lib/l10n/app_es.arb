@@ -95,6 +95,8 @@
 
     "orgEventsScreenTitle": "Eventos organizados por",
 
+    "tagEventsScreenTitle": "Eventos con la etiqueta",
+
     "code": "Código)",
 
     "startDate": "Fecha Inicio",
@@ -130,7 +132,7 @@
     "deleteQuestion": "¿Estás seguro de que quieres eliminar este evento?",
 
     "modify": "Modificar",
-    
+
     "searchName": "Buscar por nombre...",
 
     "userProfile": "Perfil Usuario",

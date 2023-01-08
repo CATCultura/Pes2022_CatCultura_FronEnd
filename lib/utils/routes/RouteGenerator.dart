@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
+import '../../views/screens/qrScanning.dart';
+import '../../views/screens/tagEvents.dart';
 import '../../views/screens/xat.dart';
 
 
@@ -73,6 +75,9 @@ class RouteGenerator{
       case '/organizer':
         final argsOrganizerId = settings.arguments as OrganizerArgs;
         return MaterialPageRoute(builder:(_)=>OrganizerEvents(argsOrganizerId.orgId, organizerName: argsOrganizerId.orgName,));
+      case '/tagEvents':
+        final argsTag = settings.arguments as TagArgs;
+        return MaterialPageRoute(builder:(_)=>TagEvents(argsTag.tagName));
       case '/allUsers':
         return MaterialPageRoute(builder:(_)=>AllUsers());
       case '/xat':
@@ -82,6 +87,9 @@ class RouteGenerator{
         return MaterialPageRoute(builder:(_)=>Blocks());
       case '/ranking':
         return MaterialPageRoute(builder:(_)=>Ranking());
+      case '/qrScanner':
+        final event = settings.arguments as String;
+        return MaterialPageRoute(builder:(_)=>QRScanning(event));
 
       default:
         // return _errorRoute();

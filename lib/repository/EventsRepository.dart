@@ -18,7 +18,7 @@ import '../utils/Session.dart';
 // import '../res/app_url.dart'; DE DONDE SALEN LAS URLS PARA LAS LLAMADAS HTTP
 
 class EventsRepository {
-  //final baseUrl = "http://40.113.160.200:8081/";
+  // final baseUrl = "http://40.113.160.200:8081/";
   final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
   final session = Session();
@@ -188,12 +188,10 @@ class EventsRepository {
     }
   }
 
-  Future<List<EventResult>> postCreaEvent(EventResult data) async {
+  Future<EventResult> postCreaEvent(EventResult data) async {
     try {
-      debugPrint(data.toJson().toString());
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data.toJson());
-      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-      return res;
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -450,6 +448,26 @@ class EventsRepository {
       }
   }
 
+  Future<String> confirmAttendance(String code, int userId, String eventId) async {
+    try {
+      //todo change this ugly backend route
+      dynamic response = await _apiServices.getPutApiResponse("${baseUrl}users/$userId/attended/$eventId?code=$code", "");
+      debugPrint("****************************");
+      debugPrint(response.toString());
+      debugPrint("****************************");
+      session.data.attendedId = List<int>.from(response);
+      debugPrint("****************************");
+      debugPrint(session.data.attendedId.toString());
+      debugPrint("****************************");
+      return response.toString();
+    } on ConflictException {
+      return "Bad code";
+    }
+    catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<ReviewResult>> getReviewsReports() async{
     try {
       dynamic response = await _apiServices.getGetApiResponse("${baseUrl}reviews/reported");
@@ -487,6 +505,16 @@ class EventsRepository {
       List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
       debugPrint("res desde eventRepo getEventsNearMe(): ${res.toString()}");
       return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> getAttendanceCode(String eventId) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$eventId/attendanceCode");
+
+      return response["code"];
     } catch (e) {
       rethrow;
     }

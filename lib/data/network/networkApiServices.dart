@@ -239,6 +239,8 @@ class NetworkApiServices extends BaseApiServices {
         throw BadRequestException(response.body.toString());
       case 404:
         throw BadRequestException(response.body.toString());
+      case 409:
+        throw ConflictException(response.body.toString());
       case 500:
         throw BadRequestException(response.body.toString());
       default:
@@ -246,4 +248,10 @@ class NetworkApiServices extends BaseApiServices {
             "Error accourded while communicating with server with status code ${response.statusCode}");
     }
   }
+}
+
+class ConflictException implements Exception{
+  String cause;
+  ConflictException(this.cause);
+
 }

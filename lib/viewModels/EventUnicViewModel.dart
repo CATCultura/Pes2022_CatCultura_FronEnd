@@ -1,5 +1,7 @@
 import 'dart:ffi';
+//import 'dart:html';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+
+
 
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
@@ -24,6 +29,9 @@ class EventUnicViewModel with ChangeNotifier {
   ApiResponse<EventResult> eventSelected = ApiResponse.loading();
   ApiResponse<EventResult> event = ApiResponse.loading();
   bool favorit = false, agenda = false;
+
+  late PermissionStatus camera;
+  bool cameraActivated = false;
 
   ApiResponse<String> addFavouriteResult = ApiResponse.loading();
   ApiResponse<String> addAttendanceResult = ApiResponse.loading();
@@ -51,7 +59,10 @@ class EventUnicViewModel with ChangeNotifier {
   void ini(){
     if(sessio.data.id != -1){
       isUser = true;
-      if(sessio.data.role == "ADMIN") isAdmin = true;
+      if(sessio.data.role == "ADMIN") {
+        isOrganizer = true;
+        isAdmin = true;
+      }
       if(sessio.data.role == "ORGANIZER") isOrganizer = true;
     }
   }
@@ -153,6 +164,14 @@ class EventUnicViewModel with ChangeNotifier {
     await Share.shareFiles([path], text: titol);
   }
 
+  shareQrImage(var titol, Uint8List qr) async {
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/qr.png';
+
+    File(path).writeAsBytesSync(qr);
+    await Share.shareFiles([path], text: titol);
+  }
+
   Future<void> addEventToGoogleCalendar(var _scopes)async{
     var _credentials;
     if(Platform.isAndroid){
@@ -193,5 +212,47 @@ class EventUnicViewModel with ChangeNotifier {
         }).onError((error, stackTrace) =>
         setEventSelected(ApiResponse.error(error.toString()))); **/
     waiting = false;
+  }
+
+  bool wrongCode = false;
+
+  Future<void> confirmAttendance(String text, String? eventId) async {
+  debugPrint("here");
+    await _eventsRepo.confirmAttendance(text,Session().data.id,eventId!).then((value) {
+      if (value == "Bad code") {
+        wrongCode = true;
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) => null);
+
+  }
+
+  setWrongCode(bool code) {
+    wrongCode=code;
+    notifyListeners();
+  }
+
+  requestPermission() async {
+    if (await Permission.camera.isGranted) {
+      cameraActivated=true;
+      notifyListeners();
+    }
+
+  }
+
+  setPermission(bool p) {
+    notifyListeners();
+  }
+
+  ApiResponse<String> attendanceCode = ApiResponse.loading();
+
+  void getAttendanceCode(String eventId) async {
+    await _eventsRepo.getAttendanceCode(eventId).then((value)=>
+    setAttendanceCode(ApiResponse.completed(value)));
+  }
+
+  setAttendanceCode(ApiResponse<String> apiResponse) {
+    attendanceCode=apiResponse;
+    notifyListeners();
   }
 }
