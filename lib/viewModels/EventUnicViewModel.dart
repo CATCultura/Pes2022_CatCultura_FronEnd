@@ -1,6 +1,7 @@
 import 'dart:ffi';
 //import 'dart:html';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:flutter/cupertino.dart';
@@ -160,6 +161,14 @@ class EventUnicViewModel with ChangeNotifier {
     await Share.shareFiles([path], text: titol);
   }
 
+  shareQrImage(var titol, Uint8List qr) async {
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/qr.png';
+
+    File(path).writeAsBytesSync(qr);
+    await Share.shareFiles([path], text: titol);
+  }
+
   Future<void> addEventToGoogleCalendar(var _scopes)async{
     var _credentials;
     if(Platform.isAndroid){
@@ -229,6 +238,18 @@ class EventUnicViewModel with ChangeNotifier {
   }
 
   setPermission(bool p) {
+    notifyListeners();
+  }
+
+  ApiResponse<String> attendanceCode = ApiResponse.loading();
+
+  void getAttendanceCode(String eventId) async {
+    await _eventsRepo.getAttendanceCode(eventId).then((value)=>
+    setAttendanceCode(ApiResponse.completed(value)));
+  }
+
+  setAttendanceCode(ApiResponse<String> apiResponse) {
+    attendanceCode=apiResponse;
     notifyListeners();
   }
 }
