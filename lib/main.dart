@@ -27,6 +27,7 @@ import 'package:flutter/services.dart';
 
 void setPermissions() async{
   final locStatus = await Permission.location.request();
+  final notStatus = await Permission.notification.request();
 }
 
 bool _initialUriIsHandled = false;

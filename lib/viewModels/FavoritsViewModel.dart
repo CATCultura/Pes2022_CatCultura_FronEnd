@@ -22,7 +22,7 @@ class FavoritsViewModel with ChangeNotifier {
 
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
-    session.set("favorits", favouritesList);
+    session.set("favorits", favouritesList.data as List<EventResult>);
     notifyListeners();
   }
 

@@ -495,14 +495,13 @@ class _BodyState extends State<Body> {
               iconSize: 40,
               icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
               onPressed: () {
-                _selectedDate(context);
                 if(viewModel.agenda == true) {
                   viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   //widget.callback!("deleteAttendance");
                   NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
                 }
                 else {
-
+                  _selectedDate(context);
                   viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
                   // widget.callback!("addAttendance");
                   }
