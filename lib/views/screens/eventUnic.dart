@@ -1,6 +1,7 @@
 //import 'dart:html';
 import 'dart:io';
 import 'dart:math';
+import 'package:CatCultura/views/screens/qrScanning.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:CatCultura/models/EventResult.dart';
 import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
@@ -420,8 +421,30 @@ class _BodyState extends State<Body> {
 
   Widget showWrongCodeSnackBar() {
     return const SnackBar(content: Text("Wrong Code"));
-
   }
+
+  Future<void> _navigateAndCaptureQR(
+      BuildContext context) async {
+    setState(() {
+      viewModel.wrongCode = false;
+    });
+    Navigator.pop(context);
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute<QrCodeArgs>(
+          builder: (context) => QRScanning(event.id!)),
+    );
+    viewModel.confirmAttendance(result!.code, event.id!);
+
+
+
+    //viewModel.paintRoute();
+    // setState(() {
+    //
+    // });
+  }
+
+
 
   Widget showAttendanceDialog(bool attended) {
     if (!attended) {
@@ -433,11 +456,11 @@ class _BodyState extends State<Body> {
           ElevatedButton(onPressed: () =>
           {
             viewModel.confirmAttendance(controller.text, event.id),
-            Navigator.of(context).pop(),
+
           }, child: Text("Enviar")),
           ElevatedButton(onPressed: () =>
           {
-            Navigator.of(context).pushNamed('/qrScanner',arguments: event.id!),
+            _navigateAndCaptureQR(context),
           }, child: Text("QR")),
         ],
         title: Text("Info ubicacio"),

@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import 'package:CatCultura/viewModels/EventUnicViewModel.dart';
 import 'package:CatCultura/views/widgets/errorWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -94,7 +95,11 @@ class _QRScanningState extends State<QRScanning> {
                           Row(
                             children: [
                               Text("Capturat. Codi ${result!.code!}"),
-                              ElevatedButton(onPressed: () => viewModel.confirmAttendance(result!.code!, eventId), child: Text("Confirmar"))
+                              ElevatedButton(onPressed: () => {
+                                              Navigator.pop(context,
+                                              QrCodeArgs(result!.code!)
+                                              )
+                                            }, child: Text("Confirmar"))
                             ],
                           )
                           // Text(

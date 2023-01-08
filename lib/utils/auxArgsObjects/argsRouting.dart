@@ -18,6 +18,11 @@ class TagArgs {
   TagArgs(this.tagName);
 }
 
+class QrCodeArgs {
+  final String code;
+  QrCodeArgs(this.code);
+}
+
 class ReviewUnicaArgs {
   final ReviewResult review;
   ReviewUnicaArgs(this.review);
