@@ -603,7 +603,7 @@ class _BodyState extends State<Body> {
                           Text("GenerarQR", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                         ],
                       ),
-                      !viewModel.isOrganizer ? IconButton(
+                      if (viewModel.isOrganizer) IconButton(
                         iconSize: 40,
                         icon: Icon(Icons.settings),
                         onPressed: () {
@@ -611,7 +611,7 @@ class _BodyState extends State<Body> {
                               context, '/opcions-Esdeveniment',
                               arguments: EventArgs(viewModel.eventSelected.data!));
                           },
-                      ) : nothing(),
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -1000,7 +1000,7 @@ class _CustomIcon extends StatelessWidget {
             size: 45,
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width/2 -5,
+            width: MediaQuery.of(context).size.width/4,
             child: Center(
               child: Text(
                 text,

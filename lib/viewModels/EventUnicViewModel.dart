@@ -59,7 +59,10 @@ class EventUnicViewModel with ChangeNotifier {
   void ini(){
     if(sessio.data.id != -1){
       isUser = true;
-      if(sessio.data.role == "ADMIN") isAdmin = true;
+      if(sessio.data.role == "ADMIN") {
+        isOrganizer = true;
+        isAdmin = true;
+      }
       if(sessio.data.role == "ORGANIZER") isOrganizer = true;
     }
   }
