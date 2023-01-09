@@ -407,6 +407,11 @@
             "description": "Text for button to generate cultural route"
         },
 
+  "modifyRouteText": "Modify route",
+    "@modifyRouteText": {
+                "description": "Text for button to modify cultural route"
+            },
+
   "saveRouteNameHint": "Route name",
   "@saveRouteNameHint": {
             "description": "Text for input box"
@@ -446,6 +451,16 @@
     "savedRoutesButtonText" : "Open saved routes",
     "@savedRoutesButtonText": {
                 "description": "Text for button to open saved routes"
+            },
+
+    "blocksMainTitle": "Reports",
+    "@blocksMainTitle": {
+                "description": "Title for blocks"
+            },
+
+    "reportedReviewsTitle" : "Reported reviews",
+    "@reportedReviewsTitle": {
+                "description": "Title for reported reviews"
             },
 
     "scanQRCodeScreenTitle" : "Scan a QR code",
@@ -506,6 +521,119 @@
     "confirmAttendanceMenuOption": "Confirm attendance",
     "@confirmAttendanceMenuOption": {
         "description": "Name for option to confirm attendance."
-        }
+        },
 
+    "nameAndSurnameInputBoxLabel": "Name and surname",
+    "@nameAndSurnameInputBoxLabel": {
+      "description": "Text for input box"
+    },
+
+    "emailInputBoxLabel": "Email",
+    "@emailInputBoxLabel": {
+      "description": "Text for input box"
+    },
+
+    "createAccount": "Create account",
+    "@createAccount": {
+      "description": "Text for a button"
+    },
+
+    "alreadyAccount": "I already have an account",
+    "@alreadyAccount": {
+      "description": "Text for a button"
+    },
+
+    "descriptionCreateAccount": "Create an account and enjoy the culture around you",
+    "@descriptionCreateAccount": {
+      "description": "Description text"
+    },
+
+    "errorMessageCreateAccount": "Required field",
+     "@errorMessageCreateAccount": {
+        "description": "Error text for empty fields"
+    },
+
+     "errorCharactersMessageCreateAccount": "Minimum 6 characters",
+     "@errorCharactersMessageCreateAccount": {
+        "description": "Error text for characters"
+    },
+
+    "cancelButton": "CANCEL",
+     "@cancelButton": {
+        "description": "Cancel text"
+    },
+
+     "saveButton": "SAVE",
+     "@saveButton": {
+         "description": "Save text"
+     },
+
+     "editTagsButton": "Edit the tags",
+     "@editTagsButton": {
+        "description": "Edit tags text"
+     },
+
+     "editProfileText": "Edit your profile",
+      "@editProfileText": {
+         "description": "Edit profile description text"
+      },
+
+      "newPasswordInput": "New password",
+      "@newPasswordInput": {
+         "description": "New password input field"
+      },
+
+      "emptyFieldText": "Empty field",
+      "@emptyFieldText": {
+          "description": "Empty password message for edit profile"
+      },
+
+      "notNowButton": "NOT NOW",
+      "@notNowButton": {
+          "description": "Button to cancel the creation of new tags"
+      },
+
+      "selectTagsDescription": "Select your favourite tags",
+      "@selectTagsDescription": {
+          "description": "Description for user tags screen"
+      },
+
+    "reportedUsersTitle" : "Reported users",
+    "@reportedUsersTitle": {
+                "description": "Title for reported users"
+            },
+  "blockButton" : "Block",
+    "@blockButton": {
+                "description": "TegenerateRouteTextxt for button to block"
+            },
+    "unblockButton" : "Unblock",
+    "@unblockButton": {
+                "description": "Text for button to unblock"
+            },
+
+
+  "parametersCulturalRouteMainTitle" : "PARAMETERS",
+    "@parametersCulturalRouteMainTitle": {
+                "description": "Title for parameters of cultural route"
+            },
+  "parametersCulturalRouteDate" : "Date",
+    "@parametersCulturalRouteTitle": {
+                "description": "Date of parameters of cultural route"
+            },
+    "parametersCulturalRouteSelectRadius" : "Select radius",
+    "@parametersCulturalRouteSelectRadius": {
+                "description": "Text for select radius of parameters of cultural route"
+            },
+  "parametersCulturalRouteGenerateButton": "GENERATE ROUTE",
+    "@parametersCulturalRouteGenerateButton": {
+                "description": "Text for button to generate cultural route"
+            },
+  "noUsersToBlock": "There are no users to block",
+    "@noUsersToBlock": {
+                "description": "Text for no users to block"
+            },
+  "noReviewsToBlock": "There are no reviews to block",
+    "@noReviewsToBlock": {
+                "description": "Text for no reviews to block"
+            }
 }

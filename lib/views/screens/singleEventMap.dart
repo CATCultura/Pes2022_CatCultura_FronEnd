@@ -13,6 +13,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../viewModels/SingleEventMapViewModel.dart';
+
 class SingleEventMap extends StatefulWidget {
   final EventResult event;
 
@@ -26,8 +28,10 @@ class _SingleEventMapState extends State<SingleEventMap> {
   late GoogleMapController mapController;
   late LatLng _initialcameraposition;
   late CameraPosition _kInitialPosition;
+  final SingleEventMapViewModel viewModel = SingleEventMapViewModel();
 
-  late EventResult event;
+
+  late EventResult event = widget.event;
   LatLngBounds _visibleRegion = LatLngBounds(
     southwest: const LatLng(0, 0),
     northeast: const LatLng(0, 0),
@@ -36,6 +40,8 @@ class _SingleEventMapState extends State<SingleEventMap> {
   @override
   void initState() {
     super.initState();
+    viewModel.ini(event);
+    viewModel.getStation(widget.event.latitud!, widget.event.longitud!, 50);
     event = widget.event;
     _initialcameraposition = LatLng(event.latitud!, event.longitud!);
     _kInitialPosition = CameraPosition(
@@ -44,22 +50,27 @@ class _SingleEventMapState extends State<SingleEventMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(event.denominacio!),
-        ),
-        body: GoogleMap(
-          markers: {
-            Marker(
-              markerId: const MarkerId("marker"),
-              position: LatLng(event.latitud!, event.longitud!),
+    return ChangeNotifierProvider<SingleEventMapViewModel>(
+        create: (BuildContext context) => viewModel,
+        child: Consumer<SingleEventMapViewModel>(builder: (context, value, _) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(event.denominacio!),
             ),
-          },
-          onMapCreated: onMapCreated,
-          initialCameraPosition: _kInitialPosition,
-          onCameraIdle:
-              _updateVisibleRegion, // https://github.com/flutter/flutter/issues/54758
-        ));
+            body: viewModel.eventSelected.status == Status.COMPLETED
+                ? GoogleMap(
+                    markers: viewModel.markers,
+                    onMapCreated: onMapCreated,
+                    initialCameraPosition: _kInitialPosition,
+                    onCameraIdle:
+                        _updateVisibleRegion, // https://github.com/flutter/flutter/issues/54758
+                  )
+                : viewModel.eventSelected.status == Status.ERROR ? Text(viewModel.eventSelected.message!)
+            : Center(
+                    child: CircularProgressIndicator(),
+                  ),
+          );
+        }));
   }
 
   Future<void> onMapCreated(GoogleMapController controller) async {

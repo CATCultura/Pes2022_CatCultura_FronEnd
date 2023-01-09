@@ -31,6 +31,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="catcultura.com" android:pathPrefix="/rutaCultural"/>
+                <data android:scheme="http" android:host="catcultura.com" android:pathPrefix="/confirmarAssistencia"/>
                 <data android:scheme="https" />
             </intent-filter>
             <!-- Specifies an Android theme to apply to this Activity as soon as

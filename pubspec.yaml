@@ -114,6 +114,7 @@ flutter:
     - resources/img/logo3.png
     - resources/img/backgroundPhoto.jpg
     - resources/img/error.png
+    - resources/img/electricity.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

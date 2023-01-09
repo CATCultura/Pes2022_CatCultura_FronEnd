@@ -268,4 +268,22 @@ class UsersRepository {
       rethrow;
     }
   }
+
+  blockUser(String userId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/$userId/block", "");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  unblockUser(String userId) async {
+    try {
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reports", "");
+      //return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

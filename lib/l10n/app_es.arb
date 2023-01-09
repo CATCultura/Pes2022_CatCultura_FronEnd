@@ -155,7 +155,59 @@
 
     "achieved": "CONSEGUIDO",
 
-    "notAchieved": "No conseguido",
+    "notAchieved": "No Conseguido",
+
+    "rutaCulturalMainTitle": "Ruta Cultural",
+
+    "generatingRouteText": "Estamos generando tu ruta...",
+
+
+    "generateRouteText": "Generar Ruta",
+
+    "modifyRouteText": "Modificar Ruta",
+
+    "saveRouteNameHint": "Nombre de la ruta",
+
+
+    "saveRouteDescriptionHint": "Descripcion",
+
+
+    "cancelTextCulturalRoute" : "Cancelar",
+
+
+    "saveTextCulturalRoute" : "Guardar",
+
+    "saveRouteSuccessTitle": "Routa guardada",
+
+    "saveRouteButtonText" : "Guardar ruta",
+
+
+    "saveRouteErrorNotLoggedIn" : "Tienes que haver iniciado sesion para guardar la ruta",
+
+    "loginTextErrorSaveCulturalRoute" : " Iniciar sesión",
+
+    "savedRoutesButtonText" : "Abrir rutas guardadas",
+
+
+    "blocksMainTitle": "Reports",
+
+
+    "reportedReviewsTitle" : "Reviews reportadas",
+
+
+    "reportedUsersTitle" : "Usuarios reportados",
+
+    "blockButton" : "Bloquear",
+
+    "unblockButton" : "Desbloquear",
+
+    "parametersCulturalRouteMainTitle" : "PARAMETROS",
+
+    "parametersCulturalRouteDate" : "Fecha",
+
+    "parametersCulturalRouteSelectRadius" : "Selecciona un radio",
+
+    "parametersCulturalRouteGenerateButton": "GENERAR RUTA",
 
     "scanQRCodeScreenTitle" : "Ecanea un QR",
 
@@ -179,7 +231,36 @@
 
     "scanQRCodeButton" : "QR",
 
-    "confirmAttendanceMenuOption": "Confirmar asistencia"
+    "confirmAttendanceMenuOption": "Confirmar asistencia",
 
+    "nameAndSurnameInputBoxLabel": "Nombre y apellidos",
+
+    "emailInputBoxLabel": "Correo electrónico",
+
+    "createAccount": "Crea cuenta",
+
+    "alreadyAccount": "Ya tengo cuenta",
+
+    "descriptionCreateAccount": "Crea una cuenta y disfruta de la cultura de tu alrededor",
+
+    "errorMessageCreateAccount": "Campo obligatorio",
+
+    "errorCharactersMessageCreateAccount": "Mínimo 6 caracteres",
+
+    "cancelButton": "CANCELAR",
+
+    "saveButton": "GUARDAR",
+
+    "editTagsButton": "Edita tus tags",
+
+    "editProfileText": "Edita tu perfil",
+
+    "newPasswordInput": "Nueva contraseña",
+
+    "emptyFieldText": "Campo vacío",
+
+    "notNowButton": "AHORA NO",
+
+    "selectTagsDescription": "Selecciona tus tags favoritas"
 
 }
