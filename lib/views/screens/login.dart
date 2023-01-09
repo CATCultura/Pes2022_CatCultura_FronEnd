@@ -2,6 +2,7 @@
 
 import 'package:CatCultura/main.dart';
 import 'package:CatCultura/repository/ChatRepository.dart';
+import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
@@ -40,9 +41,17 @@ class _StatefulLoginState extends State<StatefulLogin> {
   TextEditingController passwordController = TextEditingController(/*text: "admin"*/);
   bool showPassword = false;
   bool initial = true;
+  bool error_message = false;
 
-  String? filltext(String param) {
-    if (param.length == 0 && !initial) {
+  String? filltext(String param, String type) {
+   /* if (error_message) {
+      if (type == "user") {
+        return "Usuari incorrecte";
+      } else {
+        return "Contrasenya incorrecta";
+      }
+    }*/
+     if (param.length == 0 && !initial) {
       return "Camp requerit";
     }
     return null;
@@ -79,7 +88,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   decoration: InputDecoration (
                       contentPadding: EdgeInsets.only(bottom: 3),
                       labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
-                      errorText: filltext(nameController.text),
+                      errorText: filltext(nameController.text, "user"),
 
                   ),
                 ),
@@ -92,7 +101,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   controller: passwordController,
                   obscureText: !showPassword,
                   decoration: InputDecoration (
-                    errorText: filltext(passwordController.text),
+                    errorText: filltext(passwordController.text, "pass"),
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -109,21 +118,10 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: TextButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  child: Text(AppLocalizations.of(context)!.forgotPassword,
-                      style: TextStyle (
-                      color:Colors.deepOrangeAccent
-                  )),
-                ),
-              ),
+
               Container(
-                  height: 50,
-                  padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                  height: 60,
+                  padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
                   child: ElevatedButton(
                     style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
                     child: Text(AppLocalizations.of(context)!.loginButton,
@@ -133,10 +131,10 @@ class _StatefulLoginState extends State<StatefulLogin> {
                     ),
                     onPressed: ()  {
                       initial = false;
+                      if (nameController.text.length != 0 && passwordController.text.length != 0) error_message = true;
                       if (nameController.text.length != 0 && passwordController.text.length != 0) {
                         viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
                       }
-                      viewModel.notifyListeners();
                     },
                   )
               ),
@@ -157,40 +155,55 @@ class _StatefulLoginState extends State<StatefulLogin> {
                   )
                 ],
               ),
-              TextButton(
-                child: Text(
-                  AppLocalizations.of(context)!.guestMode,
-                  style: TextStyle (
-                      color:Colors.deepOrangeAccent
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextButton(
+                  child: Text(
+                    AppLocalizations.of(context)!.guestMode,
+                    style: TextStyle (
+                        color:Colors.deepOrangeAccent
+                    ),
                   ),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, '/home');
+                  },
                 ),
-                onPressed: () {
-                  Navigator.popAndPushNamed(context, '/home');
-                },
               ),
             ],
           )
               : viewModel.mainUser.status == Status.LOADING? const SizedBox(
             child: Center(child: CircularProgressIndicator()),
           )
-              : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
-              : viewModel.mainUser.status == Status.COMPLETED? A()
-              : Text("d")
+              : viewModel.mainUser.status == Status.ERROR? Error()
+              : viewModel.mainUser.status == Status.COMPLETED? Complete()
+              : Text("CORRECT")
         )
     );
         }));
   }
 }
 
-class A extends StatelessWidget {
+class Complete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     ChatRepository().connect();
     Future.microtask(() =>
         Navigator.pushReplacementNamed(context, '/home')
-    )
-    ;
+    );
+    return Container();
+  }
+}
+
+class Error extends StatelessWidget {
+  final LoginViewModel viewModel = LoginViewModel();
+
+  @override
+  Widget build(BuildContext context) {
+    ChatRepository().connect();
+    Future.microtask(() =>
+        Navigator.pushReplacementNamed(context, '/login')
+    );
     return Container();
   }
 }

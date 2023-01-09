@@ -6,6 +6,7 @@ import '../../data/response/apiResponse.dart';
 import '../../viewModels/TagsViewModel.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';
 import '../../viewModels/LoginViewModel.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class UserTags extends StatefulWidget {
@@ -68,8 +69,8 @@ class _UserTagsState extends State<UserTags> {
                     ),
                     Container(
                       margin: const EdgeInsets.all(50),
-                      child: const Text(
-                        'Selecciona les teves categories favorites',
+                      child: Text(
+                        AppLocalizations.of(context)!.selectTagsDescription,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 20,
@@ -164,8 +165,8 @@ class _UserTagsState extends State<UserTags> {
                                       viewModelLogin.crearcompte(name, user, email, password, checkedTags);
                                       viewModelLogin.notifyListeners();
                                     },
-                                    child: const Text("ARA NO",
-                                      style: TextStyle (
+                                    child: Text(AppLocalizations.of(context)!.notNowButton,
+                                      style: const TextStyle (
                                           fontSize: 15,
                                           letterSpacing: 2.2,
                                           color:Colors.black
@@ -176,7 +177,7 @@ class _UserTagsState extends State<UserTags> {
                                 Container(
                                   child: ElevatedButton(
                                     style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
-                                    child: const Text('DESA',
+                                    child: Text(AppLocalizations.of(context)!.saveButton,
                                       style: TextStyle (
                                           fontSize: 15,
                                           letterSpacing: 2.2,
