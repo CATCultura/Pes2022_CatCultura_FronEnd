@@ -1,4 +1,3 @@
-
 import 'package:CatCultura/views/widgets/events/eventInfoTile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +12,29 @@ import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 
 import '../../utils/Session.dart';
 
-class Agenda extends StatelessWidget {
-  Agenda({super.key});
+class AttendanceEvents extends StatefulWidget {
+  AttendanceEvents({super.key});
   final AgendaViewModel viewModel = AgendaViewModel();
 
   @override
-  Widget build(BuildContext context) {
+  State<AttendanceEvents> createState() => _AttendanceEventsState();
+}
+
+class _AttendanceEventsState extends State<AttendanceEvents>
+    with SingleTickerProviderStateMixin {
+  late AgendaViewModel viewModel = widget.viewModel;
+  late TabController _tabController;
+
+  @override
+  void initState() {
     viewModel.fetchAttendanceFromSession();
+    viewModel.fetchAttended();
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ChangeNotifierProvider<AgendaViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<AgendaViewModel>(builder: (context, value, _) {
@@ -38,13 +53,69 @@ class Agenda extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Agenda",  Session(),),
-            body: Center(
-              child: viewModel.attendanceList.status == Status.LOADING? const SizedBox(
-                child: Center(child: CircularProgressIndicator()),
-              ):
-              viewModel.attendanceList.status == Status.ERROR? Text(viewModel.attendanceList.toString()):
-              viewModel.attendanceList.status == Status.COMPLETED? agendaListSwitch(assistance: viewModel.attendanceList.data!) : const Text("asdfasdf"),
+            drawer: MyDrawer(
+              "Agenda",
+              Session(),
+            ),
+            body: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  Container(
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: Colors.red.shade800,
+                      unselectedLabelColor: Colors.black,
+                      tabs: [
+                        Tab(
+                          text: "Agenda",
+                        ),
+                        Tab(text: "Ja assistits"),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        controller: _tabController,
+                        children: [
+                          Center(
+                            child: viewModel.attendanceList.status ==
+                                    Status.LOADING
+                                ? const SizedBox(
+                                    child: Center(
+                                        child: CircularProgressIndicator()),
+                                  )
+                                : viewModel.attendanceList.status ==
+                                        Status.ERROR
+                                    ? Text(viewModel.attendanceList.toString())
+                                    : viewModel.attendanceList.status ==
+                                            Status.COMPLETED
+                                        ? agendaListSwitch(
+                                            assistance:
+                                                viewModel.attendanceList.data!)
+                                        : const Text("asdfasdf"),
+                          ),
+                          Center(
+                            child: viewModel.attendedList.status ==
+                                    Status.LOADING
+                                ? const SizedBox(
+                                    child: Center(
+                                        child: CircularProgressIndicator()),
+                                  )
+                                : viewModel.attendedList.status == Status.ERROR
+                                    ? Text(viewModel.attendanceList.toString())
+                                    : viewModel.attendedList.status ==
+                                            Status.COMPLETED
+                                        ? agendaListSwitch(
+                                            assistance:
+                                                viewModel.attendedList.data!)
+                                        : const Text("asdfasdf"),
+                          )
+                        ]),
+                  ),
+                ],
+              ),
             ),
           );
         }));
@@ -73,6 +144,5 @@ class agendaListSwitchState extends State<agendaListSwitch> {
         itemBuilder: (BuildContext context, int i) {
           return _buildEventShort(i);
         });
-
   }
 }
