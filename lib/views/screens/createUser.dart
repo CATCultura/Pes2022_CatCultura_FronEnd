@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
 import '../../viewModels/LoginViewModel.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CreateUser extends StatelessWidget {
@@ -40,10 +41,10 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
 
   String? filltext(String param) {
     if (param.length == 0 && !initial) {
-      return "Camp requerit";
+      return AppLocalizations.of(context)?.errorMessageCreateAccount;
     }
     else if (param.length < 6 && !initial) {
-      return "Mínim 6 caràcters";
+      return AppLocalizations.of(context)?.errorCharactersMessageCreateAccount;
     }
     return null;
   }
@@ -75,10 +76,10 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
             ),
             Container(
               margin: const EdgeInsets.all(50),
-              child: const Text(
-                'Fes-te un compte i comença a gaudir de la cultura del teu voltant',
+              child: Text(
+                AppLocalizations.of(context)!.descriptionCreateAccount,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   color: Colors.deepOrangeAccent,
                   letterSpacing: 2.2,
@@ -93,7 +94,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                 controller: nameController,
                 decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
-                    labelText: "Nom i cognoms",
+                    labelText: AppLocalizations.of(context)?.nameAndSurnameInputBoxLabel,
                     errorText: filltext(nameController.text),
                     hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
@@ -109,7 +110,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                 maxLength: 12,
                 decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
-                    labelText: "Nom d'usuari",
+                    labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
                     errorText: filltext(userController.text),
                     hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
@@ -124,7 +125,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                 controller: emailController,
                 decoration: InputDecoration (
                     contentPadding: EdgeInsets.only(bottom: 3),
-                    labelText: "Correu electrònic",
+                    labelText: AppLocalizations.of(context)?.emailInputBoxLabel,
                     errorText: filltext(emailController.text),
                     hintStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
@@ -150,7 +151,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                       color: showPassword ? Colors.deepOrangeAccent : Colors.grey,
                     )
                   ),
-                    labelText: 'Contrasenya',
+                    labelText: AppLocalizations.of(context)?.passwordInputBoxLabel,
                     errorText: filltext(nameController.text),
                 ),
               ),
@@ -160,7 +161,7 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                 padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                 child: ElevatedButton(
                   style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
-                  child: const Text('Crea compte'),
+                  child:  Text(AppLocalizations.of(context)!.createAccount),
                   onPressed: () {
                     initial = false;
                     viewModel.notifyListeners();
@@ -179,9 +180,9 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               onPressed: () {
                 Navigator.popAndPushNamed(context, '/login');
               },
-              child: const Text(
-                'Ja tinc compte',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.alreadyAccount,
+                style: const TextStyle(
                 color: Colors.deepOrangeAccent,
                 ),
               ),

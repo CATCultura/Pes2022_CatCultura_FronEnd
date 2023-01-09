@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../utils/Session.dart';
 //import 'package:tryproject2/constants/theme.dart';
 import '../../viewModels/UsersViewModel.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class EditProfile extends StatelessWidget {
@@ -37,10 +38,10 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
 
   String? filltext(String param) {
     if (param.length == 0) {
-      return "Camp buit";
+      return AppLocalizations.of(context)?.emptyFieldText;
     }
     else if (param.length < 6) {
-      return "Mínim 6 caràcters";
+      return AppLocalizations.of(context)?.errorCharactersMessageCreateAccount;
     }
     else {
       correctText = true;
@@ -62,10 +63,10 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
             backgroundColor: Theme
                 .of(context)
                 .scaffoldBackgroundColor,
-            title: const Center(
+            title: Center(
               child: Text(
-                  "Edita el teu perfil",
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.editProfileText,
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Colors.blueAccent,
                   )
@@ -144,7 +145,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     child: TextField(
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 3),
-                          labelText: "Nom i cognoms",
+                          labelText: AppLocalizations.of(context)?.nameAndSurnameInputBoxLabel,
                           enabled: false,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintText: session.data.nameAndSurname,
@@ -160,7 +161,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     child: TextField(
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 3),
-                          labelText: "Nom d'usuari",
+                          labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintText: session.data.username,
                           enabled: false,
@@ -176,7 +177,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                     child: TextField(
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 3),
-                          labelText: "Correu electrònic",
+                          labelText: AppLocalizations.of(context)?.emailInputBoxLabel,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintText: session.data.email,
                           enabled: false,
@@ -206,7 +207,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                             ),
                           ),
                           contentPadding: const EdgeInsets.only(bottom: 3),
-                          labelText: "Nova contrasenya",
+                          labelText: AppLocalizations.of(context)!.newPasswordInput,
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold,
@@ -223,8 +224,8 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                         onPressed: () {
                           Navigator.popAndPushNamed(context, '/userEditTags');
                         },
-                        child: const Text("Edita els tags",
-                          style: TextStyle(
+                        child: Text(AppLocalizations.of(context)!.editTagsButton,
+                          style: const TextStyle(
                               fontSize: 12,
                               letterSpacing: 2.2,
                               color: Colors.black
@@ -244,8 +245,8 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Colors.redAccent)),
-                              child: const Text('CANCEL·LAR',
-                                style: TextStyle(
+                              child: Text(AppLocalizations.of(context)!.cancelButton,
+                                style: const TextStyle(
                                     fontSize: 12,
                                     letterSpacing: 2.2,
                                     color: Colors.white
@@ -262,8 +263,8 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Colors.blueAccent)),
-                              child: const Text('DESAR',
-                                style: TextStyle(
+                              child: Text(AppLocalizations.of(context)!.saveButton,
+                                style: const TextStyle(
                                     fontSize: 12,
                                     letterSpacing: 2.2,
                                     color: Colors.white

@@ -231,7 +231,36 @@
 
     "scanQRCodeButton" : "QR",
 
-    "confirmAttendanceMenuOption": "Confirmar asistencia"
+    "confirmAttendanceMenuOption": "Confirmar asistencia",
 
+    "nameAndSurnameInputBoxLabel": "Nombre y apellidos",
+
+    "emailInputBoxLabel": "Correo electrónico",
+
+    "createAccount": "Crea cuenta",
+
+    "alreadyAccount": "Ya tengo cuenta",
+
+    "descriptionCreateAccount": "Crea una cuenta y disfruta de la cultura de tu alrededor",
+
+    "errorMessageCreateAccount": "Campo obligatorio",
+
+    "errorCharactersMessageCreateAccount": "Mínimo 6 caracteres",
+
+    "cancelButton": "CANCELAR",
+
+    "saveButton": "GUARDAR",
+
+    "editTagsButton": "Edita tus tags",
+
+    "editProfileText": "Edita tu perfil",
+
+    "newPasswordInput": "Nueva contraseña",
+
+    "emptyFieldText": "Campo vacío",
+
+    "notNowButton": "AHORA NO",
+
+    "selectTagsDescription": "Selecciona tus tags favoritas"
 
 }

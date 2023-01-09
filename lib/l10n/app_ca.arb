@@ -179,6 +179,36 @@
 
     "wrongAttendanceCode": "Codi incorrecte",
 
-    "confirmAttendanceMenuOption": "Confirma l'assistència"
+    "confirmAttendanceMenuOption": "Confirma l'assistència",
+
+    "nameAndSurnameInputBoxLabel": "Nom i cognoms",
+
+    "emailInputBoxLabel": "Correu electrònic",
+
+    "createAccount": "Crea compte",
+
+    "alreadyAccount": "Ja tinc compte",
+
+    "descriptionCreateAccount": "Crea un compte i gaudeix de la cultura del teu voltant",
+
+    "errorMessageCreateAccount": "Camp obligatori",
+
+    "errorCharactersMessageCreateAccount": "Mínim 6 caràcters",
+
+    "cancelButton": "CANCEL·LAR",
+
+    "saveButton": "DESAR",
+
+    "editTagsButton": "Edita els tags",
+
+    "editProfileText": "Edita el teu perfil",
+
+    "newPasswordInput": "Nova contrasenya",
+
+    "emptyFieldText": "Camp buit",
+
+    "notNowButton": "ARA NO",
+
+    "selectTagsDescription": "Selecciona les teves tags favorites"
 
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../data/response/apiResponse.dart';
 import '../../viewModels/TagsViewModel.dart';
 import '../../utils/auxArgsObjects/argsRouting.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserEditTags extends StatefulWidget {
   const UserEditTags({Key? key}) : super(key: key);
@@ -68,8 +69,8 @@ class _UserEditTagsState extends State<UserEditTags> {
                   Center(
                     child: Container(
                       margin: const EdgeInsets.all(30),
-                      child: const Text(
-                        'EDITA ELS TAGS',
+                      child: Text(
+                        AppLocalizations.of(context)!.editTagsButton,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 20,
@@ -163,7 +164,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                   style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all(
                                           Colors.redAccent)),
-                                  child: const Text('CANCEL·LAR',
+                                  child: Text(AppLocalizations.of(context)!.cancelButton,
                                     style: TextStyle(
                                         fontSize: 12,
                                         letterSpacing: 2.2,
@@ -181,7 +182,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                   style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all(
                                           Colors.blueAccent)),
-                                  child: const Text('DESAR',
+                                  child: Text(AppLocalizations.of(context)!.saveButton,
                                     style: TextStyle(
                                         fontSize: 12,
                                         letterSpacing: 2.2,
