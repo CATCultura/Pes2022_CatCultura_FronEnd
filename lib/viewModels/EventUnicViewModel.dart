@@ -147,7 +147,7 @@ class EventUnicViewModel with ChangeNotifier {
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
     favorit = !favorit;
-    if(favouritesList.data != null)session.set("favorits", favouritesList.data as List<EventResult>);
+    if(favouritesList.data != null) session.set("favorits", favouritesList.data as List<EventResult>);
     else session.set("favorits", <EventResult>[]);
     notifyListeners();
   }

@@ -10,9 +10,17 @@ import '../../models/EventResult.dart';
 import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
-class Favorits extends StatelessWidget {
+class Favorits extends StatefulWidget {
   Favorits({super.key});
+
   final FavoritsViewModel viewModel = FavoritsViewModel();
+  @override
+  State<Favorits> createState() => _Favorits();
+}
+
+class _Favorits extends State<Favorits> {
+  late FavoritsViewModel viewModel = widget.viewModel;
+  var _tapPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -35,41 +43,85 @@ class Favorits extends StatelessWidget {
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Favorits",  Session(),),
+            drawer: MyDrawer(
+              "Favorits",
+              Session(),
+            ),
             body: Center(
-              child: viewModel.favouritesList.status == Status.LOADING? const SizedBox(
-                child: Center(child: CircularProgressIndicator()),
-              ):
-              viewModel.favouritesList.status == Status.ERROR? Text(viewModel.favouritesList.toString()):
-              viewModel.favouritesList.status == Status.COMPLETED? favoritsListSwitch(events: viewModel.favouritesList.data!) : const Text("asdfasdf"),
+              child: viewModel.favouritesList.status == Status.LOADING
+                  ? const SizedBox(
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                  : viewModel.favouritesList.status == Status.ERROR
+                      ? Text(viewModel.favouritesList.toString())
+                      : viewModel.favouritesList.status == Status.COMPLETED
+                          ? buildList(
+                              viewModel.favouritesList.data!)
+                          : const Text("asdfasdf"),
             ),
           );
         }));
   }
-}
 
-class favoritsListSwitch extends StatefulWidget {
-  final List<EventResult> events;
-
-  const favoritsListSwitch({super.key, required this.events});
-  @override
-  State<favoritsListSwitch> createState() => favoritsListSwitchState();
-}
-
-class favoritsListSwitchState extends State<favoritsListSwitch> {
-  late List<EventResult> events = widget.events;
-
-  Widget _buildEventShort(int idx) {
-    return EventInfoTile(event: events[idx], index: idx);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildList(List<EventResult> events) {
     return ListView.builder(
         itemCount: events.length,
         itemBuilder: (BuildContext context, int i) {
-          return _buildEventShort(i);
+          return _buildEventShort(events[i], i);
         });
+  }
 
+  Widget _buildEventShort(EventResult event, int idx) {
+    return GestureDetector(
+        onLongPress: () => {
+              showMenu(
+                  context: context,
+                  items: <PopupMenuEntry<Widget>>[
+                    PopupMenuItem(
+                        child: TextButton(
+                            onPressed: () =>
+                            {viewModel.deleteFavouriteById(event.id!),
+                            Navigator.pop(context)
+                            },
+                            child: Text("Treure de favorits")))
+                  ],
+                  position: RelativeRect.fromRect(
+                      _tapPosition &
+                          const Size(40, 40), // smaller rect, the touch area
+                      Offset.zero & Size(70, 70)
+                      // Bigger rect, the entire screen
+                      ))
+            },
+        onTapDown: _storePosition,
+        child: EventInfoTile(event: event, index: idx));
+  }
+
+  void _storePosition(TapDownDetails details) {
+    _tapPosition = details.globalPosition;
   }
 }
+
+// class favoritsListSwitch extends StatefulWidget {
+//   final List<EventResult> events;
+//
+//   const favoritsListSwitch({super.key, required this.events});
+//   @override
+//   State<favoritsListSwitch> createState() => favoritsListSwitchState();
+// }
+//
+// class favoritsListSwitchState extends State<favoritsListSwitch> {
+//   late List<EventResult> events = widget.events;
+//
+//   Widget _buildEventShort(int idx) {
+//     return EventInfoTile(event: events[idx], index: idx);
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//         itemCount: events.length,
+//         itemBuilder: (BuildContext context, int i) {
+//           return _buildEventShort(i);
+//         });
+//   }
+// }

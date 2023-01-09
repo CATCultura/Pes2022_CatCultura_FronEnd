@@ -26,6 +26,15 @@ class FavoritsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteFavouriteById(String? eventId) async{
+    if(eventId != null){
+      await _eventsRepo.deleteFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
+        setFavouritesList(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setFavouritesList(ApiResponse.error(error.toString())));
+    }
+  }
+
   Future<void> fetchFavouritesFromSession() async{
     await _eventsRepo.getFavouritesByUserId(session.data.id.toString()).then((value) {
       setFavouritesList(ApiResponse.completed(value));
