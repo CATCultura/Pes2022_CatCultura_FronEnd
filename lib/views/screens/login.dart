@@ -43,7 +43,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
 
   String? filltext(String param) {
     if (param.length == 0 && !initial) {
-      return "Camp requerit";
+      return AppLocalizations.of(context)?.errorMessageCreateAccount;
     }
     return null;
   }
