@@ -80,7 +80,7 @@ class RutaCulturalState extends State<RutaCultural> {
         create: (BuildContext context) => viewModel,
         child: Consumer<RutaCulturalViewModel>(builder: (context, value, _) {
           return Scaffold(
-            floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
             appBar: AppBar(
                   title: Text(AppLocalizations.of(context)!.rutaCulturalMainTitle),
                 ),
@@ -105,7 +105,7 @@ class RutaCulturalState extends State<RutaCultural> {
                     : viewModel.eventsListMap.status == Status.COMPLETED &&
                             viewModel.polylines.status == Status.COMPLETED
                         ? GoogleMap(
-                            //zoomControlsEnabled: false,
+                            zoomControlsEnabled: false,
                             myLocationEnabled: false,
                             mapType: MapType.normal,
                             initialCameraPosition: viewModel.iniCameraPosition,
@@ -163,6 +163,94 @@ class RutaCulturalState extends State<RutaCultural> {
                         _navigateAndDisplayRouteGeneratorSelector(context);
                       },
                       label: Text(AppLocalizations.of(context)!.generateRouteText),
+                    ),
+                    FloatingActionButton.extended(
+                      heroTag: 'bModifyRoute',
+                      onPressed: () {
+                        RutaCulturalSaveArgs args =
+                        RutaCulturalSaveArgs(null, null, true);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.lightBlue,
+                              icon: const Icon(Icons.warning),
+                              iconColor: Colors.white,
+                              title: Container(decoration: BoxDecoration(color: Colors.lightBlue), child: Text("MODIFICAR RUTA CULTURAL", style: TextStyle(color: Colors.white),)),
+                              content: Column(
+                                children: [
+                                  SizedBox(height: 15.0,),
+                                  Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(8.0)),),
+                                      padding: EdgeInsets.only(left:15.0, right: 15.0, bottom: 5.0),
+                                      child: ListView.builder(
+                                          itemCount: viewModel.eventsList.data!.length,
+                                          itemBuilder:
+                                              (BuildContext context, int i) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(12.0),
+                                              child: Material(
+                                                elevation: 20,
+                                                shadowColor: Colors.black.withAlpha(70),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                child: ListTile(
+                                                    onTap: () async {
+                                                      await viewModel.modifyRoute(_manager, viewModel.eventsList.data![i].id!).then((_){
+                                                        setState(() {
+                                                          viewModel.rutaGenerada = true;
+                                                          _manager.updateMap();
+                                                          mapController!.animateCamera(CameraUpdate.newCameraPosition(viewModel.iniCameraPosition));
+                                                        });
+                                                        Navigator.pop(context);
+                                                      });
+                                                    },
+                                                    shape: RoundedRectangleBorder(
+                                                      side: const BorderSide(color: Color(0xFF818181), width: 1),
+                                                      borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    tileColor: Colors.lightBlue,
+                                                    title:
+                                                      Text(viewModel
+                                                          .eventsList
+                                                          .data![i].denominacio!,
+                                                          style: const TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 15)),
+                                                    ),
+                                              ),
+                                            );
+                                            // (
+                                            //   event: viewModel
+                                            //       .eventsList
+                                            //       .data![i],
+                                            //   index: i,
+                                            // );
+                                          }),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                        //     .then((val) async {
+                        //   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("asdf"),));
+                        //   debugPrint(
+                        //       "-------------------- printing value from save popUp() --------- \nname: ${val.name}, desc: ${val.description}");
+                        //   if (!val.canceled){
+                        //     debugPrint("NOT CANCELED");
+                        //     setState(() {
+                        //       viewModel.savingRuta = true;
+                        //     });
+                        //     await viewModel.saveRutaCultural(args).then((_){
+                        //       //procesar result
+                        //     });
+                        //   }
+                        // });
+                      },
+                      label: Text(AppLocalizations.of(context)!.modifyRouteText),
                     ),
                     viewModel.rutaGenerada? FloatingActionButton.extended(
                       heroTag: 'bSaveroute',
@@ -370,7 +458,7 @@ class RutaCulturalState extends State<RutaCultural> {
   }
 
   Future<void> _navigateAndDisplayRouteGeneratorSelector(
-      BuildContext context) async {
+  BuildContext context) async {
     setState(() {
       viewModel.rutaGenerada = false;
     });
@@ -380,18 +468,18 @@ class RutaCulturalState extends State<RutaCultural> {
           builder: (context) => const ParametersRutaCultural()),
     );
     if (!mounted) return;
-    setState(() {
-      viewModel.rutaGenerada = true;
-    });
-    viewModel.polylines =
-        ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
-    await viewModel.generateRutaCultural(RutaCulturalArgs(viewModel.realPosition.longitude, viewModel.realPosition.latitude, result!.radio, result!.data)).then((value) => {});
-    //viewModel.paintRoute();
     // setState(() {
     //
     // });
-  }
+    //viewModel.polylines = ApiResponse(Status.LOADING, <PolylineId, Polyline>{}, null);
+    if(result != null) {
+      viewModel.rutaGenerada = true;
+      await viewModel.generateRutaCultural(RutaCulturalArgs(viewModel.realPosition.longitude, viewModel.realPosition.latitude, result!.radio, result!.data)).then((value) => {
+        mapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(viewModel.realPosition.latitude, viewModel.realPosition.longitude), zoom: 1.0))),
+      });
+    }
 
+  }
 
   Future<void> _navigateAndDisplaySavedRoutes(BuildContext context) async {
     var rutaGeneradaStatus = viewModel.rutaGenerada;
@@ -622,17 +710,19 @@ class _ExpandableFabState extends State<ExpandableFab>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        clipBehavior: Clip.none,
-        children: [
-          _buildTapToCloseFab(),
-          ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab(),
-        ],
-      ),
-    );
+    return SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            clipBehavior: Clip.none,
+            children: [
+              _buildTapToCloseFab(),
+              ..._buildExpandingActionButtons(),
+              _buildTapToOpenFab(),
+            ],
+          ),
+        );
   }
 
   Widget _buildTapToCloseFab() {
@@ -662,10 +752,11 @@ class _ExpandableFabState extends State<ExpandableFab>
   List<Widget> _buildExpandingActionButtons() {
     final children = <Widget>[];
     final count = widget.children.length;
-    final step = 50.0 / (count - 1);
+    final step = 35.0 / (count - 1);
     for (var i = 0, angleInDegrees = 0.0;
         i < count;
         i++, angleInDegrees += step) {
+      if(i == 3) angleInDegrees += 10;
       children.add(
         _ExpandingActionButton(
           directionInDegrees: angleInDegrees,
@@ -725,12 +816,12 @@ class _ExpandingActionButton extends StatelessWidget {
       animation: progress,
       builder: (context, child) {
         final offset = Offset.fromDirection(
-          directionInDegrees * (math.pi / 180.0),
+          directionInDegrees * (math.pi / 100.0),
           progress.value * maxDistance,
         );
         return Positioned(
-          right: -45.0 + offset.dx,
-          bottom: 1.0 + offset.dy * 1.5,
+          right: -20.0 + offset.dx,
+          bottom: 0.0 + offset.dy * 1.5,
           child: Transform.rotate(
             angle: (1.0 - progress.value) * math.pi / 2,
             child: child!,

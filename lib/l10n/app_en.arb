@@ -407,6 +407,11 @@
             "description": "Text for button to generate cultural route"
         },
 
+  "modifyRouteText": "Modify route",
+    "@modifyRouteText": {
+                "description": "Text for button to modify cultural route"
+            },
+
   "saveRouteNameHint": "Route name",
   "@saveRouteNameHint": {
             "description": "Text for input box"
@@ -446,6 +451,16 @@
     "savedRoutesButtonText" : "Open saved routes",
     "@savedRoutesButtonText": {
                 "description": "Text for button to open saved routes"
+            },
+
+    "blocksMainTitle": "Reports",
+    "@blocksMainTitle": {
+                "description": "Title for blocks"
+            },
+
+    "reportedReviewsTitle" : "Reported reviews",
+    "@reportedReviewsTitle": {
+                "description": "Title for reported reviews"
             },
 
     "scanQRCodeScreenTitle" : "Scan a QR code",
@@ -506,6 +521,42 @@
     "confirmAttendanceMenuOption": "Confirm attendance",
     "@confirmAttendanceMenuOption": {
         "description": "Name for option to confirm attendance."
-        }
+        },
+    "reportedUsersTitle" : "Reported users",
+    "@reportedUsersTitle": {
+                "description": "Title for reported users"
+            },
+  "blockButton" : "Block",
+    "@blockButton": {
+                "description": "TegenerateRouteTextxt for button to block"
+            },
+    "unblockButton" : "Unblock",
+    "@unblockButton": {
+                "description": "Text for button to unblock"
+            },
 
+  "parametersCulturalRouteMainTitle" : "PARAMETERS",
+    "@parametersCulturalRouteMainTitle": {
+                "description": "Title for parameters of cultural route"
+            },
+  "parametersCulturalRouteDate" : "Date",
+    "@parametersCulturalRouteTitle": {
+                "description": "Date of parameters of cultural route"
+            },
+    "parametersCulturalRouteSelectRadius" : "Select radius",
+    "@parametersCulturalRouteSelectRadius": {
+                "description": "Text for select radius of parameters of cultural route"
+            },
+  "parametersCulturalRouteGenerateButton": "GENERATE ROUTE",
+    "@parametersCulturalRouteGenerateButton": {
+                "description": "Text for button to generate cultural route"
+            },
+  "noUsersToBlock": "There are no users to block",
+    "@noUsersToBlock": {
+                "description": "Text for no users to block"
+            },
+  "noReviewsToBlock": "There are no reviews to block",
+    "@noReviewsToBlock": {
+                "description": "Text for no reviews to block"
+            }
 }
