@@ -596,7 +596,7 @@
       "selectTagsDescription": "Select your favourite tags",
       "@selectTagsDescription": {
           "description": "Description for user tags screen"
-      }
+      },
 
     "reportedUsersTitle" : "Reported users",
     "@reportedUsersTitle": {
