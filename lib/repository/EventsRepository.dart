@@ -506,4 +506,15 @@ class EventsRepository {
     }
   }
 
+  Future<List<EventResult>>getAttendedByUserId(String id) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/attended");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+
+      return res;
+    } catch(e){
+      rethrow;
+    }
+  }
+
 }

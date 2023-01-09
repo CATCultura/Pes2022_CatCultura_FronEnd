@@ -11,6 +11,8 @@ class AgendaViewModel with ChangeNotifier {
 
   final session = Session();
 
+  ApiResponse<List<EventResult>> attendedList = ApiResponse.loading();
+
   String usernameSessio() {
     if(session.get("username") == null) return session.data.id.toString();
     return session.get("username");
@@ -29,6 +31,20 @@ class AgendaViewModel with ChangeNotifier {
   Future<void> fetchAttendanceFromSession() async{
     await _eventsRepo.getAttendanceByUserId(session.data.id.toString()).then((value) {
       setAttendanceList(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setAttendanceList(ApiResponse.error(error.toString())));
+  }
+
+
+
+  void setAttendedList(ApiResponse<List<EventResult>> apiResponse) {
+    attendedList = apiResponse;
+    notifyListeners();
+  }
+
+  Future<void> fetchAttended() async {
+    await _eventsRepo.getAttendedByUserId(session.data.id.toString()).then((value) {
+      setAttendedList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setAttendanceList(ApiResponse.error(error.toString())));
   }
