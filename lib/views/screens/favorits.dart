@@ -20,7 +20,6 @@ class Favorits extends StatefulWidget {
 
 class _Favorits extends State<Favorits> {
   late FavoritsViewModel viewModel = widget.viewModel;
-  var _tapPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -72,33 +71,16 @@ class _Favorits extends State<Favorits> {
   }
 
   Widget _buildEventShort(EventResult event, int idx) {
-    return GestureDetector(
-        onLongPress: () => {
-              showMenu(
-                  context: context,
-                  items: <PopupMenuEntry<Widget>>[
-                    PopupMenuItem(
-                        child: TextButton(
-                            onPressed: () =>
-                            {viewModel.deleteFavouriteById(event.id!),
-                            Navigator.pop(context)
-                            },
-                            child: Text("Treure de favorits")))
-                  ],
-                  position: RelativeRect.fromRect(
-                      _tapPosition &
-                          const Size(40, 40), // smaller rect, the touch area
-                      Offset.zero & Size(70, 70)
-                      // Bigger rect, the entire screen
-                      ))
-            },
-        onTapDown: _storePosition,
-        child: EventInfoTile(event: event, index: idx));
+    return Dismissible(
+      key: Key(event.id!),
+      child: EventInfoTile(event: event, index: idx),
+      onDismissed: (direction) => {
+        viewModel.deleteFavouriteById(event.id!),
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tret de favorits.")))
+      },
+    );
   }
 
-  void _storePosition(TapDownDetails details) {
-    _tapPosition = details.globalPosition;
-  }
 }
 
 // class favoritsListSwitch extends StatefulWidget {
