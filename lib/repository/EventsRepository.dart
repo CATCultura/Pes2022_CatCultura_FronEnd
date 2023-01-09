@@ -10,6 +10,7 @@ import 'package:CatCultura/models/RouteResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
+import 'package:intl/intl.dart';
 
 import '../models/EventResult.dart';
 import '../utils/Session.dart';
@@ -231,15 +232,23 @@ class EventsRepository {
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
-
     try {
       //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
-      debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data");
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=41.3723235&lon=2.1398554&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
-      //debugPrint(response.toString());
-      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-      return res;
+      debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data\nuserId: ${session.data.id}");
+      dynamic response;
+      if(radio == -1) radio = 100000;
+      if(data == "") {
+        data = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        data = data+"T00:00:00.000";
+      }
+      if(session.data.id != -1)
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
+      else
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&radius=$radio&discardedEvents=841");
 
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      debugPrint("res: ----------------- "+res.toString());
+      return res;
     } catch (e) {
       rethrow;
     }
@@ -475,9 +484,9 @@ class EventsRepository {
     }
   }
 
-  Future<void> unblockReview(String reviewId, String userId) async {
+  Future<void> unblockReview(String reviewId) async {
     try {
-      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}users/$userId/reviews/$reviewId/reports", "");
+      dynamic response = await _apiServices.getDeleteApiResponse("${baseUrl}reviews/$reviewId/reports", "");
       debugPrint("response desde eventRepo unblockReview(): ${response.toString()}");
       //return response;
     } catch (e) {
@@ -502,6 +511,43 @@ class EventsRepository {
 
       return response["code"];
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<EventResult>> modifyRoute(double longitud, double latitud, int radio, String data, String eventId) async {
+    try {
+      debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data\nuserId: ${session.data.id}");
+      dynamic response;
+      if(radio == -1) radio = 100000;
+      if(data == "") {
+        data = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        data = data+"T00:00:00.000";
+      }
+      const a = [1968,2100];
+      var b = a.toString();
+      b=b.substring(1,b.length-1);
+      if(session.data.id != -1)
+
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=$b");
+      else
+        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&radius=$radio&discardedEvents=$eventId&discardedEvents=$eventId");
+      debugPrint("============================== response desde eventRepo modifyRoute(): ${response.toString()}");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+      debugPrint("res: ----------------- "+res.toString());
+      return res;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<EventResult>>getAttendedByUserId(String id) async {
+    try{
+      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}users/$id/attended");
+      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+
+      return res;
+    } catch(e){
       rethrow;
     }
   }

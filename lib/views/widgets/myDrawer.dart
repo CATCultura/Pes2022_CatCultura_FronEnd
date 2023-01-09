@@ -168,8 +168,9 @@ class MyDrawer extends Drawer {
             ),
           if (session.data.role == "ADMIN")
             ListTile(
+              tileColor: Color(0xFFE0E0E0),
               horizontalTitleGap: 0,
-              leading: const Icon(Icons.block, size: 28),
+              leading: const Icon(Icons.gavel, size: 28),
               title: const Text('Reports',
                   style: TextStyle(fontSize: 18)),
               onTap: () {
