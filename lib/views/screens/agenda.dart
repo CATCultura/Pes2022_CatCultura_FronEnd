@@ -68,9 +68,13 @@ class _AttendanceEventsState extends State<AttendanceEvents>
                       unselectedLabelColor: Colors.black,
                       tabs: [
                         Tab(
+                          icon: Icon(Icons.calendar_month),
                           text: "Agenda",
                         ),
-                        Tab(text: "Ja assistits"),
+                        Tab(
+                            icon: Icon(Icons.confirmation_number_outlined),
+                            text: "Ja assistits"
+                        ),
                       ],
                     ),
                   ),
