@@ -625,7 +625,7 @@ class _BodyState extends State<Body> {
                         children: [
                           IconButton(
                             iconSize: 40,
-                            icon: Icon(Icons.qr_code), color: Color(0xF4C20606),
+                            icon: const Icon(Icons.qr_code), color: const Color(0xF4C20606),
                             onPressed: () {
                               showDialog(context: context,
                               barrierDismissible: true,

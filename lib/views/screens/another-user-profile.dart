@@ -23,8 +23,7 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   void initState() {
-    viewModel.setUserSelected(selectedId);
-    viewModel.notifyListeners();
+    viewModel.selectUserById(selectedId);
   }
 
   @override
@@ -48,7 +47,9 @@ class AnotherProfile extends StatelessWidget {
             // key: _scaffoldKey,
             drawer: MyDrawer(
                 "AnotherProfile",  Session(),),
-            body: ListView(
+            body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+            viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
+            viewModel.mainUser.status == Status.COMPLETED? ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 buildTop(),
@@ -181,7 +182,7 @@ class AnotherProfile extends StatelessWidget {
                   ): const Text(""),*/
 
                 ],
-              ),
+              ) : Text("Error"),
             /*
                 body: Container(
                     color: MyColors.warning,
