@@ -101,7 +101,7 @@
 
     "finalDate": "Data Fi",
 
-    "nameEventM": "Nom Esdeveniment",
+    "nameEventM": "Nom wsdeveniment",
 
     "location": "Localizació",
 
@@ -121,19 +121,19 @@
 
     "no": "No",
 
-    "whatDoYouWant": "¿Què vols fer?",
+    "whatDoYouWant": "Què vols fer?",
 
     "deleteEvent": "Eliminar Esdeveniment",
 
     "cancelEvent": "Cancel·lar Esdeveniment",
 
-    "cancelQuestion": "Estàs segur que vols cancel·lar aquest esdeveniment?",
+    "cancelQuestion": "Segur que vols cancel·lar aquest esdeveniment?",
 
-    "deleteQuestion": "Estàs segur que vols eliminar aquest esdeveniment?",
+    "deleteQuestion": "Segur que vols eliminar aquest esdeveniment?",
 
     "searchName": "Buscar per nom...",
 
-    "userProfile": "Perfil Usuari",
+    "userProfile": "Perfil d'usuari",
 
     "addFriend": "Enviar sol·licitud",
 
@@ -147,7 +147,7 @@
 
     "findUsers": "Buscar Usuaris",
 
-    "myProfile": "El meu Perfil",
+    "myProfile": "El meu perfil",
 
     "ranking": "Classificació",
 
