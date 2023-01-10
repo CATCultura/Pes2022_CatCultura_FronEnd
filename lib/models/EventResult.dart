@@ -102,7 +102,11 @@ class EventResult {
     }
     // if(jsonResponse['comarcaIMunicipi'] != null) comarcaIMunicipi = comarcaIMunicipiAdapt(jsonResponse['comarcaIMunicipi']);
     // else comarcaIMunicipi = "comarca/municipi: no info";//json['comarcaIMunicipi'];
-    comarcaIMunicipi = jsonResponse['ubicacio'];
+    if(jsonResponse['ubicacio'] != null && jsonResponse['ubicacio'] != "") {
+      comarcaIMunicipi = jsonResponse['ubicacio'];
+    } else {
+      comarcaIMunicipi = "No hi ha informació";
+    }
     ubicacio = jsonResponse['ubicacio'];
     latitud = jsonResponse['latitud'];
     longitud = jsonResponse['longitud'];
@@ -153,8 +157,9 @@ class EventResult {
       {'id': id, 'codi': codi, 'denominacio': denominacio, 'dataInici': dataInici,
       'dataFi': dataFi, 'ubicacio': ubicacio, 'adreca': adreca, 'espai': espai, 'cancelado': cancelado,
       'descripcio': descripcio, 'latitud': latitud, 'longitud': longitud, 'dataFiAprox': dataFiAprox,
-      'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links, 'documents': documents,
-      'videos': videos, 'codiPostal': codiPostal, 'email': email, 'telf': telf, 'URL': URL, 'imgApp': imgApp,
+      'entrades': entrades, 'horari': horari, 'subtitol': subtitol, 'links': links,
+        'documents': documents, 'videos': videos, 'codiPostal': codiPostal, 'email': email,
+        'telf': telf, 'URL': URL, 'imgApp': imgApp,
         'tagsAmbits': tagsAmbits, 'tagsCateg': tagsCateg, 'tagsAltresCateg': tagsAltresCateg, 'imatges': imatges,
       }
     ];

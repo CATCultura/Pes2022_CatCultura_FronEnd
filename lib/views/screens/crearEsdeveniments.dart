@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
+import '../../viewModels/CreateEventsViewModel.dart';
 import '../../viewModels/EventsViewModel.dart';
 
 
@@ -22,7 +23,7 @@ class crearEsdeveniments extends StatefulWidget {
 }
 
 class _crearEsdevenimentsState extends State<crearEsdeveniments> {
-  final EventsViewModel viewModel = EventsViewModel();
+  final CreateEventsViewModel viewModel = CreateEventsViewModel();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -53,9 +54,9 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<EventsViewModel>(
+    return ChangeNotifierProvider<CreateEventsViewModel>(
         create: (BuildContext context) => viewModel,
-        child: Consumer<EventsViewModel>(builder: (context, value, _) {
+        child: Consumer<CreateEventsViewModel>(builder: (context, value, _) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(0,0,0,0),
             child: GestureDetector(
