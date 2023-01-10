@@ -41,4 +41,13 @@ class FavoritsViewModel with ChangeNotifier {
     }).onError((error, stackTrace) =>
         setFavouritesList(ApiResponse.error(error.toString())));
   }
+
+  Future<void> addFavouriteById(String? eventId) async{
+    if(eventId != null){
+      await _eventsRepo.addFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
+        setFavouritesList(ApiResponse.completed(value));
+      }).onError((error, stackTrace) => setFavouritesList(ApiResponse.error(error.toString())));
+    }
+  }
 }

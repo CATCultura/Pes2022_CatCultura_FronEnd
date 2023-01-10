@@ -48,12 +48,14 @@ class _InterestingEventsWidget extends State<InterestingEventsWidget> {
       },
       child: Padding(
         padding: const EdgeInsets.only(),
-        child: Stack(children: [
+        child: Stack(
+        alignment: Alignment.topRight,
+        children: [
           w,
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: viewModel.session.data.id != -1 ? Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.topRight,
                 child: viewModel.session.data.favouritesId!.contains(int.parse(events[index].id!))
                     ? Icon(Icons.star, color: Colors.red)
                     : Icon(Icons.star_border_outlined, color: Colors.red)) : Align(),
@@ -79,7 +81,7 @@ class _InterestingEventsWidget extends State<InterestingEventsWidget> {
   Widget buildTwoSmalls(int index1, int index2) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         wrapWidget(SizedBox(width: MediaQuery.of(context).size.width/2-20, child: CardSmall(events[index1])), index1),
         if (index1 != index2) SizedBox(width: MediaQuery.of(context).size.width/2 -20,child: wrapWidget(CardSmall(events[index2]), index2))

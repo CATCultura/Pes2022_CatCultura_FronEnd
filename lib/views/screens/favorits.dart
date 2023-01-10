@@ -54,8 +54,7 @@ class _Favorits extends State<Favorits> {
                   : viewModel.favouritesList.status == Status.ERROR
                       ? Text(viewModel.favouritesList.toString())
                       : viewModel.favouritesList.status == Status.COMPLETED
-                          ? buildList(
-                              viewModel.favouritesList.data!)
+                          ? buildList(viewModel.favouritesList.data!)
                           : const Text("asdfasdf"),
             ),
           );
@@ -76,11 +75,17 @@ class _Favorits extends State<Favorits> {
       child: EventInfoTile(event: event, index: idx),
       onDismissed: (direction) => {
         viewModel.deleteFavouriteById(event.id!),
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tret de favorits.")))
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            action: SnackBarAction(
+              label: "Undo",
+              onPressed: () {
+                viewModel.addFavouriteById(event.id!);
+              },
+            ),
+            content: Text("Tret de favorits.")))
       },
     );
   }
-
 }
 
 // class favoritsListSwitch extends StatefulWidget {
