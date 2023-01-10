@@ -10,10 +10,41 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../utils/Session.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/*
 class AnotherProfile extends StatelessWidget {
+  var selectedUser;
+  var selectedId;
   AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
-  String selectedUser;
-  String selectedId;
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: StatefulAnotherProfile(),
+    );
+  }
+}
+
+class StatefulAnotherProfile extends StatefulWidget {
+  const StatefulAnotherProfile({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulAnotherProfile> createState() => _StatefulAnotherProfileState();
+}
+*/
+class AnotherProfile extends StatefulWidget {
+  const AnotherProfile({super.key, required this.selUser, required this.selId});
+  final String selUser;
+  final String selId;
+
+  @override
+  State<AnotherProfile> createState() => _AnotherProfileState();
+}
+
+class _AnotherProfileState extends State<AnotherProfile> {
+
+  //AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
+  late String selectedUser = widget.selUser;
+  late String selectedId = widget.selId;
   final double coverHeight = 280;
   final double profileHeight = 144;
   late List <String> usersList = [];
@@ -24,7 +55,6 @@ class AnotherProfile extends StatelessWidget {
   @override
   void initState() {
     viewModel.setUserSelected(selectedId);
-    viewModel.notifyListeners();
   }
 
   @override
@@ -47,8 +77,10 @@ class AnotherProfile extends StatelessWidget {
             backgroundColor: Colors.grey[200],
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                "AnotherProfile",  Session(), username: "Superjuane", email: "juaneolivan@gmail.com"),
-            body: ListView(
+                "AnotherProfile",  Session()),
+            body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+            viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
+            viewModel.mainUser.status == Status.COMPLETED? ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 buildTop(),
@@ -60,20 +92,21 @@ class AnotherProfile extends StatelessWidget {
                         viewModel.mainUser.data!.nameAndSurname.toString(),
                         style: TextStyle(fontSize: 28, color: Colors.teal),
                       ),
-                      SizedBox(width: 10),
-                      IconButton(
+                      const SizedBox(width: 10),
+                      if (!sessio.data.reportedUserIds!.contains(selectedId)) IconButton(
                         iconSize: 30,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.report_problem_outlined,
                           color: Colors.redAccent,
                         ),
                         onPressed: () {
                           viewModel.reportUser(sessio.data.id.toString(), selectedId);
-                          var aux = int.parse(selectedId);
-                          //sessio.data..add(aux);
+                          var aux = int.parse(viewModel.addReportedUser.toString());
+                          sessio.data.reportedUserIds!.add(aux);
+                          viewModel.notifyListeners();
                         },
 
-                      ),
+                      ) else Text(""),
                     ]
                 ),
                 buildContent(),
@@ -172,11 +205,6 @@ class AnotherProfile extends StatelessWidget {
                     ],
                   ),
 
-
-
-
-
-
                 /*Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -195,7 +223,7 @@ class AnotherProfile extends StatelessWidget {
                   ): const Text(""),*/
 
                 ],
-              ),
+              ):Text("Error")
             /*
                 body: Container(
                     color: MyColors.warning,

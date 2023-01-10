@@ -12,6 +12,7 @@ class RequestsUserViewModel with ChangeNotifier{
   ApiResponse<UserResult> mainUser = ApiResponse.loading();
   ApiResponse<String> addFriendResult = ApiResponse.loading();
   ApiResponse<List<UserResult>> usersReceived = ApiResponse.loading();
+  ApiResponse<List<UserResult>> usersRequested = ApiResponse.loading();
   bool afegit = false;
   bool requested = false;
   String id = '';
@@ -55,6 +56,20 @@ class RequestsUserViewModel with ChangeNotifier{
      */
   }
 
+  setUsersRequested(ApiResponse<List<UserResult>> response){
+    print("before userslist = response (with exit)");
+    debugPrint(response.toString());
+    usersRequested = response;
+    List<int> aux = [];
+    for (int i = 0; i < usersRequested.data!.length; ++i){
+      var auxiliar = int.parse(response.data!.elementAt(i).id!);
+      aux.add(auxiliar);
+    }
+    sessio.data.sentRequestsIds = aux;
+    notifyListeners();
+  }
+
+
   setFriendResult(ApiResponse<String> response){
     addFriendResult = response;
     notifyListeners();
@@ -66,6 +81,14 @@ class RequestsUserViewModel with ChangeNotifier{
       setUsersReceived(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setUsersReceived(ApiResponse.error(error.toString())));
+  }
+
+
+  Future<void> requestedUsersById(String id) async{
+    await _usersRepo.getRequestedsById(id).then((value){
+      setUsersRequested(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setUsersRequested(ApiResponse.error(error.toString())));
   }
 
 
