@@ -774,104 +774,101 @@ class _BodyState extends State<Body> {
               padding: const EdgeInsets.only(left:22.0, right: 22.0),
               child: Divider(thickness: 2,),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:  [
-                  _CustomIcon(
-                    icon: Icons.calendar_month,
-                    text: date,
-                    onTap: () =>
-                        showDialog(context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext) {
-                              return AlertDialog(
-                                actions: [
-                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK"))
-                                ],
-                                title: Text("Més info sobre horaris"),
-                                content: Text(
-                                    "Horari:\n${event.horari!}\n"
-                                        "Entrades:\n${event.entrades!}\n"
-                                        ),
-                              );
-                            }
-                        ),
-                  ),
-                  _CustomIcon(
-                    icon: Icons.map,
-                    text: event.espai!,
-                    onTap: () =>
-                        showDialog(context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext) {
-                              return AlertDialog(
-                                actions: [
-                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
-                                  ElevatedButton(onPressed: () => {
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SingleEventMap(event: event)))
-                                  }, child: Text("Veure al mapa"))
-                                ],
-                                title: Text("Info ubicacio"),
-                                content: Text(
-                                    "Espai:\n${event.espai!}\n"
-                                        "Adreça:\n${event.adreca!}\n"
-                                        "Lloc:\n${event.ubicacio!}"),
-                              );
-                            }
-                        ),
-                  ),
-                  if (Session().data.id != -1) _CustomIcon(
-                    icon: Icons.chat_bubble,
-                    text: "Xat",
-                    onTap: () => {
-                      Navigator.pushNamed(
-                          context, "/xat",
-                          arguments: EventUnicArgs(
-                              event.id!))
-                          .then((_) {})
-                    },
-                  ),
-                  _CustomIcon(
-                    icon: Icons.person,
-                    text: event.nomOrganitzador!,
-                    onTap: () =>
-                        showDialog(context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext) {
-                              return AlertDialog(
-                                actions: [
-                                  ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text(AppLocalizations.of(context)!.okButton)),
-                                  ElevatedButton(onPressed: () =>
-                                  {
-                                    if (event.idOrganitzador != null)
-                                      {
-                                              Navigator.popAndPushNamed(
-                                                      context, "/organizer",
-                                                      arguments: OrganizerArgs(
-                                                          event.idOrganitzador!, event.nomOrganitzador!))
-                                                  .then((_) {})
-                                            }
-                                        }, child: Text(AppLocalizations.of(context)!.seeMoreEventsByOrgButton))
-                                ],
-                                title: Text(AppLocalizations.of(context)!.orgInfoCardTitle, style: TextStyle(fontSize: 18),),
-                                content: OrganizerCard(event)
-                                // Text(
-                                //     "Nom:\n${event.nomOrganitzador!}\n"
-                                //         "Email:\n${event.emailOrganitzador!}\n"
-                                //         "URL:\n${event.urlOrganitzador!}"),
-                              );
-                            }
-                        ),
-                  ),
-                  // _CustomIcon(
-                  //   icon: Icons.av_timer_rounded,
-                  //   text: '50m',
-                  // ),
-                ],
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children:  [
+                _CustomIcon(
+                  icon: Icons.calendar_month,
+                  text: date,
+                  onTap: () =>
+                      showDialog(context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext) {
+                            return AlertDialog(
+                              actions: [
+                                ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK"))
+                              ],
+                              title: Text("Més info sobre horaris"),
+                              content: Text(
+                                  "Horari:\n${event.horari!}\n"
+                                      "Entrades:\n${event.entrades!}\n"
+                                      ),
+                            );
+                          }
+                      ),
+                ),
+                _CustomIcon(
+                  icon: Icons.map,
+                  text: event.espai!,
+                  onTap: () =>
+                      showDialog(context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext) {
+                            return AlertDialog(
+                              actions: [
+                                ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
+                                ElevatedButton(onPressed: () => {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SingleEventMap(event: event)))
+                                }, child: Text("Veure al mapa"))
+                              ],
+                              title: Text("Info ubicacio"),
+                              content: Text(
+                                  "Espai:\n${event.espai!}\n"
+                                      "Adreça:\n${event.adreca!}\n"
+                                      "Lloc:\n${event.ubicacio!}"),
+                            );
+                          }
+                      ),
+                ),
+                if (Session().data.id != -1) _CustomIcon(
+                  icon: Icons.chat_bubble,
+                  text: "Xat",
+                  onTap: () => {
+                    Navigator.pushNamed(
+                        context, "/xat",
+                        arguments: EventUnicArgs(
+                            event.id!))
+                        .then((_) {})
+                  },
+                ),
+                _CustomIcon(
+                  icon: Icons.person,
+                  text: event.nomOrganitzador!,
+                  onTap: () =>
+                      showDialog(context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext) {
+                            return AlertDialog(
+                              actions: [
+                                ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text(AppLocalizations.of(context)!.okButton)),
+                                ElevatedButton(onPressed: () =>
+                                {
+                                  if (event.idOrganitzador != null)
+                                    {
+                                            Navigator.popAndPushNamed(
+                                                    context, "/organizer",
+                                                    arguments: OrganizerArgs(
+                                                        event.idOrganitzador!, event.nomOrganitzador!))
+                                                .then((_) {})
+                                          }
+                                      }, child: Text(AppLocalizations.of(context)!.seeMoreEventsByOrgButton))
+                              ],
+                              title: Text(AppLocalizations.of(context)!.orgInfoCardTitle, style: TextStyle(fontSize: 18),),
+                              content: OrganizerCard(event)
+                              // Text(
+                              //     "Nom:\n${event.nomOrganitzador!}\n"
+                              //         "Email:\n${event.emailOrganitzador!}\n"
+                              //         "URL:\n${event.urlOrganitzador!}"),
+                            );
+                          }
+                      ),
+                ),
+                // _CustomIcon(
+                //   icon: Icons.av_timer_rounded,
+                //   text: '50m',
+                // ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(15.0),
