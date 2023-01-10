@@ -95,7 +95,8 @@ class AnotherUserViewModel with ChangeNotifier{
   setReportedResult(ApiResponse<String> response){
     addReportedUser = response;
     var aux = int.parse(addReportedUser.toString());
-    sessio.data.reportedUserIds!.add(aux);
+    addReportedUser.status == Status.COMPLETED? sessio.data.reportedUserIds!.add(aux):
+        Text("");
     notifyListeners();
   }
 
