@@ -167,8 +167,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
               ),
               backgroundColor: MyColors.bgColorScreen,
               // key: _scaffoldKey,
-              drawer: MyDrawer("Usuaris", Session(),
-                  username: "Superjuane", email: "juaneolivan@gmail.com"),
+              drawer: MyDrawer("Usuaris", Session(),),
               body: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

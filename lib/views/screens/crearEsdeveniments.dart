@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
-import 'package:CatCultura/views/widgets/attributes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
@@ -65,11 +65,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
             child:
               viewModel.waiting? Scaffold(
                 appBar: AppBar(
-                  title: const Text("Crear Esdeveniment"),
+                  title: Text(AppLocalizations.of(context)!.createEventDrawer),
                   backgroundColor: MyColorsPalette.orange,
                 ),
-                drawer: MyDrawer("Crear Esdeveniment",  Session(), username: "Superjuane",
-                  email: "juaneolivan@gmail.com"),
+                drawer: MyDrawer(AppLocalizations.of(context)!.createEventDrawer,  Session(),),
                 body: SingleChildScrollView(
                   child: SizedBox(
                     child: Center(
@@ -85,10 +84,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: CodiController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Codi (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.codeEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -107,10 +106,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 },
                                 enableInteractiveSelection: false,
                                 controller: InitialDateController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Data Inici (Obligatori)",
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.startDateEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -133,10 +132,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 },
                                 enableInteractiveSelection: false,
                                 controller: FinalDateController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Data Fi (Obligatori)",
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.finalDateEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -158,10 +157,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: DenominacioController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Nom Esdeveniment (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.nameEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -179,10 +178,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: UbicacioController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Ubicació (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.locationEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -199,10 +198,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: AdrecaController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Adreça (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.addressEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -219,10 +218,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: EspaiController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Espai (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.spaceEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -239,10 +238,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: DescripcioController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Descripció (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.descriptionEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -259,10 +258,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: LatitudController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Latitud (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.latitudeEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -279,10 +278,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   if (value!.isEmpty) return "Obligatori";
                                 },
                                 controller: LongitudController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Longitud (Obligatori)',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.longitudeEvent,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -296,10 +295,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: DataFiAproxController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Data de fi aproximada',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.approximateEndDate,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -313,10 +312,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: EntradesController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Informació entrades',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.ticket,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -330,10 +329,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: HorariController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Horari',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.schedule,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -347,10 +346,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: SubtitolController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Subtitol',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.subtitle,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -364,10 +363,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: LinkController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Link',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.links,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -381,10 +380,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: DocumentsController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Documents',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.documents,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -398,10 +397,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: VideoController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Video',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.video,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -415,10 +414,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: CodiPostalController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Codi Postal',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.postalCode,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -432,10 +431,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: EmailController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Email',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.email,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -449,10 +448,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: TelefonController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Telefon',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.telephone,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -466,10 +465,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: URLController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Url',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.url,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -483,10 +482,10 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: AppImgController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Imatge App',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: AppLocalizations.of(context)?.imageApp,
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.orange,
                                         width: 3
@@ -496,7 +495,6 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                               ),
                             ),
 
-
                             Container(
                               height: 70,
                               width: 150,
@@ -505,7 +503,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         MyColorsPalette.orange)),
-                                child: const Text('Crear'),
+                                child: Text(AppLocalizations.of(context)!.createEvent),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     print("Validació exitosa");

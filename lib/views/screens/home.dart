@@ -1,4 +1,5 @@
 
+import 'package:CatCultura/views/widgets/errorWidget.dart';
 import 'package:CatCultura/views/widgets/interestingEventsWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/constants/theme.dart';
@@ -31,6 +32,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     viewModel.fetchEvents();
+    viewModel.fetchEventsByTag();
     super.initState();
 
   }
@@ -45,14 +47,27 @@ class _HomeState extends State<Home> {
         return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.homeScreenTitle),
+              actions: [
+                Column(
+                  children: [
+                    IconButton(
+                        onPressed: () => {
+                          Navigator.pushNamed(context, '/events')
+                        },
+                        icon: const Icon(
+                            Icons.search,
+                            color: Colors.black
+                        ),
+                    )
+                  ],
+                ),
+              ],
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                AppLocalizations.of(context)!.homeScreenTitle,  Session(),
-                username: session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
-                email: session.data.email == "missing email" || session.data.email == null ? AppLocalizations.of(context)!.missingEmail : session.data.email!),
+                AppLocalizations.of(context)!.homeScreenTitle,  Session(),),
             body: Container(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: ListView(
@@ -95,46 +110,35 @@ class _HomeState extends State<Home> {
                   Text(AppLocalizations.of(context)!.interestingEventsSection, style: const TextStyle(fontSize: 20),),
                   const SizedBox(height: 8.0,),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height-200,
+                    height: MediaQuery.of(context).size.height-100,
                     child: viewModel.eventsList.status == Status.LOADING ?
                       const SizedBox(
                         child: Center(
                           child: CircularProgressIndicator()),
                     )
                         : viewModel.eventsList.status == Status.ERROR
-                          ? Text(viewModel.eventsList.toString())
+                          ? Column(
+                            children: [
+                              ElevatedButton(onPressed: () => viewModel.fetchEvents(), child: Text("Torna a intentar")),
+                              CustomErrorWidget()
+                            ],
+                          )
                         : viewModel.eventsList.status ==
                           Status.COMPLETED ? InterestingEventsWidget(viewModel.eventsList.data!) : const Text("Error"),
                 ),
               if (session.data.id != -1) for(int i = 0; i < tags.length; ++i) viewModel.tagEventList[tags[i]]!.status == Status.LOADING ?
-              const SizedBox(
-                child: Center(
-                    child: CircularProgressIndicator()),
-              )
+                    const SizedBox(
+                      child: Center(
+                          child: CircularProgressIndicator()),
+                    ) : viewModel.tagEventList[tags[i]]!.status == Status.ERROR ?
+                          Column(
+                            children: [
+                              ElevatedButton(onPressed: () => viewModel.fetchEventsByTagListPosition(i), child: Text("Torna a intentar")),
+                              CustomErrorWidget()
+                            ],
+                          )
                   : viewModel.tagEventList[tags[i]]!.status == Status.COMPLETED
                   ? EventsByTagWidget(tags[i], viewModel.tagEventList[tags[i]]!.data!) : const Text("Error"),
-              //
-              // if (session.data.id != -1) viewModel.tagEventList[tags[0]]!.status == Status.LOADING ?
-              // const SizedBox(
-              //   child: Center(
-              //       child: CircularProgressIndicator()),
-              // )
-              //     : viewModel.tagEventList[tags[0]]!.status == Status.COMPLETED
-              //     ? EventsByTagWidget(tags[0], viewModel.tagEventList[tags[0]]!.data!) : const Text("Error"),
-              // if (session.data.id != -1) viewModel.tagEventList[tags[1]]!.status == Status.LOADING ?
-              //     const SizedBox(
-              //       child: Center(
-              //           child: CircularProgressIndicator()),
-              //     )
-              //         : viewModel.tagEventList[tags[1]]!.status == Status.COMPLETED
-              //         ? EventsByTagWidget(tags[1], viewModel.tagEventList[tags[1]]!.data!) : const Text("Error"),
-              // if (session.data.id != -1) viewModel.tagEventList[tags[2]]!.status == Status.LOADING ?
-              //     const SizedBox(
-              //       child: Center(
-              //           child: CircularProgressIndicator()),
-              //     )
-              //         : viewModel.tagEventList[tags[2]]!.status == Status.COMPLETED
-              //         ? EventsByTagWidget(tags[2], viewModel.tagEventList[tags[2]]!.data!) : const Text("Error"),
                 ]
               ),
               ),

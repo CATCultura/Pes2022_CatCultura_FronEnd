@@ -11,7 +11,16 @@ class OrganizerArgs {
   final int orgId;
   final String orgName;
   OrganizerArgs(this.orgId, this.orgName);
+}
 
+class TagArgs {
+  final String tagName;
+  TagArgs(this.tagName);
+}
+
+class QrCodeArgs {
+  final String code;
+  QrCodeArgs(this.code);
 }
 
 class ReviewUnicaArgs {

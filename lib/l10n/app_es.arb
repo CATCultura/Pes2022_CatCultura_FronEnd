@@ -19,7 +19,7 @@
 
     "createEventDrawer": "Crear evento",
 
-    "codeEvent": "Codigo (Obligatorio)",
+    "codeEvent": "Código (Obligatorio)",
 
     "startDateEvent": "Fecha Inicio (Obligatorio)",
 
@@ -27,7 +27,7 @@
 
     "nameEvent": "Nombre Evento (Obligatorio)",
 
-    "locationEvent": "Localizacion (Obligatorio)",
+    "locationEvent": "Localización (Obligatorio)",
 
     "addressEvent": "Dirección (Obligatorio)",
 
@@ -46,6 +46,8 @@
     "schedule": "Horario",
 
     "subtitle": "Subtítulo",
+
+    "links": "Enlaces",
 
     "documents": "Documentos",
 
@@ -93,6 +95,44 @@
 
     "orgEventsScreenTitle": "Eventos organizados por",
 
+    "tagEventsScreenTitle": "Eventos con la etiqueta",
+
+    "code": "Código)",
+
+    "startDate": "Fecha Inicio",
+
+    "finalDate": "Fecha Final",
+
+    "nameEventM": "Nombre Evento",
+
+    "location": "Localización",
+
+    "address": "Dirección",
+
+    "space": "Sitio",
+
+    "description": "Descripción",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "¿Qué quieres hacer?",
+
+    "deleteEvent": "Eliminar Evento",
+
+    "cancelEvent": "Cancelar Evento",
+
+    "cancelQuestion": "¿Estás seguro de que quieres cancelar este evento?",
+
+    "deleteQuestion": "¿Estás seguro de que quieres eliminar este evento?",
+
+    "modify": "Modificar",
+
     "searchName": "Buscar por nombre...",
 
     "userProfile": "Perfil Usuario",
@@ -115,7 +155,112 @@
 
     "achieved": "CONSEGUIDO",
 
-    "notAchieved": "No Conseguido"
+    "notAchieved": "No Conseguido",
 
+    "rutaCulturalMainTitle": "Ruta Cultural",
+
+    "generatingRouteText": "Estamos generando tu ruta...",
+
+
+    "generateRouteText": "Generar Ruta",
+
+    "modifyRouteText": "Modificar Ruta",
+
+    "saveRouteNameHint": "Nombre de la ruta",
+
+
+    "saveRouteDescriptionHint": "Descripcion",
+
+
+    "cancelTextCulturalRoute" : "Cancelar",
+
+
+    "saveTextCulturalRoute" : "Guardar",
+
+    "saveRouteSuccessTitle": "Routa guardada",
+
+    "saveRouteButtonText" : "Guardar ruta",
+
+
+    "saveRouteErrorNotLoggedIn" : "Tienes que haver iniciado sesion para guardar la ruta",
+
+    "loginTextErrorSaveCulturalRoute" : " Iniciar sesión",
+
+    "savedRoutesButtonText" : "Abrir rutas guardadas",
+
+
+    "blocksMainTitle": "Reports",
+
+
+    "reportedReviewsTitle" : "Reviews reportadas",
+
+
+    "reportedUsersTitle" : "Usuarios reportados",
+
+    "blockButton" : "Bloquear",
+
+    "unblockButton" : "Desbloquear",
+
+    "parametersCulturalRouteMainTitle" : "PARAMETROS",
+
+    "parametersCulturalRouteDate" : "Fecha",
+
+    "parametersCulturalRouteSelectRadius" : "Selecciona un radio",
+
+    "parametersCulturalRouteGenerateButton": "GENERAR RUTA",
+
+    "scanQRCodeScreenTitle" : "Ecanea un QR",
+
+    "cameraNotAllowedWarning" : "Para escanear un QR, permite el acceso a la cámara.",
+
+    "sendAttendanceCodeButton" : "Enviar",
+
+    "scanCodePrompt" : "Escanea un código de asistencia",
+
+    "exitButton" : "Salir",
+
+    "explanationForAttendanceCodeInput" : "Introduce el código de asistencia o escanea QR oportuno.",
+
+    "enterCodeHintText" : "Introduce un código",
+
+    "attendanceAlreadyConfirmed" : "Ya has confirmado que has asistido.",
+
+    "confirmAttendanceDialogTitle": "Confirma la asistencia",
+
+    "wrongAttendanceCode": "Código incorrecto",
+
+    "scanQRCodeButton" : "QR",
+
+    "confirmAttendanceMenuOption": "Confirmar asistencia",
+
+    "nameAndSurnameInputBoxLabel": "Nombre y apellidos",
+
+    "emailInputBoxLabel": "Correo electrónico",
+
+    "createAccount": "Crea cuenta",
+
+    "alreadyAccount": "Ya tengo cuenta",
+
+    "descriptionCreateAccount": "Crea una cuenta y disfruta de la cultura de tu alrededor",
+
+    "errorMessageCreateAccount": "Campo obligatorio",
+
+    "errorCharactersMessageCreateAccount": "Mínimo 6 caracteres",
+
+    "cancelButton": "CANCELAR",
+
+    "saveButton": "GUARDAR",
+
+    "editTagsButton": "Edita tus tags",
+
+    "editProfileText": "Edita tu perfil",
+
+    "newPasswordInput": "Nueva contraseña",
+
+    "emptyFieldText": "Campo vacío",
+
+    "notNowButton": "AHORA NO",
+
+    "selectTagsDescription": "Selecciona tus tags favoritas"
 
 }

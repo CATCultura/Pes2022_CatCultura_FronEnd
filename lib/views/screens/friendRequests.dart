@@ -29,13 +29,12 @@ class FriendRequests extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 70,
-              title: Text(AppLocalizations.of(context).friendRequests),
+              title: Text(AppLocalizations.of(context)!.friendRequests),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
-            drawer: MyDrawer("Profile",  Session(),
-                username: "Superjuane", email: "juaneolivan@gmail.com"),
+            drawer: MyDrawer("Profile",  Session(),),
             body: Container(
               child: viewModel.usersReceived.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
               viewModel.usersReceived.status == Status.ERROR? Text(viewModel.usersReceived.toString()):

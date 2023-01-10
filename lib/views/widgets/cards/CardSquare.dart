@@ -21,7 +21,8 @@ class CardSquare extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, "/eventUnic",
-                arguments: EventUnicArgs(event.id!)).then((_){
+                    arguments: EventUnicArgs(event.id!))
+                .then((_) {
               /*setState((){
 
                     });*/
@@ -42,7 +43,8 @@ class CardSquare extends StatelessWidget {
                                   topLeft: Radius.circular(6.0),
                                   topRight: Radius.circular(6.0)),
                               image: DecorationImage(
-                                image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
+                                image: NetworkImage(
+                                    "https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
                                 fit: BoxFit.cover,
                               )))),
                   Flexible(

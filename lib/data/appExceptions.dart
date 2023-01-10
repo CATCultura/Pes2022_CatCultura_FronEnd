@@ -28,3 +28,9 @@ class InvalidInputException extends AppException {
   InvalidInputException([String? message])
       : super(message, 'Unauthorised Input');
 }
+
+class ConflictException implements Exception{
+  String cause;
+  ConflictException(this.cause);
+
+}

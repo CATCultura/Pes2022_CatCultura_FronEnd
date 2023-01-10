@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:CatCultura/viewModels/BlocksViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
@@ -49,10 +50,12 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
         child: Consumer<BlocksViewModel>(builder: (context, value, _) {
           return Scaffold(
               appBar: AppBar(
-                title: const Text("Bloqueos"),
+                title: Text(AppLocalizations.of(context)!.blocksMainTitle),
               ),
-              drawer: MyDrawer("Blocks", Session(),
-                  username: "Superjuane", email: "juaneolivan@gmail.com"),
+              drawer: MyDrawer(
+                "Blocks",
+                Session(),
+              ),
               body: DefaultTabController(
                   length: 2, // length of tabs
                   initialIndex: 0,
@@ -67,10 +70,12 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                           tabs: [
                             Tab(
                                 icon: Icon(Icons.reviews),
-                                text: "Reviews Reportades"),
+                                text: AppLocalizations.of(context)!
+                                    .reportedReviewsTitle),
                             Tab(
                                 icon: Icon(Icons.person),
-                                text: "Usuaris Reportats"),
+                                text: AppLocalizations.of(context)!
+                                    .reportedUsersTitle),
                           ],
                         ),
                       ),
@@ -83,7 +88,7 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                               child: viewModel.reviewsList.status ==
                                       Status.LOADING
                                   ? const CircularProgressIndicator()
-                                  : ListView.builder(
+                                  : viewModel.reviewsList.data!.length > 0 ? ListView.builder(
                                       itemCount:
                                           viewModel.reviewsList.data!.length,
                                       itemBuilder: (context, index) {
@@ -191,8 +196,10 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                                   .data![index]
                                                                   .reviewId!);
                                                         },
-                                                        child:
-                                                            Text("Bloquear")),
+                                                        child: Text(
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .blockButton)),
                                                     SizedBox(
                                                       width: 10,
                                                     ),
@@ -207,14 +214,12 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                               viewModel
                                                                   .reviewsList
                                                                   .data![index]
-                                                                  .reviewId!,
-                                                              viewModel
-                                                                  .reviewsList
-                                                                  .data![index]
-                                                                  .userId!);
+                                                                  .reviewId!);
                                                         },
-                                                        child:
-                                                            Text("Desbloquear"))
+                                                        child: Text(
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .unblockButton)),
                                                   ],
                                                 ),
                                               ],
@@ -225,13 +230,23 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                             // ],),
                                           ),
                                         );
-                                      }),
+                                      })
+                             : Center(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 20,),
+                                    Text("😊", style: TextStyle(fontSize: 50),),
+                                    const SizedBox(height: 10,),
+                                    Text(AppLocalizations.of(context)!.noReviewsToBlock, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,)),
+                                  ],
+                                ),
+                              ),
                             ),
                             Center(
                               child: viewModel.usersList.status ==
                                       Status.LOADING
                                   ? const CircularProgressIndicator()
-                                  : ListView.builder(
+                                  : viewModel.usersList.data!.length > 0 ?ListView.builder(
                                       itemCount:
                                           viewModel.usersList.data!.length,
                                       itemBuilder: (context, index) {
@@ -271,7 +286,6 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                         style: TextStyle(
                                                             fontSize: 20),
                                                       )),
-                                                  Text("date"),
                                                 ],
                                               ),
                                             ),
@@ -289,14 +303,16 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                                     .red
                                                                     .shade800),
                                                         onPressed: () {
-                                                          // viewModel.blockReview(
-                                                          //     viewModel
-                                                          //         .reviewsList
-                                                          //         .data![index]
-                                                          //         .reviewId!);
+                                                          viewModel.blockUser(
+                                                              viewModel
+                                                                  .usersList
+                                                                  .data![index]
+                                                                  .id!);
                                                         },
-                                                        child:
-                                                            Text("Bloquear")),
+                                                        child: Text(
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .blockButton)),
                                                     SizedBox(
                                                       width: 10,
                                                     ),
@@ -307,18 +323,17 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                                                     .green
                                                                     .shade800),
                                                         onPressed: () {
-                                                        //   viewModel.unblockReview(
-                                                        //       viewModel
-                                                        //           .reviewsList
-                                                        //           .data![index]
-                                                        //           .reviewId!,
-                                                        //       viewModel
-                                                        //           .reviewsList
-                                                        //           .data![index]
-                                                        //           .userId!);
+                                                          viewModel.unblockUser(
+                                                            viewModel
+                                                                .usersList
+                                                                .data![index]
+                                                                .id!,
+                                                          );
                                                         },
-                                                        child:
-                                                            Text("Desbloquear"))
+                                                        child: Text(
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .unblockButton)),
                                                   ],
                                                 ),
                                               ],
@@ -329,7 +344,17 @@ class BlocksState extends State<Blocks> with SingleTickerProviderStateMixin {
                                             // ],),
                                           ),
                                         );
-                                      }),
+                                      })
+                              : Center(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 20,),
+                                    Text("😊", style: TextStyle(fontSize: 50),),
+                                    const SizedBox(height: 10,),
+                                    Text(AppLocalizations.of(context)!.noUsersToBlock, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,)),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),

@@ -24,9 +24,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 //import 'utils/routes/routes.dart';
+late PermissionStatus cameraStatus;
 
 void setPermissions() async{
   final locStatus = await Permission.location.request();
+  cameraStatus = await Permission.camera.request();
+  final notStatus = await Permission.notification.request();
 }
 
 bool _initialUriIsHandled = false;
@@ -126,8 +129,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     final queryParams = _latestUri?.queryParametersAll.entries.toList();
     if(queryParams != null){
       debugPrint("queryParams"+queryParams.toString());
-      $Params = queryParams[0].value.first;
+      // debugPrint(query);
+      $Params = queryParams[0].value;
     }
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown

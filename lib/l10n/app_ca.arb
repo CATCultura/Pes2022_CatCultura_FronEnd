@@ -47,6 +47,8 @@
 
     "subtitle": "Subtítul",
 
+    "links": "Enllaços",
+
     "documents": "Documents",
 
     "video": "Video",
@@ -93,9 +95,45 @@
 
     "orgEventsScreenTitle": "Esdeveniments organitzats per",
 
+    "code": "Codi",
+
+    "startDate": "Data Inici",
+
+    "finalDate": "Data Fi",
+
+    "nameEventM": "Nom wsdeveniment",
+
+    "location": "Localizació",
+
+    "address": "Adreça",
+
+    "space": "Espai",
+
+    "tagEventsScreenTitle": "Esdeveniments amb l'etiqueta",
+
+    "description": "Descripció",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "Què vols fer?",
+
+    "deleteEvent": "Eliminar Esdeveniment",
+
+    "cancelEvent": "Cancel·lar Esdeveniment",
+
+    "cancelQuestion": "Segur que vols cancel·lar aquest esdeveniment?",
+
+    "deleteQuestion": "Segur que vols eliminar aquest esdeveniment?",
+
     "searchName": "Buscar per nom...",
 
-    "userProfile": "Perfil Usuari",
+    "userProfile": "Perfil d'usuari",
 
     "addFriend": "Enviar sol·licitud",
 
@@ -109,12 +147,68 @@
 
     "findUsers": "Buscar Usuaris",
 
-    "myProfile": "El meu Perfil",
+    "myProfile": "El meu perfil",
 
     "ranking": "Classificació",
 
     "achieved": "ACONSEGUIT",
 
-    "notAchieved": "No Aconseguit"
+    "notAchieved": "No Aconseguit",
+
+    "modify": "Modificar",
+
+    "scanQRCodeButton" : "QR",
+
+    "scanQRCodeScreenTitle" : "Escaneja un QR",
+
+    "cameraNotAllowedWarning" : "Per escanejar un codi QR, permet l'accés a la càmera.",
+
+    "sendAttendanceCodeButton" : "Envia",
+
+    "scanCodePrompt" : "Escaneja un codi d'assistència",
+
+    "exitButton" : "Surt",
+
+    "explanationForAttendanceCodeInput" : "Introdueix el codi d'assistència o escaneja el QR corresponent.",
+
+    "enterCodeHintText" : "Introdueix un codi",
+
+    "attendanceAlreadyConfirmed" : "Ja has confirmat que hi has assistit.",
+
+    "confirmAttendanceDialogTitle": "Confirma l'assistència",
+
+    "wrongAttendanceCode": "Codi incorrecte",
+
+    "confirmAttendanceMenuOption": "Confirma l'assistència",
+
+    "nameAndSurnameInputBoxLabel": "Nom i cognoms",
+
+    "emailInputBoxLabel": "Correu electrònic",
+
+    "createAccount": "Crea compte",
+
+    "alreadyAccount": "Ja tinc compte",
+
+    "descriptionCreateAccount": "Crea un compte i gaudeix de la cultura del teu voltant",
+
+    "errorMessageCreateAccount": "Camp obligatori",
+
+    "errorCharactersMessageCreateAccount": "Mínim 6 caràcters",
+
+    "cancelButton": "CANCEL·LAR",
+
+    "saveButton": "DESAR",
+
+    "editTagsButton": "Edita els tags",
+
+    "editProfileText": "Edita el teu perfil",
+
+    "newPasswordInput": "Nova contrasenya",
+
+    "emptyFieldText": "Camp buit",
+
+    "notNowButton": "ARA NO",
+
+    "selectTagsDescription": "Selecciona les teves tags favorites"
 
 }
