@@ -15,6 +15,7 @@ import '../../models/Message.dart';
 import '../../providers/xat.dart';
 import '../../utils/Session.dart';
 import '../../viewModels/ChatViewModel.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/myDrawer.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -60,10 +61,9 @@ class _xatState extends State<Xat> {
         child: Consumer<ChatViewModel>(builder: (context, value, _) {
           return Scaffold(
               appBar: AppBar(
-                    title: const Text("Xat"),
+                    title: Text(AppLocalizations.of(context)!.chat),
                     backgroundColor: MyColorsPalette.orange,
                   ),
-            drawer: MyDrawer("xat", Session()),
             body: viewModel.eventChatMessages.status == Status.LOADING ? const SizedBox(
               child: Center(
                   child: CircularProgressIndicator()
@@ -138,8 +138,8 @@ class _xatState extends State<Xat> {
                           Expanded(
                             child: TextField(
                               controller: _messageInputController,
-                              decoration: const InputDecoration(
-                                hintText: 'Escriu el missatge aqui',
+                              decoration: InputDecoration(
+                                hintText: AppLocalizations.of(context)?.messageCamp,
                                 border: InputBorder.none,
                               ),
                             ),

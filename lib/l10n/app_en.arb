@@ -635,5 +635,15 @@
   "noReviewsToBlock": "There are no reviews to block",
     "@noReviewsToBlock": {
                 "description": "Text for no reviews to block"
-            }
+            },
+
+  "chat": "Chat",
+    "@chat": {
+                "description": "Text for no reviews to block"
+            },
+
+  "messageCamp": "Write the message here",
+  "@messageCamp": {
+    "description": "Text for no reviews to block"
+  }
 }

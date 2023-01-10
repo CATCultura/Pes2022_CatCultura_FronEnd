@@ -261,6 +261,10 @@
 
     "notNowButton": "AHORA NO",
 
-    "selectTagsDescription": "Selecciona tus tags favoritas"
+    "selectTagsDescription": "Selecciona tus tags favoritas",
+
+    "chat": "Chat",
+
+    "messageCamp": "Esbribe el mensaje aquí"
 
 }
