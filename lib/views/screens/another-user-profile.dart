@@ -9,11 +9,25 @@ import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../utils/Session.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:ui';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
-class AnotherProfile extends StatelessWidget {
-  AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
-  String selectedUser;
-  String selectedId;
+
+
+class AnotherProfile extends StatefulWidget {
+  const AnotherProfile({super.key, required this.selUser, required this.selId});
+  final String selUser;
+  final String selId;
+
+  @override
+  State<AnotherProfile> createState() => _AnotherProfileState();
+}
+
+class _AnotherProfileState extends State<AnotherProfile> {
+
+  //AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
+  late String selectedUser = widget.selUser;
+  late String selectedId = widget.selId;
   final double coverHeight = 280;
   final double profileHeight = 144;
   late List <String> usersList = [];
@@ -23,7 +37,7 @@ class AnotherProfile extends StatelessWidget {
 
   @override
   void initState() {
-    viewModel.selectUserById(selectedId);
+    viewModel.setUserSelected(selectedId);
   }
 
   @override
@@ -40,13 +54,13 @@ class AnotherProfile extends StatelessWidget {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title:  Text(AppLocalizations.of(context)!.userProfile),
+              title:  Text(AppLocalizations.of(context).userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
             // key: _scaffoldKey,
             drawer: MyDrawer(
-                "AnotherProfile",  Session(),),
+                "AnotherProfile",  Session()),
             body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
             viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
             viewModel.mainUser.status == Status.COMPLETED? ListView(
@@ -58,9 +72,24 @@ class AnotherProfile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        selectedUser,
+                        viewModel.mainUser.data!.nameAndSurname.toString(),
                         style: TextStyle(fontSize: 28, color: Colors.teal),
                       ),
+                      const SizedBox(width: 10),
+                      !sessio.data.reportedUserIds!.contains(int.parse(selectedId))? IconButton(
+                        iconSize: 30,
+                        icon: const Icon(
+                          Icons.report_problem_outlined,
+                          color: Colors.redAccent,
+                        ),
+                        onPressed: () {
+                          viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                          viewModel.notifyListeners();
+                          Navigator.pushNamed(context, '/another-user-profile',
+                              arguments: AnotherProfileArgs(selectedUser, selectedId));
+                        },
+
+                      ) : Text(""),
                     ]
                 ),
                 buildContent(),
@@ -73,7 +102,7 @@ class AnotherProfile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: viewModel.friend==false? <Widget>[
                     Text (
-                      '${AppLocalizations.of(context)!.addFriend}    ',
+                      '${AppLocalizations.of(context).addFriend}    ',
                       style: TextStyle(
                           fontSize: 18, height: 1.4, color: Colors.black54),
                     ),
@@ -155,14 +184,9 @@ class AnotherProfile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}'),
+                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context).points}'),
                     ],
                   ),
-
-
-
-
-
 
                 /*Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -182,7 +206,7 @@ class AnotherProfile extends StatelessWidget {
                   ): const Text(""),*/
 
                 ],
-              ) : Text("Error"),
+              ):Text("Error")
             /*
                 body: Container(
                     color: MyColors.warning,
@@ -229,6 +253,7 @@ class AnotherProfile extends StatelessWidget {
           top: top,
           child: buildProfilePicture(),
         ),
+
       ],
     );
   }

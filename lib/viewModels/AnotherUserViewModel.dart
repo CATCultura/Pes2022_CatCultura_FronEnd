@@ -13,6 +13,7 @@ class AnotherUserViewModel with ChangeNotifier{
   //ApiResponse<List<UserResult>> usersList = ApiResponse.loading();
   ApiResponse<UserResult> mainUser = ApiResponse.loading();
   ApiResponse<String> addFriendResult = ApiResponse.loading();
+  ApiResponse<String> addReportedUser = ApiResponse.loading();
   ApiResponse<List<UserResult>> usersRequested = ApiResponse.loading();
   bool afegit = false;
   bool friend = false;
@@ -91,6 +92,13 @@ class AnotherUserViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  setReportedResult(ApiResponse<String> response){
+    addReportedUser = response;
+    var aux = int.parse(addReportedUser.toString());
+    sessio.data.reportedUserIds!.add(aux);
+    notifyListeners();
+  }
+
   Future<void> selectUserById(String id) async{
     await _usersRepo.getUserById(id).then((value){
       setMainUserSelected(ApiResponse.completed(value));
@@ -142,5 +150,14 @@ class AnotherUserViewModel with ChangeNotifier{
     }
   }
 
+  Future<void> reportUser(String userId, String? otherUserId) async{
+    if(otherUserId != null) {
+      await _usersRepo.addUserReport(userId, int.parse(otherUserId)).then((value) {
+        setReportedResult(ApiResponse.completed(value));
+      }).onError((error, stackTrace) =>
+          setReportedResult(ApiResponse.error(error.toString())));
+    }
+
+  }
 
 }
