@@ -47,4 +47,10 @@ class InterestingViewModel with ChangeNotifier {
 
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+  }
+
 }
