@@ -17,18 +17,19 @@ import '../../viewModels/LoginViewModel.dart';
 //import 'package:tryproject2/constants/theme.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
-
+  const Login({Key? key, this.failedAttempt = false}) : super(key: key);
+  final bool failedAttempt;
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: StatefulLogin(),
+    return Scaffold(
+      body: StatefulLogin(failedAttempt),
     );
   }
 }
 
 class StatefulLogin extends StatefulWidget {
-  const StatefulLogin({Key? key}) : super(key: key);
+  const StatefulLogin(this.failedAttempt, {Key? key}) : super(key: key);
+  final bool failedAttempt;
 
   @override
   State<StatefulLogin> createState() => _StatefulLoginState();
@@ -36,6 +37,7 @@ class StatefulLogin extends StatefulWidget {
 
 class _StatefulLoginState extends State<StatefulLogin> {
   final LoginViewModel viewModel = LoginViewModel();
+  late bool failedAttempt = widget.failedAttempt;
   TextEditingController nameController = TextEditingController(/*text: "admin"*/);
   TextEditingController passwordController = TextEditingController(/*text: "admin"*/);
   bool showPassword = false;
@@ -109,6 +111,10 @@ class _StatefulLoginState extends State<StatefulLogin> {
                           ),
                         ),
                       ),
+                      if (failedAttempt) Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text("Login incorrecte", textAlign: TextAlign.center,style: TextStyle(color: Colors.red),)
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: TextButton(
@@ -173,7 +179,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                       : viewModel.mainUser.status == Status.LOADING? const SizedBox(
                     child: Center(child: CircularProgressIndicator()),
                   )
-                      : viewModel.mainUser.status == Status.ERROR? Text(viewModel.mainUser.toString())
+                      : viewModel.mainUser.status == Status.ERROR? Login(failedAttempt: true,)
                       : viewModel.mainUser.status == Status.COMPLETED? A()
                       : Text("d")
               )

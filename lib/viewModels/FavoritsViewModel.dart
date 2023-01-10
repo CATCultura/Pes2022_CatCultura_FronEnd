@@ -22,6 +22,7 @@ class FavoritsViewModel with ChangeNotifier {
 
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
+    favouritesList.data!.sort((a,b) => a.dataInici!.compareTo(b.dataInici!));
     session.set("favorits", favouritesList.data as List<EventResult>);
     notifyListeners();
   }
