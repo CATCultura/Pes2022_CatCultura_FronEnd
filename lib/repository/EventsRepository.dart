@@ -190,7 +190,7 @@ class EventsRepository {
     }
   }
 
-  Future<EventResult> postCreaEvent(EventResult data) async {
+  Future<void> postCreaEvent(EventResult data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse("${baseUrl}events", data);
       return response;
