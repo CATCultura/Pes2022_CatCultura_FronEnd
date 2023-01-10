@@ -94,24 +94,8 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
-    if(session.has("favorits")){
-      //ApiResponse<List<EventResult>> res = session.get("favorits");
-        List<EventResult>? favouritesSession = session.get("favorits");
-        if(favouritesSession != null) favorit = favouritesSession.any((element) => element.id == id);
-    }
-    else {
-      if (sessio.data.favouritesId != null)
-        favorit = session.data.favouritesId!.contains(int.parse(id));
-    }
-    if(session.has("attendance")){
-      List<EventResult>? attendanceSession = session.get("attendance");
-      if(attendanceSession != null) agenda = attendanceSession.any((element) => element.id == id);
-
-    }
-    else{
-      if (sessio.data.attendanceId != null)
-        agenda = session.data.attendanceId!.contains(int.parse(id));
-    }
+    if (sessio.data.favouritesId != null) favorit = session.data.favouritesId!.contains(int.parse(id));
+    if (sessio.data.attendanceId != null) agenda = session.data.attendanceId!.contains(int.parse(id));
     debugPrint(favorit ? "si en favorit" : "no en favorit");
     debugPrint(agenda ? "si en agenda" : "no en agenda");
     await _eventsRepo.getEventById(id).then((value){
@@ -130,7 +114,7 @@ class EventUnicViewModel with ChangeNotifier {
       setReviews(ApiResponse.completed(value));
     });
   }
-
+/*
   setFavouriteResult(ApiResponse<String> response){
     addFavouriteResult = response;
     favorit = !favorit;
@@ -143,26 +127,27 @@ class EventUnicViewModel with ChangeNotifier {
     session.set("attendance", attendanceList);
     notifyListeners();
   }
-
+  */
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
     favorit = !favorit;
-    if(favouritesList.data != null) session.set("favorits", favouritesList.data as List<EventResult>);
-    else session.set("favorits", <EventResult>[]);
+  //  if(favouritesList.data != null) session.set("favorits", favouritesList.data as List<EventResult>);
+   // else session.set("favorits", <EventResult>[]);
     notifyListeners();
   }
 
   setAttendanceList(ApiResponse<List<EventResult>> response){
     attendanceList = response;
     agenda = !agenda;
-    if(attendanceList.data != null)session.set("attendance", attendanceList.data as List<EventResult>);
-    else session.set("attendance", <EventResult>[]);
+    //if(attendanceList.data != null)session.set("attendance", attendanceList.data as List<EventResult>);
+    //else session.set("attendance", <EventResult>[]);
     notifyListeners();
   }
 
   Future<void> putFavouriteById(String userId, String? eventId) async{
     if(eventId != null) {
       await _eventsRepo.addFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value) {
+        session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
         setFavouritesList(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setFavouritesList(ApiResponse.error(error.toString())));
@@ -172,6 +157,7 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> deleteFavouriteById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.deleteFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
         setFavouritesList(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setFavouritesList(ApiResponse.error(error.toString())));
     }
@@ -180,6 +166,7 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> putAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.addAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
         setAttendanceList(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceList(ApiResponse.error(error.toString())));
     }
@@ -188,6 +175,7 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> deleteAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.deleteAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
         setAttendanceList(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceList(ApiResponse.error(error.toString())));
     }
