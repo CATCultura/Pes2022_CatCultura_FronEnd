@@ -415,7 +415,6 @@ class _BodyState extends State<Body> {
   final GlobalKey _globalKey = GlobalKey();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-  var _scopes = [GCalendar.CalendarApi.calendarScope];
 
   Future<void> _selectedDate(BuildContext context) async{
     DateTime currentTime = DateTime.now();
@@ -676,6 +675,9 @@ class _BodyState extends State<Body> {
                             iconSize: 40,
                             icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
                             onPressed: () {
+                              viewModel.addToCalendar(viewModel.eventSelected.data!.denominacio,
+                                  viewModel.eventSelected.data!.dataInici, viewModel.eventSelected.data!.dataFi,
+                                  viewModel.eventSelected.data!.localitat, viewModel.eventSelected.data!.descripcio);
                               // viewModel.addEventToGoogleCalendar(_scopes);
                             },
                           ),

@@ -18,6 +18,8 @@ import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 
 
+//imports per exportar al calendari
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
@@ -197,6 +199,16 @@ class EventUnicViewModel with ChangeNotifier {
 
     File(path).writeAsBytesSync(qr);
     await Share.shareFiles([path], text: titol);
+  }
+
+  Event buildEvent(String title, DateTime startDate, DateTime endDate, String location, String description){
+    return Event(title: title, startDate: startDate, endDate: endDate, location: location, description: description);
+  }
+
+  void addToCalendar(String? title, String? startDate, String? endDate, String? location, String? description){
+    if(endDate == null) endDate = startDate;
+    Add2Calendar.addEvent2Cal(buildEvent(title as String, DateFormat("d-M-yyyy").parse(startDate as String),
+        DateFormat("d-M-yyyy").parse(endDate as String), location as String, description as String));
   }
 
   Future<AccessCredentials> obtainCredentials(var _scopes) async {
