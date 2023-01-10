@@ -101,7 +101,7 @@
 
     "finalDate": "Data Fi",
 
-    "nameEventM": "Nom Esdeveniment",
+    "nameEventM": "Nom wsdeveniment",
 
     "location": "Localizació",
 
@@ -121,19 +121,19 @@
 
     "no": "No",
 
-    "whatDoYouWant": "¿Què vols fer?",
+    "whatDoYouWant": "Què vols fer?",
 
     "deleteEvent": "Eliminar Esdeveniment",
 
     "cancelEvent": "Cancel·lar Esdeveniment",
 
-    "cancelQuestion": "Estàs segur que vols cancel·lar aquest esdeveniment?",
+    "cancelQuestion": "Segur que vols cancel·lar aquest esdeveniment?",
 
-    "deleteQuestion": "Estàs segur que vols eliminar aquest esdeveniment?",
+    "deleteQuestion": "Segur que vols eliminar aquest esdeveniment?",
 
     "searchName": "Buscar per nom...",
 
-    "userProfile": "Perfil Usuari",
+    "userProfile": "Perfil d'usuari",
 
     "addFriend": "Enviar sol·licitud",
 
@@ -147,7 +147,7 @@
 
     "findUsers": "Buscar Usuaris",
 
-    "myProfile": "El meu Perfil",
+    "myProfile": "El meu perfil",
 
     "ranking": "Classificació",
 
@@ -179,6 +179,36 @@
 
     "wrongAttendanceCode": "Codi incorrecte",
 
-    "confirmAttendanceMenuOption": "Confirma l'assistència"
+    "confirmAttendanceMenuOption": "Confirma l'assistència",
+
+    "nameAndSurnameInputBoxLabel": "Nom i cognoms",
+
+    "emailInputBoxLabel": "Correu electrònic",
+
+    "createAccount": "Crea compte",
+
+    "alreadyAccount": "Ja tinc compte",
+
+    "descriptionCreateAccount": "Crea un compte i gaudeix de la cultura del teu voltant",
+
+    "errorMessageCreateAccount": "Camp obligatori",
+
+    "errorCharactersMessageCreateAccount": "Mínim 6 caràcters",
+
+    "cancelButton": "CANCEL·LAR",
+
+    "saveButton": "DESAR",
+
+    "editTagsButton": "Edita els tags",
+
+    "editProfileText": "Edita el teu perfil",
+
+    "newPasswordInput": "Nova contrasenya",
+
+    "emptyFieldText": "Camp buit",
+
+    "notNowButton": "ARA NO",
+
+    "selectTagsDescription": "Selecciona les teves tags favorites"
 
 }

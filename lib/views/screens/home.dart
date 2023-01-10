@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                   Text(AppLocalizations.of(context)!.interestingEventsSection, style: const TextStyle(fontSize: 20),),
                   const SizedBox(height: 8.0,),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height-200,
+                    height: MediaQuery.of(context).size.height-100,
                     child: viewModel.eventsList.status == Status.LOADING ?
                       const SizedBox(
                         child: Center(

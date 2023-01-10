@@ -17,11 +17,12 @@ class FixedCardSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 235,
-      width: MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, "/eventUnic",
-              arguments: EventUnicArgs(event.id!)).then((_){
+                  arguments: EventUnicArgs(event.id!))
+              .then((_) {
             /*setState((){
 
                 });*/
@@ -42,7 +43,8 @@ class FixedCardSmall extends StatelessWidget {
                                 topLeft: Radius.circular(6.0),
                                 topRight: Radius.circular(6.0)),
                             image: DecorationImage(
-                              image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
+                              image: NetworkImage(
+                                  "https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
                               fit: BoxFit.cover,
                             )))),
                 Flexible(
@@ -50,7 +52,7 @@ class FixedCardSmall extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, bottom: 8.0, left: 8.0),
-                      child: SingleChildScrollView (
+                      child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,

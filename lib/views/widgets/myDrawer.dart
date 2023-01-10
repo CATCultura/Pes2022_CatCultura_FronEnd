@@ -108,7 +108,7 @@ class MyDrawer extends Drawer {
               if (actualPage == "Events") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/events');
+                Navigator.popAndPushNamed(context, '/events');
               }
             },
           ),
@@ -122,7 +122,7 @@ class MyDrawer extends Drawer {
                   if (actualPage == "Favorits") {
                     Navigator.pop(context);
                   } else {
-                    Navigator.pushReplacementNamed(context, '/favorits');
+                    Navigator.popAndPushNamed(context, '/favorits');
                   }
                 }),
           if (session.data.id != -1)
@@ -135,7 +135,7 @@ class MyDrawer extends Drawer {
                   if (actualPage == "Agenda") {
                     Navigator.pop(context);
                   } else {
-                    Navigator.pushReplacementNamed(context, '/agenda');
+                    Navigator.popAndPushNamed(context, '/agenda');
                   }
                 }),
           ListTile(
@@ -147,7 +147,7 @@ class MyDrawer extends Drawer {
               if (actualPage == "rutaCultural") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/rutaCultural');
+                Navigator.popAndPushNamed(context, '/rutaCultural');
               }
             },
           ),
@@ -161,22 +161,23 @@ class MyDrawer extends Drawer {
                 if (actualPage == "CrearEsdeveniment") {
                   Navigator.pop(context);
                 } else {
-                  Navigator.pushReplacementNamed(
+                  Navigator.popAndPushNamed(
                       context, '/crear-esdeveniment');
                 }
               },
             ),
           if (session.data.role == "ADMIN")
             ListTile(
+              tileColor: Color(0xFFE0E0E0),
               horizontalTitleGap: 0,
-              leading: const Icon(Icons.block, size: 28),
+              leading: const Icon(Icons.gavel, size: 28),
               title: const Text('Reports',
                   style: TextStyle(fontSize: 18)),
               onTap: () {
                 if (actualPage == "Blocks") {
                   Navigator.pop(context);
                 } else {
-                  Navigator.pushReplacementNamed(
+                  Navigator.popAndPushNamed(
                       context, '/blocks');
                 }
               },
@@ -196,7 +197,7 @@ class MyDrawer extends Drawer {
           //     }
           // ),
 
-          Expanded(
+          if (session.data.id != -1) Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,
               child: ListTile(

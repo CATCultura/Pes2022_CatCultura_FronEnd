@@ -12,7 +12,6 @@ class CardHorizontal extends StatelessWidget {
 
   const CardHorizontal(this.event, {super.key});
 
-
   static void defaultFunc() {
     print("the function works!");
   }
@@ -24,30 +23,34 @@ class CardHorizontal extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, "/eventUnic",
-                arguments: EventUnicArgs(event.id!)).then((_){
-            });
+                    arguments: EventUnicArgs(event.id!))
+                .then((_) {});
           },
           child: Card(
             color: Colors.white,
             elevation: 0.6,
-
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(6.0))),
             child: Row(
               children: [
-                event.imatges!.isNotEmpty ? Flexible(
-                  flex: 1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(6.0),
-                              bottomLeft: Radius.circular(6.0)),
-                          image: DecorationImage(
-                            image: NetworkImage("https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.center
-                          ))),
-                ) : SizedBox(width: 0,height: 0,),
+                event.imatges!.isNotEmpty
+                    ? Flexible(
+                        flex: 1,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(6.0),
+                                    bottomLeft: Radius.circular(6.0)),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        "https://agenda.cultura.gencat.cat/${event.imatges![0]}"),
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.center))),
+                      )
+                    : SizedBox(
+                        width: 0,
+                        height: 0,
+                      ),
                 Flexible(
                     flex: 4,
                     child: Padding(
@@ -56,19 +59,24 @@ class CardHorizontal extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(event.denominacio!,
-                              style: const TextStyle(
-                                  color: MyColors.header, fontSize: 13),
-                                  textAlign: TextAlign.left,
+                          Text(
+                            event.denominacio!,
+                            style: const TextStyle(
+                                color: MyColors.header, fontSize: 13),
+                            textAlign: TextAlign.left,
                           ),
-                          const Divider(thickness: 4, height: 1, indent: 5,),
+                          const Divider(
+                            thickness: 4,
+                            height: 1,
+                            indent: 5,
+                          ),
                           Flexible(
-                            flex:1,
-                            child: Text("${event.descripcio!.substring(0,min(event.descripcio!.length,150))}...",
+                            flex: 1,
+                            child: Text(
+                              "${event.descripcio!.substring(0, min(event.descripcio!.length, 150))}...",
                               style: const TextStyle(
                                   color: MyColors.text, fontSize: 13),
-                                  textAlign: TextAlign.justify,
-
+                              textAlign: TextAlign.justify,
                             ),
                           )
                         ],

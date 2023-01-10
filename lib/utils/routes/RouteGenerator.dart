@@ -50,7 +50,7 @@ class RouteGenerator{
       case '/profileSettings':
         return MaterialPageRoute(builder:(_)=>ProfileSettings());
       case '/agenda':
-        return MaterialPageRoute(builder:(_)=>Agenda());
+        return MaterialPageRoute(builder:(_)=>AttendanceEvents());
       case '/eventUnic':
         final argsEventUnic = settings.arguments as EventUnicArgs;
         return MaterialPageRoute(builder:(_)=>EventUnic(eventId: argsEventUnic.eventId));
