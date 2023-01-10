@@ -249,8 +249,3 @@ class NetworkApiServices extends BaseApiServices {
   }
 }
 
-class ConflictException implements Exception{
-  String cause;
-  ConflictException(this.cause);
-
-}

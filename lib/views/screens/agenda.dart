@@ -108,7 +108,7 @@ class _AttendanceEventsState extends State<AttendanceEvents>
                                         child: CircularProgressIndicator()),
                                   )
                                 : viewModel.attendedList.status == Status.ERROR
-                                    ? Text(viewModel.attendanceList.toString())
+                                    ? Text(viewModel.attendedList.toString())
                                     : viewModel.attendedList.status ==
                                             Status.COMPLETED
                                         ? agendaListSwitch(

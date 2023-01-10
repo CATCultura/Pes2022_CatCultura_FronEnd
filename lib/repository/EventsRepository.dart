@@ -12,6 +12,7 @@ import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:intl/intl.dart';
 
+import '../data/appExceptions.dart';
 import '../models/EventResult.dart';
 import '../utils/Session.dart';
 
