@@ -9,28 +9,11 @@ import 'package:CatCultura/constants/theme.dart';
 import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../utils/Session.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:ui';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
-/*
-class AnotherProfile extends StatelessWidget {
-  var selectedUser;
-  var selectedId;
-  AnotherProfile({super.key, required this.selectedUser, required this.selectedId});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: StatefulAnotherProfile(),
-    );
-  }
-}
 
-class StatefulAnotherProfile extends StatefulWidget {
-  const StatefulAnotherProfile({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulAnotherProfile> createState() => _StatefulAnotherProfileState();
-}
-*/
 class AnotherProfile extends StatefulWidget {
   const AnotherProfile({super.key, required this.selUser, required this.selId});
   final String selUser;
@@ -93,7 +76,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         style: TextStyle(fontSize: 28, color: Colors.teal),
                       ),
                       const SizedBox(width: 10),
-                      if (!sessio.data.reportedUserIds!.contains(selectedId)) IconButton(
+                      !sessio.data.reportedUserIds!.contains(int.parse(selectedId))? IconButton(
                         iconSize: 30,
                         icon: const Icon(
                           Icons.report_problem_outlined,
@@ -101,12 +84,12 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         ),
                         onPressed: () {
                           viewModel.reportUser(sessio.data.id.toString(), selectedId);
-                          var aux = int.parse(viewModel.addReportedUser.toString());
-                          sessio.data.reportedUserIds!.add(aux);
                           viewModel.notifyListeners();
+                          Navigator.pushNamed(context, '/another-user-profile',
+                              arguments: AnotherProfileArgs(selectedUser, selectedId));
                         },
 
-                      ) else Text(""),
+                      ) : Text(""),
                     ]
                 ),
                 buildContent(),

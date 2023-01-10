@@ -49,6 +49,7 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     viewModel.receivedUsersById(sessio.data.id.toString());
+    viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.notifyListeners();
     return ChangeNotifierProvider<RequestsUserViewModel>(
         create: (BuildContext context) => viewModel,
