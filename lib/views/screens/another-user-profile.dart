@@ -61,9 +61,9 @@ class _AnotherProfileState extends State<AnotherProfile> {
           return Scaffold(
               appBar: AppBar(
                 title:  Text(AppLocalizations.of(context)!.userProfile),
-                backgroundColor: MyColorsPalette.lightBlue,
+                backgroundColor: Colors.orangeAccent,
               ),
-              backgroundColor: Colors.grey[200],
+              backgroundColor: Colors.white,
               body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
               viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
               viewModel.mainUser.status == Status.COMPLETED? ListView(
@@ -78,32 +78,33 @@ class _AnotherProfileState extends State<AnotherProfile> {
                       children: <Widget>[
                         Text(
                           viewModel.mainUser.data!.nameAndSurname.toString(),
-                          style: TextStyle(fontSize: 28, color: Colors.teal),
-                        ),
-                        const SizedBox(width: 10),
-                        //sessio.data.reportedUserIds!.contains(int.parse(selectedId))?
-                         !viewModel.reported ? IconButton(
-                          iconSize: 30,
-                          icon: const Icon(
-                            Icons.report_problem_outlined,
-                            color: Colors.redAccent,
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Colors.orangeAccent,
+                              fontWeight: FontWeight.bold
                           ),
-                          onPressed: () async {
-                            viewModel.reportUser(sessio.data.id.toString(), selectedId);
-                            sessio.data.reportedUserIds!.add(int.parse(selectedId));
-                            await viewModel.reportedUsersById(sessio.data.id.toString());
-                            viewModel.reported = true;
-                            viewModel.notifyListeners();
-                           // Navigator.pushNamed(context, '/another-user-profile',
-                           //     arguments: AnotherProfileArgs(selectedUser, selectedId));
-                          },
-
-                        ) : Text(""),
+                        ),
                       ]
                   ):Text(""),
-                  buildContent(),
-                  const SizedBox(height: 20),
-
+                  const SizedBox(width: 10),
+                  //sessio.data.reportedUserIds!.contains(int.parse(selectedId))?
+                   !viewModel.reported ? IconButton(
+                    iconSize: 30,
+                    icon: const Icon(
+                      Icons.report_problem_outlined,
+                      color: Colors.orangeAccent,
+                    ),
+                    onPressed: () async {
+                      viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                      sessio.data.reportedUserIds!.add(int.parse(selectedId));
+                      await viewModel.reportedUsersById(sessio.data.id.toString());
+                      viewModel.reported = true;
+                      viewModel.notifyListeners();
+                      // Navigator.pushNamed(context, '/another-user-profile',
+                      //     arguments: AnotherProfileArgs(selectedUser, selectedId));
+                    },
+                  ) : Text(""),
+                 // buildContent(),
                   viewModel.usersRequested.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
                   viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
                   viewModel.usersRequested.status == Status.COMPLETED?
@@ -111,12 +112,15 @@ class _AnotherProfileState extends State<AnotherProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: viewModel.friend==false? <Widget>[
                       Text (
-                        '${AppLocalizations.of(context)!.addFriend}    ',
+                        '  ${AppLocalizations.of(context)!.addFriend}  ',
                         style: TextStyle(
-                            fontSize: 18, height: 1.4, color: Colors.black54),
+                            fontSize: 18,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w300,
+                        ),
                       ),
                       true? IconButton(
-                        iconSize: 40,
+                        iconSize: 30,
                         icon: Icon(
                             (viewModel.afegit == false) ? Icons.favorite_outline : Icons.favorite,
                             color: MyColorsPalette.lightRed),
@@ -140,13 +144,20 @@ class _AnotherProfileState extends State<AnotherProfile> {
                       const Text(
                         'Ja sou amics!    ',
                         style: TextStyle(
-                            fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                            fontSize: 15,
+                            color: Colors.redAccent
+                        ),
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all(Colors.redAccent)),
-                        child: const Text ('Eliminar'),
+                        child: Text (
+                            'Eliminar',
+                          style: TextStyle(
+                            fontSize: 10.0,
+                          ),
+                        ),
                         onPressed: (){
                           viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);
@@ -156,43 +167,56 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           viewModel.notifyListeners();
                         },
                       ),
-
                     ],
 
                   ): const Text(""),
-                  const SizedBox(height: 30),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.calendar_month_rounded, color: Colors.amber),
-                      Text('    ${viewModel.mainUser.data!.creationDate!}'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 0, right: 40),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 3),
+                          labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: '${viewModel.mainUser.data!.username!}',
+                          enabled: false,
+                          hintStyle: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: Colors.black38,
+                          )
+                      ),
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.alternate_email, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.email!}'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 13, right: 40),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 3),
+                          labelText: AppLocalizations.of(context)?.email,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: '${viewModel.mainUser.data!.email!}',
+                          enabled: false,
+                          hintStyle: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: Colors.black38,
+                          )
+                      ),
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.workspace_premium, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.role!}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 13, right: 40),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 3),
+                          labelText: AppLocalizations.of(context)?.points,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: '${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}',
+                          enabled: false,
+                          hintStyle: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: Colors.black38,
+                          )
+                      ),
+                    ),
                   ),
 
                   /*Row(
@@ -232,17 +256,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
     );
   }
 
-  Widget buildContent() => Column(
-    children: [
-      SizedBox(height: 12),
-      Text (
-        //viewModel.mainUser.data!.username!,
-        selectedUser,
-        style: TextStyle(fontSize: 20, height: 1.4, color: Colors.grey),
-      ),
-    ],
-  );
-
   Widget buildTop() {
     final bottom = profileHeight/2;
     final top = coverHeight - profileHeight/2;
@@ -264,8 +277,8 @@ class _AnotherProfileState extends State<AnotherProfile> {
   }
 
   Widget buildCoverImage() => Container(
-    color: Colors.grey,
-    child: Image.network('https://tecnohotelnews.com/wp-content/uploads/2019/05/shutterstock_214016374.jpg'),
+    color: Colors.white,
+    child: Image.asset('resources/img/background.png'),
     height: coverHeight,
     width: double.infinity,
     //fit: BoxFit.cover,
@@ -273,8 +286,8 @@ class _AnotherProfileState extends State<AnotherProfile> {
 
   Widget buildProfilePicture() => CircleAvatar(
     radius: profileHeight/2,
-    backgroundColor: Colors.grey.shade800,
-    backgroundImage: AssetImage('resources/img/logo_launcher.png'),
+    backgroundColor: Colors.white,
+    backgroundImage: AssetImage('resources/img/logo.png'),
     //backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
 

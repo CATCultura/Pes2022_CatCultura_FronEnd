@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:CatCultura/utils/routes/allScreens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.red.shade900,
+                          color: Colors.white,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -214,7 +215,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                       //Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(finalResult!));
                     }
                   }),
-              backgroundColor: MyColorsPalette.red,
+              backgroundColor: Colors.redAccent,
               actions: [
                 viewModel.userUsedFilter == true
                     ? IconButton(
@@ -357,7 +358,7 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                 ),
               ],
             ),
-            backgroundColor: MyColors.bgColorScreen,
+            backgroundColor: Colors.white,
             // key: _scaffoldKey,
             drawer: MyDrawer("Events",  Session(), ),
             floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
@@ -383,8 +384,8 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                       Container(
                         child: TabBar(
                           controller: _tabController,
-                          labelColor: Colors.red.shade800,
-                          unselectedLabelColor: Colors.black,
+                          labelColor: Colors.redAccent,
+                          unselectedLabelColor: Colors.grey,
                           tabs: [
                             Tab(icon: Icon(Icons.list)),
                             Tab(icon: Icon(Icons.map)),
@@ -453,17 +454,26 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                                             );
                                                           }),
                                                     ):SizedBox(width: 0, height: 0,),
+                                                    const SizedBox(height: 20,),
                                                     Padding(
                                                       padding: const EdgeInsets.only(top:12.0),
                                                       child: Center(
                                                         child:Column(
                                                           children: [
-                                                            Divider(thickness: 2,),
-                                                            Text("EVENTS SIMILARS", style:TextStyle(color: Colors.grey, fontSize: 20,)),
+                                                            Text("         EVENTS SIMILARS          ",
+                                                                style:TextStyle(
+                                                                  color: Colors.black54,
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight.w300,
+                                                                  backgroundColor: Colors.black12,
+                                                                  letterSpacing: 4,
+                                                                )
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
                                                     ),
+                                                    const SizedBox(height: 13,),
                                                     Expanded(
                                                       child: ListView.builder(
                                                           controller: _scrollController,
