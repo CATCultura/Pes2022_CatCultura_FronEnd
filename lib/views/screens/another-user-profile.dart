@@ -55,7 +55,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title:  Text(AppLocalizations.of(context).userProfile),
+              title:  Text(AppLocalizations.of(context)!.userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
