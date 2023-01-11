@@ -202,9 +202,9 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                         padding: EdgeInsets.symmetric(
                                         horizontal: 10.0, vertical: 5.0),
                                           child: Material(
-                                            elevation: 20,
-                                            shadowColor: Colors.black.withAlpha(70),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                            ),
                                             child: ListTile(
                                               onTap: () {
                                                 //debugPrint("clicked event: ${event.denominacio}");
@@ -212,7 +212,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                                 arguments: AnotherProfileArgs(viewModel.usersList.data![i].username!.toString(), viewModel.usersList.data![i].id!.toString()));
                                               },
                                               shape: RoundedRectangleBorder(
-                                                side: const BorderSide(color: Color(0xFF818181), width: 1),
+                                                side: const BorderSide(color: Colors.black26, width: 1),
                                                 borderRadius: BorderRadius.circular(5),
                                               ),
                                                 tileColor: Theme.of(context).cardColor,
@@ -221,7 +221,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                                                   children: [
                                                     Text(viewModel.usersList.data![i].username!,
                                                     style: const TextStyle(
-                                                        fontWeight: FontWeight.w600, fontSize: 17)),
+                                                        fontWeight: FontWeight.w300, fontSize: 15)),
                                                     const Padding(
                                                       padding: EdgeInsets.only(top: 5),
                                                     ),
