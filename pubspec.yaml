@@ -115,6 +115,10 @@ flutter:
     - resources/img/backgroundPhoto.jpg
     - resources/img/error.png
     - resources/img/electricity.png
+    - resources/img/tofeu1.png
+    - resources/img/tofeu2.png
+    - resources/img/tofeu3.png
+    - resources/img/logo_launcher.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
