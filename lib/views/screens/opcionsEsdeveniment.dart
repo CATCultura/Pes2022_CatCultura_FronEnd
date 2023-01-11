@@ -90,7 +90,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                 viewModel.waiting? Scaffold(
                   appBar: AppBar(
                     title: Text(AppLocalizations.of(context)!.whatDoYouWant),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.orangeAccent,
                   ),
                   body: SingleChildScrollView(
                     child: Center(
@@ -104,6 +104,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                               IconButton(
                                 iconSize: 40,
                                 icon: const Icon(Icons.delete),
+                                color: Colors.red,
                                 onPressed: () {
                                   showDialog(
                                     context: context,
@@ -142,6 +143,7 @@ class opcionsEsdeveniment extends StatelessWidget {
                               IconButton(
                                 iconSize: 40,
                                 icon: const Icon(Icons.cancel),
+                                //color: Colors.red,
                                 onPressed: () {
                                   showDialog(
                                     context: context,
@@ -187,8 +189,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.code,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -204,8 +206,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.nameEventM,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -224,8 +226,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.location,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -241,8 +243,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.address,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -258,8 +260,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.space,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -275,8 +277,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.description,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -292,8 +294,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.latitude,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -309,8 +311,8 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 labelText: AppLocalizations.of(context)?.longitude,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
-                                      width: 3
+                                      color: Colors.orangeAccent,
+                                      width: 1.5
                                   ),
                                 ),
                               ),
@@ -319,12 +321,12 @@ class opcionsEsdeveniment extends StatelessWidget {
 
                           Container(
                             height: 70,
-                            width: 150,
+                              width: MediaQuery.of(context).size.width * 0.5,
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                    MyColorsPalette.orange)),
+                                    Colors.orangeAccent)),
                               child: Text(AppLocalizations.of(context)!.modify),
                               onPressed: () {
                                 event.id = event.id;
@@ -338,25 +340,6 @@ class opcionsEsdeveniment extends StatelessWidget {
                                 event.descripcio = DescripcioController.text;
                                 event.latitud = double.parse(LatitudController.text);
                                 event.longitud = double.parse(LongitudController.text);
-                                /** event.dataFiAprox = "dema"; //DataFiAproxController.text;
-                                event.entrades = EntradesController.text;
-                                event.horari = HorariController.text;
-                                event.subtitol = SubtitolController.text;
-                                event.links = LinkController.text;
-                                event.documents = DocumentsController.text;
-                                event.videos = VideoController.text;
-                                event.codiPostal = CodiPostalController.text;
-                                //e.comarcaIMunicipi = ComarcaController.text;
-                                event.email = EmailController.text;
-                                //e.localitat = LocalitatController.text;
-                                event.telf = TelefonController.text;
-                                event.URL = URLController.text;
-                                event.imgApp = AppImgController.text;
-                                event.cancelado = false;
-                                //e.tagsCateg = tagsAmbits;
-                                //e.tagsCateg = tagsCateg;
-                                //e.tagsAltresCateg = tagsAltresCateg;
-                                //e.imatges = imatges; **/
                                 viewModel.putEventById(event);
                                 Navigator.pushNamed(context, '/eventUnic', arguments: EventUnicArgs(event.id!));
                               },
@@ -402,8 +385,8 @@ class _dataIniState extends State<dataIni> {
           labelText: AppLocalizations.of(context)?.startDate,
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
-                color: Colors.orange,
-                width: 3
+                color: Colors.orangeAccent,
+                width: 1.5
             ),
           ),
         ),
@@ -456,8 +439,8 @@ class _dataFiState extends State<dataFi> {
           labelText: AppLocalizations.of(context)?.finalDate,
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
-                color: Colors.orange,
-                width: 3
+                color: Colors.orangeAccent,
+                width: 1.5
             ),
           ),
         ),
