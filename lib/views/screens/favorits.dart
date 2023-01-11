@@ -10,6 +10,8 @@ import '../../models/EventResult.dart';
 import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class Favorits extends StatefulWidget {
   Favorits({super.key});
 

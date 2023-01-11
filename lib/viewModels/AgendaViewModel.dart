@@ -30,6 +30,7 @@ class AgendaViewModel with ChangeNotifier {
 
   Future<void> fetchAttendanceFromSession() async{
     await _eventsRepo.getAttendanceByUserId(session.data.id.toString()).then((value) {
+      session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
       setAttendanceList(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
         setAttendanceList(ApiResponse.error(error.toString())));

@@ -18,6 +18,8 @@ import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 
 
+//imports per exportar al calendari
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 //imports per google calendar
 import "package:googleapis_auth/auth_io.dart";
@@ -94,24 +96,8 @@ class EventUnicViewModel with ChangeNotifier {
 
   Future<void> selectEventById(String id) async{
     debugPrint("selecting event by id");
-    if(session.has("favorits")){
-      //ApiResponse<List<EventResult>> res = session.get("favorits");
-        List<EventResult>? favouritesSession = session.get("favorits");
-        if(favouritesSession != null) favorit = favouritesSession.any((element) => element.id == id);
-    }
-    else {
-      if (sessio.data.favouritesId != null)
-        favorit = session.data.favouritesId!.contains(int.parse(id));
-    }
-    if(session.has("attendance")){
-      List<EventResult>? attendanceSession = session.get("attendance");
-      if(attendanceSession != null) agenda = attendanceSession.any((element) => element.id == id);
-
-    }
-    else{
-      if (sessio.data.attendanceId != null)
-        agenda = session.data.attendanceId!.contains(int.parse(id));
-    }
+    if (sessio.data.favouritesId != null) favorit = session.data.favouritesId!.contains(int.parse(id));
+    if (sessio.data.attendanceId != null) agenda = session.data.attendanceId!.contains(int.parse(id));
     debugPrint(favorit ? "si en favorit" : "no en favorit");
     debugPrint(agenda ? "si en agenda" : "no en agenda");
     await _eventsRepo.getEventById(id).then((value){
@@ -130,7 +116,7 @@ class EventUnicViewModel with ChangeNotifier {
       setReviews(ApiResponse.completed(value));
     });
   }
-
+/*
   setFavouriteResult(ApiResponse<String> response){
     addFavouriteResult = response;
     favorit = !favorit;
@@ -143,26 +129,27 @@ class EventUnicViewModel with ChangeNotifier {
     session.set("attendance", attendanceList);
     notifyListeners();
   }
-
+  */
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
     favorit = !favorit;
-    if(favouritesList.data != null) session.set("favorits", favouritesList.data as List<EventResult>);
-    else session.set("favorits", <EventResult>[]);
+  //  if(favouritesList.data != null) session.set("favorits", favouritesList.data as List<EventResult>);
+   // else session.set("favorits", <EventResult>[]);
     notifyListeners();
   }
 
   setAttendanceList(ApiResponse<List<EventResult>> response){
     attendanceList = response;
     agenda = !agenda;
-    if(attendanceList.data != null)session.set("attendance", attendanceList.data as List<EventResult>);
-    else session.set("attendance", <EventResult>[]);
+    //if(attendanceList.data != null)session.set("attendance", attendanceList.data as List<EventResult>);
+    //else session.set("attendance", <EventResult>[]);
     notifyListeners();
   }
 
   Future<void> putFavouriteById(String userId, String? eventId) async{
     if(eventId != null) {
       await _eventsRepo.addFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value) {
+        session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
         setFavouritesList(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
           setFavouritesList(ApiResponse.error(error.toString())));
@@ -172,6 +159,7 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> deleteFavouriteById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.deleteFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
         setFavouritesList(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setFavouritesList(ApiResponse.error(error.toString())));
     }
@@ -180,6 +168,7 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> putAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.addAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
         setAttendanceList(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceList(ApiResponse.error(error.toString())));
     }
@@ -188,6 +177,7 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> deleteAttendanceById(String userId, String? eventId) async{
     if(eventId != null){
       await _eventsRepo.deleteAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
+        session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
         setAttendanceList(ApiResponse.completed(value));
       }).onError((error, stackTrace) => setAttendanceList(ApiResponse.error(error.toString())));
     }
@@ -211,6 +201,16 @@ class EventUnicViewModel with ChangeNotifier {
     await Share.shareFiles([path], text: titol);
   }
 
+  Event buildEvent(String title, DateTime startDate, DateTime endDate, String location, String description){
+    return Event(title: title, startDate: startDate, endDate: endDate, location: location, description: description);
+  }
+
+  Future<void> addToCalendar(String? title, String? startDate, String? endDate, String? location, String? description) async{
+    if(endDate == null) endDate = startDate;
+    bool working = await Add2Calendar.addEvent2Cal(buildEvent(title as String, DateFormat("d-M-yyyy").parse(startDate as String),
+        DateFormat("d-M-yyyy").parse(endDate as String), location as String, description as String));
+  }
+
   Future<AccessCredentials> obtainCredentials(var _scopes) async {
     final client = http.Client();
     print(_scopes);
@@ -218,7 +218,7 @@ class EventUnicViewModel with ChangeNotifier {
     print("allo era el scope");
     try {
       return await obtainAccessCredentialsViaUserConsent(
-        ClientId('612365228212-mscjcj8d8m8ga4hosroetl32lklgm208.apps.googleusercontent.com', ''),
+        ClientId('', ''),
         _scopes,
         client,
         _prompt,
@@ -237,10 +237,10 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> addEventToGoogleCalendar(var _scopes, var titolEvent, var startTime)async{
     var _credentials;
     if(Platform.isAndroid){
-      _credentials = new ClientId("612365228212-mscjcj8d8m8ga4hosroetl32lklgm208.apps.googleusercontent.com","");
+      _credentials = new ClientId("","");
     }
     else if(Platform.isIOS){
-      _credentials = new ClientId("612365228212-tigv3ubogsu0fnmscboqtuofp5feqq0m.apps.googleusercontent.com","");
+      _credentials = new ClientId("","");
     }
     /*final GoogleSignIn _googleSignIn = GoogleSignIn(
       clientId:
