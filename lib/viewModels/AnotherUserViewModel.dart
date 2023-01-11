@@ -15,6 +15,7 @@ class AnotherUserViewModel with ChangeNotifier{
   ApiResponse<String> addFriendResult = ApiResponse.loading();
   ApiResponse<String> addReportedUser = ApiResponse.loading();
   ApiResponse<List<UserResult>> usersRequested = ApiResponse.loading();
+  ApiResponse<List<int>> usersReported = ApiResponse.loading();
   bool afegit = false;
   bool friend = false;
   String id = '';
@@ -92,12 +93,20 @@ class AnotherUserViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  setReportedResult(ApiResponse<String> response){
-    addReportedUser = response;
-    var aux = int.parse(addReportedUser.toString());
-    sessio.data.reportedUserIds!.add(aux);
+  setReportedResult(ApiResponse<List<int>> response) async {   //demano la llista al principi
+    usersReported = response;
+    await usersReported.status == Status.COMPLETED? sessio.data.reportedUserIds = usersReported.data!:Text("error");
     notifyListeners();
   }
+
+  setReportedUser(ApiResponse<String> response){    //per quan faig un put
+    addReportedUser = response;
+    var aux = int.parse(addReportedUser.toString());
+    addReportedUser.status == Status.COMPLETED? sessio.data.reportedUserIds!.add(aux):
+    Text("");
+    notifyListeners();
+  }
+
 
   Future<void> selectUserById(String id) async{
     await _usersRepo.getUserById(id).then((value){
@@ -108,11 +117,13 @@ class AnotherUserViewModel with ChangeNotifier{
 
 
   Future<void> requestedUsersById(String id) async{
-    await _usersRepo.getRequestedsById(id).then((value){
-      setUsersRequested(ApiResponse.completed(value));
+    await _usersRepo.getReportedById(id).then((value){
+      setReportedResult(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
-        setUsersRequested(ApiResponse.error(error.toString())));
+        setReportedResult(ApiResponse.error(error.toString())));
   }
+
+
 
 /*
   Future<void> setSessionRequests(String id) async{
@@ -150,14 +161,24 @@ class AnotherUserViewModel with ChangeNotifier{
     }
   }
 
+
+  Future<void> reportedUsersById(String id) async{
+    await _usersRepo.getReportedById(id).then((value){
+      setReportedResult(ApiResponse.completed(value));
+    }).onError((error, stackTrace) =>
+        setReportedResult(ApiResponse.error(error.toString())));
+  }
+
   Future<void> reportUser(String userId, String? otherUserId) async{
     if(otherUserId != null) {
       await _usersRepo.addUserReport(userId, int.parse(otherUserId)).then((value) {
-        setReportedResult(ApiResponse.completed(value));
+        setReportedUser(ApiResponse.completed(value));
       }).onError((error, stackTrace) =>
-          setReportedResult(ApiResponse.error(error.toString())));
+          setReportedUser(ApiResponse.error(error.toString())));
     }
 
   }
+
+
 
 }

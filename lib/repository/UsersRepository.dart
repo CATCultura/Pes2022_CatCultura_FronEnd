@@ -175,6 +175,19 @@ class UsersRepository {
     }
   }
 
+  Future<List<int>> getReportedById(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/$id/reports");
+      List<int> res = List.from(response.map((e) => e as int).toList());
+      //List<int> res2 = (response as List).map((item) => item as int).toList();
+
+      return res; //UserResult.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
   Future<String> addFavouriteByUserId(String id, int otherUserId) async {
     try {
