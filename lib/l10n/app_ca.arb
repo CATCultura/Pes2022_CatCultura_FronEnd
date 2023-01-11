@@ -215,6 +215,9 @@
 
     "messageCamp": "Escriu el missatge aquí",
 
-    "loginIncorrectCamp": "Login incorrecte"
+    "loginIncorrectCamp": "Login incorrecte",
 
+    "receivedRequest":  "Rebudes",
+
+    "sentRequest": "Enviades"
 }

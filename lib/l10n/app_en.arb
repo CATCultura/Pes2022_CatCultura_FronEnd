@@ -647,8 +647,19 @@
     "description": "Text for no reviews to block"
   },
 
-    "loginIncorrectCamp": "Incorrect login",
-    "@loginIncorrectCamp": {
-      "description": "Text for wrong login"
-    }
+  "loginIncorrectCamp": "Incorrect login",
+  "@loginIncorrectCamp": {
+    "description": "Text for wrong login"
+  },
+
+  "receivedRequest": "Received",
+  "@receivedRequest": {
+    "description": "Text for received requests"
+  },
+
+  "sentRequest": "Sent",
+  "@sentRequest": {
+    "description": "Text for sent requests"
+  }
+
 }
