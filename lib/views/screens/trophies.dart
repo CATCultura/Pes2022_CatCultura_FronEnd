@@ -34,11 +34,26 @@ class Trophies extends StatelessWidget {
     {
       return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 70,
-          title: Text(AppLocalizations.of(context)!.trophies),
-          backgroundColor: MyColorsPalette.lightBlue,
+          elevation: 1,
+          backgroundColor: Colors.orangeAccent,
+          title: Text(
+              AppLocalizations.of(context)!.trophies,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              )
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/profile');
+            },
+          ),
         ),
-        backgroundColor: MyColors.bgColorScreen,
+        backgroundColor: Colors.white,
         // key: _scaffoldKey,
         drawer: MyDrawer("Profile", Session(),),
         body: Container(

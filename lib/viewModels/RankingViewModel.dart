@@ -36,7 +36,7 @@ class RankingViewModel with ChangeNotifier {
       await mainUser.status == Status.COMPLETED ? users.add(mainUser.data!):Text("a");
       //users.add(mainUser.data!);
     }
-    users.sort((a, b) => b.points!.compareTo(a.points!));
+    users.sort((a, b) => int.parse(b.points!).compareTo(int.parse(a.points!)));
     mainUser.status == Status.COMPLETED ? finish = true:Text("a");
     notifyListeners();
   }

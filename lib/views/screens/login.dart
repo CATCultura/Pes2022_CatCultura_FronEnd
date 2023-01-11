@@ -66,7 +66,7 @@ class _StatefulLoginState extends State<StatefulLogin> {
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       SizedBox(
-                        height: 400,
+                        height: 350,
                         child: FittedBox(
                             fit: BoxFit.fitWidth,
                             //child: Image.network("https://cdn.logo.com/hotlink-ok/logo-social.png", height: 18.0 ,scale: 1.0,),
@@ -113,38 +113,28 @@ class _StatefulLoginState extends State<StatefulLogin> {
                       ),
                       if (failedAttempt) Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text("Login incorrecte", textAlign: TextAlign.center,style: TextStyle(color: Colors.red),)
+                        child: Text(AppLocalizations.of(context)!.loginIncorrectCamp, textAlign: TextAlign.center,style: TextStyle(color: Colors.red),)
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: TextButton(
-                          onPressed: () {
-                            //forgot password screen
-                          },
-                          child: Text(AppLocalizations.of(context)!.forgotPassword,
-                              style: TextStyle (
-                                  color:Colors.deepOrangeAccent
-                              )),
-                        ),
-                      ),
-                      Container(
-                          height: 50,
-                          padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                          child: ElevatedButton(
-                            style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
-                            child: Text(AppLocalizations.of(context)!.loginButton,
-                              style: TextStyle (
-                                  color:Colors.white
+                        padding: const EdgeInsets.all(30.0),
+                        child: Container(
+                            height: 40,
+                            child: ElevatedButton(
+                              style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
+                              child: Text(AppLocalizations.of(context)!.loginButton,
+                                style: TextStyle (
+                                    color:Colors.white
+                                ),
                               ),
-                            ),
-                            onPressed: ()  {
-                              initial = false;
-                              if (nameController.text.length != 0 && passwordController.text.length != 0) {
-                                viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
-                              }
-                              viewModel.notifyListeners();
-                            },
-                          )
+                              onPressed: ()  {
+                                initial = false;
+                                if (nameController.text.length != 0 && passwordController.text.length != 0) {
+                                  viewModel.iniciarSessio(nameController.text.replaceAll(' ', ''), passwordController.text);
+                                }
+                                viewModel.notifyListeners();
+                              },
+                            )
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

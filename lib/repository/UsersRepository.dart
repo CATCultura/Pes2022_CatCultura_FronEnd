@@ -175,6 +175,19 @@ class UsersRepository {
     }
   }
 
+  Future<List<int>> getReportedById(String id) async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(
+          "${baseUrl}users/$id/reports");
+      List<int> res = List.from(response.map((e) => e as int).toList());
+      //List<int> res2 = (response as List).map((item) => item as int).toList();
+
+      return res; //UserResult.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
   Future<String> addFavouriteByUserId(String id, int otherUserId) async {
     try {
@@ -192,6 +205,18 @@ class UsersRepository {
     try {
       dynamic response = await _apiServices.getDeleteApiResponse(
           "${baseUrl}users/$id/friends/$otherUserId", "");
+      String res = response;
+      return res;
+    }
+    catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> addUserReport(String id, int reportedUserId) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse(
+          "${baseUrl}users/$id/users/$reportedUserId/reports", "");
       String res = response;
       return res;
     }

@@ -293,6 +293,17 @@
 
     "notNowButton": "AHORA NO",
 
-    "selectTagsDescription": "Selecciona tus tags favoritas"
+    "selectTagsDescription": "Selecciona tus tags favoritas",
+
+    "chat": "Chat",
+
+    "messageCamp": "Escribe el mensaje aquí",
+
+    "loginIncorrectCamp": "Login incorrecto",
+
+    "receivedRequest":  "Recibidas",
+
+    "sentRequest": "Enviadas"
+
 
 }

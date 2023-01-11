@@ -25,6 +25,7 @@ class SessionResult {
   List<int>? friendsId = [];
   List<int>? receivedRequestsIds = [];
   List<int>? sentRequestsIds = [];
+  List<int>? reportedUserIds = [];
 
 
   SessionResult({
@@ -45,14 +46,23 @@ class SessionResult {
     this.reportedReviews,
     this.friendsId,
     this.sentRequestsIds,
-    this.receivedRequestsIds
+    this.receivedRequestsIds,
+    this.reportedUserIds
   });
 
   SessionResult.fromJson(Map<String, dynamic> jsonResponse) {
     debugPrint(jsonResponse.toString());
     id = jsonResponse['id'];
-    username = jsonResponse['username'];
-    nameAndSurname = jsonResponse['nameAndSurname'];
+    if (jsonResponse['username'] != null) {
+      username = jsonResponse['username'];
+    } else {
+      username = "No username";
+    }
+    if (jsonResponse['nameAndSurname'] != null){
+      nameAndSurname = jsonResponse['nameAndSurname'];
+    } else {
+      nameAndSurname = "No name";
+    }
     email = jsonResponse['email'];
     creationDate = jsonResponse['creationDate'];
     role = jsonResponse['role'];
@@ -101,6 +111,11 @@ class SessionResult {
       tags = [];
     }
 
+    if(jsonResponse['reportedUserIds'] != null) {
+      reportedUserIds = (jsonResponse['reportedUserIds'] as List).map((item) => item as int).toList();
+    }else {
+      reportedUserIds = [];
+    }
 
     if(jsonResponse['sentRequestsIds'] != null) {
       sentRequestsIds = (jsonResponse['sentRequestsIds'] as List).map((item) => item as int).toList();

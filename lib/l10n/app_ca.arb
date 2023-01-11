@@ -241,6 +241,15 @@
 
     "notNowButton": "ARA NO",
 
-    "selectTagsDescription": "Selecciona les teves tags favorites"
+    "selectTagsDescription": "Selecciona les teves tags favorites",
 
+    "chat": "Xat",
+
+    "messageCamp": "Escriu el missatge aquí",
+
+    "loginIncorrectCamp": "Login incorrecte",
+
+    "receivedRequest":  "Rebudes",
+
+    "sentRequest": "Enviades"
 }

@@ -82,6 +82,8 @@ class _EventUnicState extends State<EventUnic> {
     viewModel.ini();
     viewModel.selectEventById(eventId);
     if (Session().data.role=="ADMIN") viewModel.getAttendanceCode(eventId);
+    print("L'id de l'esdeveniment es: ");
+    print(eventId);
   }
 
   @override
@@ -664,7 +666,7 @@ class _BodyState extends State<Body> {
                       ),
                       if (viewModel.isOrganizer) IconButton(
                         iconSize: 40,
-                        icon: Icon(Icons.settings),
+                        icon: Icon(Icons.settings), color: Color(0xF4C20606),
                         onPressed: () {
                           Navigator.popAndPushNamed(
                               context, '/opcions-Esdeveniment',
@@ -828,7 +830,7 @@ class _BodyState extends State<Body> {
                 ),
                 if (Session().data.id != -1) _CustomIcon(
                   icon: Icons.chat_bubble,
-                  text: AppLocalizations.of(context)!.chatButton,
+                  text: AppLocalizations.of(context)!.chat,
                   onTap: () => {
                     Navigator.pushNamed(
                         context, "/xat",

@@ -44,7 +44,7 @@ class _AttendanceEventsState extends State<AttendanceEvents>
           return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.agendaTitle),
-              backgroundColor: MyColorsPalette.red,
+              backgroundColor: Colors.redAccent,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -54,7 +54,7 @@ class _AttendanceEventsState extends State<AttendanceEvents>
                 ),
               ],
             ),
-            backgroundColor: MyColors.bgColorScreen,
+            backgroundColor: Colors.white,
             // key: _scaffoldKey,
             drawer: MyDrawer(
               "Agenda",
@@ -67,8 +67,8 @@ class _AttendanceEventsState extends State<AttendanceEvents>
                   Container(
                     child: TabBar(
                       controller: _tabController,
-                      labelColor: Colors.red.shade800,
-                      unselectedLabelColor: Colors.black,
+                      labelColor: Colors.redAccent,
+                      unselectedLabelColor: Colors.grey,
                       tabs: [
                         Tab(
                           icon: Icon(Icons.calendar_month),
