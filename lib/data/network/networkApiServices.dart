@@ -47,6 +47,7 @@ class NetworkApiServices extends BaseApiServices {
           headers: {'Content-Type': 'application/json'},
         ).timeout(const Duration(seconds: 10));
       }
+      debugPrint(response.body);
       responseJson = returnResponse(response);
 
       // debugPrint(responseJson.toString());
@@ -216,10 +217,14 @@ class NetworkApiServices extends BaseApiServices {
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        if(response.request!.url.toString().startsWith("http://15.188.52.76:3000")) return jsonDecode(response.body.toString());
         final codeUnits = response.body.codeUnits;
         String text = const Utf8Decoder().convert(codeUnits);
         dynamic res = jsonDecode(text);
         return res;
+        // return String.fromCharCodes(codeUnits);
+        // return String.fromCharCodes(uft8.decoder())
+        return json.decode(response.body.toString());
       case 201:
         final codeUnits = response.body.codeUnits;
         String text = const Utf8Decoder().convert(codeUnits);
