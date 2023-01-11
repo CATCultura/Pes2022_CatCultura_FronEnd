@@ -47,6 +47,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.selectUserById(selectedId);
+    viewModel.reportedUsersById(selectedId);
     viewModel.notifyListeners();
 
     return ChangeNotifierProvider<AnotherUserViewModel>(
@@ -54,13 +55,10 @@ class _AnotherProfileState extends State<AnotherProfile> {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title:  Text(AppLocalizations.of(context)!.userProfile),
+              title:  Text(AppLocalizations.of(context).userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
-            // key: _scaffoldKey,
-            drawer: MyDrawer(
-                "AnotherProfile",  Session()),
             body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
             viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
             viewModel.mainUser.status == Status.COMPLETED? ListView(
@@ -68,7 +66,9 @@ class _AnotherProfileState extends State<AnotherProfile> {
               children: <Widget>[
                 buildTop(),
                 SizedBox(height: 18),
-                Row(
+              viewModel.usersReported.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+              viewModel.usersReported.status == Status.ERROR? Text(""):
+              viewModel.usersReported.status == Status.COMPLETED? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -82,16 +82,17 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           Icons.report_problem_outlined,
                           color: Colors.redAccent,
                         ),
-                        onPressed: () {
-                          viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                        onPressed: () async {
+                          await viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                          await viewModel.reportedUsersById(selectedId);
                           viewModel.notifyListeners();
-                          Navigator.pushNamed(context, '/another-user-profile',
-                              arguments: AnotherProfileArgs(selectedUser, selectedId));
+                          //Navigator.pushNamed(context, '/another-user-profile',
+                          //    arguments: AnotherProfileArgs(selectedUser, selectedId));
                         },
 
                       ) : Text(""),
                     ]
-                ),
+                ): Text(""),
                 buildContent(),
                 const SizedBox(height: 20),
 
@@ -149,9 +150,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                             viewModel.notifyListeners();
                           },
                         ),
-
                       ],
-
                   ) : const Text(""),
                 const SizedBox(height: 30),
 
@@ -171,7 +170,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         Text('     ${viewModel.mainUser.data!.email!}'),
                       ],
                     ),
-                    Row(
+                    /*Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -179,6 +178,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         Text('     ${viewModel.mainUser.data!.role!}'),
                       ],
                     ),
+                  */
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
