@@ -251,5 +251,7 @@
 
     "receivedRequest":  "Rebudes",
 
-    "sentRequest": "Enviades"
+    "sentRequest": "Enviades",
+
+    "deleteFriendship": "Elimina amistat"
 }
