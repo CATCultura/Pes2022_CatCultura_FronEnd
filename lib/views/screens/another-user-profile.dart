@@ -150,9 +150,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                             viewModel.notifyListeners();
                           },
                         ),
-
                       ],
-
                   ) : const Text(""),
                 const SizedBox(height: 30),
 
