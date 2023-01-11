@@ -141,23 +141,17 @@ class _AnotherProfileState extends State<AnotherProfile> {
                       ) : const Text(" "),
                     ]:
                     <Widget>[
-                      const Text(
-                        'Ja sou amics!',
+                      Text(
+                        AppLocalizations.of(context)!.deleteFriendship,
                         style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.redAccent
+                          fontSize: 18,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.redAccent)),
-                        child: Text (
-                            'Eliminar',
-                          style: TextStyle(
-                            fontSize: 10.0,
-                          ),
-                        ),
+                      IconButton(
+                        iconSize: 30,
+                        icon: Icon(Icons.delete, color: Colors.grey,),
                         onPressed: (){
                           viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);

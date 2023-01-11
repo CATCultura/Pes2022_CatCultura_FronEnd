@@ -751,6 +751,11 @@
   "sentRequest": "Sent",
   "@sentRequest": {
     "description": "Text for sent requests"
-  }
+  },
+
+    "deleteFriendship": "Delete friendship",
+    "@deleteFriendship": {
+      "description": "Text for delete friendships"
+    }
 
 }

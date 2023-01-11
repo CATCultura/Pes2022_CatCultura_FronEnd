@@ -303,7 +303,9 @@
 
     "receivedRequest":  "Recibidas",
 
-    "sentRequest": "Enviadas"
+    "sentRequest": "Enviadas",
+
+    "deleteFriendship": "Elimina amistad"
 
 
 }
