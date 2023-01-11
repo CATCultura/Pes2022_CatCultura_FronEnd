@@ -5,6 +5,7 @@ import 'package:CatCultura/utils/Session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../constants/theme.dart';
 import '../../utils/Session.dart';
 //import 'package:tryproject2/constants/theme.dart';
 import '../../viewModels/UsersViewModel.dart';
@@ -58,40 +59,26 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
         child: Consumer<UsersViewModel>(builder: (context, value, _) {
 
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 1,
-            backgroundColor: Theme
-                .of(context)
-                .scaffoldBackgroundColor,
-            title: Center(
-              child: Text(
-                  AppLocalizations.of(context)!.editProfileText,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.blueAccent,
-                  )
-              ),
+            backgroundColor: Colors.orangeAccent,
+            title: Text(
+                AppLocalizations.of(context)!.editProfileText,
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                )
             ),
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back,
-                color: Colors.blueAccent,
+                color: Colors.white,
               ),
               onPressed: () {
                 Navigator.popAndPushNamed(context, '/profile');
               },
             ),
-            actions: [
-              IconButton(
-                icon: const Icon(
-                  Icons.settings,
-                  color: Colors.blueAccent,
-                ),
-                onPressed: () {
-                  Navigator.popAndPushNamed(context, '/profileSettings');
-                },
-              )
-            ],
           ),
           body: Container(
             padding: const EdgeInsets.only(left: 16, top: 5, right: 16),
@@ -126,11 +113,11 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                                     offset: const Offset(0, 10)
                                 )
                               ],
+                              color: Colors.white,
                               shape: BoxShape.circle,
                               image: const DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                      "https://avatars.githubusercontent.com/u/99893934?s=400&u=cc0636970f96e71b96dfb4696945dc0a95ebb787&v=4")
+                                  image: AssetImage('resources/img/logo.png')
                               )
                           ),
                         ),
@@ -203,7 +190,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                             },
                             icon: Icon (
                               Icons.remove_red_eye,
-                              color: showPasswordNew ? Colors.blueAccent : Colors.grey,
+                              color: showPasswordNew ? Colors.orangeAccent : Colors.grey,
                             ),
                           ),
                           contentPadding: const EdgeInsets.only(bottom: 3),
@@ -262,7 +249,7 @@ class _StatefulEditProfileState extends State<StatefulEditProfile> {
                             child: ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                      Colors.blueAccent)),
+                                      Colors.orangeAccent)),
                               child: Text(AppLocalizations.of(context)!.saveButton,
                                 style: const TextStyle(
                                     fontSize: 12,
