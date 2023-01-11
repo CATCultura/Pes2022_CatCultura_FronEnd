@@ -56,9 +56,24 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
         child: Consumer<RequestsUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              toolbarHeight: 70,
-              title: Text(AppLocalizations.of(context)!.friendRequests),
-              backgroundColor: Colors.green,
+              elevation: 1,
+              backgroundColor: Colors.orangeAccent,
+              title: Text(
+                  AppLocalizations.of(context)!.friendRequests,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  )
+              ),
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, '/profile');
+                },
+              ),
             ),
             backgroundColor: MyColors.bgColorScreen,
             // key: _scaffoldKey,
@@ -72,7 +87,7 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                   Container(
                     child: TabBar(
                       controller: _tabController,
-                      labelColor: Colors.lightGreen,
+                      labelColor: Colors.orangeAccent,
                       unselectedLabelColor: Colors.black,
                       tabs: [
                         Tab(
@@ -119,9 +134,9 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                             width: 55.0,
                                             height: 55.0,
                                             child: const CircleAvatar(
-                                              backgroundColor: Colors.green,
-                                              foregroundColor: Colors.green,
-                                              backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+                                              backgroundColor: Colors.orangeAccent,
+                                              foregroundColor: Colors.orangeAccent,
+                                              backgroundImage: AssetImage('resources/img/logo.png'),
                                             ),
                                           ),
                                           SizedBox(width: 6.0,),
@@ -143,7 +158,7 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                           iconSize: 40,
                                           icon: Icon(
                                             Icons.add_circle_outline,
-                                            color: Colors.green,
+                                            color: Colors.orangeAccent,
                                           ),
                                           onPressed: () {
                                             viewModel.putFriendById(sessio.data.id.toString(), viewModel.usersReceived.data![index].id!);
@@ -213,9 +228,9 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                             width: 55.0,
                                             height: 55.0,
                                             child: const CircleAvatar(
-                                              backgroundColor: Colors.green,
-                                              foregroundColor: Colors.green,
-                                              backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+                                              backgroundColor: Colors.orangeAccent,
+                                              foregroundColor: Colors.orangeAccent,
+                                              backgroundImage: AssetImage('resources/img/logo.png'),
                                             ),
                                           ),
                                           SizedBox(width: 6.0,),
