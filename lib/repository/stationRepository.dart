@@ -21,26 +21,26 @@ class StationRepository {
 
   Future<List<StationResult>> getStations(int radius, double latitud, double longitud) async {
     try {
-      //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}estaciones?distancia=$radius&latitud=$latitud&longitud=$longitud"); //40.113.160.200:8081
-      dynamic response = [
-        {
-          "id": "550e8400-e29b-41d4-a716-446655440000",
-          "direccion": "Avinguda Meridiana, 66",
-          "codiProv": "08",
-          "latitud": "41.74441",
-          "longitud": "2.18729",
-          "municipio": "Barcelona",
-          "nPlaces": 3,
-          "potencia": 22,
-          "promotor": "Generalitat de Catalunya",
-          "provincia": "Barcelona",
-          "tipoConexion": "2xMENNEKES.F",
-          "tipoCorriente": "AC",
-          "tipoVehiculo": "cotxe i moto",
-          "tipoVelocidad": "semiRAPID"
-        }
-      ];
-      // dynamic response = await _apiServices.getGetApiResponse("http://40.113.160.200:8081/events");
+      dynamic response;
+      response = await _apiServices.getGetApiResponse("${baseUrl}estaciones?distancia=$radius&latitud=$latitud&longitud=$longitud"); //40.113.160.200:8081
+      // if(response == null )response = [
+      //   {
+      //     "id": "550e8400-e29b-41d4-a716-446655440000",
+      //     "direccion": "Avinguda Meridiana, 66",
+      //     "codiProv": "08",
+      //     "latitud": "41.74441",
+      //     "longitud": "2.18729",
+      //     "municipio": "Barcelona",
+      //     "nPlaces": 3,
+      //     "potencia": 22,
+      //     "promotor": "Generalitat de Catalunya",
+      //     "provincia": "Barcelona",
+      //     "tipoConexion": "2xMENNEKES.F",
+      //     "tipoCorriente": "AC",
+      //     "tipoVehiculo": "cotxe i moto",
+      //     "tipoVelocidad": "semiRAPID"
+      //   }
+      // ];
       debugPrint(response.toString());
       if(response.isNotEmpty){
         return response.map<StationResult>((json) => StationResult.fromJson(json)).toList();

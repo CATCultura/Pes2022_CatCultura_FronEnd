@@ -34,12 +34,12 @@ class StationResult {
   StationResult.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 'noId';
     direccion = json['direccion'] ?? 'noDireccion';
-    codiProv = json['codiProv'] ?? 'noCodiProv';
-    latitud = double.parse(json['latitud']??'0.0');
-    longitud = double.parse(json['longitud']??'0.0');
+    // codiProv = json['codiProv'] ?? 'noCodiProv';
+    latitud = json['latitud']?? 0.0;
+    longitud = json['longitud']?? 0.0;
     municipio = json['municipio'] ?? '';
-    nPlaces = json['nPlaces'];
-    potencia = json['potencia'];
+    // nPlaces = json['nPlazas'] ?? 0;
+    // potencia = json['potencia'] ?? 0;
     promotor = json['promotor'] ?? '';
     provincia = json['provincia'] ?? '';
     tipoConexion = json['tipoConexion'] ?? '';
