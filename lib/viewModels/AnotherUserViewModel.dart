@@ -18,6 +18,7 @@ class AnotherUserViewModel with ChangeNotifier{
   ApiResponse<List<int>> usersReported = ApiResponse.loading();
   bool afegit = false;
   bool friend = false;
+  bool reported = false;
   String id = '';
   final Session sessio = Session();
 
@@ -95,15 +96,15 @@ class AnotherUserViewModel with ChangeNotifier{
 
   setReportedResult(ApiResponse<List<int>> response) async {   //demano la llista al principi
     usersReported = response;
-    await usersReported.status == Status.COMPLETED? sessio.data.reportedUserIds = usersReported.data!:Text("error");
+    sessio.data.reportedUserIds = usersReported.data!;
+    if (sessio.data.reportedUserIds!.contains(int.parse(id))) reported = true;
     notifyListeners();
   }
 
   setReportedUser(ApiResponse<String> response){    //per quan faig un put
     addReportedUser = response;
-    var aux = int.parse(addReportedUser.toString());
-    addReportedUser.status == Status.COMPLETED? sessio.data.reportedUserIds!.add(aux):
-    Text("");
+    //var aux = int.parse(addReportedUser.toString());
+    //sessio.data.reportedUserIds!.add(aux);
     notifyListeners();
   }
 
