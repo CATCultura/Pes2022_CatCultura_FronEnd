@@ -62,9 +62,9 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ],
-              backgroundColor: MyColorsPalette.lightBlue,
+              backgroundColor: Colors.lightGreen,
             ),
-            backgroundColor: MyColors.bgColorScreen,
+            backgroundColor: Colors.white,
             // key: _scaffoldKey,
             drawer: MyDrawer(
                 AppLocalizations.of(context)!.homeScreenTitle,  Session(),),
@@ -106,9 +106,17 @@ class _HomeState extends State<Home> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 8.0,),
-                  Text(AppLocalizations.of(context)!.interestingEventsSection, style: const TextStyle(fontSize: 20),),
-                  const SizedBox(height: 8.0,),
+                  const SizedBox(height: 15.0,),
+                  Center(
+                    child: Text(AppLocalizations.of(context)!.interestingEventsSection,
+                      style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.lightGreen
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15.0,),
                   SizedBox(
                     height: MediaQuery.of(context).size.height-100,
                     child: viewModel.eventsList.status == Status.LOADING ?
