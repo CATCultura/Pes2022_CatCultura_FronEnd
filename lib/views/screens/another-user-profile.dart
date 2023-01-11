@@ -54,7 +54,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title:  Text(AppLocalizations.of(context).userProfile),
+              title:  Text(AppLocalizations.of(context)!.userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
@@ -102,7 +102,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: viewModel.friend==false? <Widget>[
                     Text (
-                      '${AppLocalizations.of(context).addFriend}    ',
+                      '${AppLocalizations.of(context)!.addFriend}    ',
                       style: TextStyle(
                           fontSize: 18, height: 1.4, color: Colors.black54),
                     ),
@@ -184,7 +184,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context).points}'),
+                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}'),
                     ],
                   ),
 
@@ -269,7 +269,8 @@ class _AnotherProfileState extends State<AnotherProfile> {
   Widget buildProfilePicture() => CircleAvatar(
     radius: profileHeight/2,
     backgroundColor: Colors.grey.shade800,
-    backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
+    backgroundImage: AssetImage('resources/img/logo_launcher.png'),
+    //backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
 
 

@@ -53,7 +53,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
          return Scaffold(
           appBar: AppBar(
             toolbarHeight: 70,
-            title: Text(AppLocalizations.of(context).myProfile),
+            title: Text(AppLocalizations.of(context)!.myProfile),
             backgroundColor: MyColorsPalette.lightPurple,
           ),
           backgroundColor: MyColors.bgColorScreen,
@@ -102,7 +102,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               child: Column(
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context).points,
+                                    AppLocalizations.of(context)!.points,
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontFamily: 'Nunito',
@@ -143,7 +143,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                               child: Column(
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context).trophies,
+                                    AppLocalizations.of(context)!.trophies,
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontFamily: 'Nunito',
@@ -178,7 +178,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                         style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all(Colors.amberAccent)),
-                        child: Text(AppLocalizations.of(context).config),
+                        child: Text(AppLocalizations.of(context)!.config),
                         onPressed: () {
                           Navigator.pushNamed(context, '/editProfile');
                         },
@@ -195,7 +195,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all(Colors.amberAccent)),
-                    child: Text(AppLocalizations.of(context).friendRequests),
+                    child: Text(AppLocalizations.of(context)!.friendRequests),
                     onPressed: () {
                       Navigator.pushNamed(context, '/friendRequests');
                     },
@@ -217,7 +217,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       style: ButtonStyle(
                           backgroundColor:
                           MaterialStateProperty.all(Colors.amberAccent)),
-                      child: Text (AppLocalizations.of(context).findUsers),
+                      child: Text (AppLocalizations.of(context)!.findUsers),
                       onPressed: ()async{
                           /*
                           for (var i = 0; i < 20; i++) {
@@ -310,7 +310,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
   Widget buildProfilePicture() => CircleAvatar(
     radius: profileHeight/2,
     backgroundColor: Colors.white,
-    backgroundImage: AssetImage('resources/img/logo2.png'),
+    backgroundImage: AssetImage('resources/img/logo_launcher.png'),
   );
 
 
