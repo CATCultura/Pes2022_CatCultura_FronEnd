@@ -42,6 +42,7 @@ class _OrganizerEventsState extends State<OrganizerEvents> {
         child: Consumer<OrganizerEventsViewModel>(builder: (context, value, _) {
             return Scaffold(
               appBar: AppBar(
+                backgroundColor: Colors.redAccent,
                 title:
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -54,6 +55,7 @@ class _OrganizerEventsState extends State<OrganizerEvents> {
                 )
                 ,
               ),
+              backgroundColor: Colors.white,
               drawer: MyDrawer("organizer",Session()),
               body: viewModel.eventsList.status == Status.LOADING ? const SizedBox(
                 child: Center(

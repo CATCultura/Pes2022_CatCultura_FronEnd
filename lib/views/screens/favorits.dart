@@ -31,8 +31,8 @@ class _Favorits extends State<Favorits> {
         child: Consumer<FavoritsViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(AppLocalizations.of(context)!.favouritesTitle),
-              backgroundColor: MyColorsPalette.red,
+              title: const Text("Favorits"),
+              backgroundColor: Colors.redAccent,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -42,7 +42,7 @@ class _Favorits extends State<Favorits> {
                 ),
               ],
             ),
-            backgroundColor: MyColors.bgColorScreen,
+            backgroundColor: Colors.white,
             // key: _scaffoldKey,
             drawer: MyDrawer(
               "Favorits",

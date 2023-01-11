@@ -43,6 +43,7 @@ class _TagEvents extends State<TagEvents> {
         child: Consumer<TagEventsViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.redAccent,
               title:
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -55,6 +56,7 @@ class _TagEvents extends State<TagEvents> {
               )
               ,
             ),
+            backgroundColor: Colors.white,
             drawer: MyDrawer("tag",Session()),
             body: viewModel.eventsList.status == Status.LOADING ? const SizedBox(
               child: Center(

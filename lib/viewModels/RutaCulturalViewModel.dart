@@ -189,7 +189,7 @@ class RutaCulturalViewModel with ChangeNotifier {
   }
 
   Future<Status> paintRoute() async {
-    List<Color> c = [Colors.blue, Colors.red, Colors.green];
+    List<Color> c = [Colors.blueAccent, Colors.orangeAccent, Colors.green];
     for(int i = 0; i < /*2*/eventsListMap.data!.length - 1; ++i) {
       _createPolylines(eventsListMap.data![i].location.latitude,
           eventsListMap.data![i].location.longitude,

@@ -727,6 +727,17 @@
     "description": "Text for no reviews to block"
   },
 
+     "retryButton": "Retry",
+    "@retryButton": {
+      "description": "Text for retrying a failed action"
+        },
+
+    "somethingWentWrong": "Retry",
+    "@somethingWentWrong": {
+      "description": "Text for retrying a failed action"
+    },
+
+
   "loginIncorrectCamp": "Incorrect login",
   "@loginIncorrectCamp": {
     "description": "Text for wrong login"
