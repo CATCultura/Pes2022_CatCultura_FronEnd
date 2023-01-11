@@ -265,6 +265,9 @@
 
     "chat": "Chat",
 
-    "messageCamp": "Esbribe el mensaje aquí"
+    "messageCamp": "Esbribe el mensaje aquí",
+
+    "loginIncorrectCamp": "Login incorrecto"
+
 
 }

@@ -48,6 +48,7 @@ class _UserEditTagsState extends State<UserEditTags> {
         create: (BuildContext context) => viewModel,
         child: Consumer<TagsViewModel>(builder: (context, value, _) {
           return  Scaffold(
+            backgroundColor: Colors.white,
             body: Container(
               padding: EdgeInsets.only(top:40, left:20, right:20, bottom: 10),
               alignment: Alignment.topLeft,
@@ -74,7 +75,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 20,
-                            color: Colors.blueAccent,
+                            color: Colors.orangeAccent,
                             letterSpacing: 2.2,
                             fontWeight: FontWeight.bold
                         ),
@@ -140,7 +141,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                                                       fontWeight: FontWeight.bold
                                                                   ),
                                                                 ),
-                                                                activeColor: Colors.blueAccent
+                                                                activeColor: Colors.orangeAccent
                                                             )
                                                         )
                                                       ]
@@ -181,7 +182,7 @@ class _UserEditTagsState extends State<UserEditTags> {
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all(
-                                          Colors.blueAccent)),
+                                          Colors.orangeAccent)),
                                   child: Text(AppLocalizations.of(context)!.saveButton,
                                     style: TextStyle(
                                         fontSize: 12,
