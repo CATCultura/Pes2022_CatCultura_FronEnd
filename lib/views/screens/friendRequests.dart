@@ -8,6 +8,7 @@ import 'package:CatCultura/viewModels/RequestsUserViewModel.dart';
 import '../../data/response/apiResponse.dart';
 import '../../utils/Session.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 
 
 class FriendRequests extends StatefulWidget {
@@ -240,7 +241,8 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                             color: Colors.grey,
                                           ),
                                           onPressed: () {
-
+                                            Navigator.pushNamed(context, '/another-user-profile',
+                                            arguments: AnotherProfileArgs(viewModel.usersRequested.data![index].username!, viewModel.usersRequested.data![index].id!));
                                           },
                                         ),
                                       ),
