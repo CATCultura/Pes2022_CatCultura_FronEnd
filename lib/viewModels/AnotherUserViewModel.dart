@@ -117,10 +117,10 @@ class AnotherUserViewModel with ChangeNotifier{
 
 
   Future<void> requestedUsersById(String id) async{
-    await _usersRepo.getReportedById(id).then((value){
-      setReportedResult(ApiResponse.completed(value));
+    await _usersRepo.getRequestedsById(id).then((value){
+      setUsersRequested(ApiResponse.completed(value));
     }).onError((error, stackTrace) =>
-        setReportedResult(ApiResponse.error(error.toString())));
+        setUsersRequested(ApiResponse.error(error.toString())));
   }
 
 

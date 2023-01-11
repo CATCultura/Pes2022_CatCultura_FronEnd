@@ -93,10 +93,10 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                       tabs: [
                         Tab(
                             icon: Icon(Icons.mark_email_unread),
-                            text: "Received"),
+                            text: AppLocalizations.of(context)!.receivedRequest,),
                         Tab(
                             icon: Icon(Icons.send),
-                            text: "Requested"),
+                            text: AppLocalizations.of(context)!.sentRequest,),
                       ],
                     ),
                   ),
@@ -250,10 +250,10 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                         alignment: Alignment.center,
                                         padding: EdgeInsets.symmetric(horizontal: 1.0, vertical: 10.0),
                                         child: IconButton(
-                                          iconSize: 40,
+                                          iconSize: 35,
                                           icon: Icon(
                                             Icons.remove_red_eye,
-                                            color: Colors.grey,
+                                            color: Colors.orangeAccent,
                                           ),
                                           onPressed: () {
                                             Navigator.pushNamed(context, '/another-user-profile',

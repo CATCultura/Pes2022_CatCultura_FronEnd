@@ -156,7 +156,7 @@ class _StatefulRankingState extends State<StatefulRanking>  {
                                                 child: CircleAvatar(
                                                   backgroundColor: Colors.white,
                                                   foregroundColor: Colors.white,
-                                                  backgroundImage: AssetImage('resources/img/logo2.png'),
+                                                  backgroundImage: AssetImage('resources/img/logo_launcher.png'),
                                                 ),
                                               ),
                                               const SizedBox(width: 6.0,),
