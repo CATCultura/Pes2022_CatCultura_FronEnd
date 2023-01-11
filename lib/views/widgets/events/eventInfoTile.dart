@@ -14,14 +14,20 @@ class EventInfoTile extends StatelessWidget {
 
   void modeSetup(BuildContext context){
     if(mode == "noSimilar"){
-      color = Colors.blue;
+      color = Colors.white;
       leading = SizedBox(width: 0,height: 0,);
     }
     else{
-      color = Theme.of(context).cardColor;
+      color = Colors.white;
       leading = CircleAvatar(
-        backgroundColor: Colors.red.shade700,
-        child: Text((index+1).toString()),
+        backgroundColor: Colors.redAccent,
+        child: Text(
+          (index+1).toString(),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w300
+          ),
+        ),
       );
     }
   }
@@ -32,53 +38,61 @@ class EventInfoTile extends StatelessWidget {
     modeSetup(context);
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: Material(
-        elevation: 20,
-        shadowColor: Colors.black.withAlpha(70),
-        color: Colors.blue,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: ListTile(
-            onTap: () {
-              debugPrint("clicked event: ${event.denominacio}");
-             Navigator.pushNamed(context, "/eventUnic",
-                  arguments: EventUnicArgs(event.id!)).then((_){
-                    /*setState((){
-
-                    });*/
-              });
-            },
-            leading: leading,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Color(0xFF818181), width: 1),
-              borderRadius: BorderRadius.circular(5),
+      child: ListTile(
+          onTap: () {
+            debugPrint("clicked event: ${event.denominacio}");
+           Navigator.pushNamed(context, "/eventUnic",
+                arguments: EventUnicArgs(event.id!)).then((_){
+            });
+          },
+          leading: leading,
+          tileColor: color,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+            Text(event.denominacio!,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.redAccent
+                )),
+            const SizedBox(height: 15.0,),
+            Row(
+              children: [
+                const Icon(Icons.calendar_month,
+                  color: Colors.black26,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Text("${event.dataInici!}  /  ${event.dataFi!}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300
+                    ),
+                  ),
+                ),
+              ],
             ),
-            tileColor: color,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-              Text(event.denominacio!,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20)),
-              const Padding(
-                padding: EdgeInsets.only(top: 5),
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.calendar_month),
-                  Text("${event.dataInici!}\n${event.dataFi!}"),
-                ],
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 5),
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.place),
-                  Flexible(child: Text(event.ubicacio!, style: const TextStyle(overflow: TextOverflow.fade),)),
-                ],
-              ),
-            ])),
-      ),
+            Row(
+              children: [
+                const Icon(Icons.place,
+                  color: Colors.black26,
+                ),
+                Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        event.ubicacio!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.fade,
+                            fontWeight: FontWeight.w300
+                        ),
+                      ),
+                    )
+                ),
+              ],
+            ),
+          ])),
+
       /*ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.purple,
