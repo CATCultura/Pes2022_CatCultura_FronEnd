@@ -78,29 +78,42 @@ class _HomeState extends State<Home> {
                     children: [
                       Column(
                         children: [
+                          const SizedBox(height: 25.0,),
                           ElevatedButton.icon(
                             onPressed: () => {
                               Navigator.pushNamed(context, '/favorits')
                             },
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white54),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                            ),
                             icon: const Icon(
                               Icons.star,
-                              color: Colors.red
+                              color: Colors.lightGreen
                             ),
-                            label: Text(AppLocalizations.of(context)!.favouritesTitle)
-                          )
+                            label: Text(AppLocalizations.of(context)!.favouritesTitle,
+                              style: TextStyle(
+                                color: Colors.lightGreen, fontWeight: FontWeight.w300
+                              ),
+                            )
+                          ),
                         ],
                       ),
                       Column(
                         children: [
+                          const SizedBox(height: 25.0,),
                           ElevatedButton.icon(
                               onPressed: () => Navigator.pushNamed(context, '/agenda'),
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white54),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                               icon: const Icon(
                                   Icons.calendar_month,
-                                  color: Colors.green
+                                  color: Colors.lightGreen
                               ),
-                              label: Text(AppLocalizations.of(context)!.agendaTitle)
+                              label: Text(AppLocalizations.of(context)!.agendaTitle,
+                                style: TextStyle(
+                                  color: Colors.lightGreen,
+                                  fontWeight: FontWeight.w300
+                                ),
+                              )
                           )
                         ],
                       )
