@@ -78,7 +78,7 @@ class ChatRepository {
     ChatMessage message = ChatMessage.fromJson(res);
     debugPrint("Received message ${message.content}");
     notifyObservers(message.eventId.toString(), message);
-    NotificationService().showNotifications("-1", "CATCultura", message.content);
+    NotificationService().showNotifications("-1", message.username, message.content);
   }
 
   void subscribeToEvent(String eventId) {

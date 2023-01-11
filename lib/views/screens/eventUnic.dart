@@ -27,15 +27,6 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:CatCultura/notifications/notificationService.dart';
 
-//imports per google calendar
-// import 'package:CatCultura/googleCalendar/googleCalendarService.dart' as googleCService;
-import "package:googleapis_auth/auth_io.dart";
-import 'package:googleapis/calendar/v3.dart' as GCalendar;
-//import 'package:googleapis_auth/googleapis_auth.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-
 import 'dart:math' as math;
 
 import '../../constants/theme.dart';
@@ -391,8 +382,6 @@ class Body extends StatefulWidget {
   final String place;
   final String descripcio;
   final EventUnicViewModel viewModel;
-  final String loggedUserId = "2";
-  static const _scopes = const [GCalendar.CalendarApi.calendarScope];
 
   @override
   State<Body> createState() => _BodyState();
@@ -416,7 +405,6 @@ class _BodyState extends State<Body> {
   late String place = widget.place;
   late String descripcio = widget.descripcio;
   late EventUnicViewModel viewModel = widget.viewModel;
-  late String loggedUserId = widget.loggedUserId;
   final GlobalKey _globalKey = GlobalKey();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -681,9 +669,8 @@ class _BodyState extends State<Body> {
                             icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
                             onPressed: () {
                               viewModel.addToCalendar(viewModel.eventSelected.data!.denominacio,
-                                  viewModel.eventSelected.data!.dataInici, viewModel.eventSelected.data!.dataFi,
+                                  viewModel.eventSelected.data!.dataInici, viewModel.eventSelected.data!.dataInici,
                                   viewModel.eventSelected.data!.localitat, viewModel.eventSelected.data!.descripcio);
-                              // viewModel.addEventToGoogleCalendar(_scopes);
                             },
                           ),
                           Text(AppLocalizations.of(context)!.exportToCalendarButton, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
@@ -738,13 +725,13 @@ class _BodyState extends State<Body> {
                         icon: Icon((viewModel.agenda == false) ? Icons.flag_outlined : Icons.flag, color: Color(0xF4C20606)),
                         onPressed: (){
                           if(viewModel.agenda == true) {
-                            viewModel.deleteAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
+                            viewModel.deleteAttendanceById(viewModel.eventSelected.data!.id);
                             //widget.callback!("deleteAttendance");
                             NotificationService().deleteOneNotification(viewModel.eventSelected.data!.id);
                           }
                           else {
                             _selectedDate(context);
-                            viewModel.putAttendanceById(loggedUserId, viewModel.eventSelected.data!.id);
+                            viewModel.putAttendanceById(viewModel.eventSelected.data!.id);
                           }
                         },
                       ),
@@ -759,11 +746,11 @@ class _BodyState extends State<Body> {
                         icon: Icon((viewModel.favorit == false) ? Icons.star_border_outlined : Icons.star,color: Color(0xF4C20606)),
                         onPressed: (){
                           if(viewModel.favorit == true){
-                            viewModel.deleteFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
+                            viewModel.deleteFavouriteById(viewModel.eventSelected.data!.id);
                             // widget.callback!("deleteFavourite");
                           }
                           else{
-                            viewModel.putFavouriteById(loggedUserId, viewModel.eventSelected.data!.id);
+                            viewModel.putFavouriteById(viewModel.eventSelected.data!.id);
                             // widget.callback!("addFavourite");
                           }
                         },

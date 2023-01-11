@@ -9,6 +9,7 @@ import 'package:CatCultura/data/response/apiResponse.dart';
 import 'package:CatCultura/repository/EventsRepository.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../utils/Session.dart';
+import 'package:intl/intl.dart';
 
 //imports per compartir esdeveniment
 import 'package:share_plus/share_plus.dart';
@@ -20,14 +21,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 //imports per exportar al calendari
 import 'package:add_2_calendar/add_2_calendar.dart';
-
-//imports per google calendar
-import "package:googleapis_auth/auth_io.dart";
-import 'package:googleapis/calendar/v3.dart' as GCalendar;
-import 'package:googleapis_auth/googleapis_auth.dart';
-import 'package:url_launcher/url_launcher.dart' as URLLauncher;
-import 'package:intl/intl.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class EventUnicViewModel with ChangeNotifier {
   final _eventsRepo = EventsRepository();
@@ -116,20 +109,7 @@ class EventUnicViewModel with ChangeNotifier {
       setReviews(ApiResponse.completed(value));
     });
   }
-/*
-  setFavouriteResult(ApiResponse<String> response){
-    addFavouriteResult = response;
-    favorit = !favorit;
-    notifyListeners();
-  }
 
-  setAttendanceResult(ApiResponse<String> response) {
-    addAttendanceResult = response;
-    agenda = !agenda;
-    session.set("attendance", attendanceList);
-    notifyListeners();
-  }
-  */
   setFavouritesList(ApiResponse<List<EventResult>> response){
     favouritesList = response;
     favorit = !favorit;
@@ -146,7 +126,7 @@ class EventUnicViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> putFavouriteById(String userId, String? eventId) async{
+  Future<void> putFavouriteById(String? eventId) async{
     if(eventId != null) {
       await _eventsRepo.addFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value) {
         session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
@@ -156,7 +136,7 @@ class EventUnicViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> deleteFavouriteById(String userId, String? eventId) async{
+  Future<void> deleteFavouriteById(String? eventId) async{
     if(eventId != null){
       await _eventsRepo.deleteFavouriteByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         session.data.favouritesId = value.map((e) => int.parse(e.id!)).toList();
@@ -165,7 +145,7 @@ class EventUnicViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> putAttendanceById(String userId, String? eventId) async{
+  Future<void> putAttendanceById(String? eventId) async{
     if(eventId != null){
       await _eventsRepo.addAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
@@ -174,7 +154,7 @@ class EventUnicViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> deleteAttendanceById(String userId, String? eventId) async{
+  Future<void> deleteAttendanceById(String? eventId) async{
     if(eventId != null){
       await _eventsRepo.deleteAttendanceByUserId(session.data.id.toString(), int.parse(eventId)).then((value){
         session.data.attendanceId = value.map((e) => int.parse(e.id!)).toList();
@@ -210,105 +190,6 @@ class EventUnicViewModel with ChangeNotifier {
     bool working = await Add2Calendar.addEvent2Cal(buildEvent(title as String, DateFormat("d-M-yyyy").parse(startDate as String),
         DateFormat("d-M-yyyy").parse(endDate as String), location as String, description as String));
   }
-
-  Future<AccessCredentials> obtainCredentials(var _scopes) async {
-    final client = http.Client();
-    print(_scopes);
-
-    print("allo era el scope");
-    try {
-      return await obtainAccessCredentialsViaUserConsent(
-        ClientId('', ''),
-        _scopes,
-        client,
-        _prompt,
-      );
-    } finally {
-      client.close();
-    }
-  }
-
-  void _prompt(String url) {
-    print('Please go to the following URL and grant access:');
-    print('  => $url');
-    print('');
-  }
-
-  Future<void> addEventToGoogleCalendar(var _scopes, var titolEvent, var startTime)async{
-    var _credentials;
-    if(Platform.isAndroid){
-      _credentials = new ClientId("","");
-    }
-    else if(Platform.isIOS){
-      _credentials = new ClientId("","");
-    }
-    /*final GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId:
-      'OAuth Client ID',
-      scopes: <String>[
-        _scopes,
-      ],
-    );*/
-    DateTime dateTime = DateFormat("d-M-yyyy").parse(startTime);
-    GCalendar.Event event = GCalendar.Event();
-    event.description = titolEvent;
-    GCalendar.EventDateTime eventStartTime = new GCalendar.EventDateTime();
-    eventStartTime.date = dateTime;
-    //eventStartTime.date = startTime;
-    eventStartTime.timeZone = "UTC+01:00";
-    event.start = eventStartTime;
-    insertarEvent(event, _credentials, _scopes);
-  }
-
-
-  Future<void> insertarEvent(var event, var _credentials, var _scopes) async {
-    clientViaUserConsent(_credentials, _scopes, prompt).then((AuthClient client) async {
-      var calendar = GCalendar.CalendarApi(client);
-      String calendarId = "primary";
-      calendar.events.insert(event, calendarId).then((value){
-        print("ADDEDDD___________${value.status}");
-        if(value.status == "confirmed"){
-          print('Event added in gogle calendar');
-        }
-        else{
-          print("Unable to add event in google calendar");
-        }
-      });
-    });
-  }
-
-  /*Future<void> insertarEvent(var event, var _credentials, var _scopes) async {
-    try{
-      clientViaUserConsent(_credentials, _scopes, prompt).then((AuthClient client){
-        var calendar = GCalendar.CalendarApi(client);
-        String calendarId = "primary";
-        calendar.events.insert(event, calendarId).then((value){
-          print("ADDEDDD___________${value.status}");
-          if(value.status == "confirmed"){
-            print('Event added in gogle calendar');
-          }
-          else{
-            print("Unable to add event in google calendar");
-          }
-        });
-      });
-    }
-    catch (e){
-      print('Error creating event $e');
-    }
-  }*/
-
-  void prompt (String url) async {
-    if(1 == 1/*await canLaunchUrlString(url)*/){
-      await launchUrlString(url);
-    }
-    else {
-      throw 'could not launch $url';
-    }
-  }
-  // @override
-  // void dispose() {
-  // }
 
   Future<void> deleteEventById(String? eventId) async{
     if(eventId != null){
