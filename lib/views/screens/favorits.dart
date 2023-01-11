@@ -10,6 +10,8 @@ import '../../models/EventResult.dart';
 import '../../utils/Session.dart';
 import '../widgets/events/eventInfoTile.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class Favorits extends StatefulWidget {
   Favorits({super.key});
 
@@ -29,7 +31,7 @@ class _Favorits extends State<Favorits> {
         child: Consumer<FavoritsViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Favorits"),
+              title: Text(AppLocalizations.of(context)!.favouritesTitle),
               backgroundColor: MyColorsPalette.red,
               actions: [
                 IconButton(

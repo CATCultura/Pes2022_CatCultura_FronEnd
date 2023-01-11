@@ -73,7 +73,39 @@
 
     "agendaTitle": "Agenda",
 
+    "attendedEvents" : "Ya asistidos",
+
+    "errorAddAttendance": "La fecha o la hora son incorrectas",
+
+    "generateQRbutton": "Generar QR",
+
+    "scanMeQR": "Escanéame!",
+
+    "exportToCalendarButton": "Exportar",
+
+    "shareEvent" : "Compartir",
+
+    "haventLoggedInYet" : "Todavía no has iniciado sesión",
+
+    "clickHere" : "CLICK AQUÍ",
+
+    "noReviewsYet" : "Todavía no hay reseñas...",
+
+    "wantToLeaveAReview" : "Quieres dejar una? ;)",
+
+    "tagsText" : "Etiquetas",
+
+    "reviewsText" : "Reseñas",
+
+    "moreInfoSchedule" : "Más información sobre los horarios",
+
     "favouritesTitle": "Favoritos",
+
+    "chatButton": "Chat",
+
+    "seeOnMap" : "Ver en el mapa",
+
+    "infoLocation" : "Info ubicación",
 
     "anonymousUser": "Anónimo",
 
@@ -265,9 +297,13 @@
 
     "chat": "Chat",
 
-    "messageCamp": "Esbribe el mensaje aquí",
+    "messageCamp": "Escribe el mensaje aquí",
 
-    "loginIncorrectCamp": "Login incorrecto"
+    "loginIncorrectCamp": "Login incorrecto",
+
+    "receivedRequest":  "Recibidas",
+
+    "sentRequest": "Enviadas"
 
 
 }

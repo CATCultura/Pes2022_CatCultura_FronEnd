@@ -73,7 +73,39 @@
 
     "agendaTitle": "Agenda",
 
+    "attendedEvents" : "Ja assistits",
+
+    "errorAddAttendance" : "La data o l'hora son incorrectes",
+
+    "generateQRbutton": "Generar QR",
+
+    "scanMeQR": "Escaneja'm!",
+
+    "exportToCalendarButton": "Exportar",
+
+    "shareEvent" : "Compartir",
+
+    "haventLoggedInYet" : "Encara no has iniciat sessió",
+
+    "clickHere" : "CLICK AQUÍ",
+
+    "noReviewsYet" : "Encara no hi han ressenyes...",
+
+    "wantToLeaveAReview" : "En vols deixar una? ;)",
+
+    "tagsText" : "Etiquetes",
+
+    "reviewsText" : "Ressenyes",
+
+    "moreInfoSchedule" : "Més informació sobre els horaris",
+
     "favouritesTitle": "Preferits",
+
+    "chatButton" : "Xat",
+
+    "seeOnMap" : "Veure al mapa",
+
+    "infoLocation" : "Info ubicació",
 
     "anonymousUser": "Anònim",
 
@@ -215,6 +247,9 @@
 
     "messageCamp": "Escriu el missatge aquí",
 
-    "loginIncorrectCamp": "Login incorrecte"
+    "loginIncorrectCamp": "Login incorrecte",
 
+    "receivedRequest":  "Rebudes",
+
+    "sentRequest": "Enviades"
 }
