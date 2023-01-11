@@ -138,7 +138,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                     ]:
                     <Widget>[
                       const Text(
-                        'Ja sou amics!    ',
+                        'Ja sou amics!',
                         style: TextStyle(
                             fontSize: 20, height: 1.6, color: Colors.lightGreen),
                       ),
