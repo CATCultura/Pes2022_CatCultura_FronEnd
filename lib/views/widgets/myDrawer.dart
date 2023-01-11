@@ -50,7 +50,7 @@ class MyDrawer extends Drawer {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: MyColorsPalette.blue,
+                color: Colors.black12,
               ),
               padding: const EdgeInsets.fromLTRB(5, 25, 5, 15),
               child: Column(
@@ -71,7 +71,10 @@ class MyDrawer extends Drawer {
                             ? AppLocalizations.of(context)!.anonymousUser
                             : session.data.username,
                         style: const TextStyle(
-                            fontSize: 25, color: MyColorsPalette.white)),
+                            fontSize: 25, color: MyColorsPalette.white,
+                            fontWeight: FontWeight.bold,
+                        )),
+
                     const SizedBox(
                       height: 6,
                     ),
@@ -85,12 +88,11 @@ class MyDrawer extends Drawer {
             ),
           ),
           // ),
-
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.house_outlined, size: 28),
             title: Text(AppLocalizations.of(context)!.homeScreenTitle,
-                style: const TextStyle(fontSize: 18)),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
             onTap: () {
               if (actualPage == "Home") {
                 Navigator.pop(context);
@@ -103,7 +105,7 @@ class MyDrawer extends Drawer {
             horizontalTitleGap: 0,
             leading: const Icon(Icons.calendar_today_sharp, size: 28),
             title: Text(AppLocalizations.of(context)!.eventScreenTitle,
-                style: const TextStyle(fontSize: 18)),
+                style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
             onTap: () {
               if (actualPage == "Events") {
                 Navigator.pop(context);
@@ -117,7 +119,7 @@ class MyDrawer extends Drawer {
                 horizontalTitleGap: 0,
                 leading: const Icon(Icons.star, size: 28),
                 title: Text(AppLocalizations.of(context)!.favouritesTitle,
-                    style: const TextStyle(fontSize: 18)),
+                    style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
                 onTap: () {
                   if (actualPage == "Favorits") {
                     Navigator.pop(context);
@@ -130,7 +132,7 @@ class MyDrawer extends Drawer {
                 horizontalTitleGap: 0,
                 leading: const Icon(Icons.calendar_month, size: 28),
                 title: Text(AppLocalizations.of(context)!.agendaTitle,
-                    style: const TextStyle(fontSize: 18)),
+                    style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
                 onTap: () {
                   if (actualPage == "Agenda") {
                     Navigator.pop(context);
@@ -142,7 +144,7 @@ class MyDrawer extends Drawer {
             horizontalTitleGap: 0,
             leading: const Icon(Icons.map, size: 28),
             title: Text(AppLocalizations.of(context)!.culturalRouteTitle,
-                style: const TextStyle(fontSize: 18)),
+                style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
             onTap: () {
               if (actualPage == "rutaCultural") {
                 Navigator.pop(context);
@@ -156,7 +158,7 @@ class MyDrawer extends Drawer {
               horizontalTitleGap: 0,
               leading: const Icon(Icons.create, size: 28),
               title: Text(AppLocalizations.of(context)!.createEventDrawer,
-                  style: TextStyle(fontSize: 18)),
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
               onTap: () {
                 if (actualPage == "CrearEsdeveniment") {
                   Navigator.pop(context);
@@ -172,7 +174,7 @@ class MyDrawer extends Drawer {
               horizontalTitleGap: 0,
               leading: const Icon(Icons.gavel, size: 28),
               title: const Text('Reports',
-                  style: TextStyle(fontSize: 18)),
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
               onTap: () {
                 if (actualPage == "Blocks") {
                   Navigator.pop(context);
@@ -205,7 +207,7 @@ class MyDrawer extends Drawer {
                 title: Padding(
                   padding: const EdgeInsets.only(left: 20, bottom: 20),
                   child: Text(AppLocalizations.of(context)!.logoutButton,
-                      style: TextStyle(fontSize: 18)),
+                      style: TextStyle(fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold)),
                 ),
                 onTap: () {
                   session.deleteSession();

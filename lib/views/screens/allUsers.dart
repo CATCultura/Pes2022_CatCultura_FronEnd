@@ -69,7 +69,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.red.shade900,
+                            color: Colors.white,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -141,7 +141,7 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                         viewModel.redrawWithFilter(searchQueryResult);
                       }
                     }),
-                backgroundColor: MyColorsPalette.red,
+                backgroundColor: Colors.orangeAccent,
                 actions: [
                   findedSomething == true
                       ? IconButton(
@@ -164,8 +164,17 @@ class AllUsersState extends State<AllUsers> with SingleTickerProviderStateMixin 
                     icon: const Icon(Icons.refresh),
                   ),
                 ],
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, '/profile');
+                  },
+                ),
               ),
-              backgroundColor: MyColors.bgColorScreen,
+              backgroundColor: Colors.white,
               // key: _scaffoldKey,
               drawer: MyDrawer("Usuaris", Session(),),
               body: Container(

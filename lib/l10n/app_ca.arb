@@ -213,6 +213,8 @@
 
     "chat": "Xat",
 
-    "messageCamp": "Escriu el missatge aquí"
+    "messageCamp": "Escriu el missatge aquí",
+
+    "loginIncorrectCamp": "Login incorrecte"
 
 }

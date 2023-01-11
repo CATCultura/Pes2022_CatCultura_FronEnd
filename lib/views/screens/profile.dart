@@ -43,20 +43,16 @@ class _StatefulProfileState extends State<StatefulProfile>  {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     viewModel.fetchUsersListApi();
     return ChangeNotifierProvider<UsersViewModel>(
         create: (BuildContext context) => viewModel,
         child: Consumer<UsersViewModel>(builder: (context, value, _) {
          return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 70,
             title: Text(AppLocalizations.of(context)!.myProfile),
-            backgroundColor: MyColorsPalette.lightPurple,
+            backgroundColor: Colors.orangeAccent,
           ),
-          backgroundColor: MyColors.bgColorScreen,
+           backgroundColor: Colors.white,
           // key: _scaffoldKey,
           drawer: MyDrawer("Profile", Session()),
           body: Container(
@@ -65,16 +61,46 @@ class _StatefulProfileState extends State<StatefulProfile>  {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 30),
-                buildTop(),
-
+                Center(
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 5,
+                              color: Colors.white,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 2, blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: const Offset(0, 10)
+                              )
+                            ],
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage('resources/img/logo.png')
+                            )
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
                 Column(
                   children: [
                     Text(
                       sessio.data.nameAndSurname!,
                       style: TextStyle(
-                        color: Color.fromRGBO(230, 192, 2, 1),
-                        fontFamily: 'Nunito',
+                        color: Colors.orangeAccent,
                         fontSize: 35,
+                        fontWeight: FontWeight.bold
                         ),
                       ),
                       SizedBox(
@@ -83,8 +109,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     Text(
                       sessio.data.username.toString(),
                       style: TextStyle(
-                        color: Color.fromRGBO(230, 192, 2, 1),
-                        fontFamily: 'Nunito',
+                        color: Colors.orangeAccent,
                         fontSize: 18,
                       ),
                     ),
@@ -105,8 +130,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                     AppLocalizations.of(context)!.points,
                                     style: TextStyle(
                                       color: Colors.grey[700],
-                                      fontFamily: 'Nunito',
                                       fontSize: 20,
+                                      fontWeight: FontWeight.bold
                                     ),
                                   ),
                                   Text(
@@ -114,7 +139,6 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                     style: TextStyle(
                                       color: Color.fromRGBO(
                                           140, 123, 35,1),
-                                      fontFamily: 'Nunito',
                                       fontSize: 20,
                                     ),
                                   ),
@@ -123,12 +147,12 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 25,
-                                vertical: 8,
+                                horizontal: 40,
+                                vertical: 30,
                               ),
                               child: Container(
-                                height: 50,
-                                width: 3,
+                                height: 40,
+                                width: 1,
                                 decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.circular(100),
@@ -146,8 +170,8 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                     AppLocalizations.of(context)!.trophies,
                                     style: TextStyle(
                                       color: Colors.grey[700],
-                                      fontFamily: 'Nunito',
                                       fontSize: 20,
+                                      fontWeight: FontWeight.bold
                                     ),
                                   ),
                                   Text(
@@ -155,7 +179,6 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                                     style: TextStyle(
                                       color: Color.fromRGBO(
                                           140, 123, 35,1),
-                                      fontFamily: 'Nunito',
                                       fontSize: 20,
                                     ),
                                   ),
@@ -177,7 +200,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all(Colors.amberAccent)),
+                            MaterialStateProperty.all(Colors.orangeAccent)),
                         child: Text(AppLocalizations.of(context)!.config),
                         onPressed: () {
                           Navigator.pushNamed(context, '/editProfile');
@@ -194,7 +217,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all(Colors.amberAccent)),
+                        MaterialStateProperty.all(Colors.orangeAccent)),
                     child: Text(AppLocalizations.of(context)!.friendRequests),
                     onPressed: () {
                       Navigator.pushNamed(context, '/friendRequests');
@@ -216,7 +239,7 @@ class _StatefulProfileState extends State<StatefulProfile>  {
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.amberAccent)),
+                          MaterialStateProperty.all(Colors.orangeAccent)),
                       child: Text (AppLocalizations.of(context)!.findUsers),
                       onPressed: ()async{
                           /*
@@ -289,31 +312,6 @@ class _StatefulProfileState extends State<StatefulProfile>  {
       })
     );
   }
-
-
-  Widget buildTop() {
-    final bottom = profileHeight/8;
-    return Stack (
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        Container (
-          margin: EdgeInsets.only(bottom: bottom),
-          child: buildProfilePicture(),
-        ),
-
-      ],
-    );
-  }
-
-
-  Widget buildProfilePicture() => CircleAvatar(
-    radius: profileHeight/2,
-    backgroundColor: Colors.white,
-    backgroundImage: AssetImage('resources/img/logo_launcher.png'),
-  );
-
-
 }
 
 /*

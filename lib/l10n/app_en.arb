@@ -645,5 +645,10 @@
   "messageCamp": "Write the message here",
   "@messageCamp": {
     "description": "Text for no reviews to block"
-  }
+  },
+
+    "loginIncorrectCamp": "Incorrect login",
+    "@loginIncorrectCamp": {
+      "description": "Text for wrong login"
+    }
 }
