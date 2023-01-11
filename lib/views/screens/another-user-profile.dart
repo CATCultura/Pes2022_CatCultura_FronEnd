@@ -144,13 +144,20 @@ class _AnotherProfileState extends State<AnotherProfile> {
                       const Text(
                         'Ja sou amics!    ',
                         style: TextStyle(
-                            fontSize: 20, height: 1.6, color: Colors.lightGreen),
+                            fontSize: 15,
+                            color: Colors.redAccent
+                        ),
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all(Colors.redAccent)),
-                        child: const Text ('Eliminar'),
+                        child: Text (
+                            'Eliminar',
+                          style: TextStyle(
+                            fontSize: 10.0,
+                          ),
+                        ),
                         onPressed: (){
                           viewModel.deleteFriendById(sessio.data.id.toString(), selectedId);
                           var aux = int.parse(selectedId);
@@ -160,7 +167,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           viewModel.notifyListeners();
                         },
                       ),
-
                     ],
 
                   ): const Text(""),
