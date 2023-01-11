@@ -62,9 +62,9 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ],
-              backgroundColor: MyColorsPalette.lightBlue,
+              backgroundColor: Colors.lightGreen,
             ),
-            backgroundColor: MyColors.bgColorScreen,
+            backgroundColor: Colors.white,
             // key: _scaffoldKey,
             drawer: MyDrawer(
                 AppLocalizations.of(context)!.homeScreenTitle,  Session(),),
@@ -78,37 +78,58 @@ class _HomeState extends State<Home> {
                     children: [
                       Column(
                         children: [
+                          const SizedBox(height: 25.0,),
                           ElevatedButton.icon(
                             onPressed: () => {
                               Navigator.pushNamed(context, '/favorits')
                             },
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white54),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                            ),
                             icon: const Icon(
                               Icons.star,
-                              color: Colors.red
+                              color: Colors.lightGreen
                             ),
-                            label: Text(AppLocalizations.of(context)!.favouritesTitle)
-                          )
+                            label: Text(AppLocalizations.of(context)!.favouritesTitle,
+                              style: TextStyle(
+                                color: Colors.lightGreen, fontWeight: FontWeight.w300
+                              ),
+                            )
+                          ),
                         ],
                       ),
                       Column(
                         children: [
+                          const SizedBox(height: 25.0,),
                           ElevatedButton.icon(
                               onPressed: () => Navigator.pushNamed(context, '/agenda'),
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white54),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                               icon: const Icon(
                                   Icons.calendar_month,
-                                  color: Colors.green
+                                  color: Colors.lightGreen
                               ),
-                              label: Text(AppLocalizations.of(context)!.agendaTitle)
+                              label: Text(AppLocalizations.of(context)!.agendaTitle,
+                                style: TextStyle(
+                                  color: Colors.lightGreen,
+                                  fontWeight: FontWeight.w300
+                                ),
+                              )
                           )
                         ],
                       )
                     ],
                   ),
-                  const SizedBox(height: 8.0,),
-                  Text(AppLocalizations.of(context)!.interestingEventsSection, style: const TextStyle(fontSize: 20),),
-                  const SizedBox(height: 8.0,),
+                  const SizedBox(height: 15.0,),
+                  Center(
+                    child: Text(AppLocalizations.of(context)!.interestingEventsSection,
+                      style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.lightGreen
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15.0,),
                   SizedBox(
                     height: MediaQuery.of(context).size.height-100,
                     child: viewModel.eventsList.status == Status.LOADING ?
