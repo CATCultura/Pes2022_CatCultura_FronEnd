@@ -129,8 +129,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           viewModel.afegit = !viewModel.afegit;
                           viewModel.notifyListeners();
                         },
-
-
                       ) : const Text(" "),
                     ]:
                     <Widget>[
