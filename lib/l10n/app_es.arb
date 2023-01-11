@@ -1,0 +1,311 @@
+{
+    "helloWorld": "¡Hola Mundo!",
+
+    "uniqueEventTitle": "Evento único",
+
+    "userNameInputBoxLabel": "Nombre de usuario",
+
+    "passwordInputBoxLabel": "Contraseña",
+
+    "forgotPassword": "¿Has olvidado la contraseña?",
+
+    "loginButton": "Iniciar sesión",
+
+    "signUpPrompt": "¿Todavía no tienes una cuenta?",
+
+    "signUpButton": "Registrarse",
+
+    "guestMode": "Entrar como invitado",
+
+    "createEventDrawer": "Crear evento",
+
+    "codeEvent": "Código (Obligatorio)",
+
+    "startDateEvent": "Fecha Inicio (Obligatorio)",
+
+    "finalDateEvent": "Fecha Final (Obligatorio)",
+
+    "nameEvent": "Nombre Evento (Obligatorio)",
+
+    "locationEvent": "Localización (Obligatorio)",
+
+    "addressEvent": "Dirección (Obligatorio)",
+
+    "spaceEvent": "Sitio (Obligatorio)",
+
+    "descriptionEvent": "Descripción (Obligatorio)",
+
+    "latitudeEvent": "Latitud (Obligatorio)",
+
+    "longitudeEvent": "Longitud (Obligatorio)",
+
+    "approximateEndDate": "Fecha aproximada de fin",
+
+    "ticket": "Entradas",
+
+    "schedule": "Horario",
+
+    "subtitle": "Subtítulo",
+
+    "links": "Enlaces",
+
+    "documents": "Documentos",
+
+    "video": "Video",
+
+    "postalCode": "Código Postal",
+
+    "email": "Email",
+
+    "telephone": "Teléfono",
+
+    "url": "Url",
+
+    "imageApp": "Imagen App",
+
+    "createEvent": "Crear",
+
+    "homeScreenTitle": "Página de inicio",
+
+    "interestingEventsSection": "Eventos interesantes",
+
+    "tagEventsSection": "Porque te interesa",
+
+    "agendaTitle": "Agenda",
+
+    "attendedEvents" : "Ya asistidos",
+
+    "errorAddAttendance": "La fecha o la hora son incorrectas",
+
+    "generateQRbutton": "Generar QR",
+
+    "scanMeQR": "Escanéame!",
+
+    "exportToCalendarButton": "Exportar",
+
+    "shareEvent" : "Compartir",
+
+    "haventLoggedInYet" : "Todavía no has iniciado sesión",
+
+    "clickHere" : "CLICK AQUÍ",
+
+    "noReviewsYet" : "Todavía no hay reseñas...",
+
+    "wantToLeaveAReview" : "Quieres dejar una? ;)",
+
+    "tagsText" : "Etiquetas",
+
+    "reviewsText" : "Reseñas",
+
+    "moreInfoSchedule" : "Más información sobre los horarios",
+
+    "favouritesTitle": "Favoritos",
+
+    "chatButton": "Chat",
+
+    "seeOnMap" : "Ver en el mapa",
+
+    "infoLocation" : "Info ubicación",
+
+    "anonymousUser": "Anónimo",
+
+    "missingEmail": "Falta el correo",
+
+    "eventScreenTitle": "Eventos",
+
+    "culturalRouteTitle": "Ruta cultural",
+
+    "logoutButton": "Cerrar sesión",
+
+    "searchByQueryPrompt": "Buscar un evento...",
+
+    "orgInfoCardTitle": "Información del organizador",
+
+    "seeMoreEventsByOrgButton": "Ver más",
+
+    "okButton": "Entendido",
+
+    "orgEventsScreenTitle": "Eventos organizados por",
+
+    "tagEventsScreenTitle": "Eventos con la etiqueta",
+
+    "code": "Código)",
+
+    "startDate": "Fecha Inicio",
+
+    "finalDate": "Fecha Final",
+
+    "nameEventM": "Nombre Evento",
+
+    "location": "Localización",
+
+    "address": "Dirección",
+
+    "space": "Sitio",
+
+    "description": "Descripción",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "¿Qué quieres hacer?",
+
+    "deleteEvent": "Eliminar Evento",
+
+    "cancelEvent": "Cancelar Evento",
+
+    "cancelQuestion": "¿Estás seguro de que quieres cancelar este evento?",
+
+    "deleteQuestion": "¿Estás seguro de que quieres eliminar este evento?",
+
+    "modify": "Modificar",
+
+    "searchName": "Buscar por nombre...",
+
+    "userProfile": "Perfil Usuario",
+
+    "addFriend": "Enviar solicitud",
+
+    "points": "Puntos",
+
+    "friendRequests": "Solicitudes amistad",
+
+    "trophies": "Trofeos",
+
+    "config": "Configuración",
+
+    "findUsers": "Buscar Usuarios",
+
+    "myProfile": "Mi Perfil",
+
+    "ranking": "Clasificación",
+
+    "achieved": "CONSEGUIDO",
+
+    "notAchieved": "No Conseguido",
+
+    "rutaCulturalMainTitle": "Ruta Cultural",
+
+    "generatingRouteText": "Estamos generando tu ruta...",
+
+
+    "generateRouteText": "Generar Ruta",
+
+    "modifyRouteText": "Modificar Ruta",
+
+    "saveRouteNameHint": "Nombre de la ruta",
+
+
+    "saveRouteDescriptionHint": "Descripcion",
+
+
+    "cancelTextCulturalRoute" : "Cancelar",
+
+
+    "saveTextCulturalRoute" : "Guardar",
+
+    "saveRouteSuccessTitle": "Routa guardada",
+
+    "saveRouteButtonText" : "Guardar ruta",
+
+
+    "saveRouteErrorNotLoggedIn" : "Tienes que haver iniciado sesion para guardar la ruta",
+
+    "loginTextErrorSaveCulturalRoute" : " Iniciar sesión",
+
+    "savedRoutesButtonText" : "Abrir rutas guardadas",
+
+
+    "blocksMainTitle": "Reports",
+
+
+    "reportedReviewsTitle" : "Reviews reportadas",
+
+
+    "reportedUsersTitle" : "Usuarios reportados",
+
+    "blockButton" : "Bloquear",
+
+    "unblockButton" : "Desbloquear",
+
+    "parametersCulturalRouteMainTitle" : "PARAMETROS",
+
+    "parametersCulturalRouteDate" : "Fecha",
+
+    "parametersCulturalRouteSelectRadius" : "Selecciona un radio",
+
+    "parametersCulturalRouteGenerateButton": "GENERAR RUTA",
+
+    "scanQRCodeScreenTitle" : "Ecanea un QR",
+
+    "cameraNotAllowedWarning" : "Para escanear un QR, permite el acceso a la cámara.",
+
+    "sendAttendanceCodeButton" : "Enviar",
+
+    "scanCodePrompt" : "Escanea un código de asistencia",
+
+    "exitButton" : "Salir",
+
+    "explanationForAttendanceCodeInput" : "Introduce el código de asistencia o escanea QR oportuno.",
+
+    "enterCodeHintText" : "Introduce un código",
+
+    "attendanceAlreadyConfirmed" : "Ya has confirmado que has asistido.",
+
+    "confirmAttendanceDialogTitle": "Confirma la asistencia",
+
+    "wrongAttendanceCode": "Código incorrecto",
+
+    "scanQRCodeButton" : "QR",
+
+    "confirmAttendanceMenuOption": "Confirmar asistencia",
+
+    "nameAndSurnameInputBoxLabel": "Nombre y apellidos",
+
+    "emailInputBoxLabel": "Correo electrónico",
+
+    "createAccount": "Crea cuenta",
+
+    "alreadyAccount": "Ya tengo cuenta",
+
+    "descriptionCreateAccount": "Crea una cuenta y disfruta de la cultura de tu alrededor",
+
+    "errorMessageCreateAccount": "Campo obligatorio",
+
+    "errorCharactersMessageCreateAccount": "Mínimo 6 caracteres",
+
+    "cancelButton": "CANCELAR",
+
+    "saveButton": "GUARDAR",
+
+    "editTagsButton": "Edita tus tags",
+
+    "editProfileText": "Edita tu perfil",
+
+    "newPasswordInput": "Nueva contraseña",
+
+    "emptyFieldText": "Campo vacío",
+
+    "notNowButton": "AHORA NO",
+
+    "selectTagsDescription": "Selecciona tus tags favoritas",
+
+    "chat": "Chat",
+
+    "messageCamp": "Escribe el mensaje aquí",
+
+    "loginIncorrectCamp": "Login incorrecto",
+
+    "receivedRequest":  "Recibidas",
+
+    "sentRequest": "Enviadas",
+
+    "deleteFriendship": "Elimina amistad"
+
+
+}

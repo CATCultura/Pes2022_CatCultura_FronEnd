@@ -1,15 +1,24 @@
+import 'package:CatCultura/utils/auxArgsObjects/argsRouting.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import '../../data/response/apiResponse.dart';
+import '../../models/UserResult.dart';
+import 'package:CatCultura/viewModels/UsersViewModel.dart';
+import 'package:CatCultura/constants/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:tryproject2/constants/theme.dart';
+import '../../utils/Session.dart';
 
 class MyDrawer extends Drawer {
-  const MyDrawer(this.actualPage,
-      {this.username = "", this.email = "", super.key});
+  const MyDrawer(this.actualPage, this.session,
+      {/*this.username = "", this.email = "",*/ super.key});
   final String actualPage;
-  final String username;
-  final String email;
-
+  //final String username;
+  //final String email;
+  final Session session;
+/*username: session.data.username == "Anonymous" ? AppLocalizations.of(context)!.anonymousUser : session.data.username,
+                email: session.data.email == "missing email" || session.data.email == null ? AppLocalizations.of(context)!.missingEmail : session.data.email!
+*/
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -17,57 +26,73 @@ class MyDrawer extends Drawer {
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
-      child: ListView(
+      child: Column(
         // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
+        // padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(
-              color: MyColorsPalette.blue,
-            ),
-            child: InkWell(
-              onTap: () {
+          // DrawerHeader(
+          // decoration: const BoxDecoration(
+          //   color: MyColorsPalette.blue,
+          // ),
+          // child:
+          GestureDetector(
+            onTap: () {
+              if (session.data.id != -1) {
                 if (actualPage == "Profile") {
                   Navigator.pop(context);
                 } else {
                   Navigator.pushReplacementNamed(context, '/profile');
                 }
-              },
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const CircleAvatar(
-                          radius: 36.0,
-                          backgroundColor: MyColorsPalette.white,
-                          backgroundImage: NetworkImage(
-                              "https://avatars.githubusercontent.com/u/99893934?s=400&u=cc0636970f96e71b96dfb4696945dc0a95ebb787&v=4")),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(username,
-                          style: const TextStyle(
-                              fontSize: 25, color: MyColorsPalette.white)),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        email,
-                        style: const TextStyle(
-                            fontSize: 12, color: MyColorsPalette.white),
-                      ),
-                    ]),
+              } else {
+                Navigator.pushReplacementNamed(context, '/login');
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Colors.black12,
               ),
+              padding: const EdgeInsets.fromLTRB(5, 25, 5, 15),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  verticalDirection: VerticalDirection.down,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const CircleAvatar(
+                        radius: 36.0,
+                        backgroundColor: MyColorsPalette.white,
+                        backgroundImage: AssetImage('resources/img/logo.png')),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                        session.data.username == "Anonymous"
+                            ? AppLocalizations.of(context)!.anonymousUser
+                            : session.data.username,
+                        style: const TextStyle(
+                            fontSize: 25, color: MyColorsPalette.white,
+                            fontWeight: FontWeight.bold,
+                        )),
+
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      session.data.email ??
+                          AppLocalizations.of(context)!.missingEmail,
+                      style: const TextStyle(
+                          fontSize: 12, color: MyColorsPalette.white),
+                    ),
+                  ]),
             ),
           ),
+          // ),
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.house_outlined, size: 28),
-            title: const Text('Home', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.homeScreenTitle,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
             onTap: () {
               if (actualPage == "Home") {
                 Navigator.pop(context);
@@ -79,33 +104,103 @@ class MyDrawer extends Drawer {
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.calendar_today_sharp, size: 28),
-            title: const Text('Events', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.eventScreenTitle,
+                style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
             onTap: () {
               if (actualPage == "Events") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/events');
+                Navigator.popAndPushNamed(context, '/events');
               }
             },
           ),
+          if (session.data.id != -1)
+            ListTile(
+                horizontalTitleGap: 0,
+                leading: const Icon(Icons.star, size: 28),
+                title: Text(AppLocalizations.of(context)!.favouritesTitle,
+                    style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
+                onTap: () {
+                  if (actualPage == "Favorits") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.popAndPushNamed(context, '/favorits');
+                  }
+                }),
+          if (session.data.id != -1)
+            ListTile(
+                horizontalTitleGap: 0,
+                leading: const Icon(Icons.calendar_month, size: 28),
+                title: Text(AppLocalizations.of(context)!.agendaTitle,
+                    style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
+                onTap: () {
+                  if (actualPage == "Agenda") {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.popAndPushNamed(context, '/agenda');
+                  }
+                }),
           ListTile(
             horizontalTitleGap: 0,
             leading: const Icon(Icons.map, size: 28),
-            title: const Text('Map', style: TextStyle(fontSize: 18)),
+            title: Text(AppLocalizations.of(context)!.culturalRouteTitle,
+                style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
             onTap: () {
-              if (actualPage == "Map") {
+              if (actualPage == "rutaCultural") {
                 Navigator.pop(context);
               } else {
-                Navigator.pushReplacementNamed(context, '/map');
+                Navigator.popAndPushNamed(context, '/rutaCultural');
               }
             },
           ),
-          ListTile(
-            horizontalTitleGap: 0,
-            title: const Text('Tancar sessió', style: TextStyle(fontSize: 18)),
-            onTap: () {
-                Navigator.pushReplacementNamed(context, '/login');
-            },
+          if (session.data.role == "ADMIN" || session.data.role == "ORGANIZER")
+            ListTile(
+              horizontalTitleGap: 0,
+              leading: const Icon(Icons.create, size: 28),
+              title: Text(AppLocalizations.of(context)!.createEventDrawer,
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
+              onTap: () {
+                if (actualPage == "CrearEsdeveniment") {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.popAndPushNamed(
+                      context, '/crear-esdeveniment');
+                }
+              },
+            ),
+          if (session.data.role == "ADMIN")
+            ListTile(
+              tileColor: Color(0xFFE0E0E0),
+              horizontalTitleGap: 0,
+              leading: const Icon(Icons.gavel, size: 28),
+              title: const Text('Reports',
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
+              onTap: () {
+                if (actualPage == "Blocks") {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.popAndPushNamed(
+                      context, '/blocks');
+                }
+              },
+            ),
+
+          if (session.data.id != -1) Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: ListTile(
+                horizontalTitleGap: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 20, bottom: 20),
+                  child: Text(AppLocalizations.of(context)!.logoutButton,
+                      style: TextStyle(fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold)),
+                ),
+                onTap: () {
+                  session.deleteSession();
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+              ),
+            ),
           ),
         ],
       ),

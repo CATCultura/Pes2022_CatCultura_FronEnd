@@ -1,0 +1,257 @@
+{
+    "helloWorld": "Hola, Món!",
+
+    "uniqueEventTitle": "Esdeveniment únic",
+
+    "userNameInputBoxLabel": "Nom d'usuari",
+
+    "passwordInputBoxLabel": "Contrasenya",
+
+    "forgotPassword": "No recordes la contrasenya?",
+
+    "loginButton": "Inicia la sessió",
+
+    "signUpPrompt": "Encara no tens cap compte?",
+
+    "signUpButton": "Registra't",
+
+    "guestMode": "Entra com a convidat",
+
+    "createEventDrawer": "Crear esdeveniment",
+
+    "codeEvent": "Codi (Obligatori)",
+
+    "startDateEvent": "Data Inici (Obligatori)",
+
+    "finalDateEvent": "Data Fi (Obligatori)",
+
+    "nameEvent": "Nom Esdeveniment (Obligatori)",
+
+    "locationEvent": "Localizació (Obligatori)",
+
+    "addressEvent": "Adreça (Obligatori)",
+
+    "spaceEvent": "Espai (Obligatori)",
+
+    "descriptionEvent": "Descripció (Obligatori)",
+
+    "latitudeEvent": "Latitud (Obligatori)",
+
+    "longitudeEvent": "Longitud (Obligatori)",
+
+    "approximateEndDate": "Data Aproximada de Fin",
+
+    "ticket": "Entrades",
+
+    "schedule": "Horari",
+
+    "subtitle": "Subtítul",
+
+    "links": "Enllaços",
+
+    "documents": "Documents",
+
+    "video": "Video",
+
+    "postalCode": "Codi Postal",
+
+    "email": "Email",
+
+    "telephone": "Telefon",
+
+    "url": "Url",
+
+    "imageApp": "Imatge App",
+
+    "createEvent": "Crear",
+
+    "homeScreenTitle": "Pàgina d'inici",
+
+    "interestingEventsSection": "Esdeveniments interessants",
+
+    "tagEventsSection": "Perquè t'interessa",
+
+    "agendaTitle": "Agenda",
+
+    "attendedEvents" : "Ja assistits",
+
+    "errorAddAttendance" : "La data o l'hora son incorrectes",
+
+    "generateQRbutton": "Generar QR",
+
+    "scanMeQR": "Escaneja'm!",
+
+    "exportToCalendarButton": "Exportar",
+
+    "shareEvent" : "Compartir",
+
+    "haventLoggedInYet" : "Encara no has iniciat sessió",
+
+    "clickHere" : "CLICK AQUÍ",
+
+    "noReviewsYet" : "Encara no hi han ressenyes...",
+
+    "wantToLeaveAReview" : "En vols deixar una? ;)",
+
+    "tagsText" : "Etiquetes",
+
+    "reviewsText" : "Ressenyes",
+
+    "moreInfoSchedule" : "Més informació sobre els horaris",
+
+    "favouritesTitle": "Preferits",
+
+    "chatButton" : "Xat",
+
+    "seeOnMap" : "Veure al mapa",
+
+    "infoLocation" : "Info ubicació",
+
+    "anonymousUser": "Anònim",
+
+    "missingEmail": "Falta el correu",
+
+    "eventScreenTitle": "Esdeveniments",
+
+    "culturalRouteTitle": "Ruta cultural",
+
+    "logoutButton": "Tanca la sessió",
+
+    "searchByQueryPrompt": "Cerca un esdeveniment...",
+
+    "orgInfoCardTitle": "Informació de l'organitzador",
+
+    "seeMoreEventsByOrgButton": "Veure'n més",
+
+    "okButton": "D'acord",
+
+    "orgEventsScreenTitle": "Esdeveniments organitzats per",
+
+    "code": "Codi",
+
+    "startDate": "Data Inici",
+
+    "finalDate": "Data Fi",
+
+    "nameEventM": "Nom wsdeveniment",
+
+    "location": "Localizació",
+
+    "address": "Adreça",
+
+    "space": "Espai",
+
+    "tagEventsScreenTitle": "Esdeveniments amb l'etiqueta",
+
+    "description": "Descripció",
+
+    "latitude": "Latitud",
+
+    "longitude": "Longitud",
+
+    "yes": "Si",
+
+    "no": "No",
+
+    "whatDoYouWant": "Què vols fer?",
+
+    "deleteEvent": "Eliminar Esdeveniment",
+
+    "cancelEvent": "Cancel·lar Esdeveniment",
+
+    "cancelQuestion": "Segur que vols cancel·lar aquest esdeveniment?",
+
+    "deleteQuestion": "Segur que vols eliminar aquest esdeveniment?",
+
+    "searchName": "Buscar per nom...",
+
+    "userProfile": "Perfil d'usuari",
+
+    "addFriend": "Enviar sol·licitud",
+
+    "points": "Punts",
+
+    "friendRequests": "Peticions d'amistat",
+
+    "trophies": "Trofeus",
+
+    "config": "Configuració",
+
+    "findUsers": "Buscar Usuaris",
+
+    "myProfile": "El meu perfil",
+
+    "ranking": "Classificació",
+
+    "achieved": "ACONSEGUIT",
+
+    "notAchieved": "No Aconseguit",
+
+    "modify": "Modificar",
+
+    "scanQRCodeButton" : "QR",
+
+    "scanQRCodeScreenTitle" : "Escaneja un QR",
+
+    "cameraNotAllowedWarning" : "Per escanejar un codi QR, permet l'accés a la càmera.",
+
+    "sendAttendanceCodeButton" : "Envia",
+
+    "scanCodePrompt" : "Escaneja un codi d'assistència",
+
+    "exitButton" : "Surt",
+
+    "explanationForAttendanceCodeInput" : "Introdueix el codi d'assistència o escaneja el QR corresponent.",
+
+    "enterCodeHintText" : "Introdueix un codi",
+
+    "attendanceAlreadyConfirmed" : "Ja has confirmat que hi has assistit.",
+
+    "confirmAttendanceDialogTitle": "Confirma l'assistència",
+
+    "wrongAttendanceCode": "Codi incorrecte",
+
+    "confirmAttendanceMenuOption": "Confirma l'assistència",
+
+    "nameAndSurnameInputBoxLabel": "Nom i cognoms",
+
+    "emailInputBoxLabel": "Correu electrònic",
+
+    "createAccount": "Crea compte",
+
+    "alreadyAccount": "Ja tinc compte",
+
+    "descriptionCreateAccount": "Crea un compte i gaudeix de la cultura del teu voltant",
+
+    "errorMessageCreateAccount": "Camp obligatori",
+
+    "errorCharactersMessageCreateAccount": "Mínim 6 caràcters",
+
+    "cancelButton": "CANCEL·LAR",
+
+    "saveButton": "DESAR",
+
+    "editTagsButton": "Edita els tags",
+
+    "editProfileText": "Edita el teu perfil",
+
+    "newPasswordInput": "Nova contrasenya",
+
+    "emptyFieldText": "Camp buit",
+
+    "notNowButton": "ARA NO",
+
+    "selectTagsDescription": "Selecciona les teves tags favorites",
+
+    "chat": "Xat",
+
+    "messageCamp": "Escriu el missatge aquí",
+
+    "loginIncorrectCamp": "Login incorrecte",
+
+    "receivedRequest":  "Rebudes",
+
+    "sentRequest": "Enviades",
+
+    "deleteFriendship": "Elimina amistat"
+}

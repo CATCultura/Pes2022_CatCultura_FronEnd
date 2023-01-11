@@ -1,12 +1,20 @@
+
+import 'package:CatCultura/views/widgets/errorWidget.dart';
+import 'package:CatCultura/views/widgets/interestingEventsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:CatCultura/constants/theme.dart';
+
+import 'package:CatCultura/views/widgets/myDrawer.dart';
+import 'package:provider/provider.dart';
+
+import '../../data/response/apiResponse.dart';
+
+import '../../utils/Session.dart';
+import '../../viewModels/HomeViewModel.dart';
+import '../widgets/eventsByTagWidget.dart';
 
 
-import 'package:tryproject2/constants/theme.dart';
-import 'package:tryproject2/viewModels/HomeViewModel.dart';
-import 'package:tryproject2/views/widgets/cardSmall.dart';
-import 'package:tryproject2/views/widgets/CardSquare.dart';
-import 'package:tryproject2/views/widgets/cardHorizontal.dart';
-import 'package:tryproject2/views/widgets/myDrawer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // import 'package:tryproject2/lib/widgets/navbar.dart';
 
@@ -19,71 +27,151 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var viewModel = HomeViewModel();
+  final Session session = Session();
+
+  @override
+  void initState() {
+    viewModel.fetchEvents();
+    viewModel.fetchEventsByTag();
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(viewModel.namePage),
-          backgroundColor: MyColorsPalette.lightBlue,
-        ),
-        backgroundColor: MyColors.bgColorScreen,
-        // key: _scaffoldKey,
-        drawer: const MyDrawer("Home", username:"Superjuane", email:"juaneolivan@gmail.com"),
-        body: Container(
-          padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CardHorizontal(
-                      cta: "Ver articulo de ejemplo",
-                      title: "Este es un articulo de ejemplo que al clicarlo aparece un popUp",
-                      onTap: () {
-                        Navigator.pushReplacementNamed(context, '/pro');
-                      }),
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    List<String> tags = viewModel.tagEventList.keys.toList();
+    return ChangeNotifierProvider<HomeViewModel>(
+      create: (BuildContext context) => viewModel,
+      child: Consumer<HomeViewModel>(builder: (context, value, _)
+      {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context)!.homeScreenTitle),
+              actions: [
+                Column(
                   children: [
-                    CardSmall(
-                        cta: "View article",
-                        title: "b",
-                        tap: () {
-                          Navigator.pushNamed(context, '/pro');
-                        }),
-                    CardSmall(
-                        cta: "View article",
-                        title: "c",
-                        tap: () {
-                          Navigator.pushNamed(context, '/pro');
-                        })
+                    IconButton(
+                        onPressed: () => {
+                          Navigator.pushNamed(context, '/events')
+                        },
+                        icon: const Icon(
+                            Icons.search,
+                            color: Colors.black
+                        ),
+                    )
                   ],
                 ),
-                const SizedBox(height: 8.0),
-                CardHorizontal(
-                    cta: "View article",
-                    backcolor: MyColors.lightRed,
-                    title: "b",
-                    img: "https://media.istockphoto.com/photos/giant-wheel-on-the-funfair-picture-id1140409109?k=20&m=1140409109&s=612x612&w=0&h=IggXib0wrGp48wP4dell1fCWazveLOSsxu-i--kZeho=",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/pro');
-                    }),
-                const SizedBox(height: 8.0),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32.0),
-                  child: CardSquare(
-                      cta: "View article",
-                      title: "d",
-                      tap: () {
-                        Navigator.pushNamed(context, '/pro');
-                      }),
-                )
               ],
+              backgroundColor: Colors.lightGreen,
             ),
-          ),
-        ));
+            backgroundColor: Colors.white,
+            // key: _scaffoldKey,
+            drawer: MyDrawer(
+                AppLocalizations.of(context)!.homeScreenTitle,  Session(),),
+            body: Container(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: ListView(
+                // shrinkWrap: true,
+                children: [
+                  if (session.data.id != -1) Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          const SizedBox(height: 25.0,),
+                          ElevatedButton.icon(
+                            onPressed: () => {
+                              Navigator.pushNamed(context, '/favorits')
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                            ),
+                            icon: const Icon(
+                              Icons.star,
+                              color: Colors.lightGreen
+                            ),
+                            label: Text(AppLocalizations.of(context)!.favouritesTitle,
+                              style: TextStyle(
+                                color: Colors.lightGreen, fontWeight: FontWeight.w300
+                              ),
+                            )
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(height: 25.0,),
+                          ElevatedButton.icon(
+                              onPressed: () => Navigator.pushNamed(context, '/agenda'),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                              icon: const Icon(
+                                  Icons.calendar_month,
+                                  color: Colors.lightGreen
+                              ),
+                              label: Text(AppLocalizations.of(context)!.agendaTitle,
+                                style: TextStyle(
+                                  color: Colors.lightGreen,
+                                  fontWeight: FontWeight.w300
+                                ),
+                              )
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 15.0,),
+                  Center(
+                    child: Text(AppLocalizations.of(context)!.interestingEventsSection,
+                      style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.lightGreen
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15.0,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height-100,
+                    child: viewModel.eventsList.status == Status.LOADING ?
+                      const SizedBox(
+                        child: Center(
+                          child: CircularProgressIndicator()),
+                    )
+                        : viewModel.eventsList.status == Status.ERROR
+                          ? Column(
+                            children: [
+                              ElevatedButton(onPressed: () => viewModel.fetchEvents(), child: Text(AppLocalizations.of(context)!.retryButton)),
+                              CustomErrorWidget()
+                            ],
+                          )
+                        : viewModel.eventsList.status ==
+                          Status.COMPLETED ? InterestingEventsWidget(viewModel.eventsList.data!) : const Text("Error"),
+                ),
+              if (session.data.id != -1) for(int i = 0; i < tags.length; ++i) viewModel.tagEventList[tags[i]]!.status == Status.LOADING ?
+                    const SizedBox(
+                      child: Center(
+                          child: CircularProgressIndicator()),
+                    ) : viewModel.tagEventList[tags[i]]!.status == Status.ERROR ?
+                          Column(
+                            children: [
+                              ElevatedButton(onPressed: () => viewModel.fetchEventsByTagListPosition(i), child: Text(AppLocalizations.of(context)!.retryButton)),
+                              CustomErrorWidget()
+                            ],
+                          )
+                  : viewModel.tagEventList[tags[i]]!.status == Status.COMPLETED
+                  ? EventsByTagWidget(tags[i], viewModel.tagEventList[tags[i]]!.data!) : const Text("Error"),
+                ]
+              ),
+              ),
+            );
+    }
+    ));
   }
+
+
+
 }
+
+
+
+
