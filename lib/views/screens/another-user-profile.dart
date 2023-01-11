@@ -61,9 +61,9 @@ class _AnotherProfileState extends State<AnotherProfile> {
           return Scaffold(
               appBar: AppBar(
                 title:  Text(AppLocalizations.of(context)!.userProfile),
-                backgroundColor: MyColorsPalette.lightBlue,
+                backgroundColor: Colors.orangeAccent,
               ),
-              backgroundColor: Colors.grey[200],
+              backgroundColor: Colors.white,
               body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
               viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
               viewModel.mainUser.status == Status.COMPLETED? ListView(
@@ -78,7 +78,11 @@ class _AnotherProfileState extends State<AnotherProfile> {
                       children: <Widget>[
                         Text(
                           viewModel.mainUser.data!.nameAndSurname.toString(),
-                          style: TextStyle(fontSize: 28, color: Colors.teal),
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Colors.orangeAccent,
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                         const SizedBox(width: 10),
                         //sessio.data.reportedUserIds!.contains(int.parse(selectedId))?
@@ -102,8 +106,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
                       ]
                   ):Text(""),
                   buildContent(),
-                  const SizedBox(height: 20),
-
                   viewModel.usersRequested.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
                   viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
                   viewModel.usersRequested.status == Status.COMPLETED?
@@ -238,7 +240,12 @@ class _AnotherProfileState extends State<AnotherProfile> {
       Text (
         //viewModel.mainUser.data!.username!,
         selectedUser,
-        style: TextStyle(fontSize: 20, height: 1.4, color: Colors.grey),
+        style: TextStyle(
+            fontSize: 20,
+            height: 1.4,
+            color: Colors.orangeAccent,
+            fontWeight: FontWeight.w300
+        ),
       ),
     ],
   );
@@ -264,8 +271,8 @@ class _AnotherProfileState extends State<AnotherProfile> {
   }
 
   Widget buildCoverImage() => Container(
-    color: Colors.grey,
-    child: Image.network('https://tecnohotelnews.com/wp-content/uploads/2019/05/shutterstock_214016374.jpg'),
+    color: Colors.white,
+    child: Image.asset('resources/img/logo.png'),
     height: coverHeight,
     width: double.infinity,
     //fit: BoxFit.cover,
@@ -273,8 +280,8 @@ class _AnotherProfileState extends State<AnotherProfile> {
 
   Widget buildProfilePicture() => CircleAvatar(
     radius: profileHeight/2,
-    backgroundColor: Colors.grey.shade800,
-    backgroundImage: AssetImage('resources/img/logo_launcher.png'),
+    backgroundColor: Colors.white,
+    backgroundImage: AssetImage('resources/img/logo.png'),
     //backgroundImage: NetworkImage('https://i.pinimg.com/736x/f4/be/5d/f4be5d2d0f47b755d87e48a6347ff54d.jpg'),
   );
 
