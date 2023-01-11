@@ -55,13 +55,10 @@ class _AnotherProfileState extends State<AnotherProfile> {
         child: Consumer<AnotherUserViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title:  Text(AppLocalizations.of(context)!.userProfile),
+              title:  Text(AppLocalizations.of(context).userProfile),
               backgroundColor: MyColorsPalette.lightBlue,
             ),
             backgroundColor: Colors.grey[200],
-            // key: _scaffoldKey,
-            drawer: MyDrawer(
-                "AnotherProfile",  Session()),
             body: viewModel.mainUser.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
             viewModel.mainUser.status == Status.ERROR? Text("ERROR"):
             viewModel.mainUser.status == Status.COMPLETED? ListView(
@@ -70,7 +67,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                 buildTop(),
                 SizedBox(height: 18),
               viewModel.usersReported.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
-              viewModel.usersReported.status == Status.ERROR? Text("ERROR"):
+              viewModel.usersReported.status == Status.ERROR? Text(""):
               viewModel.usersReported.status == Status.COMPLETED? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -88,15 +85,14 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         onPressed: () async {
                           await viewModel.reportUser(sessio.data.id.toString(), selectedId);
                           await viewModel.reportedUsersById(selectedId);
-                          viewModel.usersReported.status == Status.COMPLETED? viewModel.notifyListeners()
-                              : Text("error");
+                          viewModel.notifyListeners();
                           //Navigator.pushNamed(context, '/another-user-profile',
                           //    arguments: AnotherProfileArgs(selectedUser, selectedId));
                         },
 
                       ) : Text(""),
                     ]
-                ): Text("error"),
+                ): Text(""),
                 buildContent(),
                 const SizedBox(height: 20),
 
@@ -176,7 +172,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         Text('     ${viewModel.mainUser.data!.email!}'),
                       ],
                     ),
-                    Row(
+                    /*Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -184,6 +180,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
                         Text('     ${viewModel.mainUser.data!.role!}'),
                       ],
                     ),
+                  */
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
