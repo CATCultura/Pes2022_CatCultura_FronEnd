@@ -31,7 +31,7 @@ class SingleEventMapViewModel with ChangeNotifier {
         ImageConfiguration(),
         "resources/img/electricity.png",
       );
-      await _stationRepo.getStations(100, latitud, longitud).then((value){
+      await _stationRepo.getStations(1, latitud, longitud).then((value){
         eventSelected = ApiResponse.completed(value);
         value.forEach((element) {
           markers.add(
@@ -40,8 +40,8 @@ class SingleEventMapViewModel with ChangeNotifier {
               markerId: MarkerId(element.id.toString()),
               position: LatLng(element.latitud!, element.longitud!),
               infoWindow: InfoWindow(
-                title: element.nPlaces.toString(),
-                snippet: element.direccion,
+                title: element.tipoVehiculo.toString(),
+                snippet: element.tipoConexion.toString(),
               ),
             ),
           );

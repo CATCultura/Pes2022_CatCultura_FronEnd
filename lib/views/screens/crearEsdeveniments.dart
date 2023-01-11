@@ -67,7 +67,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
               viewModel.waiting? Scaffold(
                 appBar: AppBar(
                   title: Text(AppLocalizations.of(context)!.createEventDrawer),
-                  backgroundColor: MyColorsPalette.orange,
+                  backgroundColor: Colors.orangeAccent,
                 ),
                 drawer: MyDrawer(AppLocalizations.of(context)!.createEventDrawer,  Session(),),
                 body: SingleChildScrollView(
@@ -90,8 +90,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.codeEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -112,8 +112,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.startDateEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -138,8 +138,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.finalDateEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -163,8 +163,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.nameEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -184,8 +184,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.locationEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -204,8 +204,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.addressEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -224,8 +224,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.spaceEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -244,8 +244,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.descriptionEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -264,8 +264,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.latitudeEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -284,8 +284,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.longitudeEvent,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -301,8 +301,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.approximateEndDate,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -318,8 +318,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.ticket,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -335,8 +335,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.schedule,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -352,15 +352,15 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.subtitle,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
                               ),
                             ),
 
-                            Container(
+                            /** Container(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: LinkController,
@@ -375,7 +375,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   ),
                                 ),
                               ),
-                            ),
+                            ), **/
 
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -386,15 +386,15 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.documents,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
                               ),
                             ),
 
-                            Container(
+                            /** Container(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: VideoController,
@@ -409,7 +409,7 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   ),
                                 ),
                               ),
-                            ),
+                            ), **/
 
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -420,8 +420,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.postalCode,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -437,8 +437,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.email,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -454,8 +454,8 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.telephone,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
@@ -471,15 +471,15 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   labelText: AppLocalizations.of(context)?.url,
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 3
+                                        color: Colors.orangeAccent,
+                                        width: 1.5
                                     ),
                                   ),
                                 ),
                               ),
                             ),
 
-                            Container(
+                            /** Container(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: TextFormField(
                                 controller: AppImgController,
@@ -494,16 +494,16 @@ class _crearEsdevenimentsState extends State<crearEsdeveniments> {
                                   ),
                                 ),
                               ),
-                            ),
+                            ), **/
 
                             Container(
-                              height: 70,
-                              width: 150,
+                              height: 60,
+                                width: MediaQuery.of(context).size.width * 0.5,
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: ElevatedButton(
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
-                                        MyColorsPalette.orange)),
+                                        Colors.orangeAccent)),
                                 child: Text(AppLocalizations.of(context)!.createEvent),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {

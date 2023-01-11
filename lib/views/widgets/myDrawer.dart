@@ -185,20 +185,6 @@ class MyDrawer extends Drawer {
               },
             ),
 
-          // ListTile(
-          //     horizontalTitleGap: 0,
-          //     leading: const Icon(Icons.chat, size: 28),
-          //     title: const Text('Xat', style: TextStyle(fontSize:18)),
-          //     onTap: (){
-          //       if(actualPage == "Xat"){
-          //         Navigator.pop(context);
-          //       }
-          //       else{
-          //         Navigator.pushReplacementNamed(context, '/xat', arguments: EventUnicArgs("11"));
-          //       }
-          //     }
-          // ),
-
           if (session.data.id != -1) Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,

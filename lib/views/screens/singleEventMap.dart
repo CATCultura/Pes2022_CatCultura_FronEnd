@@ -45,7 +45,7 @@ class _SingleEventMapState extends State<SingleEventMap> {
     event = widget.event;
     _initialcameraposition = LatLng(event.latitud!, event.longitud!);
     _kInitialPosition = CameraPosition(
-        target: LatLng(event.latitud!, event.longitud!), zoom: 11.0);
+        target: LatLng(event.latitud!, event.longitud!), zoom: 15.0);
   }
 
   @override
