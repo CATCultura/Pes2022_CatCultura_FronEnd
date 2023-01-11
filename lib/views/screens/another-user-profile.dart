@@ -84,28 +84,27 @@ class _AnotherProfileState extends State<AnotherProfile> {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        //sessio.data.reportedUserIds!.contains(int.parse(selectedId))?
-                         !viewModel.reported ? IconButton(
-                          iconSize: 30,
-                          icon: const Icon(
-                            Icons.report_problem_outlined,
-                            color: Colors.redAccent,
-                          ),
-                          onPressed: () async {
-                            viewModel.reportUser(sessio.data.id.toString(), selectedId);
-                            sessio.data.reportedUserIds!.add(int.parse(selectedId));
-                            await viewModel.reportedUsersById(sessio.data.id.toString());
-                            viewModel.reported = true;
-                            viewModel.notifyListeners();
-                            // Navigator.pushNamed(context, '/another-user-profile',
-                            //     arguments: AnotherProfileArgs(selectedUser, selectedId));
-                          },
-
-                        ) : Text(""),
                       ]
                   ):Text(""),
-                  buildContent(),
+                  const SizedBox(width: 10),
+                  //sessio.data.reportedUserIds!.contains(int.parse(selectedId))?
+                   !viewModel.reported ? IconButton(
+                    iconSize: 30,
+                    icon: const Icon(
+                      Icons.report_problem_outlined,
+                      color: Colors.orangeAccent,
+                    ),
+                    onPressed: () async {
+                      viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                      sessio.data.reportedUserIds!.add(int.parse(selectedId));
+                      await viewModel.reportedUsersById(sessio.data.id.toString());
+                      viewModel.reported = true;
+                      viewModel.notifyListeners();
+                      // Navigator.pushNamed(context, '/another-user-profile',
+                      //     arguments: AnotherProfileArgs(selectedUser, selectedId));
+                    },
+                  ) : Text(""),
+                 // buildContent(),
                   viewModel.usersRequested.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
                   viewModel.usersRequested.status == Status.ERROR? Text("ERROR"):
                   viewModel.usersRequested.status == Status.COMPLETED?
@@ -113,12 +112,15 @@ class _AnotherProfileState extends State<AnotherProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: viewModel.friend==false? <Widget>[
                       Text (
-                        '${AppLocalizations.of(context)!.addFriend}    ',
+                        '  ${AppLocalizations.of(context)!.addFriend}  ',
                         style: TextStyle(
-                            fontSize: 18, height: 1.4, color: Colors.black54),
+                            fontSize: 18,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w300,
+                        ),
                       ),
                       true? IconButton(
-                        iconSize: 40,
+                        iconSize: 30,
                         icon: Icon(
                             (viewModel.afegit == false) ? Icons.favorite_outline : Icons.favorite,
                             color: MyColorsPalette.lightRed),
@@ -162,39 +164,53 @@ class _AnotherProfileState extends State<AnotherProfile> {
                     ],
 
                   ): const Text(""),
-                  const SizedBox(height: 30),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.calendar_month_rounded, color: Colors.amber),
-                      Text('    ${viewModel.mainUser.data!.creationDate!}'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 0, right: 40),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 3),
+                          labelText: AppLocalizations.of(context)?.userNameInputBoxLabel,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: '${viewModel.mainUser.data!.username!}',
+                          enabled: false,
+                          hintStyle: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: Colors.black38,
+                          )
+                      ),
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.alternate_email, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.email!}'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 13, right: 40),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 3),
+                          labelText: AppLocalizations.of(context)?.email,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: '${viewModel.mainUser.data!.email!}',
+                          enabled: false,
+                          hintStyle: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: Colors.black38,
+                          )
+                      ),
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.workspace_premium, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.role!}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.monetization_on_outlined, color: Colors.amber),
-                      Text('     ${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 13, right: 40),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 3),
+                          labelText: AppLocalizations.of(context)?.points,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: '${viewModel.mainUser.data!.points!} ${AppLocalizations.of(context)!.points}',
+                          enabled: false,
+                          hintStyle: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold,
+                            color: Colors.black38,
+                          )
+                      ),
+                    ),
                   ),
 
                   /*Row(
@@ -234,22 +250,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
     );
   }
 
-  Widget buildContent() => Column(
-    children: [
-      SizedBox(height: 12),
-      Text (
-        //viewModel.mainUser.data!.username!,
-        selectedUser,
-        style: TextStyle(
-            fontSize: 20,
-            height: 1.4,
-            color: Colors.orangeAccent,
-            fontWeight: FontWeight.w300
-        ),
-      ),
-    ],
-  );
-
   Widget buildTop() {
     final bottom = profileHeight/2;
     final top = coverHeight - profileHeight/2;
@@ -272,7 +272,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
 
   Widget buildCoverImage() => Container(
     color: Colors.white,
-    child: Image.asset('resources/img/logo.png'),
+    child: Image.asset('resources/img/background.png'),
     height: coverHeight,
     width: double.infinity,
     //fit: BoxFit.cover,
