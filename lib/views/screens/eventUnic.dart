@@ -19,6 +19,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+//import per els idiomes
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 //imports per notificacions
 import 'package:flutter/cupertino.dart';
 
@@ -417,7 +420,6 @@ class _BodyState extends State<Body> {
   final GlobalKey _globalKey = GlobalKey();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-  var _scopes = [GCalendar.CalendarApi.calendarScope];
 
   Future<void> _selectedDate(BuildContext context) async{
     DateTime currentTime = DateTime.now();
@@ -443,7 +445,7 @@ class _BodyState extends State<Body> {
       selectedTime.minute,
     );
     if(newDateTime.isBefore(currentTime)){
-      _showErrorDialog(context, "Date && time are not valid");
+      _showErrorDialog(context, AppLocalizations.of(context)!.errorAddAttendance);
     }
 
     String titolEv = viewModel.eventSelected.data!.denominacio as String;
@@ -648,7 +650,7 @@ class _BodyState extends State<Body> {
                                             version: QrVersions.auto,
                                             size: 350.0,
                                           ),
-                                          Card(child: Text("Escaneja'm", style: TextStyle(fontSize: 15),))
+                                          Card(child: Text(AppLocalizations.of(context)!.scanMeQR, style: TextStyle(fontSize: 15),))
                                         ],
                                       ),
                                     ),
@@ -659,7 +661,7 @@ class _BodyState extends State<Body> {
                               );
                             },
                           ),
-                          Text("GenerarQR", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                          Text(AppLocalizations.of(context)!.generateQRbutton, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                         ],
                       ),
                       if (viewModel.isOrganizer) IconButton(
@@ -678,10 +680,13 @@ class _BodyState extends State<Body> {
                             iconSize: 40,
                             icon: Icon(Icons.calendar_month), color: Color(0xF4C20606),
                             onPressed: () {
+                              viewModel.addToCalendar(viewModel.eventSelected.data!.denominacio,
+                                  viewModel.eventSelected.data!.dataInici, viewModel.eventSelected.data!.dataFi,
+                                  viewModel.eventSelected.data!.localitat, viewModel.eventSelected.data!.descripcio);
                               // viewModel.addEventToGoogleCalendar(_scopes);
                             },
                           ),
-                          Text("Calendari", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                          Text(AppLocalizations.of(context)!.exportToCalendarButton, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                         ],
                       ),
                       Column(
@@ -695,7 +700,7 @@ class _BodyState extends State<Body> {
                               viewModel.shareEvent(imgUrl, titol);
                             },
                           ),
-                          Text("Share", style: TextStyle(fontSize: 12, color: Color(0xF4C20606)),),
+                          Text(AppLocalizations.of(context)!.shareEvent, style: TextStyle(fontSize: 12, color: Color(0xF4C20606)),),
                         ],
                       ),
                     ],
@@ -743,7 +748,7 @@ class _BodyState extends State<Body> {
                           }
                         },
                       ),
-                      Text("Agendar", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                      Text(AppLocalizations.of(context)!.agendaTitle, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                     ],
                   ),
                   Column(
@@ -763,7 +768,7 @@ class _BodyState extends State<Body> {
                           }
                         },
                       ),
-                      Text("Favorit", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                      Text(AppLocalizations.of(context)!.favouritesTitle, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                     ],
                   ),
                 ],
@@ -791,10 +796,10 @@ class _BodyState extends State<Body> {
                               actions: [
                                 ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK"))
                               ],
-                              title: Text("Més info sobre horaris"),
+                              title: Text(AppLocalizations.of(context)!.moreInfoSchedule),
                               content: Text(
-                                  "Horari:\n${event.horari!}\n"
-                                      "Entrades:\n${event.entrades!}\n"
+                                  "${AppLocalizations.of(context)!.schedule}: \n${event.horari!}\n"
+                                      "${AppLocalizations.of(context)!.ticket}: \n${event.entrades!}\n"
                                       ),
                             );
                           }
@@ -812,13 +817,13 @@ class _BodyState extends State<Body> {
                                 ElevatedButton(onPressed: () => Navigator.pop(context) , child: Text("OK")),
                                 ElevatedButton(onPressed: () => {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SingleEventMap(event: event)))
-                                }, child: Text("Veure al mapa"))
+                                }, child: Text(AppLocalizations.of(context)!.seeOnMap))
                               ],
-                              title: Text("Info ubicacio"),
+                              title: Text(AppLocalizations.of(context)!.infoLocation),
                               content: Text(
-                                  "Espai:\n${event.espai!}\n"
-                                      "Adreça:\n${event.adreca!}\n"
-                                      "Lloc:\n${event.ubicacio!}"),
+                                  "${AppLocalizations.of(context)!.space}:\n${event.espai!}\n"
+                                      "${AppLocalizations.of(context)!.address}:\n${event.adreca!}\n"
+                                      "${AppLocalizations.of(context)!.location}:\n${event.ubicacio!}"),
                             );
                           }
                       ),
@@ -878,7 +883,7 @@ class _BodyState extends State<Body> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 15.0),
-              child: Text("Etiquetes", textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),
+              child: Text(AppLocalizations.of(context)!.tagsText, textAlign: TextAlign.justify,style: const TextStyle(fontSize: 15, ),),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -924,7 +929,7 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Reviews',
+                    AppLocalizations.of(context)!.reviewsText,
                     style: TextStyle(fontSize: 23),
                   ),
                   IconButton(icon: Icon(Icons.edit), onPressed:() async {
@@ -954,9 +959,9 @@ class _BodyState extends State<Body> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Encara no has inciat sessió", style:
+                                  Text(AppLocalizations.of(context)!.haventLoggedInYet, style:
                                   TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
-                                  Text("CLIC AQUÍ", style:
+                                  Text(AppLocalizations.of(context)!.clickHere, style:
                                   TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
                                 ],
                               )),
@@ -1000,9 +1005,9 @@ class _BodyState extends State<Body> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Encara no hi ha reviews...🥲\nvols deixar una?", style:
+                            Text("${AppLocalizations.of(context)!.noReviewsYet}\n${AppLocalizations.of(context)!.wantToLeaveAReview}", style:
                             TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.grey), textAlign: TextAlign.center,),
-                            Text("CLIC AQUÍ", style:
+                            Text(AppLocalizations.of(context)!.clickHere, style:
                             TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.red), textAlign: TextAlign.center,),
                           ],
                         )),

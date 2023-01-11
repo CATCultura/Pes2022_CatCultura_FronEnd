@@ -10,6 +10,8 @@ import '../models/ChatMessage.dart';
 import '../utils/Session.dart';
 import '../viewModels/ChatViewModel.dart';
 
+import 'package:CatCultura/notifications/notificationService.dart';
+
 class ChatRepository {
   //final baseUrl = "http://40.113.160.200:8081/chat";
   //final getMessagesUrl = "http://40.113.160.200:8081/messages/";
@@ -76,7 +78,7 @@ class ChatRepository {
     ChatMessage message = ChatMessage.fromJson(res);
     debugPrint("Received message ${message.content}");
     notifyObservers(message.eventId.toString(), message);
-    //mostrar notificació
+    NotificationService().showNotifications("-1", "CATCultura", message.content);
   }
 
   void subscribeToEvent(String eventId) {

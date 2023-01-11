@@ -14,6 +14,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>tryproject2</string>
+    <key>NSCalendarUsageDescription</key>
+    <string>INSERT_REASON_HERE</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
