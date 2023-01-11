@@ -47,7 +47,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
 
   @override
   Widget build(BuildContext context) {
-    //viewModel.setSessionRequests(sessio.data.id.toString());
+
     viewModel.setMyFriends(sessio.data.id.toString());
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
@@ -71,7 +71,9 @@ class _AnotherProfileState extends State<AnotherProfile> {
                 children: <Widget>[
                   buildTop(),
                   SizedBox(height: 18),
-                  Row(
+              viewModel.usersReported.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+              viewModel.usersReported.status == Status.ERROR? Text("ERROR"):
+              viewModel.usersReported.status == Status.COMPLETED? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
@@ -79,15 +81,18 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           style: TextStyle(fontSize: 28, color: Colors.teal),
                         ),
                         const SizedBox(width: 10),
-                        !sessio.data.reportedUserIds!.contains(int.parse(selectedId))? IconButton(
+                        //sessio.data.reportedUserIds!.contains(int.parse(selectedId))?
+                         !viewModel.reported ? IconButton(
                           iconSize: 30,
                           icon: const Icon(
                             Icons.report_problem_outlined,
                             color: Colors.redAccent,
                           ),
                           onPressed: () async {
-                            await viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                            viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                            sessio.data.reportedUserIds!.add(int.parse(selectedId));
                             await viewModel.reportedUsersById(sessio.data.id.toString());
+                            viewModel.reported = true;
                             viewModel.notifyListeners();
                            // Navigator.pushNamed(context, '/another-user-profile',
                            //     arguments: AnotherProfileArgs(selectedUser, selectedId));
@@ -95,7 +100,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
 
                         ) : Text(""),
                       ]
-                  ),
+                  ):Text(""),
                   buildContent(),
                   const SizedBox(height: 20),
 
