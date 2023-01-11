@@ -30,7 +30,7 @@ class _Favorits extends State<Favorits> {
           return Scaffold(
             appBar: AppBar(
               title: const Text("Favorits"),
-              backgroundColor: MyColorsPalette.red,
+              backgroundColor: Colors.redAccent,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -40,7 +40,7 @@ class _Favorits extends State<Favorits> {
                 ),
               ],
             ),
-            backgroundColor: MyColors.bgColorScreen,
+            backgroundColor: Colors.white,
             // key: _scaffoldKey,
             drawer: MyDrawer(
               "Favorits",

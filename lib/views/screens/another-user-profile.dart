@@ -33,7 +33,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
   late List <String> usersList = [];
   final Session sessio = Session();
   final AnotherUserViewModel viewModel = AnotherUserViewModel();
-  late UserResult useraux = viewModel.mainUser as UserResult;
+  //late UserResult useraux = viewModel.mainUser as UserResult;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.selectUserById(selectedId);
-    viewModel.reportedUsersById(selectedId);
+    viewModel.reportedUsersById(sessio.data.id.toString());
     viewModel.notifyListeners();
 
     return ChangeNotifierProvider<AnotherUserViewModel>(
@@ -89,8 +89,8 @@ class _AnotherProfileState extends State<AnotherProfile> {
                             await viewModel.reportUser(sessio.data.id.toString(), selectedId);
                             await viewModel.reportedUsersById(sessio.data.id.toString());
                             viewModel.notifyListeners();
-                           // Navigator.pushNamed(context, '/another-user-profile',
-                           //     arguments: AnotherProfileArgs(selectedUser, selectedId));
+                            // Navigator.pushNamed(context, '/another-user-profile',
+                            //     arguments: AnotherProfileArgs(selectedUser, selectedId));
                           },
 
                         ) : Text(""),
@@ -197,7 +197,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           'Ja has enviat una sol·licitud a aquest usuari',
                           style: TextStyle(fontSize: 28, color: Colors.teal),
                         ),
-
                         FloatingActionButton(
                           child: const Icon(Icons.add),
                           onPressed: () async {
@@ -220,7 +219,6 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           MyColorsPalette.orange)),
                       child: const Text('Add to friends'),
                       onPressed: () {
-
                       },
                     )
                  */
