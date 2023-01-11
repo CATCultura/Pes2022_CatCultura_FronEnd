@@ -47,6 +47,7 @@ class _AnotherProfileState extends State<AnotherProfile> {
     viewModel.requestedUsersById(sessio.data.id.toString());
     viewModel.setUserSelected(selectedId);
     viewModel.selectUserById(selectedId);
+    viewModel.reportedUsersById(selectedId);
     viewModel.notifyListeners();
 
     return ChangeNotifierProvider<AnotherUserViewModel>(
@@ -68,7 +69,9 @@ class _AnotherProfileState extends State<AnotherProfile> {
               children: <Widget>[
                 buildTop(),
                 SizedBox(height: 18),
-                Row(
+              viewModel.usersReported.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
+              viewModel.usersReported.status == Status.ERROR? Text("ERROR"):
+              viewModel.usersReported.status == Status.COMPLETED? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -82,16 +85,18 @@ class _AnotherProfileState extends State<AnotherProfile> {
                           Icons.report_problem_outlined,
                           color: Colors.redAccent,
                         ),
-                        onPressed: () {
-                          viewModel.reportUser(sessio.data.id.toString(), selectedId);
-                          viewModel.notifyListeners();
-                          Navigator.pushNamed(context, '/another-user-profile',
-                              arguments: AnotherProfileArgs(selectedUser, selectedId));
+                        onPressed: () async {
+                          await viewModel.reportUser(sessio.data.id.toString(), selectedId);
+                          await viewModel.reportedUsersById(selectedId);
+                          viewModel.usersReported.status == Status.COMPLETED? viewModel.notifyListeners()
+                              : Text("error");
+                          //Navigator.pushNamed(context, '/another-user-profile',
+                          //    arguments: AnotherProfileArgs(selectedUser, selectedId));
                         },
 
                       ) : Text(""),
                     ]
-                ),
+                ): Text("error"),
                 buildContent(),
                 const SizedBox(height: 20),
 
