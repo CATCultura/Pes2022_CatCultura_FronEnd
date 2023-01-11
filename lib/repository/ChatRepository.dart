@@ -11,10 +11,10 @@ import '../utils/Session.dart';
 import '../viewModels/ChatViewModel.dart';
 
 class ChatRepository {
-  final baseUrl = "http://40.113.160.200:8081/chat";
-  final getMessagesUrl = "http://40.113.160.200:8081/messages/";
-  // final baseUrl = "http://10.4.41.41:8081:8081/chat";
-  // final getMessagesUrl = "http://10.4.41.41:8081/messages/";
+  //final baseUrl = "http://40.113.160.200:8081/chat";
+  //final getMessagesUrl = "http://40.113.160.200:8081/messages/";
+  final baseUrl = "http://10.4.41.41:8081:8081/chat";
+  final getMessagesUrl = "http://10.4.41.41:8081/messages/";
 
   final NetworkApiServices _apiServices = NetworkApiServices();
   final session = Session();
@@ -38,8 +38,8 @@ class ChatRepository {
 
   static StompClient client = StompClient(
                         config: StompConfig(
-                        url: "ws://40.113.160.200:8081/chat",
-                          // url: "ws://10.4.41.41:8081/chat",
+                        //url: "ws://40.113.160.200:8081/chat",
+                          url: "ws://10.4.41.41:8081/chat",
                           onConnect: onConnectCallback,
                         onWebSocketError: (dynamic error) => debugPrint(error.toString()),
                       ));
