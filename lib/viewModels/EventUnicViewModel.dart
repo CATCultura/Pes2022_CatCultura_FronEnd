@@ -205,9 +205,9 @@ class EventUnicViewModel with ChangeNotifier {
     return Event(title: title, startDate: startDate, endDate: endDate, location: location, description: description);
   }
 
-  void addToCalendar(String? title, String? startDate, String? endDate, String? location, String? description){
+  Future<void> addToCalendar(String? title, String? startDate, String? endDate, String? location, String? description) async{
     if(endDate == null) endDate = startDate;
-    Add2Calendar.addEvent2Cal(buildEvent(title as String, DateFormat("d-M-yyyy").parse(startDate as String),
+    bool working = await Add2Calendar.addEvent2Cal(buildEvent(title as String, DateFormat("d-M-yyyy").parse(startDate as String),
         DateFormat("d-M-yyyy").parse(endDate as String), location as String, description as String));
   }
 
@@ -218,7 +218,7 @@ class EventUnicViewModel with ChangeNotifier {
     print("allo era el scope");
     try {
       return await obtainAccessCredentialsViaUserConsent(
-        ClientId('612365228212-mscjcj8d8m8ga4hosroetl32lklgm208.apps.googleusercontent.com', ''),
+        ClientId('', ''),
         _scopes,
         client,
         _prompt,
@@ -237,10 +237,10 @@ class EventUnicViewModel with ChangeNotifier {
   Future<void> addEventToGoogleCalendar(var _scopes, var titolEvent, var startTime)async{
     var _credentials;
     if(Platform.isAndroid){
-      _credentials = new ClientId("612365228212-mscjcj8d8m8ga4hosroetl32lklgm208.apps.googleusercontent.com","");
+      _credentials = new ClientId("","");
     }
     else if(Platform.isIOS){
-      _credentials = new ClientId("612365228212-tigv3ubogsu0fnmscboqtuofp5feqq0m.apps.googleusercontent.com","");
+      _credentials = new ClientId("","");
     }
     /*final GoogleSignIn _googleSignIn = GoogleSignIn(
       clientId:
