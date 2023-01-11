@@ -91,9 +91,9 @@ class _EventsByTagWidget extends State<EventsByTagWidget> {
                     alignment: Alignment.topRight,
                     child: viewModel.session.data.favouritesId!
                             .contains(int.parse(events[index].id!))
-                        ? Icon(Icons.star, color: Colors.red)
-                        : Icon(Icons.star_border_outlined, color: Colors.red))
-                : Align(),
+                        ? const Icon(Icons.star, color: Colors.red)
+                        : const Icon(Icons.star_border_outlined, color: Colors.red))
+                : const Align(),
           )
         ]),
       ),

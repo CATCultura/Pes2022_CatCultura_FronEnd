@@ -140,7 +140,7 @@ class _HomeState extends State<Home> {
                         : viewModel.eventsList.status == Status.ERROR
                           ? Column(
                             children: [
-                              ElevatedButton(onPressed: () => viewModel.fetchEvents(), child: Text("Torna a intentar")),
+                              ElevatedButton(onPressed: () => viewModel.fetchEvents(), child: Text(AppLocalizations.of(context)!.retryButton)),
                               CustomErrorWidget()
                             ],
                           )
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
                     ) : viewModel.tagEventList[tags[i]]!.status == Status.ERROR ?
                           Column(
                             children: [
-                              ElevatedButton(onPressed: () => viewModel.fetchEventsByTagListPosition(i), child: Text("Torna a intentar")),
+                              ElevatedButton(onPressed: () => viewModel.fetchEventsByTagListPosition(i), child: Text(AppLocalizations.of(context)!.retryButton)),
                               CustomErrorWidget()
                             ],
                           )
