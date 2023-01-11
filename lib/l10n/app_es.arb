@@ -73,6 +73,14 @@
 
     "agendaTitle": "Agenda",
 
+    "attendedEvents" : "Ya asistidos",
+
+    "errorAddAttendance": "La fecha o la hora son incorrectas",
+
+    "generateQRbutton": "Generar QR",
+
+    "shareEvent" : "Compartir",
+
     "favouritesTitle": "Favoritos",
 
     "anonymousUser": "Anónimo",

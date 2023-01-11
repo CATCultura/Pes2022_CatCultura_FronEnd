@@ -19,6 +19,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+//import per els idiomes
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 //imports per notificacions
 import 'package:flutter/cupertino.dart';
 
@@ -440,7 +443,7 @@ class _BodyState extends State<Body> {
       selectedTime.minute,
     );
     if(newDateTime.isBefore(currentTime)){
-      _showErrorDialog(context, "Date && time are not valid");
+      _showErrorDialog(context, AppLocalizations.of(context)!.errorAddAttendance);
     }
 
     String titolEv = viewModel.eventSelected.data!.denominacio as String;
@@ -656,7 +659,7 @@ class _BodyState extends State<Body> {
                               );
                             },
                           ),
-                          Text("GenerarQR", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                          Text(AppLocalizations.of(context)!.generateQRbutton, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                         ],
                       ),
                       if (viewModel.isOrganizer) IconButton(
@@ -695,7 +698,7 @@ class _BodyState extends State<Body> {
                               viewModel.shareEvent(imgUrl, titol);
                             },
                           ),
-                          Text("Share", style: TextStyle(fontSize: 12, color: Color(0xF4C20606)),),
+                          Text(AppLocalizations.of(context)!.shareEvent, style: TextStyle(fontSize: 12, color: Color(0xF4C20606)),),
                         ],
                       ),
                     ],
@@ -763,7 +766,7 @@ class _BodyState extends State<Body> {
                           }
                         },
                       ),
-                      Text("Favorit", style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
+                      Text(AppLocalizations.of(context)!.favouritesTitle, style: TextStyle(fontSize: 12 ,color: Color(0xF4C20606)),),
                     ],
                   ),
                 ],

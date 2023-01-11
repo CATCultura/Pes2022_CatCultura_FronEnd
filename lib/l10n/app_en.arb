@@ -138,6 +138,26 @@
           "description": "Title for events to attend"
         },
 
+    "attendedEvents": "Attended",
+    "@attendedEvents": {
+        "description": "Tab name to see attendedEvents"
+    },
+
+    "errorAddAttendance": "Date and / or time are not valid",
+    "@errorAddAttendance": {
+        "description": "Error shown when selecting a date or time that are not valid"
+    },
+
+    "generateQRbutton":  "Generate QR",
+    "@generateQRbutton": {
+        "description": "Button used to generate a QR Code"
+    },
+
+    "shareEvent": "Share",
+    "@shareEvent":{
+        "description": "Button to share events"
+    },
+
     "favouritesTitle": "Favourites",
     "@favouritesTitle": {
           "description": "Title for favourite events"

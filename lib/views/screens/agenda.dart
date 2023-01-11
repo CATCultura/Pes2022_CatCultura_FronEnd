@@ -8,6 +8,9 @@ import 'package:CatCultura/views/widgets/myDrawer.dart';
 import '../../data/response/apiResponse.dart';
 import '../../models/EventResult.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 import 'package:CatCultura/views/widgets/events/eventContainerAgenda.dart';
 
 import '../../utils/Session.dart';
@@ -40,7 +43,7 @@ class _AttendanceEventsState extends State<AttendanceEvents>
         child: Consumer<AgendaViewModel>(builder: (context, value, _) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Agenda"),
+              title: Text(AppLocalizations.of(context)!.agendaTitle),
               backgroundColor: MyColorsPalette.red,
               actions: [
                 IconButton(
@@ -69,11 +72,11 @@ class _AttendanceEventsState extends State<AttendanceEvents>
                       tabs: [
                         Tab(
                           icon: Icon(Icons.calendar_month),
-                          text: "Agenda",
+                          text: AppLocalizations.of(context)!.agendaTitle,
                         ),
                         Tab(
                             icon: Icon(Icons.confirmation_number_outlined),
-                            text: "Ja assistits"
+                            text: AppLocalizations.of(context)!.attendedEvents
                         ),
                       ],
                     ),
