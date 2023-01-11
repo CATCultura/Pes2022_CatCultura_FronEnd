@@ -265,9 +265,13 @@
 
     "chat": "Chat",
 
-    "messageCamp": "Esbribe el mensaje aquí",
+    "messageCamp": "Escribe el mensaje aquí",
 
-    "loginIncorrectCamp": "Login incorrecto"
+    "loginIncorrectCamp": "Login incorrecto",
+
+    "receivedRequest":  "Recibidas",
+
+    "sentRequest": "Enviadas"
 
 
 }
