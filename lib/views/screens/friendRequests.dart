@@ -90,7 +90,7 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                       physics: NeverScrollableScrollPhysics(),
                       controller: _tabController,
                       children: <Widget>[
-                        Center(
+                        Container(
                           child: viewModel.usersReceived.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
                           viewModel.usersReceived.status == Status.ERROR? Text(viewModel.usersReceived.toString()):
                           viewModel.usersReceived.status == Status.COMPLETED? ListView.builder(
@@ -112,8 +112,8 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget> [
                                           Container(
                                             width: 55.0,
@@ -158,7 +158,7 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                       // SizedBox(width: 1.0,),
                                       Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.0, vertical: 10.0),
                                         child: IconButton(
                                           iconSize: 40,
                                           icon: Icon(
@@ -184,7 +184,7 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
 
                           ):Text("res"),
                         ),
-                        Center(
+                        Container(
                           child: viewModel.usersRequested.status == Status.LOADING? const SizedBox(child: Center(child: CircularProgressIndicator()),):
                           viewModel.usersRequested.status == Status.ERROR? Text(viewModel.usersRequested.toString()):
                           viewModel.usersRequested.status == Status.COMPLETED? ListView.builder(
@@ -206,8 +206,8 @@ class FriendRequestsState extends State<FriendRequests> with SingleTickerProvide
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget> [
                                           Container(
                                             width: 55.0,
