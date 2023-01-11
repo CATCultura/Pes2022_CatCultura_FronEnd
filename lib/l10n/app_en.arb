@@ -153,14 +153,74 @@
         "description": "Button used to generate a QR Code"
     },
 
+    "scanMeQR": "Scan me!",
+    "@scanMeQR": {
+        "description" : "Text to ask user to scan QR"
+    },
+
+    "exportToCalendarButton" : "Export",
+    "@exportToCalendarButton" : {
+        "description" : "Button used to export an event to the device's calendar"
+    },
+
     "shareEvent": "Share",
     "@shareEvent":{
         "description": "Button to share events"
     },
 
+    "haventLoggedInYet": "You haven't logged in yet",
+    "@haventLoggedInYet": {
+        "description": "Text to indicate you are not logged in"
+    },
+
+    "clickHere" : "CLICK HERE",
+    "@clickHere" : {
+        "description" : "Text to indicate the user to click there"
+    },
+
+    "noReviewsYet" : "There are no reviews yet...",
+    "@noReviewsYet" : {
+        "description": "Text to indicate that there are no reviews yet"
+    },
+
+    "wantToLeaveAReview" : "Do you want to leave one? ;)",
+    "@wantToleaveAReview" : {
+        "description" : "Text to ask the user if he wants to be the first one to leave a review"
+    },
+
+    "tagsText": "Tags",
+    "@tagsText" : {
+        "description" : "Shows text Tags"
+    },
+
+    "reviewsText": "Reviews",
+    "@reviewsText": {
+        "description" : "Shows text Reviews"
+    },
+
+    "moreInfoSchedule": "More info about the schedule",
+    "@moreInfoSchedule": {
+        "description" : "Text more info about the schedule"
+    },
+
     "favouritesTitle": "Favourites",
     "@favouritesTitle": {
           "description": "Title for favourite events"
+    },
+
+    "chatButton": "Chat",
+    "@chatButton": {
+        "description": "Text for chat button"
+    },
+
+    "seeOnMap": "See on map",
+    "@seeOnMap": {
+        "description" : "Shows text see on map"
+    },
+
+    "infoLocation" : "Info about the location",
+    "@infoLocation" : {
+        "description" : "Shows text Info about the location"
     },
 
     "anonymousUser": "Anonymous",

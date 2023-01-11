@@ -79,9 +79,33 @@
 
     "generateQRbutton": "Generar QR",
 
+    "scanMeQR": "Escanéame!",
+
+    "exportToCalendarButton": "Exportar",
+
     "shareEvent" : "Compartir",
 
+    "haventLoggedInYet" : "Todavía no has iniciado sesión",
+
+    "clickHere" : "CLICK AQUÍ",
+
+    "noReviewsYet" : "Todavía no hay reseñas...",
+
+    "wantToLeaveAReview" : "Quieres dejar una? ;)",
+
+    "tagsText" : "Etiquetas",
+
+    "reviewsText" : "Reseñas",
+
+    "moreInfoSchedule" : "Más información sobre los horarios",
+
     "favouritesTitle": "Favoritos",
+
+    "chatButton": "Chat",
+
+    "seeOnMap" : "Ver en el mapa",
+
+    "infoLocation" : "Info ubicación",
 
     "anonymousUser": "Anónimo",
 
