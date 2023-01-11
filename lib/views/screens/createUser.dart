@@ -68,14 +68,14 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
               child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Image.asset(
-                    width: 70,
+                    width: 100,
                     height: 20,
                     'resources/img/logo2.png',
                   )
               ),
             ),
             Container(
-              margin: const EdgeInsets.all(50),
+              margin: const EdgeInsets.all(30),
               child: Text(
                 AppLocalizations.of(context)!.descriptionCreateAccount,
                 textAlign: TextAlign.center,
@@ -156,25 +156,27 @@ class _StatefulCreateUserState extends State<StatefulCreateUser> {
                 ),
               ),
             ),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                child: ElevatedButton(
-                  style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
-                  child:  Text(AppLocalizations.of(context)!.createAccount),
-                  onPressed: () {
-                    initial = false;
-                    viewModel.notifyListeners();
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Container(
+                  height: 40,
+                  child: ElevatedButton(
+                    style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent)),
+                    child:  Text(AppLocalizations.of(context)!.createAccount),
+                    onPressed: () {
+                      initial = false;
+                      viewModel.notifyListeners();
 
-                    if (nameController.text.length != 0 && userController.text.length != 0 &&
-                    emailController.text.length != 0 && passwordController.text.length != 0) {
-                      Navigator.popAndPushNamed(context, '/userTags',
-                          arguments: CrearUserArgs(
-                              nameController.text, userController.text,
-                              emailController.text, passwordController.text));
+                      if (nameController.text.length != 0 && userController.text.length != 0 &&
+                      emailController.text.length != 0 && passwordController.text.length != 0) {
+                        Navigator.popAndPushNamed(context, '/userTags',
+                            arguments: CrearUserArgs(
+                                nameController.text, userController.text,
+                                emailController.text, passwordController.text));
+                      }
                     }
-                  }
-                ),
+                  ),
+              ),
             ),
             TextButton(
               onPressed: () {
