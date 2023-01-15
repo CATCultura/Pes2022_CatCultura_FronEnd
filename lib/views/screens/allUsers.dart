@@ -290,8 +290,13 @@ class SearchUsers extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    close(context, query);
-    return Container();
+
+    return ListTile(
+      title: Text(query),
+      onTap: () {
+      close(context, query);
+    }
+    );
   }
 
   @override

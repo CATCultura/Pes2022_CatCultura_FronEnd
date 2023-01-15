@@ -199,11 +199,12 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                       ),
                     );
                     // ignore: use_build_context_synchronously
-                    if (viewModel.suggestions.contains(searchQueryResult)) {
-                      debugPrint(searchQueryResult);
-                      Navigator.pushNamed(context, '/eventUnic',
-                          arguments: EventUnicArgs(searchQueryResult!));
-                    } else if (searchQueryResult != null &&
+                    // if (viewModel.suggestions.contains(searchQueryResult)) {
+                    //   debugPrint(searchQueryResult);
+                    //   Navigator.pushNamed(context, '/eventUnic',
+                    //       arguments: EventUnicArgs(searchQueryResult!));
+                    // } else
+                      if (searchQueryResult != null &&
                         searchQueryResult != '') {
                       // setState(() {
                         //viewModel.message = searchQueryResult;
@@ -645,8 +646,14 @@ class SearchEvents extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
+    return ListTile(
+      title: Text(query),
+        onTap: () {
+          close(context, query);
+        }
+    );
     close(context, query);
-    return Container();
+
   }
 
   @override
