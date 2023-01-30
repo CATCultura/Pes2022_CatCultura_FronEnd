@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:CatCultura/data/network/networkApiServices.dart';
 import 'package:CatCultura/models/ReviewResult.dart';
 import 'package:intl/intl.dart';
-
+import 'package:CatCultura/localData/eventLocalData.dart';
 import '../data/appExceptions.dart';
 import '../models/EventResult.dart';
 import '../utils/Session.dart';
@@ -35,18 +35,20 @@ class EventsRepository {
   List<EventResult> _cachedEvents = [];
 
   Future<List<EventResult>> getEvents() async {
-    try {
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events"); //40.113.160.200:8081
-      // dynamic response = await _apiServices.getGetApiResponse("http://40.113.160.200:8081/events");
-      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-      //debugPrint("print del repositori"+res[0].toString());
-      _cachedEvents = res;
-
-      return res;
-
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events"); //40.113.160.200:8081
+    //   // dynamic response = await _apiServices.getGetApiResponse("http://40.113.160.200:8081/events");
+    //   List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+    //   //debugPrint("print del repositori"+res[0].toString());
+    //   _cachedEvents = res;
+    //
+    //   return res;
+    //
+    // } catch (e) {
+    //   rethrow;
+    // }
+    await Future.delayed(Duration(seconds: 1));
+    return eventLocalData;
   }
 
   Future<List<EventResult>> getEventsWithFilter(String filter) async {
@@ -117,7 +119,7 @@ class EventsRepository {
   EventResult eventInCache(String id){
     debugPrint("cached event");
     EventResult result = EventResult();
-    for (var e in _cachedEvents) {
+    for (var e in eventLocalData) {
       if(e.id == id) result = e;
     }
     return result;

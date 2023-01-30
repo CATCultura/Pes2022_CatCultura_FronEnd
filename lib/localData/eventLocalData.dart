@@ -1,0 +1,20 @@
+import 'package:CatCultura/models/EventResult.dart';
+
+final eventLocalData = [EventResult(id: "1",
+denominacio: "denominacio",
+descripcio: "descripcio",
+dataInici: "dataInici",
+dataFi: "dataFi",
+espai: "espai",
+adreca: "adreca",
+localitat: "localitat",
+ubicacio: "ubicacio",
+latitud: 41.53557824888737,
+longitud: 2.2161003404898576,
+comarcaIMunicipi: "comarcaIMunicipi",
+nomOrganitzador: "nomOrganitzador",
+idOrganitzador: 1,
+urlOrganitzador: "urlOrganitzador",
+imgApp: "content/dam/agenda/articles/2020/05/07/011/museu-abello-1.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg",
+imatges: ["content/dam/agenda/articles/2020/05/07/011/museu-abello-1.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg"],
+)];

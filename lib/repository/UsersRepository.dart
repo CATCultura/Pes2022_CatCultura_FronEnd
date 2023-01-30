@@ -27,19 +27,28 @@ class UsersRepository {
   List<UserResult> _cachedUsers = [];
 
   Future<List<UserResult>> getUsers() async {
-    try {
-      dynamic response = await _apiServices.getGetApiResponse(
-          "${baseUrl}users");
-
-      List<UserResult> res = List.from(
-          response.map((e) => UserResult.fromJson(e)).toList());
-      _cachedUsers = res;
-      //debugPrint(res.toString());
-      //debugPrint("nameSurname"+res[0].nameAndSurname!);
-      return res;
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    //   dynamic response = await _apiServices.getGetApiResponse(
+    //       "${baseUrl}users");
+    //
+    //   List<UserResult> res = List.from(
+    //       response.map((e) => UserResult.fromJson(e)).toList());
+    //   _cachedUsers = res;
+    //   //debugPrint(res.toString());
+    //   //debugPrint("nameSurname"+res[0].nameAndSurname!);
+    //   return res;
+    // } catch (e) {
+    //   rethrow;
+    // }
+    await Future.delayed(Duration(seconds: 1));
+    return [UserResult(id: "1",
+      username: "username",
+      nameAndSurname: "nameAndSurname",
+      email: "email",
+      creationDate: "creationDate",
+      role: "role",
+      points: "10",
+      tags: [],)];
   }
 
   Future<List<UserResult>> getUsersWithParameters(int? page, int? size, String? sort) async {
@@ -100,15 +109,35 @@ class UsersRepository {
   }
 
   Future<SessionResult> iniSessio() async {
-    try {
-      dynamic response = await _apiServices.getGetApiResponse(
-          "${baseUrl}login");
-      SessionResult res = SessionResult.fromJson(response);
-      debugPrint("Res dedsde userRepo $res");
-      return res;
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    //   dynamic response = await _apiServices.getGetApiResponse(
+    //       "${baseUrl}login");
+    //   SessionResult res = SessionResult.fromJson(response);
+    //   debugPrint("Res dedsde userRepo $res");
+    //   return res;
+    // } catch (e) {
+    //   rethrow;
+    // }
+    await Future.delayed(Duration(seconds: 1));
+    return SessionResult(id: 1,
+      username: "Juane",
+      nameAndSurname: "Juane Olivan",
+      email: "juaneolivan@gmail.com",
+      creationDate: "creationDate",
+      role: "ADMIN",
+      hash: "hash",
+      trophiesId: [],
+      points: 10,
+      favouritesId: [1,2,3],
+      attendanceId: [1,2,3],
+      upvotedReviews: [1,2,3],
+      attendedId: [1,2,3],
+      reportedReviews: [1,2,3],
+      friendsId: [1,2,3],
+      sentRequestsIds: [1,2,3],
+      receivedRequestsIds: [1,2,3],
+      reportedUserIds: [1,2,3],
+      );
   }
 
   Future<SessionResult> postCreaCompte(UserResult data) async {
