@@ -38,8 +38,8 @@ class StatefulLogin extends StatefulWidget {
 class _StatefulLoginState extends State<StatefulLogin> {
   final LoginViewModel viewModel = LoginViewModel();
   late bool failedAttempt = widget.failedAttempt;
-  TextEditingController nameController = TextEditingController(/*text: "admin"*/);
-  TextEditingController passwordController = TextEditingController(/*text: "admin"*/);
+    TextEditingController nameController = TextEditingController(text: "admin");
+  TextEditingController passwordController = TextEditingController(text: "admin");
   bool showPassword = false;
   bool initial = true;
 

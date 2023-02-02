@@ -23,6 +23,7 @@ class EventsRepository {
   // final baseUrl = "http://10.4.41.41:8081/";
   final NetworkApiServices _apiServices = NetworkApiServices();
   final session = Session();
+  final loc = LocalData();
 
   EventsRepository._privateConstructor();
 
@@ -48,7 +49,8 @@ class EventsRepository {
     //   rethrow;
     // }
     await Future.delayed(Duration(seconds: 1));
-    return eventLocalData;
+    List<EventResult> res = loc.eventLocalData;
+    return res;
   }
 
   Future<List<EventResult>> getEventsWithFilter(String filter) async {
@@ -119,7 +121,7 @@ class EventsRepository {
   EventResult eventInCache(String id){
     debugPrint("cached event");
     EventResult result = EventResult();
-    for (var e in eventLocalData) {
+    for (var e in loc.eventLocalData) {
       if(e.id == id) result = e;
     }
     return result;
@@ -235,26 +237,28 @@ class EventsRepository {
 
 
   Future<List<EventResult>> getRutaCultural(double longitud, double latitud, int radio, String data) async {
-    try {
-      //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
-      debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data\nuserId: ${session.data.id}");
-      dynamic response;
-      if(radio == -1) radio = 100000;
-      if(data == "") {
-        data = DateFormat('yyyy-MM-dd').format(DateTime.now());
-        data = data+"T00:00:00.000";
-      }
-      if(session.data.id != -1)
-        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
-      else
-        response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&radius=$radio&discardedEvents=841");
-
-      List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
-      debugPrint("res: ----------------- "+res.toString());
-      return res;
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    //   //dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events?page=${random.nextInt(10)}&size=3"); //no va --> &sort=$sort
+    //   debugPrint("longitud: $longitud\nlatitud: $latitud\nradio: $radio\ndata: $data\nuserId: ${session.data.id}");
+    //   dynamic response;
+    //   if(radio == -1) radio = 100000;
+    //   if(data == "") {
+    //     data = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    //     data = data+"T00:00:00.000";
+    //   }
+    //   if(session.data.id != -1)
+    //     response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&userId=${session.data.id.toString()}&radius=$radio&discardedEvents=841");
+    //   else
+    //     response = await _apiServices.getGetApiResponse("${baseUrl}users/generate_route?lat=$latitud&lon=$longitud&day=$data&radius=$radio&discardedEvents=841");
+    //
+    //   List<EventResult> res = List.from(response.map((e) => EventResult.fromJson(e)).toList());
+    //   debugPrint("res: ----------------- "+res.toString());
+    //   return res;
+    // } catch (e) {
+    //   rethrow;
+    // }
+    await Future.delayed(Duration(seconds: 1));
+    return loc.rutaCulturalLocalData;
   }
 
   Future<List<String>> getTags() async {
@@ -272,15 +276,17 @@ class EventsRepository {
   }
   Future<List<ReviewResult>>getEventReviewsById(String id) async {
     //await Future.delayed(Duration(seconds: 2));
-    try {
-      dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
-      List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
-
-      return res;
-
-    } catch (r) {
-      rethrow;
-    }
+    // try {
+    //   dynamic response = await _apiServices.getGetApiResponse("${baseUrl}events/$id/reviews");
+    //   List<ReviewResult> res = List.from(response.map((r) => ReviewResult.fromJson(r)).toList());
+    //
+    //   return res;
+    //
+    // } catch (r) {
+    //   rethrow;
+    // }
+    await Future.delayed(Duration(seconds: 1));
+    return loc.reviewLocalData;
   }
 
   Future<bool>saveRutaCultural({String? name, String? description, required List<EventResult> events}) async{
@@ -300,15 +306,17 @@ class EventsRepository {
   }
 
   Future<List<int>> postReview(String id, String title, String review, double rating) async {
-    try {
-      dynamic data = {'title': title, 'review': review, 'stars': rating.toInt()};
-      debugPrint("postReview: $data");
-      dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews?eventId=$id", data);
-      debugPrint("response: $response");
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    //   dynamic data = {'title': title, 'review': review, 'stars': rating.toInt()};
+    //   debugPrint("postReview: $data");
+    //   dynamic response = await _apiServices.getPostApiResponse("${baseUrl}users/${session.data.id}/reviews?eventId=$id", data);
+    //   debugPrint("response: $response");
+    //   return response;
+    // } catch (e) {
+    //   rethrow;
+    // }
+    loc.addReview(ReviewResult(title: title, review: review, rating: rating.toInt(), userId: 1, eventId: 1, author: "user1", date: "99-99-9999", upvotes: 0));
+    return [1, 2, 3];
   }
 
   /*
